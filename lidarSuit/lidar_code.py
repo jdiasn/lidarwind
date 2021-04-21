@@ -6,31 +6,31 @@ import matplotlib.pyplot as plt
 import xarray as xr
 
 
-def openLidarFile(fileName):
+class getLidarData:
 
-    # reading the group name
-    tmpData = xr.open_dataset(fileName)
-    grpName = tmpData.sweep_group_name.values[0] 
-    tmpData.close()
+    def __init__(self, fileName):
 
-    # retrieving the group dataset
-    tmpData = xr.open_dataset(fileName, group=grpName, 
-                              decode_times=False)
-   
-    # decoding time 
-    timeRef = tmpData.time_reference.values
-    tmpData.time.attrs['units'] = 'seconds since {0}'.format(timeRef)
-    tmpData = xr.decode_cf(tmpData)
+        self.fileName = fileName
+
+        return None
     
-    return tmpData
+    def openLidarFile(self):
 
+        """
+        Function to read the lidar netCDF files
+        """
 
-data = openLidarFile('WLS200s-218_2021-03-11_07-53-41_rhi_166_25m.nc')
+        tmpData = xr.open_dataset(self.fileName)
+        grpName = tmpData.sweep_group_name.values[0]
+        tmpData.close()
 
-# printing list of keys
-for key in data.keys():
-    print(key)
+        # retrieving the group dataset
+        tmpData = xr.open_dataset(self.fileName, group=grpName,
+                                  decode_times=False)
 
-# quick visualization
-data.radial_wind_speed.plot(y='range')
-plt.show()
+        # decoding time
+        timeRef = tmpData.time_reference.values
+        tmpData.time.attrs['units'] = 'seconds since {0}'.format(timeRef)
+        tmpData = xr.decode_cf(tmpData)
+
+        return tmpData
