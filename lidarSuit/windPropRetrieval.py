@@ -5,18 +5,24 @@ class getWindProperties:
 
     def __init__(self, data):
 
-        self.azimuthNon90 = data.azimuth.where(data.elevation!=90, drop=True)
-        self.elevetionNon90 = data.elevation.where(data.elevation!=90, drop=True)
+        
+        elevation = data.elevation.round(1)
+        
+        azimuthNon90 = data.azimuth.where(elevation!=90, drop=True).round(1)
+        azimuthNon90[azimuthNon90==360] = 0
+        self.azimuthNon90 = azimuthNon90
+        
+        self.elevetionNon90 = elevation.where(elevation!=90, drop=True)
 
-        self.rangeVal90 = data.range.where(data.elevation==90, drop=True)[0]
-        self.radWindSpeed90 = data.radial_wind_speed.where(data.elevation==90, drop=True)[0]
+        self.rangeVal90 = data.range.where(elevation==90, drop=True)
+        self.radWindSpeed90 = data.radial_wind_speed.where(elevation==90, drop=True)
 
-        self.rangeValNon90 = data.range.where(data.elevation!=90, drop=True)
-        self.radWindSpeedNon90 = data.radial_wind_speed.where(data.elevation!=90, drop=True)
+        self.rangeValNon90 = data.range.where(elevation!=90, drop=True)
+        self.radWindSpeedNon90 = data.radial_wind_speed.where(elevation!=90, drop=True)
 
         self.calcHorWindComp()
         self.calcHorWindSpeed()
-        self.calcHorWindDir()
+#         self.calcHorWindDir()
 
         return None
         
@@ -30,14 +36,25 @@ class getWindProperties:
 
         compWindSpeed = self.radWindSpeedNon90/(2*np.cos(np.deg2rad(self.elevetionNon90)))
 
-        compVN = compWindSpeed.where(self.azimuthNon90==0, drop=True)[0]  
-        compVS = compWindSpeed.where(self.azimuthNon90==180, drop=True)[0]
+        compVN = compWindSpeed.where(self.azimuthNon90==0, drop=True)  
+#         self.compVN = compVN
+        compVS = compWindSpeed.where(self.azimuthNon90==180, drop=True)
+#         self.compVS = compVS
+        
+        compUE = compWindSpeed.where(self.azimuthNon90==90, drop=True) 
+#         self.compUE = compUE
+        
+        compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)
+#         self.compUW = compUW
 
-        compUE = compWindSpeed.where(self.azimuthNon90==90, drop=True)[0] 
-        compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)[0]
+        compV = compUW.copy()
+        compV.values = compVN.values - compVS.values
 
-        self.compV = compVN - compVS
-        self.compU = compUE - compUW 
+        compU = compUW.copy()
+        compU.values = compUE.values - compUW.values
+
+        self.compV = compV #compVN - compVS
+        self.compU = compU #compUE - compUW 
 
         return self     
 
