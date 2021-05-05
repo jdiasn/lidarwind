@@ -5,13 +5,13 @@ class getWindProperties:
 
     def __init__(self, data):
 
-        
+
         elevation = data.elevation.round(1)
-        
+
         azimuthNon90 = data.azimuth.where(elevation!=90, drop=True).round(1)
         azimuthNon90[azimuthNon90==360] = 0
         self.azimuthNon90 = azimuthNon90
-        
+
         self.elevetionNon90 = elevation.where(elevation!=90, drop=True)
 
         self.rangeVal90 = data.range.where(elevation==90, drop=True)
@@ -22,10 +22,10 @@ class getWindProperties:
 
         self.calcHorWindComp()
         self.calcHorWindSpeed()
-#         self.calcHorWindDir()
+        self.calcHorWindDir()
 
         return None
-        
+
     def calcHorWindComp(self):
 
         """
@@ -40,10 +40,10 @@ class getWindProperties:
 #         self.compVN = compVN
         compVS = compWindSpeed.where(self.azimuthNon90==180, drop=True)
 #         self.compVS = compVS
-        
+
         compUE = compWindSpeed.where(self.azimuthNon90==90, drop=True) 
 #         self.compUE = compUE
-        
+
         compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)
 #         self.compUW = compUW
 
@@ -66,21 +66,23 @@ class getWindProperties:
         """
 
         self.horWindSpeed = np.sqrt(self.compV**2. + self.compU**2.)
+        self.horWindSpeed.name = 'hor_wind_speed'
 
         return self
 
     def calcHorWindDir(self):
-        
+
         """
         Function to derive wind direction. If folows the same 
         approach used by the lidar sftware. 
         
         """
 
-        compV = self.compV
-        compU = self.compU
-        windDirTmp = np.rad2deg(np.arctan(compV/compU))
+        windDirTmp = np.rad2deg(np.arctan(self.compV/self.compU))
         windDir = windDirTmp.copy()*np.nan
+
+        compV = self.compV.values
+        compU = self.compU.values
 
         # arctan > 0 
         windDir.values[(compU > 0) & (compV > 0)] = 270 - windDirTmp.values[(compU > 0) & (compV > 0)] #ok
@@ -94,6 +96,7 @@ class getWindProperties:
         windDir.values[(compU > 0) & (compV == 0)] = 270 + windDirTmp.values[(compU > 0) & (compV == 0)] #ok
         windDir.values[(compU < 0) & (compV == 0)] = 90 + windDirTmp.values[(compU < 0) & (compV == 0)] #ok
 
+        windDir.name = 'hor_wind_dir'
         self.horWindDir = windDir
 
         return self
