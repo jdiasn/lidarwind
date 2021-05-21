@@ -1,7 +1,8 @@
 import numpy as np
+import xarray as xr
 
 
-class getWindProperties:
+class getWindProperties5Beam:
 
     def __init__(self, data):
 
@@ -16,9 +17,13 @@ class getWindProperties:
 
         self.rangeVal90 = data.range.where(elevation==90, drop=True)
         self.radWindSpeed90 = data.radial_wind_speed.where(elevation==90, drop=True)
+        self.windSpeedFlag90 = data.radial_wind_speed_status.where(elevation==90, drop=True)
+
 
         self.rangeValNon90 = data.range.where(elevation!=90, drop=True)
         self.radWindSpeedNon90 = data.radial_wind_speed.where(elevation!=90, drop=True)
+        self.windSpeedFlagNon90 = data.radial_wind_speed_status.where(elevation!=90, drop=True)
+
 
         self.calcHorWindComp()
         self.calcHorWindSpeed()

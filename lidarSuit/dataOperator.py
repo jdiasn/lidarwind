@@ -7,66 +7,141 @@ import numpy as np
 
 class dataOperations:
     
-    def __init__(self, fileList, varList):
+    def __init__(self, dataPaths, verbose=False):
+
+        self.verbose = verbose
+        self.dataPaths = dataPaths
+        self.tmp90 = xr.Dataset()
+        self.tmpNon90 = xr.Dataset()
         
-        self.mergedDS = xr.Dataset()
-        self.fileList = fileList
-        self.varList = varList
-    
-        self.mergeData()
+        self.elevationFilter()
+        self.renameVar90()
+        self.getMergeData()
         
         return None
 
-    def mergeData(self):
-        
-        for file in self.fileList:
-            
-            fileToMerge = lst.getLidarData(file).openLidarFile()
-            
+
+    def elevationFilter(self):
+
+        for filePath in self.dataPaths:
+
             try:
-                self.merge2DS(fileToMerge)
-                
+                tmpFile = lst.getLidarData(filePath).openLidarFile()
+
+                elevation = tmpFile.elevation.round(1)
+                tmpFile['elevation'] = elevation
+                tmpFile['azimuth'] = tmpFile.azimuth.round(1)
+                tmpFile['azimuth'][tmpFile.azimuth==360]=0
+
             except:
-                print('There is a problem in {0}'.format(file))
-        
+                print('Unknown file format: {0}'.format(filePath))
+                pass
+
+            try: 
+                self.tmp90 = xr.merge([self.tmp90, tmpFile.where(elevation==90, drop=True)])
+            except:
+                if self.verbose: print('This file does not have 90 elv: {0}'.format(filePath))
+
+            try:
+                self.tmpNon90 = xr.merge([self.tmpNon90, tmpFile.where(elevation!=90, drop=True)])
+            except:
+                if self.verbose: print('This file only has 90 elv: {0}'.format(filePath))
+
         return self
-   
-    def merge2DS(self, fileToMerge):
-        
-        for var in self.varList:
-            
-            self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
-            
+
+
+    def renameVar90(self):
+
+        for var in self.tmp90.variables:
+
+            if 'range' in self.tmp90[var].dims:
+
+                self.tmp90 = self.tmp90.rename({var:'{0}90'.format(var)})
+
         return self
-    
-    
-    
+
+
+    def getMergeData(self):
+
+        self.mergedData = xr.merge([self.tmp90, self.tmpNon90])
+
+        return self
+
+
+
+
+# class dataOperations:
+
+#     def __init__(self, fileList, varList):
+
+#         self.mergedDS = xr.Dataset()
+#         self.fileList = fileList
+#         self.varList = varList
+
+#         self.mergeData()
+
+#         return None
+
+#     def mergeData(self):
+
+#         for file in self.fileList:
+
+
+#             try:
+#                 fileToMerge = lst.getLidarData(file).openLidarFile()
+
+#             except:
+#                 print('This file has a problem {0}'.format(file))
+#                 pass
+
+#             fileToMerge.elevation
+
+
+#             try:
+#                 self.merge2DS(fileToMerge)
+
+#             except:
+#                 print('Mergin not possible {0}'.format(file))
+#                 pass        
+
+#         return self
+
+#     def merge2DS(self, fileToMerge):
+
+#         for var in self.varList:
+
+#             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
+
+#         return self
+
+
+
 class getResampledData:
-    
+
     def __init__(self, xrDataArray, vertCoord = 'gate_index',
                  timeFreq = '15s', tolerance=10):
-    
-        
+
+
         self.varName = xrDataArray.name
         data = xrDataArray
         date = pd.to_datetime(data.time.values[0])
-        
+
         self.timeRef = self.getTimeRef(date, timeFreq)
         self.vertCoord = data[vertCoord]
-        
-        
+
+
         timeRefSec = np.array(self.timeRef, float)*10**(-9)
         timeOrigSec = np.array(data.time.values, float)*10**(-9)
 
         deltaGrid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
         timeIndexArray = self.getNearestIndexM2(deltaGrid, tolerance)
-        
+
         self.values = self.timeResample(data, timeIndexArray, self.vertCoord)
         self.resampled = self.toDataArray()
 
         return None
 
-   
+
     def getTimeRef(self, date, timeFreq='1s'):
         """
         Genetates the time reference grid used for
@@ -83,12 +158,12 @@ class getResampledData:
         start = dt.datetime(date.year,
                             date.month,
                             date.day,
-                            date.hour, 0, 0)
+                            0, 0, 0)
 
         end = dt.datetime(date.year,
                           date.month,
                           date.day,
-                          date.hour, 59, 59)
+                          23, 59, 59)
 
         timeRef = pd.date_range(start, end, freq=timeFreq)
 
@@ -140,7 +215,7 @@ class getResampledData:
 
         return gridIndex
 
-    
+
     def timeResample(self, data, timeIndexArray, vertCoord):
         """
         It resamples a given radar variable using the
@@ -156,7 +231,7 @@ class getResampledData:
         -------
         resampledArr: time/range resampled numpy array
         """
-        
+
         resampledTimeArr = np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))*np.nan
 
         for t, timeIndex in enumerate(timeIndexArray):
@@ -168,21 +243,15 @@ class getResampledData:
                 pass
 
         return resampledTimeArr
-    
+
 
     def toDataArray(self):
-        
+
         tmpDT = xr.DataArray(self.values,
                              dims=('time_ref', self.vertCoord.name),
                              coords={'time_ref':self.timeRef, 
                                    self.vertCoord.name:self.vertCoord.values},
                              name=self.varName)
 
-        
+
         return tmpDT
-                             
-                             
-                             
-                             
-    
-    
