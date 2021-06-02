@@ -1,5 +1,53 @@
 import numpy as np
 import xarray as xr
+import xrft
+
+
+class fftWindPropRet:
+
+    def __init__(self, dopplerObs):
+
+        self.dopplerObs = dopplerObs
+#         self.elv = elv
+        self.getCompAmp()
+        self.getRadWindSpeed()
+        self.getHorWindSpeed()
+        self.getWindDir()
+
+        return None
+
+    def getCompAmp(self):
+
+        self.compAmp = xrft.fft(self.dopplerObs, dim=['azm']).isel(freq_azm=-2)
+
+        return self
+
+    def getWindDir(self):
+
+        self.windDir = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))+180
+        self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
+                              'units': 'deg',
+                              'comments': 'wind direction retrived using the FFT method'}
+
+        return self
+
+    def getRadWindSpeed(self):
+
+        self.radWindSpeed = 2* np.abs(self.compAmp)/self.dopplerObs.azm.shape[0]
+        self.radWindSpeed.attrs = {'standard_name': 'retrived_radial_wind_velocity',
+                                   'units': 'm s-1',
+                                   'comments': 'radial wind velocity retrived using the FFT method'}
+
+        return self
+
+    def getHorWindSpeed(self):
+
+        self.horWindSpeed = self.radWindSpeed/np.cos(np.deg2rad(self.dopplerObs.elv))
+        self.horWindSpeed.attrs = {'standard_name': 'retrived_horizontal_wind_velocity',
+                                   'units': 'm s-1',
+                                   'comments': 'horizontal wind velocity retrived using the FFT method'}
+
+        return self
 
 
 class getWindProperties5Beam:

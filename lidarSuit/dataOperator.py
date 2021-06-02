@@ -6,18 +6,18 @@ import numpy as np
 
 
 class dataOperations:
-    
+
     def __init__(self, dataPaths, verbose=False):
 
         self.verbose = verbose
         self.dataPaths = dataPaths
         self.tmp90 = xr.Dataset()
         self.tmpNon90 = xr.Dataset()
-        
+
         self.elevationFilter()
         self.renameVar90()
         self.getMergeData()
-        
+
         return None
 
 
@@ -68,52 +68,88 @@ class dataOperations:
         return self
 
 
+class readProcessedData:
+
+    def __init__(self, fileList):
+
+        self.fileList = fileList
+
+        return None
+
+    def mergeData(self):
+
+        try:
+            tmpMerged = self.mergeDataM1()
+
+        except:
+            print('switching from xr.open_mfdataset to xr.open_dataset' )
+            tmpMerged = self.mergeDataM2()
+
+        return tmpMerged
+
+    def mergeDataM1(self):
+
+        tmpMerged = xr.open_mfdataset(self.fileList, parallel=True)
+
+        return tmpMerged
+
+    def mergeDataM2(self):
+
+        tmpMerged = xr.Dataset()
+
+        for fileName in sorted(self.fileList):
+
+            try:
+                print('opening {0}'.format(fileName))
+                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
+
+            except:
+                print('problems with: {0}'.format(fileName))
+                pass
+
+        return tmpMerged
 
 
-# class dataOperations:
+class getRestructuredData:
 
-#     def __init__(self, fileList, varList):
+    def __init__(self, data):
 
-#         self.mergedDS = xr.Dataset()
-#         self.fileList = fileList
-#         self.varList = varList
+        self.data = data
+        self.getCoordNon90()
+        self.dataTransform()
 
-#         self.mergeData()
+        return None
 
-#         return None
+    def getCoordNon90(self):
 
-#     def mergeData(self):
+        self.elvNon90 = np.unique(self.data.elevation.where(self.data.elevation!=90, drop=True))
+        self.azmNon90 = np.unique(self.data.azimuth.where(self.data.elevation!=90, drop=True))
+        self.azmNon90 = np.sort(self.azmNon90)
 
-#         for file in self.fileList:
+        self.timeNon90 = self.data.time.where(self.data.elevation != 90, drop=True)
+        self.rangeNon90 = self.data.range
 
+        return self
 
-#             try:
-#                 fileToMerge = lst.getLidarData(file).openLidarFile()
+    def dataTransform(self):
 
-#             except:
-#                 print('This file has a problem {0}'.format(file))
-#                 pass
+        dopWindArr = np.empty((self.timeNon90.shape[0], self.rangeNon90.shape[0],
+                               len(self.azmNon90), len(self.elvNon90)))
 
-#             fileToMerge.elevation
+        for j, elv in enumerate(self.elvNon90):
 
+            for i, azm in enumerate(self.azmNon90):
 
-#             try:
-#                 self.merge2DS(fileToMerge)
+                tmpRadWind = lst.filtering(self.data).getRadialObsComp('radial_wind_speed', azm)
+                dopWindArr[:,:,i,j] = tmpRadWind.sel(time=self.timeNon90, method='Nearest').values
 
-#             except:
-#                 print('Mergin not possible {0}'.format(file))
-#                 pass        
+        respDopVel = xr.DataArray(data=dopWindArr, dims=('time', 'range', 'azm', 'elv'),
+                                  coords={'time':self.timeNon90, 'range':self.rangeNon90,
+                                          'azm':self.azmNon90, 'elv':self.elvNon90})
 
-#         return self
+        self.dataTransf = respDopVel
 
-#     def merge2DS(self, fileToMerge):
-
-#         for var in self.varList:
-
-#             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
-
-#         return self
-
+        return self
 
 
 class getResampledData:
@@ -255,3 +291,49 @@ class getResampledData:
 
 
         return tmpDT
+
+
+
+# class dataOperations:
+
+#     def __init__(self, fileList, varList):
+
+#         self.mergedDS = xr.Dataset()
+#         self.fileList = fileList
+#         self.varList = varList
+
+#         self.mergeData()
+
+#         return None
+
+#     def mergeData(self):
+
+#         for file in self.fileList:
+
+
+#             try:
+#                 fileToMerge = lst.getLidarData(file).openLidarFile()
+
+#             except:
+#                 print('This file has a problem {0}'.format(file))
+#                 pass
+
+#             fileToMerge.elevation
+
+
+#             try:
+#                 self.merge2DS(fileToMerge)
+
+#             except:
+#                 print('Mergin not possible {0}'.format(file))
+#                 pass
+
+#         return self
+
+#     def merge2DS(self, fileToMerge):
+
+#         for var in self.varList:
+
+#             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
+
+#         return self
