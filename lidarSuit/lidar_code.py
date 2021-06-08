@@ -2,7 +2,6 @@
 # by José Dias Neto, 17.03.2021
 #
 
-import matplotlib.pyplot as plt
 import xarray as xr
 
 
