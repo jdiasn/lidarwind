@@ -112,9 +112,10 @@ class readProcessedData:
 
 class getRestructuredData:
 
-    def __init__(self, data):
+    def __init__(self, data, snr=False):
 
         self.data = data
+        self.snr = snr
         self.getCoordNon90()
         self.dataTransform()
 
@@ -140,12 +141,17 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = lst.filtering(self.data).getRadialObsComp('radial_wind_speed', azm)
+                tmpRadWind = lst.filtering(self.data).getRadialObsComp('radial_wind_speed', azm, snr=self.snr)
                 dopWindArr[:,:,i,j] = tmpRadWind.sel(time=self.timeNon90, method='Nearest').values
 
+        newRange = self.data.range90.values[:len(self.data.range)]
         respDopVel = xr.DataArray(data=dopWindArr, dims=('time', 'range', 'azm', 'elv'),
-                                  coords={'time':self.timeNon90, 'range':self.rangeNon90,
+                                  coords={'time':self.timeNon90, 'range':newRange,
                                           'azm':self.azmNon90, 'elv':self.elvNon90})
+
+        respDopVel.attrs = {'standard_name': 'retrived_horizontal_velocity',
+                            'units': 'm s-1',
+                            'comments': 'Horizontal wind speed vector.'}
 
         self.dataTransf = respDopVel
 
