@@ -149,9 +149,9 @@ class getRestructuredData:
                                   coords={'time':self.timeNon90, 'range':newRange,
                                           'azm':self.azmNon90, 'elv':self.elvNon90})
 
-        respDopVel.attrs = {'standard_name': 'retrived_horizontal_velocity',
+        respDopVel.attrs = {'standard_name': 'radial_wind_speed',
                             'units': 'm s-1',
-                            'comments': 'Horizontal wind speed vector.'}
+                            'comments': 'radial wind speed vector.'}
 
         self.dataTransf = respDopVel
 
@@ -160,11 +160,12 @@ class getRestructuredData:
 
 class getResampledData:
 
-    def __init__(self, xrDataArray, vertCoord = 'gate_index',
+    def __init__(self, xrDataArray, vertCoord = 'range',
                  timeFreq = '15s', tolerance=10):
 
 
         self.varName = xrDataArray.name
+        self.attrs = xrDataArray.attrs
         data = xrDataArray
         date = pd.to_datetime(data.time.values[0])
 
@@ -293,53 +294,56 @@ class getResampledData:
                              dims=('time_ref', self.vertCoord.name),
                              coords={'time_ref':self.timeRef, 
                                    self.vertCoord.name:self.vertCoord.values},
-                             name=self.varName)
+                             name=self.varName,
+                             attrs=self.attrs)
+
+        tmpDT[self.vertCoord.name].attrs = self.vertCoord.attrs
 
 
         return tmpDT
 
 
 
-# class dataOperations:
+class dbsOperations:
 
-#     def __init__(self, fileList, varList):
+    def __init__(self, fileList, varList):
 
-#         self.mergedDS = xr.Dataset()
-#         self.fileList = fileList
-#         self.varList = varList
+        self.mergedDS = xr.Dataset()
+        self.fileList = fileList
+        self.varList = varList
 
-#         self.mergeData()
+        self.mergeData()
 
-#         return None
+        return None
 
-#     def mergeData(self):
+    def mergeData(self):
 
-#         for file in self.fileList:
-
-
-#             try:
-#                 fileToMerge = lst.getLidarData(file).openLidarFile()
-
-#             except:
-#                 print('This file has a problem {0}'.format(file))
-#                 pass
-
-#             fileToMerge.elevation
+        for file in self.fileList:
 
 
-#             try:
-#                 self.merge2DS(fileToMerge)
+            try:
+                fileToMerge = lst.getLidarData(file).openLidarFile()
 
-#             except:
-#                 print('Mergin not possible {0}'.format(file))
-#                 pass
+            except:
+                print('This file has a problem {0}'.format(file))
+                pass
 
-#         return self
+            fileToMerge.elevation
 
-#     def merge2DS(self, fileToMerge):
 
-#         for var in self.varList:
+            try:
+                self.merge2DS(fileToMerge)
 
-#             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
+            except:
+                print('Mergin not possible {0}'.format(file))
+                pass
 
-#         return self
+        return self
+
+    def merge2DS(self, fileToMerge):
+
+        for var in self.varList:
+
+            self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
+
+        return self
