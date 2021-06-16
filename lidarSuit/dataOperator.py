@@ -175,7 +175,7 @@ class getRestructuredData:
 class getResampledData:
 
     def __init__(self, xrDataArray, vertCoord = 'range',
-                 timeFreq = '15s', r=10):
+                 timeFreq = '15s', tolerance=10):
 
 
         self.varName = xrDataArray.name
