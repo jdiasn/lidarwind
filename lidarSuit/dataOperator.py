@@ -118,8 +118,10 @@ class getRestructuredData:
         self.snr = snr
         self.getCoordNon90()
         self.dataTransform()
+        self.dataTransform90()
 
         return None
+
 
     def getCoordNon90(self):
 
@@ -131,6 +133,7 @@ class getRestructuredData:
         self.rangeNon90 = self.data.range
 
         return self
+
 
     def dataTransform(self):
 
@@ -158,10 +161,21 @@ class getRestructuredData:
         return self
 
 
+    def dataTransform90(self):
+
+        tmpData = lst.filtering(self.data).getVerticalObsComp('radial_wind_speed90', snr=self.snr)
+        tmpData = tmpData.isel(range90=slice(0,len(self.rangeNon90)))
+
+        self.dataTransf90 = tmpData
+
+        return self
+
+
+
 class getResampledData:
 
     def __init__(self, xrDataArray, vertCoord = 'range',
-                 timeFreq = '15s', tolerance=10):
+                 timeFreq = '15s', r=10):
 
 
         self.varName = xrDataArray.name
