@@ -102,6 +102,7 @@ class getWindProperties5Beam:
         self.azimuthNon90 = azimuthNon90
         self.elevetionNon90 = elevation.sel(time=timeNon90)
 
+        # replace range
         self.rangeValNon90 = data.range.sel(time=timeNon90)
         self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=timeNon90)
 
