@@ -44,6 +44,18 @@ class plotSettings:
         return self
     
     
+    def plotSetup(plot):
+
+        plt.setp(plot.axes.xaxis.get_majorticklabels(),rotation=0)
+        locator = mdates.AutoDateLocator()
+        formatter = mdates.ConciseDateFormatter(locator)
+        plot.axes.xaxis.set_major_formatter(formatter)
+
+        plt.grid(b=True)
+
+        return plot
+
+
 class filtering:
     
     def __init__(self, data):
