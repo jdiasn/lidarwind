@@ -102,11 +102,13 @@ class getWindProperties5Beam:
         self.azimuthNon90 = azimuthNon90
         self.elevetionNon90 = elevation.sel(time=timeNon90)
 
-        # replace range
-        self.rangeValNon90 = data.range.sel(time=timeNon90)
+        # replace range by measurement_height
+        # self.rangeValNon90 = data.range.sel(time=timeNon90)
+        self.rangeValNon90 = data.measurement_height.sel(time=timeNon90)
         self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=timeNon90)
 
-        self.rangeVal90 = data.range.sel(time=time90)
+        # self.rangeVal90 = data.range.sel(time=time90)
+        self.rangeVal90 = data.measurement_height.sel(time=time90)
         self.radWindSpeed90 = data.radial_wind_speed.sel(time=time90)
 
         self.calcHorWindComp()
@@ -137,7 +139,8 @@ class getWindProperties5Beam:
         self.compV = compVN - compVS
         self.compU = compUE - compUW
 
-        self.compU = self.compU.reindex(time = self.compV.time, method='Nearest', tolerance=self.tolerance)
+        self.compU = self.compU.reindex(time = self.compV.time, method='Nearest',
+                                        tolerance=self.tolerance)
 
         return self     
 
