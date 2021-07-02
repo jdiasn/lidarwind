@@ -110,12 +110,29 @@ class getWindProperties5Beam:
         # self.rangeVal90 = data.range.sel(time=time90)
         self.rangeVal90 = data.measurement_height.sel(time=time90)
         self.radWindSpeed90 = data.radial_wind_speed.sel(time=time90)
+        self.correctVertWindComp()
 
         self.calcHorWindComp()
         self.calcHorWindSpeed()
         self.calcHorWindDir()
 
         return None
+
+    def correctVertWindComp(self):
+
+        """
+        This function replaces the original from the vertical
+        wind component with the gate_index by the measurement_height.
+        """
+
+        vertWindSpeed = self.radWindSpeed90
+        vertWindSpeed = vertWindSpeed.rename({'gate_index':'range'})
+        vertWindSpeed = vertWindSpeed.assign_coords({'range':self.rangeVal90.values[0]})
+        vertWindSpeed.range.attrs = self.rangeVal90.attrs
+
+        self.radWindSpeed90 = vertWindSpeed
+
+        return self
 
 
     def calcHorWindComp(self):
