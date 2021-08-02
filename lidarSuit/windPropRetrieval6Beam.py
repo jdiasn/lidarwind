@@ -88,7 +88,7 @@ class sixBeamMethod:
 
 
 
-    def getVariance(self, data , name='rVariance'):
+    def getVariance(self, data, name='rVariance'):
 
         """
         This method calculates the variance from the

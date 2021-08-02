@@ -36,7 +36,7 @@ class fftWindPropRet:
 
     def getWindDir(self):
 
-        self.windDir = self.phase+180
+        self.windDir = self.phase + 180
         self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
                               'units': 'deg',
                               'comments': 'wind direction retrived using the FFT method'}
@@ -45,7 +45,7 @@ class fftWindPropRet:
 
     def getRadWindSpeed(self):
 
-        self.radWindSpeed = 2* np.abs(self.compAmp)/self.dopplerObs.azm.shape[0]
+        self.radWindSpeed = 2 * np.abs(self.compAmp)/self.dopplerObs.azm.shape[0]
         self.radWindSpeed.attrs = {'standard_name': 'retrived_radial_wind_velocity',
                                    'units': 'm s-1',
                                    'comments': 'radial wind velocity retrived using the FFT method'}
@@ -63,7 +63,7 @@ class fftWindPropRet:
 
     def getAzmWind(self, azm):
 
-        azmHorWind = self.radWindSpeed * np.sin(np.deg2rad(azm)+ np.deg2rad(self.phase.values + 180))
+        azmHorWind = self.radWindSpeed * np.sin(np.deg2rad(azm) + np.deg2rad(self.phase.values + 180))
         azmHorWind = azmHorWind/np.cos(np.deg2rad(self.dopplerObs.elv))
 
         return azmHorWind
