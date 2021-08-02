@@ -10,9 +10,12 @@ class fftWindPropRet:
         self.dopplerObs = dopplerObs
 #         self.elv = elv
         self.getCompAmp()
+        self.getPhase()
         self.getRadWindSpeed()
         self.getHorWindSpeed()
         self.getWindDir()
+        self.getWindConpU()
+        self.getWindConpV()
 
         return None
 

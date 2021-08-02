@@ -1,8 +1,11 @@
-import lidarSuit as lst
 import xarray as xr
 import datetime as dt
 import pandas as pd
 import numpy as np
+
+# import lidarSuit as lst
+from .visualization import filtering
+from .lidar_code import getLidarData
 
 
 class dataOperations:
@@ -26,7 +29,7 @@ class dataOperations:
         for filePath in self.dataPaths:
 
             try:
-                tmpFile = lst.getLidarData(filePath).openLidarFile()
+                tmpFile = getLidarData(filePath).openLidarFile()
 
                 elevation = tmpFile.elevation.round(1)
                 tmpFile['elevation'] = elevation
@@ -144,7 +147,7 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = lst.filtering(self.data).getRadialObsComp('radial_wind_speed', azm, snr=self.snr)
+                tmpRadWind = filtering(self.data).getRadialObsComp('radial_wind_speed', azm, snr=self.snr)
                 dopWindArr[:,:,i,j] = tmpRadWind.sel(time=self.timeNon90, method='Nearest').values
 
         newRange = self.data.range90.values[:len(self.data.range)]
@@ -163,7 +166,7 @@ class getRestructuredData:
 
     def dataTransform90(self):
 
-        tmpData = lst.filtering(self.data).getVerticalObsComp('radial_wind_speed90', snr=self.snr)
+        tmpData = filtering(self.data).getVerticalObsComp('radial_wind_speed90', snr=self.snr)
         tmpData = tmpData.isel(range90=slice(0,len(self.rangeNon90)))
 
         self.dataTransf90 = tmpData
@@ -336,7 +339,7 @@ class dbsOperations:
 
 
             try:
-                fileToMerge = lst.getLidarData(file).openLidarFile()
+                fileToMerge = getLidarData(file).openLidarFile()
 
             except:
                 print('This file has a problem {0}'.format(file))
