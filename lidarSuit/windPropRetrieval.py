@@ -147,7 +147,7 @@ class getWindProperties5Beam:
 
         # self.rangeVal90 = data.range.sel(time=time90)
         self.rangeVal90 = data.measurement_height.sel(time=time90)
-        self.radWindSpeed90 = data.radial_wind_speed.sel(time=time90)
+        self.verWindSpeed = data.radial_wind_speed.sel(time=time90)
         self.correctVertWindComp()
 
         self.calcHorWindComp()
@@ -156,6 +156,22 @@ class getWindProperties5Beam:
 
         return None
 
+
+    def correctWindComp(self, comp):
+
+        """
+        This function replaces the gate_index coordinate
+        by the measurement_height.
+        (For any component)
+        """
+
+        comp = comp.rename({'gate_index':'range'})
+        comp = comp.assign_coords({'range':self.rangeVal90.values[0]})
+        comp.range.attrs = self.rangeVal90.attrs
+
+        return comp
+
+
     def correctVertWindComp(self):
 
         """
@@ -163,12 +179,9 @@ class getWindProperties5Beam:
         wind component with the gate_index by the measurement_height.
         """
 
-        vertWindSpeed = self.radWindSpeed90
-        vertWindSpeed = vertWindSpeed.rename({'gate_index':'range'})
-        vertWindSpeed = vertWindSpeed.assign_coords({'range':self.rangeVal90.values[0]})
-        vertWindSpeed.range.attrs = self.rangeVal90.attrs
-
-        self.radWindSpeed90 = vertWindSpeed
+        verWindSpeed = self.correctWindComp(self.verWindSpeed)
+        verWindSpeed.name = 'compW'
+        self.verWindSpeed = verWindSpeed
 
         return self
 
@@ -191,13 +204,21 @@ class getWindProperties5Beam:
         compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)
         compUW = compUW.reindex(time=compUE.time, method='Nearest', tolerance=self.tolerance)
 
-        self.compV = compVN - compVS
-        self.compU = compUE - compUW
+        self.compV = -(compVN - compVS)
+        self.compU = -(compUE - compUW)
+
+        self.compV = self.correctWindComp(self.compV)
+        self.compU = self.correctWindComp(self.compU)
+
+        self.compV.name = 'compV'
+        self.compU.name = 'compU'
 
         self.compU = self.compU.reindex(time = self.compV.time, method='Nearest',
                                         tolerance=self.tolerance)
 
+
         return self     
+
 
     def calcHorWindSpeed(self):
 
@@ -211,14 +232,15 @@ class getWindProperties5Beam:
         horWindSpeed.attrs['long_name'] = 'wind_speed'
         horWindSpeed.attrs['units'] = 'm/s'
 
-        horWindSpeed = horWindSpeed.rename({'gate_index':'range'})
-        horWindSpeed = horWindSpeed.assign_coords({'range':self.rangeVal90.values[0]})
-        horWindSpeed.range.attrs = self.rangeVal90.attrs
+#         horWindSpeed = horWindSpeed.rename({'gate_index':'range'})
+#         horWindSpeed = horWindSpeed.assign_coords({'range':self.rangeVal90.values[0]})
+#         horWindSpeed.range.attrs = self.rangeVal90.attrs
 
         self.horWindSpeed = horWindSpeed
 
 
         return self
+
 
     def calcHorWindDir(self):
 
@@ -228,33 +250,47 @@ class getWindProperties5Beam:
 
         """
 
-        windDirTmp = np.rad2deg(np.arctan(self.compV/self.compU))
-
-        windDir = windDirTmp.copy()*np.nan
-
-        compV = self.compV.values
-        compU = self.compU.values
-
-        # arctan > 0 
-        windDir.values[(compU > 0) & (compV > 0)] = 270 - windDirTmp.values[(compU > 0) & (compV > 0)] #ok
-        windDir.values[(compU < 0) & (compV > 0)] = 90 - windDirTmp.values[(compU < 0) & (compV > 0)] 
-
-        # arctan < 0 
-        windDir.values[(compU < 0) & (compV < 0)] = 90 - windDirTmp.values[(compU < 0) & (compV < 0)] #ok
-        windDir.values[(compU > 0) & (compV < 0)] = 270 - windDirTmp.values[(compU > 0) & (compV < 0)] #
-
-        # arctan = 0
-        windDir.values[(compU > 0) & (compV == 0)] = 270 + windDirTmp.values[(compU > 0) & (compV == 0)] #ok
-        windDir.values[(compU < 0) & (compV == 0)] = 90 + windDirTmp.values[(compU < 0) & (compV == 0)] #ok
+############################################
+        windDir = 180 + np.rad2deg(np.arctan2(-self.compU, -self.compV))
 
         windDir.name = 'hor_wind_dir'
         windDir.attrs['long_name'] = 'wind_direction'
         windDir.attrs['units'] = 'deg'
 
-        windDir = windDir.rename({'gate_index':'range'})
-        windDir = windDir.assign_coords({'range':self.rangeVal90.values[0]})
-        windDir.range.attrs = self.rangeVal90.attrs
-
         self.horWindDir = windDir
+############################################
+
+
+#         windDirTmp = np.rad2deg(np.arctan(self.compV/self.compU))
+
+#         windDir = windDirTmp.copy()*np.nan
+
+#         compV = self.compV.values * -1
+#         compU = self.compU.values * -1
+
+#         # arctan > 0
+#         windDir.values[(compU > 0) & (compV > 0)] = 270 - windDirTmp.values[(compU > 0) & (compV > 0)] #ok
+#         windDir.values[(compU < 0) & (compV > 0)] = 90 - windDirTmp.values[(compU < 0) & (compV > 0)]
+
+#         # arctan < 0
+#         windDir.values[(compU < 0) & (compV < 0)] = 90 - windDirTmp.values[(compU < 0) & (compV < 0)] #ok
+#         windDir.values[(compU > 0) & (compV < 0)] = 270 - windDirTmp.values[(compU > 0) & (compV < 0)] #
+
+#         # arctan = 0
+#         windDir.values[(compU > 0) & (compV == 0)] = 270 + windDirTmp.values[(compU > 0) & (compV == 0)] #ok
+#         windDir.values[(compU < 0) & (compV == 0)] = 90 + windDirTmp.values[(compU < 0) & (compV == 0)] #ok
+
+
+#         windDir.name = 'hor_wind_dir'
+#         windDir.attrs['long_name'] = 'wind_direction'
+#         windDir.attrs['units'] = 'deg'
+
+#         self.horWindDir = windDir
+
+
+
+#         windDir = windDir.rename({'gate_index':'range'})
+#         windDir = windDir.assign_coords({'range':self.rangeVal90.values[0]})
+#         windDir.range.attrs = self.rangeVal90.attrs
 
         return self
