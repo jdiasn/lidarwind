@@ -1,7 +1,8 @@
-import lidarSuit as lst
 import numpy as np
 import xarray as xr
 import pandas as pd
+
+from .utilities import util
 
 class sixBeamMethod:
 
@@ -94,7 +95,7 @@ class sixBeamMethod:
         The default size of this window is 10 minutes.
         """
 
-        timeBins = lst.util.getTimeBins(pd.to_datetime(data.time.values[0]))
+        timeBins = util.getTimeBins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
         groupedData = data.groupby_bins('time', timeBins)
 
         self.rVariances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
