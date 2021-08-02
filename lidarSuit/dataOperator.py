@@ -178,20 +178,20 @@ class getRestructuredData:
 class getResampledData:
 
     def __init__(self, xrDataArray, vertCoord = 'range',
-                 timeFreq = '15s', tolerance=10):
+                 timeFreq = '15s', tolerance=10, timeCoord = 'time'):
 
 
         self.varName = xrDataArray.name
         self.attrs = xrDataArray.attrs
         data = xrDataArray
-        date = pd.to_datetime(data.time.values[0])
+        date = pd.to_datetime(data[timeCoord].values[0])
 
         self.timeRef = self.getTimeRef(date, timeFreq)
         self.vertCoord = data[vertCoord]
 
 
         timeRefSec = np.array(self.timeRef, float)*10**(-9)
-        timeOrigSec = np.array(data.time.values, float)*10**(-9)
+        timeOrigSec = np.array(data[timeCoord].values, float)*10**(-9)
 
         deltaGrid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
         timeIndexArray = self.getNearestIndexM2(deltaGrid, tolerance)
