@@ -13,11 +13,12 @@ class sixBeamMethod:
     developed by Sathe at all 2015.
     """
 
-    def __init__(self, data):
+    def __init__(self, data, freq='30min'):
 
 #         self.elv = 45
         self.elv = data.dataTransf.elv.values
         self.azm = data.dataTransf.azm.values
+        self.timeFreq = freq
 
         self.get_M()
         self.get_M_inv()
