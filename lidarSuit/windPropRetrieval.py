@@ -25,9 +25,18 @@ class fftWindPropRet:
 
         return self
 
+    def getPhase(self):
+
+        self.phase = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))
+        self.phase.attrs = {'standard_name': 'retrived_phase',
+                              'units': 'deg',
+                              'comments': 'phase derived using the FFT method'}
+
+        return self
+
     def getWindDir(self):
 
-        self.windDir = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))+180
+        self.windDir = self.phase+180
         self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
                               'units': 'deg',
                               'comments': 'wind direction retrived using the FFT method'}
@@ -51,6 +60,32 @@ class fftWindPropRet:
                                    'comments': 'horizontal wind velocity retrived using the FFT method'}
 
         return self
+
+    def getAzmWind(self, azm):
+
+        azmHorWind = self.radWindSpeed * np.sin(np.deg2rad(azm)+ np.deg2rad(self.phase.values + 180))
+        azmHorWind = azmHorWind/np.cos(np.deg2rad(self.dopplerObs.elv))
+
+        return azmHorWind
+
+    def getWindConpU(self):
+
+        self.compU = self.getAzmWind(0)
+        self.compU.attrs = {'standard_name': 'retrived_u_component',
+                            'units': 'm s-1',
+                            'comments': 'u wind component retrieved using the FFT method'}
+
+        return self
+
+    def getWindConpV(self):
+
+        self.compV = self.getAzmWind(90)
+        self.compV.attrs = {'standard_name': 'retrived_v_component',
+                            'units': 'm s-1',
+                            'comments': 'v wind component retrieved using the FFT method'}
+
+        return self
+
 
 
 class getWindProperties5Beam:
