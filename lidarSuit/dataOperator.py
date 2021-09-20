@@ -80,6 +80,9 @@ class readProcessedData:
         return None
 
     def mergeData(self):
+        # open_msfdataset is massing up the dimensions
+        # from radial observations. It will be deactivated
+        # for while
 
         try:
             tmpMerged = self.mergeDataM1()
@@ -87,6 +90,8 @@ class readProcessedData:
         except:
             print('switching from xr.open_mfdataset to xr.open_dataset' )
             tmpMerged = self.mergeDataM2()
+
+#         tmpMerged = self.mergeDataM2()
 
         return tmpMerged
 

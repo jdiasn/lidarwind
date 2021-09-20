@@ -71,6 +71,7 @@ class fftWindPropRet:
     def getWindConpU(self):
 
         self.compU = self.getAzmWind(0)
+        self.compU.name = 'compU'
         self.compU.attrs = {'standard_name': 'retrived_u_component',
                             'units': 'm s-1',
                             'comments': 'u wind component retrieved using the FFT method'}
@@ -80,6 +81,7 @@ class fftWindPropRet:
     def getWindConpV(self):
 
         self.compV = self.getAzmWind(90)
+        self.compV.name = 'compV'
         self.compV.attrs = {'standard_name': 'retrived_v_component',
                             'units': 'm s-1',
                             'comments': 'v wind component retrieved using the FFT method'}
