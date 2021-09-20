@@ -195,7 +195,7 @@ class visualizer:
             tmpData = dataNon90.sel(azm=i)
 
             selDay = pd.to_datetime(tmpData.time[0].values)
-            maxTime = pd.to_datetime(pd.to_datetime(tmpData.time[0].values).strftime('%Y%m%d 23:59:5'))
+            maxTime = pd.to_datetime(pd.to_datetime(tmpData.time[0].values).strftime('%Y%m%d 23:59:59'))
             tmpData = tmpData.sel(time=slice(pd.to_datetime(tmpData.time[0].values), maxTime))
 
 
