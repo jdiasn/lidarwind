@@ -88,6 +88,15 @@ class fftWindPropRet:
 
         return self
 
+    def windProp(self):
+
+        windProp = xr.Dataset()
+        windProp['windDir'] = self.windDir
+        windProp['horWindSpeed'] = self.horWindSpeed
+        windProp['compU'] = self.compU
+        windProp['compV'] = self.compV
+
+        return windProp
 
 
 class getWindProperties5Beam:
