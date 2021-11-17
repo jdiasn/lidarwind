@@ -58,7 +58,6 @@ class plotSettings:
 
         return plot
 
-
 # class filtering:
     
 #     def __init__(self, data):
@@ -107,8 +106,6 @@ class plotSettings:
 #         tmpData = tmpData.where((self.data.elevation!=90) & (self.data.azimuth==azm), drop=True)
     
 #         return tmpData
-    
-    
 
 class visualizer:
 
