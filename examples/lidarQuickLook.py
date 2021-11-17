@@ -9,10 +9,10 @@ import pandas as pd
 import matplotlib as mpl 
 
 # append the path of the parent directory
-#import sys
-#sys.path.append("../")
-
+import sys
+sys.path.append("../")
 import lidarSuit as lst
+
 # matplotlib.use('Agg')
 
 #--------------------------------------
@@ -40,7 +40,7 @@ def imputDicParam(selDay):
 #------------------------------------------
 # main code
 
-firstDay, lastDay, rangeRes  = pd.to_datetime('20210918'), pd.to_datetime('20210918'), '50m'
+firstDay, lastDay, rangeRes  = pd.to_datetime('20210921'), pd.to_datetime('20210921'), '50m'
 dates = pd.date_range(firstDay, lastDay)
 
 fileType = 'fixed'
