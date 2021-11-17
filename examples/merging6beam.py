@@ -10,8 +10,8 @@ import glob as gb
 import pandas as pd
 
 # append the path of the parent directory
-#import sys
-#sys.path.append("../")
+import sys
+sys.path.append("../")
 
 import lidarSuit as lst
 
@@ -79,8 +79,8 @@ def processOneHour(path, parameters, verbose=False):
 #--------------------------------------------------
 # main code
 
-startProcess = pd.to_datetime('20210918')
-endProcess = pd.to_datetime('20210918')
+startProcess = pd.to_datetime('20210921')
+endProcess = pd.to_datetime('20210921')
 
 rangeRes = '50m'
 fileType = 'fixed'
