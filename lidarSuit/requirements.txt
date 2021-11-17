@@ -1,0 +1,6 @@
+xrft
+xarray
+pandas
+numpy
+datetime
+matplotlib
