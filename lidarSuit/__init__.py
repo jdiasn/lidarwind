@@ -1,3 +1,4 @@
+
 """Top-level package for lidarSuit package"""
 
 __author__ = "José Dias Neto"
@@ -11,3 +12,4 @@ from .windPropRetrieval6Beam import *
 from .visualization import *
 from .utilities import *
 from .dataOperator import *
+from .filters import *
