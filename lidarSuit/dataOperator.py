@@ -4,7 +4,9 @@ import pandas as pd
 import numpy as np
 
 # import lidarSuit as lst
-from .visualization import filtering
+from .filters import filtering
+from .filters import secondTripEchoFilter
+
 from .lidar_code import getLidarData
 
 
@@ -120,10 +122,17 @@ class readProcessedData:
 
 class getRestructuredData:
 
-    def __init__(self, data, snr=False):
+    def __init__(self, data, snr=False, status=True, nProf=500,
+                       center=True, min_periods=30, nStd=2):
 
         self.data = data
         self.snr = snr
+        self.status = status
+        self.nProf = nProf
+        self.center = center
+        self.min_periods = min_periods
+        self.nStd = nStd
+
         self.getCoordNon90()
         self.dataTransform()
         self.dataTransform90()
@@ -152,7 +161,9 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = filtering(self.data).getRadialObsComp('radial_wind_speed', azm, snr=self.snr)
+                tmpRadWind = filtering(self.data).getRadialObsComp('radial_wind_speed', azm,
+                                                                   snr=self.snr, status=self.status)
+
                 dopWindArr[:,:,i,j] = tmpRadWind.sel(time=self.timeNon90, method='Nearest').values
 
         newRange = self.data.range90.values[:len(self.data.range)]
@@ -164,14 +175,17 @@ class getRestructuredData:
                             'units': 'm s-1',
                             'comments': 'radial wind speed vector.'}
 
-        self.dataTransf = respDopVel
+        self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf, center=self.center,
+                                               min_periods=self.min_periods, nStd=self.nStd).data
 
         return self
 
 
     def dataTransform90(self):
 
-        tmpData = filtering(self.data).getVerticalObsComp('radial_wind_speed90', snr=self.snr)
+        tmpData = filtering(self.data).getVerticalObsComp('radial_wind_speed90',
+                                                          snr=self.snr, status=self.status)
+
         tmpData = tmpData.isel(range90=slice(0,len(self.rangeNon90)))
 
         self.dataTransf90 = tmpData

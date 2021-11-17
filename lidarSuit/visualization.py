@@ -10,9 +10,10 @@ import matplotlib.dates as mdates
 
 class plotSettings:
     
-    def __init__(self, mpl):
+    def __init__(self, mpl, style='dark_background'):
         
         self.mpl = mpl
+        self.style = style
         #self.updateSettings()
         
         return None
@@ -22,7 +23,7 @@ class plotSettings:
         fs = 16
         
         # mpl.style.use('seaborn')
-        self.mpl.style.use('dark_background')
+        self.mpl.style.use(self.style)
         self.mpl.rcParams['figure.figsize'] = [6, 6]
         self.mpl.rcParams['figure.dpi'] = 80
         self.mpl.rcParams['savefig.dpi'] = 100
@@ -58,45 +59,56 @@ class plotSettings:
         return plot
 
 
-class filtering:
+# class filtering:
     
-    def __init__(self, data):
+#     def __init__(self, data):
         
-        self.data = data
+#         self.data = data
         
-        return None
+#         return None
     
-    def getVerticalObsComp(self, variable, snr=False):
+#     def getVerticalObsComp(self, variable, snr=False, status=True):
     
-        tmpData = self.data[variable].where(self.data.radial_wind_speed_status90==1)
+#         tmpData = self.data[variable]
+    
+#         if status:
+#             tmpData = tmpData.where(self.data.radial_wind_speed_status90==1)
+        
+#         else:
+#             pass
 
-        if snr != False:
-            tmpData = tmpData.where(self.data.cnr90 > snr)
+#         if snr != False:
+#             tmpData = tmpData.where(self.data.cnr90 > snr)
             
-        else:
-            pass
+#         else:
+#             pass
 
-        tmpData = tmpData.where(self.data.elevation==90, drop=True)
+#         tmpData = tmpData.where(self.data.elevation==90, drop=True)
         
     
-        return tmpData
+#         return tmpData
     
-    def getRadialObsComp(self, variable, azm, snr=False):
+#     def getRadialObsComp(self, variable, azm, snr=False, status=True):
     
-        tmpData = self.data[variable].where(self.data.radial_wind_speed_status==1)
-        
-        if snr != False:
-            tmpData = tmpData.where(self.data.cnr > snr)
+#         tmpData = self.data[variable]
+    
+#         if status:
+#             tmpData = tmpData.where(self.data.radial_wind_speed_status==1)
             
-        else:
-            pass
+#         else:
+#             pass
         
-        tmpData = tmpData.where((self.data.elevation!=90) & (self.data.azimuth==azm), drop=True)
+#         if snr != False:
+#             tmpData = tmpData.where(self.data.cnr > snr)
+            
+#         else:
+#             pass
+        
+#         tmpData = tmpData.where((self.data.elevation!=90) & (self.data.azimuth==azm), drop=True)
     
-        return tmpData
+#         return tmpData
     
     
-
 
 class visualizer:
 
@@ -159,12 +171,12 @@ class visualizer:
         if strName:
             tmpData.attrs['standard_name']= strName
 
-        plt.figure(figsize=(18,6))
+        plt.figure(figsize=(18,8))
         plot = tmpData.plot(x='time', cmap=cmap, vmin=vmin, vmax=vmax)
         plot = plotSettings.plotSetup(plot)
 
         plt.grid(b=True)
-        plt.ylim(0,10e3)
+        plt.ylim(0,12e3)
         plt.xlim(pd.to_datetime(selDay.strftime('%Y%m%d')), maxTime)
         plt.title('elv: {0}, azm: {1}'.format(elv, azm))
 
@@ -203,7 +215,7 @@ class visualizer:
             plot = plotSettings.plotSetup(plot)
 
             axes[axN].grid(b=True)
-            axes[axN].set_ylim(0,10e3)
+            axes[axN].set_ylim(0,12e3)
             axes[axN].set_xlim(pd.to_datetime(tmpData.time[0].values), maxTime)
             axes[axN].set_title('elv: {0}, azm: {1}'.format(elv, i))
 
