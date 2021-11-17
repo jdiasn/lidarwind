@@ -16,7 +16,6 @@ class fftWindPropRet:
         self.getWindDir()
         self.getWindConpU()
         self.getWindConpV()
-
         return None
 
     def getCompAmp(self):
@@ -28,36 +27,36 @@ class fftWindPropRet:
     def getPhase(self):
 
         self.phase = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))
-        self.phase.attrs = {'standard_name': 'retrived_phase',
-                              'units': 'deg',
-                              'comments': 'phase derived using the FFT method'}
+        # self.phase.attrs = {'standard_name': 'retrived_phase',
+        #                       'units': 'deg',
+        #                       'comments': 'phase derived using the FFT method'}
 
         return self
 
     def getWindDir(self):
 
         self.windDir = self.phase + 180
-        self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
-                              'units': 'deg',
-                              'comments': 'wind direction retrived using the FFT method'}
+        # self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
+        #                       'units': 'deg',
+        #                       'comments': 'wind direction retrived using the FFT method'}
 
         return self
 
     def getRadWindSpeed(self):
 
         self.radWindSpeed = 2 * np.abs(self.compAmp)/self.dopplerObs.azm.shape[0]
-        self.radWindSpeed.attrs = {'standard_name': 'retrived_radial_wind_velocity',
-                                   'units': 'm s-1',
-                                   'comments': 'radial wind velocity retrived using the FFT method'}
+        # self.radWindSpeed.attrs = {'standard_name': 'retrived_radial_wind_velocity',
+        #                            'units': 'm s-1',
+        #                            'comments': 'radial wind velocity retrived using the FFT method'}
 
         return self
 
     def getHorWindSpeed(self):
 
         self.horWindSpeed = self.radWindSpeed/np.cos(np.deg2rad(self.dopplerObs.elv))
-        self.horWindSpeed.attrs = {'standard_name': 'retrived_horizontal_wind_velocity',
-                                   'units': 'm s-1',
-                                   'comments': 'horizontal wind velocity retrived using the FFT method'}
+        # self.horWindSpeed.attrs = {'standard_name': 'retrived_horizontal_wind_velocity',
+        #                            'units': 'm s-1',
+        #                            'comments': 'horizontal wind velocity retrived using the FFT method'}
 
         return self
 
@@ -71,30 +70,30 @@ class fftWindPropRet:
     def getWindConpU(self):
 
         self.compU = self.getAzmWind(0)
-        self.compU.name = 'compU'
-        self.compU.attrs = {'standard_name': 'retrived_u_component',
-                            'units': 'm s-1',
-                            'comments': 'u wind component retrieved using the FFT method'}
+        # self.compU.name = 'compU'
+        # self.compU.attrs = {'standard_name': 'retrived_u_component',
+        #                     'units': 'm s-1',
+        #                     'comments': 'u wind component retrieved using the FFT method'}
 
         return self
 
     def getWindConpV(self):
 
         self.compV = self.getAzmWind(90)
-        self.compV.name = 'compV'
-        self.compV.attrs = {'standard_name': 'retrived_v_component',
-                            'units': 'm s-1',
-                            'comments': 'v wind component retrieved using the FFT method'}
+        # self.compV.name = 'compV'
+        # self.compV.attrs = {'standard_name': 'retrived_v_component',
+        #                     'units': 'm s-1',
+        #                     'comments': 'v wind component retrieved using the FFT method'}
 
         return self
 
     def windProp(self):
 
         windProp = xr.Dataset()
-        windProp['windDir'] = self.windDir
-        windProp['horWindSpeed'] = self.horWindSpeed
-        windProp['compU'] = self.compU
-        windProp['compV'] = self.compV
+        windProp['horizontal_wind_direction'] = self.windDir
+        windProp['horizontal_wind_speed'] = self.horWindSpeed
+        windProp['zonal_wind'] = self.compU
+        windProp['meridional_wind'] = self.compV
 
         return windProp
 
