@@ -2,6 +2,7 @@ import numpy as np
 import xarray as xr
 import xrft
 
+from .dataAttributesL1 import loadAttributes
 
 class fftWindPropRet:
 
@@ -302,5 +303,34 @@ class getWindProperties5Beam:
 #         windDir = windDir.rename({'gate_index':'range'})
 #         windDir = windDir.assign_coords({'range':self.rangeVal90.values[0]})
 #         windDir.range.attrs = self.rangeVal90.attrs
+
+        return self
+
+
+class retrieveWind:
+
+    def __init__(self, transfdData):
+
+        self.transfdData = transfdData
+        self.retHorWindData()
+        self.retVertWindData()
+
+        return None
+
+    def retHorWindData(self):
+
+        tmpWindProp = fftWindPropRet(self.transfdData.dataTransf).windProp()
+        tmpWindProp = tmpWindProp.squeeze(dim='elv')
+        tmpWindProp = tmpWindProp.drop(['elv','freq_azm'])
+        self.windProp = loadAttributes(tmpWindProp).data
+
+        return self
+
+    def retVertWindData(self):
+
+        tmpWindW = self.transfdData.dataTransf90
+        tmpWindW = tmpWindW.rename({'time':'time90', 'range90':'range'})
+        self.windProp['vertical_wind_speed'] = tmpWindW
+        self.windProp = loadAttributes(self.windProp).data
 
         return self
