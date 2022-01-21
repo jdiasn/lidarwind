@@ -43,7 +43,7 @@ setup(
     packages=find_packages(include=['lidarSuit', 'lidarSuit.*']),
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/jdiasn/lidarSuit',
+    url='https://github.com/CMTRACE-team/lidarSuit',
     version='0.0.1',
     zip_safe=False,
 )
