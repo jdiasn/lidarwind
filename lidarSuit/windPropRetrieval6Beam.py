@@ -13,18 +13,19 @@ class sixBeamMethod:
     developed by Sathe at all 2015.
     """
 
-    def __init__(self, data, freq='30min'):
+    def __init__(self, data, freq=10, freq90=10):
 
 #         self.elv = 45
         self.elv = data.dataTransf.elv.values
         self.azm = data.dataTransf.azm.values
-        self.timeFreq = freq
+        # self.timeFreq = freq
+        # self.timeFreq = freq
 
         self.get_M()
         self.get_M_inv()
         self.rVariances = {}
-        self.getVariance(data.dataTransf)
-        self.getVariance(data.dataTransf90, name='rVariance90')
+        self.calcVariances(data, freq, freq90)
+
         self.get_S()
         self.get_SIGMA()
         self.getVarianceDS()
@@ -86,9 +87,19 @@ class sixBeamMethod:
 
         return self
 
+### new approach to calculate the variances ##############
+#
+#
+    def calcVariances(self, data, freq, freq90):
+
+        interpDataTransf = data.dataTransf.interp(time=data.dataTransf90.time, method='nearest')
+        self.getVariance(interpDataTransf, freq=freq)
+        self.getVariance(-1*data.dataTransf90, freq=freq90, name='rVariance90') #think about the -1 coefficient
+
+        return self
 
 
-    def getVariance(self, data, name='rVariance'):
+    def getVariance(self, data, freq=10, name='rVariance'):
 
         """
         This method calculates the variance from the
@@ -96,13 +107,35 @@ class sixBeamMethod:
         The default size of this window is 10 minutes.
         """
 
-        timeBins = util.getTimeBins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
-        groupedData = data.groupby_bins('time', timeBins)
+        variance = data.rolling(time=freq, center=True, min_periods=int(freq*0.3)).var()
 
-        self.rVariances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
-        self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
+        self.rVariances[name] = variance
+        # self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
 
         return self
+#
+#
+### new approach to calculate the variances ##############
+
+
+### old approach to calculate the variances
+#     def getVariance(self, data, name='rVariance'):
+
+#         """
+#         This method calculates the variance from the
+#         observed radial velocities within a time window.
+#         The default size of this window is 10 minutes.
+#         """
+
+#         timeBins = util.getTimeBins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
+#         groupedData = data.groupby_bins('time', timeBins)
+
+#         self.rVariances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
+#         self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
+
+#         return self
+#####################################################
+
 
 
     def get_S(self):
@@ -143,8 +176,8 @@ class sixBeamMethod:
         for i, varComp in enumerate(varCompName):
 
             tmpData = xr.DataArray(self.SIGMA[:,:,i,0],
-                                   dims=('time_bins', 'range'),
-                                   coords={'time_bins':self.rVariances['rVariance90'].time_bins,
+                                   dims=('time', 'range'),
+                                   coords={'time':self.rVariances['rVariance90'].time,
                                            'range':self.rVariances['rVariance'].range},
                                    name='var_{0}'.format(varComp))
 
@@ -152,4 +185,4 @@ class sixBeamMethod:
 
         self.varCompDS = varCompDS
 
-        return self
+        return None
