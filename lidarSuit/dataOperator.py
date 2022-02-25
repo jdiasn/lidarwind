@@ -185,10 +185,15 @@ class getRestructuredData:
 
         tmpData = filtering(self.data).getVerticalObsComp('radial_wind_speed90',
                                                           snr=self.snr, status=self.status)
-
         tmpData = tmpData.isel(range90=slice(0,len(self.rangeNon90)))
-
         self.dataTransf90 = tmpData
+
+
+        tmpData = filtering(self.data).getVerticalObsComp('relative_beta90',
+                                                          snr=self.snr, status=self.status)
+        tmpData = tmpData.isel(range90=slice(0,len(self.rangeNon90)))
+        self.relative_beta90 = tmpData
+
 
         return self
 

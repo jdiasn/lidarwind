@@ -2,6 +2,7 @@ import numpy as np
 import xarray as xr
 import xrft
 
+from .filters import filtering
 from .dataAttributesL1 import loadAttributes
 
 class fftWindPropRet:
@@ -314,6 +315,8 @@ class retrieveWind:
         self.transfdData = transfdData
         self.retHorWindData()
         self.retVertWindData()
+        self.getBeta()
+        self.loadAttrs()
 
         return None
 
@@ -322,7 +325,9 @@ class retrieveWind:
         tmpWindProp = fftWindPropRet(self.transfdData.dataTransf).windProp()
         tmpWindProp = tmpWindProp.squeeze(dim='elv')
         tmpWindProp = tmpWindProp.drop(['elv','freq_azm'])
-        self.windProp = loadAttributes(tmpWindProp).data
+        self.windProp = tmpWindProp
+
+        # loadAttributes(tmpWindProp).data
 
         return self
 
@@ -331,6 +336,20 @@ class retrieveWind:
         tmpWindW = self.transfdData.dataTransf90
         tmpWindW = tmpWindW.rename({'time':'time90', 'range90':'range'})
         self.windProp['vertical_wind_speed'] = tmpWindW
+        # self.windProp = loadAttributes(self.windProp).data
+
+        return self
+
+    def getBeta(self):
+
+        tmpBeta = self.transfdData.relative_beta90
+        tmpBeta = tmpBeta.rename({'time':'time90', 'range90':'range'})
+        self.windProp['lidar_relative_beta'] = tmpBeta
+
+        return self
+
+    def loadAttrs(self):
+
         self.windProp = loadAttributes(self.windProp).data
 
         return self
