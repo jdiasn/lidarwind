@@ -175,8 +175,11 @@ class getRestructuredData:
                             'units': 'm s-1',
                             'comments': 'radial wind speed vector.'}
 
-        self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf, center=self.center,
-                                               min_periods=self.min_periods, nStd=self.nStd).data
+
+        self.dataTransf = respDopVel
+        # (maybe all STE filter should be in the same class)
+        # self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf, center=self.center,
+        #                                        min_periods=self.min_periods, nStd=self.nStd).data
 
         return self
 
