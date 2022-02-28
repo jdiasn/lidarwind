@@ -208,16 +208,16 @@ class getWindProperties5Beam:
 
         compWindSpeed = self.radWindSpeedNon90/(2*np.cos(np.deg2rad(self.elevetionNon90)))
 
-        compVN = compWindSpeed.where(self.azimuthNon90==0, drop=True)  
-        compVS = compWindSpeed.where(self.azimuthNon90==180, drop=True)
-        compVS = compVS.reindex(time=compVN.time, method='Nearest', tolerance=self.tolerance)
+        self.compVN = compWindSpeed.where(self.azimuthNon90==0, drop=True)
+        self.compVS = compWindSpeed.where(self.azimuthNon90==180, drop=True)
+        compVS = self.compVS.reindex(time=self.compVN.time, method='Nearest', tolerance=self.tolerance)
 
-        compUE = compWindSpeed.where(self.azimuthNon90==90, drop=True) 
-        compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)
-        compUW = compUW.reindex(time=compUE.time, method='Nearest', tolerance=self.tolerance)
+        self.compUE = compWindSpeed.where(self.azimuthNon90==90, drop=True)
+        self.compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)
+        compUW = self.compUW.reindex(time=self.compUE.time, method='Nearest', tolerance=self.tolerance)
 
-        self.compV = -(compVN - compVS)
-        self.compU = -(compUE - compUW)
+        self.compV = -(self.compVN - compVS)
+        self.compU = -(self.compUE - compUW)
 
         self.compV = self.correctWindComp(self.compV)
         self.compU = self.correctWindComp(self.compU)
