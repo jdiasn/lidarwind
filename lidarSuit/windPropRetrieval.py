@@ -102,7 +102,7 @@ class fftWindPropRet:
 
 class getWindProperties5Beam:
 
-    def __init__(self, data, statusFilter=True, cnr=None, tolerance='8s'):
+    def __init__(self, data, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
 
         """
         This class caculates the wind speeed and direction
@@ -156,13 +156,19 @@ class getWindProperties5Beam:
         # self.rangeValNon90 = data.range.sel(time=timeNon90)
         self.rangeValNon90 = data.measurement_height.sel(time=timeNon90)
         self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=timeNon90)
+        self.meanTimeNon90 =  data.scan_mean_time.sel(time=timeNon90)
 
         # self.rangeVal90 = data.range.sel(time=time90)
         self.rangeVal90 = data.measurement_height.sel(time=time90)
         self.verWindSpeed = data.radial_wind_speed.sel(time=time90)
         self.correctVertWindComp()
 
-        self.calcHorWindComp()
+        if method == 'continuous':
+            self.calcHorWindComp_continuous()
+
+        if method == 'single_dbs':
+            self.calcHorWindComp_single_dbs()
+
         self.calcHorWindSpeed()
         self.calcHorWindDir()
 
@@ -198,7 +204,46 @@ class getWindProperties5Beam:
         return self
 
 
-    def calcHorWindComp(self):
+    def calcHorWindComp_single_dbs(self):
+
+        """
+        This method derives v and u components from the
+        WindCube DBS files. The components are caculated
+        from each individual DBS file. The mean time from each
+        scan complete scan is used as identification tag.
+        """
+
+        compWindSpeed = self.radWindSpeedNon90/(2*np.cos(np.deg2rad(self.elevetionNon90)))
+
+        compVN = compWindSpeed.where(self.azimuthNon90==0, drop=True)
+        meanTimeVN = self.meanTimeNon90.where(self.azimuthNon90==0, drop=True)
+        compVN = compVN.assign_coords({'time':meanTimeVN})
+
+        compVS = compWindSpeed.where(self.azimuthNon90==180, drop=True)
+        meanTimeVS = self.meanTimeNon90.where(self.azimuthNon90==180, drop=True)
+        compVS = compVS.assign_coords({'time':meanTimeVS})
+
+        compUE = compWindSpeed.where(self.azimuthNon90==90, drop=True)
+        meanTimeUE = self.meanTimeNon90.where(self.azimuthNon90==90, drop=True)
+        compUE = compUE.assign_coords({'time':meanTimeUE})
+
+        compUW = compWindSpeed.where(self.azimuthNon90==270, drop=True)
+        meanTimeUW = self.meanTimeNon90.where(self.azimuthNon90==270, drop=True)
+        compUW = compUW.assign_coords({'time':meanTimeUW})
+
+        self.compV = -(compVN - compVS)
+        self.compU = -(compUE - compUW)
+
+        self.compV = self.correctWindComp(self.compV)
+        self.compU = self.correctWindComp(self.compU)
+
+        self.compV.name = 'compV'
+        self.compU.name = 'compU'
+
+        return None
+
+
+    def calcHorWindComp_continuous(self):
 
         """
         Function to derive wind v and u components. 
@@ -227,7 +272,6 @@ class getWindProperties5Beam:
 
         self.compU = self.compU.reindex(time = self.compV.time, method='Nearest',
                                         tolerance=self.tolerance)
-
 
         return self     
 
