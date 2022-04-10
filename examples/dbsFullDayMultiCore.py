@@ -115,7 +115,11 @@ for selDay in pd.date_range(startProcess, endProcess):
     lidarData = getDaylyDS(parameters)
 
 
-windProp = lst.getWindProperties5Beam(lidarData.copy(), statusFilter=False, cnr=None)
+windProp = lst.getWindProperties5Beam(lidarData.copy(), statusFilter=False,
+                                      cnr=None, method='single_dbs')
+#windProp = lst.getWindProperties5Beam(lidarData.copy(), statusFilter=True,
+#                                      cnr=None, method='continuous', tolerance='9s')
+
 windSpeed = lst.getResampledData(windProp.horWindSpeed).resampled
 windDir = lst.getResampledData(windProp.horWindDir).resampled
 
