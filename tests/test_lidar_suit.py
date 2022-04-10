@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-"""Tests for `lidarSuit` package."""
+"""Tests for 'lidarSuit' package."""
 
 import pytest
 
 from click.testing import CliRunner
 
-from lidarSuit import lidarSuit
-from lidarSuit import cli
+import lidarSuit
+# from lidarSuit import cli
 
 
 @pytest.fixture
@@ -26,6 +26,8 @@ def test_content(response):
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 
 
+# @pytest.skip('we do not have a command line yet')
+@pytest.mark.skip('we do not have a command line yet')
 def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()
