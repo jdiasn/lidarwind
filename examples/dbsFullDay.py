@@ -19,7 +19,7 @@ def imputDicParam(selDay, rangeRes, fileType):
     # path to the daily files
     dicParam['dataPath']='/Users/jdiasneto/Data/windcube/{0}/wind_and_aerosols_data/*'.format(selDay.strftime('%Y-%m-%d'))
     # variables required for processing
-    dicParam['varList'] = ['azimuth', 'elevation', 'radial_wind_speed', 'radial_wind_speed_status', 'range', 'cnr']
+    dicParam['varList'] = ['azimuth', 'elevation', 'radial_wind_speed', 'radial_wind_speed_status', 'measurement_height', 'cnr']
     # range resolution
     dicParam['rangeRes'] = rangeRes
     # tipe of file
@@ -85,7 +85,11 @@ for selDay in pd.date_range(startProcess, endProcess):
     lidarData = getDaylyDS(parameters)
 
 
-windProp = lst.getWindProperties5Beam(lidarData.copy(), statusFilter=False, cnr=None)
+windProp = lst.getWindProperties5Beam(lidarData.copy(), statusFilter=False,
+                                      cnr=None, method='single_dbs')
+#windProp = lst.getWindProperties5Beam(lidarData.copy(), statusFilter=True,
+#                                      cnr=None, method='continuous', tolerance='9s')
+
 windSpeed = lst.getResampledData(windProp.horWindSpeed).resampled
 windDir = lst.getResampledData(windProp.horWindDir).resampled
 
