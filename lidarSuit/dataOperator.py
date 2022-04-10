@@ -347,7 +347,6 @@ class getResampledData:
         return tmpDT
 
 
-
 class dbsOperations:
 
     def __init__(self, fileList, varList):
@@ -372,17 +371,34 @@ class dbsOperations:
                 print('This file has a problem {0}'.format(file))
                 pass
 
-            fileToMerge.elevation
+            # fileToMerge.elevation
+            fileToMerge = self.add_mean_time(fileToMerge)
 
 
             try:
                 self.merge2DS(fileToMerge)
 
             except:
-                print('Mergin not possible {0}'.format(file))
+                print('Merging not possible {0}'.format(file))
                 pass
 
-        return self
+        return None
+
+
+    def add_mean_time(self, lidarDS):
+        """
+        This method adds the mean time to each file from
+        the DBS scan strategy
+        """
+
+        meanTimeNS = np.array(lidarDS.time.values, np.float64).mean()
+        meanTime = pd.to_datetime(np.ones(len(lidarDS.time.values)) * meanTimeNS)
+        meanTimeDA = xr.DataArray(data=meanTime, dims=('time'), coords={'time':lidarDS.time}, name='scan_mean_time')
+
+        lidarDS = lidarDS.merge(meanTimeDA)
+
+        return lidarDS
+
 
     def merge2DS(self, fileToMerge):
 
@@ -390,4 +406,6 @@ class dbsOperations:
 
             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
 
-        return self
+        self.mergedDS = xr.merge([self.mergedDS, fileToMerge['scan_mean_time']])
+
+        return None
