@@ -3,6 +3,7 @@
 
 __author__ = "José Dias Neto"
 __email__ = "jdiasn@gmail.com"
+__affiliation__="Delft University of Technology"
 
 
 from pkg_resources import get_distribution, DistributionNotFound
