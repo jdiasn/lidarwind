@@ -338,6 +338,9 @@ class getResampledData:
 
 
     def toDataArray(self):
+        """
+        It creates a DataArray of the resampled data.
+        """
 
         tmpDT = xr.DataArray(self.values,
                              dims=('time_ref', self.vertCoord.name),
@@ -353,6 +356,10 @@ class getResampledData:
 
 
 class dbsOperations:
+    """
+    This class extracts the variables required to
+    retrieve the wind information from the DBS files.
+    """
 
     def __init__(self, fileList, varList):
         """
@@ -378,9 +385,11 @@ class dbsOperations:
 
         self.mergeData()
 
-        return None
 
     def mergeData(self):
+        """
+        This method merges all files from a list of DBS files
+        """
 
         self.logger.info('merging all DBS files')
 
@@ -395,9 +404,7 @@ class dbsOperations:
             except:
                 self.logger.warning('This file has a problem {0}'.format(file))
 
-            # fileToMerge.elevation
             fileToMerge = self.add_mean_time(fileToMerge)
-
 
             try:
                 self.merge2DS(fileToMerge)
@@ -408,14 +415,16 @@ class dbsOperations:
     def add_mean_time(self, lidarDS):
         """
         This method adds the mean time to each file from
-        the DBS scan strategy
+        the DBS scan strategy.
         """
 
         self.logger.info('calculating the mean DBS time for each file')
 
         meanTimeNS = np.array(lidarDS.time.values, np.float64).mean()
         meanTime = pd.to_datetime(np.ones(len(lidarDS.time.values)) * meanTimeNS)
-        meanTimeDA = xr.DataArray(data=meanTime, dims=('time'), coords={'time':lidarDS.time}, name='scan_mean_time')
+        meanTimeDA = xr.DataArray(data=meanTime, dims=('time'),
+                                  coords={'time':lidarDS.time},
+                                  name='scan_mean_time')
 
         lidarDS = lidarDS.merge(meanTimeDA)
 
@@ -435,5 +444,3 @@ class dbsOperations:
             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
 
         self.mergedDS = xr.merge([self.mergedDS, fileToMerge['scan_mean_time']])
-
-        return None
