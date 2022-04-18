@@ -1,3 +1,5 @@
+import logging
+
 import xarray as xr
 import datetime as dt
 import pandas as pd
@@ -8,6 +10,9 @@ from .filters import filtering
 from .filters import secondTripEchoFilter
 
 from .lidar_code import getLidarData
+
+module_logger = logging.getLogger('lidarSuit.dataOperator')
+module_logger.debug('loading dataOperator')
 
 
 class dataOperations:
@@ -350,6 +355,22 @@ class getResampledData:
 class dbsOperations:
 
     def __init__(self, fileList, varList):
+        """
+        Parameters:
+        ------------
+
+        fileList: list of DBS files
+        varList: list of variables to be extracted from the DBS files
+
+        Returns:
+        --------
+
+        it returns an object containing an instance of the
+        merged files (.mergedDS)
+        """
+
+        self.logger = logging.getLogger('lidarSuit.dataOperator.dbsOperations')
+        self.logger.info('creating an instance of dbsOperations')
 
         self.mergedDS = xr.Dataset()
         self.fileList = fileList
@@ -361,15 +382,18 @@ class dbsOperations:
 
     def mergeData(self):
 
-        for file in self.fileList:
+        self.logger.info('merging all DBS files')
 
+        if bool(self.fileList) == False:
+            self.logger.info('FATAL: lidarSuit stopped due to an empty list of DBS files.')
+            exit()
+
+        for file in self.fileList:
 
             try:
                 fileToMerge = getLidarData(file).openLidarFile()
-
             except:
-                print('This file has a problem {0}'.format(file))
-                pass
+                self.logger.warning('This file has a problem {0}'.format(file))
 
             # fileToMerge.elevation
             fileToMerge = self.add_mean_time(fileToMerge)
@@ -377,12 +401,8 @@ class dbsOperations:
 
             try:
                 self.merge2DS(fileToMerge)
-
             except:
-                print('Merging not possible {0}'.format(file))
-                pass
-
-        return None
+                self.logger.warning('Merging not possible {0}'.format(file))
 
 
     def add_mean_time(self, lidarDS):
@@ -390,6 +410,8 @@ class dbsOperations:
         This method adds the mean time to each file from
         the DBS scan strategy
         """
+
+        self.logger.info('calculating the mean DBS time for each file')
 
         meanTimeNS = np.array(lidarDS.time.values, np.float64).mean()
         meanTime = pd.to_datetime(np.ones(len(lidarDS.time.values)) * meanTimeNS)
@@ -401,6 +423,12 @@ class dbsOperations:
 
 
     def merge2DS(self, fileToMerge):
+        """
+        This method merges the variables extracted from
+        the single DBS file with the storage dataset (mergedDS).
+        """
+
+        self.logger.info('merging single DBS file')
 
         for var in self.varList:
 
