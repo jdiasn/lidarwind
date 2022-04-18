@@ -31,15 +31,17 @@ logger.addHandler(ch)
 
 def imputDicParam(selDay, rangeRes, fileType):
     """
-    This function creates a dictionary with 
+    This function creates a dictionary with
     some basic useful parameters
     
     """
-    
+
     dicParam = {}
-    
+
     # path to the daily files
-    dicParam['dataPath']='/Users/jdiasneto/Data/windcube/{0}/wind_and_aerosols_data/*'.format(selDay.strftime('%Y-%m-%d'))
+    # dicParam['dataPath']='/Users/jdiasneto/Data/windcube/{0}/wind_and_aerosols_data/*'.format(selDay.strftime('%Y-%m-%d'))
+
+    dicParam['dataPath']='sampleData/dbs/*'
     # variables required for processing
     dicParam['varList'] = ['azimuth', 'elevation', 'radial_wind_speed', 'radial_wind_speed_status', 'measurement_height', 'cnr']
     # range resolution
@@ -48,23 +50,23 @@ def imputDicParam(selDay, rangeRes, fileType):
     dicParam['fileType'] = fileType
     # selected day 
     dicParam['selDay'] = selDay
-    
+
     return dicParam
 
 
-def getHourlyPathList(path, parameters): 
-    
+def getHourlyPathList(path, parameters):
+
     """
-    This function creates a list containing 
+    This function creates a list containing
     all data paths from a given hourly path.
-    
+
     """
-    
-    hour = path.split('/')[-1].split('-')[0] 
+
+    hour = path.split('/')[-1].split('-')[0]
     date = pd.to_datetime('{0} {1}:00'.format(parameters['selDay'].strftime('%Y%m%d'), hour))
-    
+
     genFileName = os.path.join(path,'*{0}*{1}.nc'.format(parameters['fileType'], parameters['rangeRes']))
-        
+
     fileList = gb.glob(genFileName)
     fileList = sorted(fileList)
 
@@ -73,17 +75,16 @@ def getHourlyPathList(path, parameters):
 
 def getDaylyDS(parameters):
     """
-    This function gives a daly merged dataset cotaining 
-    all variables required for derivbing wind speed and 
+    This function gives a daly merged dataset cotaining
+    all variables required for derivbing wind speed and
     direction from a given set of parameters
     """
 
     lidarData = xr.Dataset()
     hourlyDataPath = sorted(gb.glob(parameters['dataPath']))
 
-    for path in hourlyDataPath:
+    for path in hourlyDataPath[0:1]:
 
-        print(path)
         tmpPathList = getHourlyPathList(path, parameters)
 
         tmpLidarData = lst.dbsOperations(tmpPathList, parameters['varList']).mergedDS
@@ -94,16 +95,24 @@ def getDaylyDS(parameters):
 
 # main code
 
-startProcess = pd.to_datetime('20210417')
-endProcess = pd.to_datetime('20210417')
-rangeRes = '25m'
+# startProcess = pd.to_datetime('20220223')
+# endProcess = pd.to_datetime('20220223')
+
+startProcess = pd.to_datetime('20210513')
+endProcess = pd.to_datetime('20210513')
+
+rangeRes = '50m'
+# rangeRes = '100m'
 fileType = 'dbs'
 
 for selDay in pd.date_range(startProcess, endProcess):
-    
-    print(selDay)
-    
+
+    logger.info("current processing day: {0}".format(selDay))
+
     parameters = imputDicParam(selDay, rangeRes, fileType)
+
+    logger.info("file path: {0}".format(parameters['dataPath']))
+
     lidarData = getDaylyDS(parameters)
 
 
@@ -118,10 +127,10 @@ windDir = lst.getResampledData(windProp.horWindDir).resampled
 
 plt.figure(figsize=(18,6))
 windSpeed.plot(x='time_ref', cmap='turbo', vmin=0, vmax=20)
-plt.grid(b=True)
+plt.grid(visible=True)
 plt.show()
 
-plt.figure(figsize=(18,6))
-windDir.plot(x='time_ref', cmap='turbo', vmin=50, vmax=300)
-plt.grid(b=True)
-plt.show()
+# plt.figure(figsize=(18,6))
+# windDir.plot(x='time_ref', cmap='turbo', vmin=50, vmax=300)
+# plt.grid(b=True)
+# plt.show()
