@@ -15,6 +15,7 @@ module_logger = logging.getLogger('lidarSuit.dataOperator')
 module_logger.debug('loading dataOperator')
 
 
+
 class dataOperations:
 
     def __init__(self, dataPaths, verbose=False):
@@ -110,9 +111,8 @@ class readProcessedData:
             print('switching from xr.open_mfdataset to xr.open_dataset' )
             tmpMerged = self.mergeDataM2()
 
-#         tmpMerged = self.mergeDataM2()
-
         return tmpMerged
+
 
     def mergeDataM1(self):
 
@@ -121,6 +121,7 @@ class readProcessedData:
         tmpMerged = xr.open_mfdataset(self.fileList, parallel=True)
 
         return tmpMerged
+
 
     def mergeDataM2(self):
 
@@ -139,6 +140,7 @@ class readProcessedData:
                 pass
 
         return tmpMerged
+
 
 
 class getRestructuredData:
@@ -369,6 +371,7 @@ class getResampledData:
 
 
         return tmpDT
+
 
 
 class dbsOperations:
