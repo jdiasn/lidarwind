@@ -19,6 +19,9 @@ class dataOperations:
 
     def __init__(self, dataPaths, verbose=False):
 
+        self.logger = logging.getLogger('lidarSuit.dataOperator.dataOperations')
+        self.logger.info('creating an instance of dataOperations')
+
         self.verbose = verbose
         self.dataPaths = dataPaths
         self.tmp90 = xr.Dataset()
@@ -33,34 +36,35 @@ class dataOperations:
 
     def elevationFilter(self):
 
+        self.logger.info('coverting azimuth: from 360 to 0 degrees')
+
         for filePath in self.dataPaths:
 
             try:
                 tmpFile = getLidarData(filePath).openLidarFile()
-
                 elevation = tmpFile.elevation.round(1)
                 tmpFile['elevation'] = elevation
                 tmpFile['azimuth'] = tmpFile.azimuth.round(1)
                 tmpFile['azimuth'][tmpFile.azimuth==360]=0
-
             except:
-                print('Unknown file format: {0}'.format(filePath))
-                pass
+                self.logger.info('Unknown file format: {0}'.format(filePath))
 
             try: 
                 self.tmp90 = xr.merge([self.tmp90, tmpFile.where(elevation==90, drop=True)])
             except:
-                if self.verbose: print('This file does not have 90 elv: {0}'.format(filePath))
+                self.logger.info('This file does not have 90 elv: {0}'.format(filePath))
 
             try:
                 self.tmpNon90 = xr.merge([self.tmpNon90, tmpFile.where(elevation!=90, drop=True)])
             except:
-                if self.verbose: print('This file only has 90 elv: {0}'.format(filePath))
+                self.logger.info('This file only has 90 elv: {0}'.format(filePath))
 
         return self
 
 
     def renameVar90(self):
+
+        self.logger.info('renaming range coordinate from vertical measurements')
 
         for var in self.tmp90.variables:
 
@@ -72,6 +76,8 @@ class dataOperations:
 
 
     def getMergeData(self):
+
+        self.logger.info('merging vertical and non-vertical measurements')
 
         self.mergedData = xr.merge([self.tmp90, self.tmpNon90])
 
