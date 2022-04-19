@@ -84,18 +84,24 @@ class dataOperations:
         return self
 
 
+
 class readProcessedData:
 
     def __init__(self, fileList):
+
+        self.logger = logging.getLogger('lidarSuit.dataOperator.readProcessedData')
+        self.logger.info('creating an instance of readProcessedData')
 
         self.fileList = fileList
 
         return None
 
+
     def mergeData(self):
-        # open_msfdataset is massing up the dimensions
-        # from radial observations. It will be deactivated
-        # for while
+        # open_msfdataset was massing up the dimensions
+        # from radial observations.
+
+        self.logger.info('merging pre-processed data')
 
         try:
             tmpMerged = self.mergeDataM1()
@@ -110,22 +116,26 @@ class readProcessedData:
 
     def mergeDataM1(self):
 
+        self.logger.info('mergin files using xr.open_mfdataset')
+
         tmpMerged = xr.open_mfdataset(self.fileList, parallel=True)
 
         return tmpMerged
 
     def mergeDataM2(self):
 
+        self.logger.info('mergin files using xr.open_dataset')
+
         tmpMerged = xr.Dataset()
 
         for fileName in sorted(self.fileList):
 
             try:
-                print('opening {0}'.format(fileName))
+                self.logger.info('opening {0}'.format(fileName))
                 tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
 
             except:
-                print('problems with: {0}'.format(fileName))
+                self.logger.info('problems with: {0}'.format(fileName))
                 pass
 
         return tmpMerged
