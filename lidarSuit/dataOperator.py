@@ -413,23 +413,26 @@ class dbsOperations:
         self.logger.info('merging all DBS files')
 
         if bool(self.fileList) == False:
-            self.logger.info('FATAL: lidarSuit stopped due to an empty list of DBS files.')
-            exit()
+
+            self.logger.error('lidarSuit stopped due to an empty list of DBS files.')
+            raise FileNotFoundError
 
         for file in self.fileList:
 
             try:
                 fileToMerge = getLidarData(file).openLidarFile()
+                self.logger.debug('reading file: {0}'.format(file))
             except:
-                self.logger.warning('This file has a problem {0}'.format(file))
+                self.logger.warning('This file has a problem: {0}'.format(file))
+                raise
 
             fileToMerge = self.add_mean_time(fileToMerge)
 
             try:
                 self.merge2DS(fileToMerge)
             except:
-                self.logger.warning('Merging not possible {0}'.format(file))
-
+                self.logger.warning('Merging not possible: {0}'.format(file))
+                # raise
 
     def add_mean_time(self, lidarDS):
         """
