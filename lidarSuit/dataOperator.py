@@ -402,20 +402,23 @@ class dbsOperations:
         self.fileList = fileList
         self.varList = varList
 
-        self.mergeData(fileList)
+        self.mergeData(fileList, varList)
 
 
-    def mergeData(self, file_list):
+    def mergeData(self, file_list, var_list):
         """
         This method merges all files from a list of DBS files
         """
 
         self.logger.info('merging all DBS files')
 
-        if bool(self.fileList) == False:
-
+        if bool(file_list) == False:
             self.logger.error('lidarSuit stopped due to an empty list of DBS files.')
             raise FileNotFoundError
+
+        if bool(var_list) == False:
+            self.logger.error('lidarSuit stopped due to an empty list of variable')
+            raise KeyError
 
         for file in file_list:
 
@@ -429,7 +432,7 @@ class dbsOperations:
             fileToMerge = self.add_mean_time(fileToMerge)
 
             try:
-                self.merge2DS(fileToMerge)
+                self.merge2DS(fileToMerge, var_list)
             except:
                 self.logger.warning('Merging not possible: {0}'.format(file))
                 # raise
@@ -453,7 +456,7 @@ class dbsOperations:
         return lidarDS
 
 
-    def merge2DS(self, fileToMerge):
+    def merge2DS(self, fileToMerge, var_list):
         """
         This method merges the variables extracted from
         the single DBS file with the storage dataset (mergedDS).
@@ -461,7 +464,7 @@ class dbsOperations:
 
         self.logger.info('merging single DBS file')
 
-        for var in self.varList:
+        for var in var_list:
 
             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
 
