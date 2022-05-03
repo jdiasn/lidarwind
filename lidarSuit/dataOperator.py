@@ -402,10 +402,10 @@ class dbsOperations:
         self.fileList = fileList
         self.varList = varList
 
-        self.mergeData()
+        self.mergeData(fileList)
 
 
-    def mergeData(self):
+    def mergeData(self, file_list):
         """
         This method merges all files from a list of DBS files
         """
@@ -417,7 +417,7 @@ class dbsOperations:
             self.logger.error('lidarSuit stopped due to an empty list of DBS files.')
             raise FileNotFoundError
 
-        for file in self.fileList:
+        for file in file_list:
 
             try:
                 fileToMerge = getLidarData(file).openLidarFile()
