@@ -144,10 +144,10 @@ class getWindProperties5Beam:
 
         statusFilter: Data filtering based on the wind lidar
         wind status variable. If True, all data with status not
-        equal to 1 are remove. If False, no filtering is applied.
+        equal to 1 are removed. If False, no filtering is applied.
 
         cnr: Filter based on the carrier to noise ratio.
-        If None, no filtering is applied. I a cnr value is given,
+        If None, no filtering is applied. If a cnr value is given,
         all data smaller than the cnr is removed.
 
 
@@ -225,8 +225,8 @@ class getWindProperties5Beam:
     def correctVertWindComp(self):
 
         """
-        This function replaces the original from the vertical
-        wind component with the gate_index by the measurement_height.
+        This function replaces the original coordinate from the vertical
+        wind component by the measurement_height.
         """
 
         self.logger.info('replacing coordinate from the vertical measurement')
@@ -329,10 +329,6 @@ class getWindProperties5Beam:
         horWindSpeed.attrs['long_name'] = 'wind_speed'
         horWindSpeed.attrs['units'] = 'm/s'
 
-#         horWindSpeed = horWindSpeed.rename({'gate_index':'range'})
-#         horWindSpeed = horWindSpeed.assign_coords({'range':self.rangeVal90.values[0]})
-#         horWindSpeed.range.attrs = self.rangeVal90.attrs
-
         self.horWindSpeed = horWindSpeed
 
 
@@ -356,40 +352,7 @@ class getWindProperties5Beam:
         windDir.attrs['units'] = 'deg'
 
         self.horWindDir = windDir
-############################################
 
-
-#         windDirTmp = np.rad2deg(np.arctan(self.compV/self.compU))
-
-#         windDir = windDirTmp.copy()*np.nan
-
-#         compV = self.compV.values * -1
-#         compU = self.compU.values * -1
-
-#         # arctan > 0
-#         windDir.values[(compU > 0) & (compV > 0)] = 270 - windDirTmp.values[(compU > 0) & (compV > 0)] #ok
-#         windDir.values[(compU < 0) & (compV > 0)] = 90 - windDirTmp.values[(compU < 0) & (compV > 0)]
-
-#         # arctan < 0
-#         windDir.values[(compU < 0) & (compV < 0)] = 90 - windDirTmp.values[(compU < 0) & (compV < 0)] #ok
-#         windDir.values[(compU > 0) & (compV < 0)] = 270 - windDirTmp.values[(compU > 0) & (compV < 0)] #
-
-#         # arctan = 0
-#         windDir.values[(compU > 0) & (compV == 0)] = 270 + windDirTmp.values[(compU > 0) & (compV == 0)] #ok
-#         windDir.values[(compU < 0) & (compV == 0)] = 90 + windDirTmp.values[(compU < 0) & (compV == 0)] #ok
-
-
-#         windDir.name = 'hor_wind_dir'
-#         windDir.attrs['long_name'] = 'wind_direction'
-#         windDir.attrs['units'] = 'deg'
-
-#         self.horWindDir = windDir
-
-
-
-#         windDir = windDir.rename({'gate_index':'range'})
-#         windDir = windDir.assign_coords({'range':self.rangeVal90.values[0]})
-#         windDir.range.attrs = self.rangeVal90.attrs
 
         return self
 
