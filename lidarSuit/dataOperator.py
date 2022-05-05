@@ -230,6 +230,8 @@ class getResampledData:
     def __init__(self, xrDataArray, vertCoord = 'range',
                  timeFreq = '15s', tolerance=10, timeCoord = 'time'):
 
+        self.logger = logging.getLogger('lidarSuit.dataOperator.getResampledData')
+        self.logger.info('creating an instance of getResampledData')
 
         self.varName = xrDataArray.name
         self.attrs = xrDataArray.attrs
@@ -265,6 +267,8 @@ class getResampledData:
         timeRef: time reference grid (DatetimeIndex)
         """
 
+        self.logger.info('defining the reference time')
+
         start = dt.datetime(date.year,
                             date.month,
                             date.day,
@@ -295,6 +299,8 @@ class getResampledData:
             radar grid
         """
 
+        self.logger.info('calculating the distance to the reference')
+
         tmpGrid2d = np.ones((len(refGrid),
                              len(origGrid)))*origGrid
 
@@ -317,6 +323,8 @@ class getResampledData:
         gridIndex: array of indexes that fulfil the resampling
             tolerance
         """
+
+        self.logger.info('identifying index that fulfil the tolerance')
 
         gridIndex = np.argmin(abs(deltaGrid), axis=1)
         deltaGridMin = np.min(abs(deltaGrid), axis=1)
@@ -342,6 +350,8 @@ class getResampledData:
         resampledArr: time/range resampled numpy array
         """
 
+        self.logger.info('time resampling of: {0}'.format(self.varName))
+
         resampledTimeArr = np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))*np.nan
 
         for t, timeIndex in enumerate(timeIndexArray):
@@ -359,6 +369,8 @@ class getResampledData:
         """
         It creates a DataArray of the resampled data.
         """
+
+        self.logger.info('generating the new resampled DataArray: {0}'.format(self.varName))
 
         tmpDT = xr.DataArray(self.values,
                              dims=('time_ref', self.vertCoord.name),
