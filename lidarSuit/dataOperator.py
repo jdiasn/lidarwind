@@ -148,6 +148,9 @@ class getRestructuredData:
     def __init__(self, data, snr=False, status=True, nProf=500,
                        center=True, min_periods=30, nStd=2):
 
+        self.logger = logging.getLogger('lidarSuit.dataOperator.getRestructuredData')
+        self.logger.info('creating an instance of getRestructuredData')
+
         self.data = data
         self.snr = snr
         self.status = status
@@ -165,6 +168,8 @@ class getRestructuredData:
 
     def getCoordNon90(self):
 
+        self.logger.info('identifying and selecting the slanted observations')
+
         self.elvNon90 = np.unique(self.data.elevation.where(self.data.elevation!=90, drop=True))
         self.azmNon90 = np.unique(self.data.azimuth.where(self.data.elevation!=90, drop=True))
         self.azmNon90 = np.sort(self.azmNon90)
@@ -176,6 +181,8 @@ class getRestructuredData:
 
 
     def dataTransform(self):
+
+        self.logger.info('creating a DataArray of the slanted observations')
 
         dopWindArr = np.empty((self.timeNon90.shape[0], self.rangeNon90.shape[0],
                                len(self.azmNon90), len(self.elvNon90)))
@@ -208,6 +215,8 @@ class getRestructuredData:
 
 
     def dataTransform90(self):
+
+        self.logger.info('selcting zenith observations')
 
         tmpData = filtering(self.data).getVerticalObsComp('radial_wind_speed90',
                                                           snr=self.snr, status=self.status)
