@@ -361,6 +361,9 @@ class retrieveWind:
 
     def __init__(self, transfdData):
 
+        self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
+        self.logger.info('creating an instance of fftWindPropRet')
+
         self.transfdData = transfdData
         self.retHorWindData()
         self.retVertWindData()
@@ -370,6 +373,8 @@ class retrieveWind:
         return None
 
     def retHorWindData(self):
+
+        self.logger.info('retrieving horizontal wind from the 6 beam data')
 
         tmpWindProp = fftWindPropRet(self.transfdData.dataTransf).windProp()
         tmpWindProp = tmpWindProp.squeeze(dim='elv')
@@ -382,6 +387,8 @@ class retrieveWind:
 
     def retVertWindData(self):
 
+        self.logger.info('selecting the vertical wind observations')
+
         tmpWindW = self.transfdData.dataTransf90
         tmpWindW = tmpWindW.rename({'time':'time90', 'range90':'range'})
         self.windProp['vertical_wind_speed'] = tmpWindW
@@ -391,6 +398,8 @@ class retrieveWind:
 
     def getBeta(self):
 
+        self.logger.info('selcting beta from vertical observations')
+
         tmpBeta = self.transfdData.relative_beta90
         tmpBeta = tmpBeta.rename({'time':'time90', 'range90':'range'})
         self.windProp['lidar_relative_beta'] = tmpBeta
@@ -398,6 +407,8 @@ class retrieveWind:
         return self
 
     def loadAttrs(self):
+
+        self.logger.info('loading data attributes')
 
         self.windProp = loadAttributes(self.windProp).data
 
