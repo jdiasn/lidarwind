@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import xarray as xr
 import xrft
@@ -5,9 +7,17 @@ import xrft
 from .filters import filtering
 from .dataAttributesL1 import loadAttributes
 
+module_logger = logging.getLogger('lidarSuit.windPropRetrieval')
+module_logger.debug('loading windPropRetrieval')
+
+
+
 class fftWindPropRet:
 
     def __init__(self, dopplerObs):
+
+        self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
+        self.logger.info('creating an instance of fftWindPropRet')
 
         self.dopplerObs = dopplerObs
 #         self.elv = elv
@@ -22,11 +32,15 @@ class fftWindPropRet:
 
     def getCompAmp(self):
 
+        self.logger.info('calculating the complex amplitude')
+
         self.compAmp = xrft.fft(self.dopplerObs, dim=['azm']).isel(freq_azm=-2)
 
         return self
 
     def getPhase(self):
+
+        self.logger.info('calculating the phase from the complex amplitude')
 
         self.phase = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))
         # self.phase.attrs = {'standard_name': 'retrived_phase',
@@ -37,6 +51,8 @@ class fftWindPropRet:
 
     def getWindDir(self):
 
+        self.logger.info('retrieving wind direction from the phase')
+
         self.windDir = self.phase + 180
         # self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
         #                       'units': 'deg',
@@ -45,6 +61,8 @@ class fftWindPropRet:
         return self
 
     def getRadWindSpeed(self):
+
+        self.logger.info('calculating the radial wind speed from the complex amplitude')
 
         self.radWindSpeed = 2 * np.abs(self.compAmp)/self.dopplerObs.azm.shape[0]
         # self.radWindSpeed.attrs = {'standard_name': 'retrived_radial_wind_velocity',
@@ -55,6 +73,8 @@ class fftWindPropRet:
 
     def getHorWindSpeed(self):
 
+        self.logger.info('retrieving the horizontal wind speed')
+
         self.horWindSpeed = self.radWindSpeed/np.cos(np.deg2rad(self.dopplerObs.elv))
         # self.horWindSpeed.attrs = {'standard_name': 'retrived_horizontal_wind_velocity',
         #                            'units': 'm s-1',
@@ -64,12 +84,16 @@ class fftWindPropRet:
 
     def getAzmWind(self, azm):
 
+        self.logger.info('calculating wind speed for a give azimuth')
+
         azmHorWind = self.radWindSpeed * np.sin(np.deg2rad(azm) + np.deg2rad(self.phase.values + 180))
         azmHorWind = azmHorWind/np.cos(np.deg2rad(self.dopplerObs.elv))
 
         return azmHorWind
 
     def getWindConpU(self):
+
+        self.logger.info('retrieving the zonal wind speed component')
 
         self.compU = self.getAzmWind(0)
         # self.compU.name = 'compU'
@@ -81,6 +105,8 @@ class fftWindPropRet:
 
     def getWindConpV(self):
 
+        self.logger.info('retrieving the meridional wind speed component')
+
         self.compV = self.getAzmWind(90)
         # self.compV.name = 'compV'
         # self.compV.attrs = {'standard_name': 'retrived_v_component',
@@ -90,6 +116,8 @@ class fftWindPropRet:
         return self
 
     def windProp(self):
+
+        self.logger.info('creating a xarray dataset from the retrieved wind properties')
 
         windProp = xr.Dataset()
         windProp['horizontal_wind_direction'] = self.windDir
@@ -116,10 +144,10 @@ class getWindProperties5Beam:
 
         statusFilter: Data filtering based on the wind lidar
         wind status variable. If True, all data with status not
-        equal to 1 are remove. If False, no filtering is applied.
+        equal to 1 are removed. If False, no filtering is applied.
 
         cnr: Filter based on the carrier to noise ratio.
-        If None, no filtering is applied. I a cnr value is given,
+        If None, no filtering is applied. If a cnr value is given,
         all data smaller than the cnr is removed.
 
 
@@ -132,6 +160,8 @@ class getWindProperties5Beam:
 
         """
 
+        self.logger = logging.getLogger('lidarSuit.windPropRetrieval.getWindProperties5Beam')
+        self.logger.info('creating an instance of getWindProperties5Beam')
 
         if statusFilter:
             data['radial_wind_speed'] = data.radial_wind_speed.where(data.radial_wind_speed_status==1)
@@ -183,6 +213,8 @@ class getWindProperties5Beam:
         (For any component)
         """
 
+        self.logger.info('replacing the gate_index coordinate by range: {0}'.format(comp.name))
+
         comp = comp.rename({'gate_index':'range'})
         comp = comp.assign_coords({'range':self.rangeVal90.values[0]})
         comp.range.attrs = self.rangeVal90.attrs
@@ -193,12 +225,14 @@ class getWindProperties5Beam:
     def correctVertWindComp(self):
 
         """
-        This function replaces the original from the vertical
-        wind component with the gate_index by the measurement_height.
+        This function replaces the original coordinate from the vertical
+        wind component by the measurement_height.
         """
 
+        self.logger.info('replacing coordinate from the vertical measurement')
+
+        self.verWindSpeed.name = 'compW'
         verWindSpeed = self.correctWindComp(self.verWindSpeed)
-        verWindSpeed.name = 'compW'
         self.verWindSpeed = verWindSpeed
 
         return self
@@ -212,6 +246,9 @@ class getWindProperties5Beam:
         from each individual DBS file. The mean time from each
         scan complete scan is used as identification tag.
         """
+
+
+        self.logger.info('calculating the horizontal wind using the SINGLE DBS method')
 
         compWindSpeed = self.radWindSpeedNon90/(2*np.cos(np.deg2rad(self.elevetionNon90)))
 
@@ -234,11 +271,11 @@ class getWindProperties5Beam:
         self.compV = -(compVN - compVS)
         self.compU = -(compUE - compUW)
 
-        self.compV = self.correctWindComp(self.compV)
-        self.compU = self.correctWindComp(self.compU)
-
         self.compV.name = 'compV'
         self.compU.name = 'compU'
+
+        self.compV = self.correctWindComp(self.compV)
+        self.compU = self.correctWindComp(self.compU)
 
         return None
 
@@ -248,8 +285,9 @@ class getWindProperties5Beam:
         """
         Function to derive wind v and u components. 
         It folows the same approach used by the lidar software.
-
         """
+
+        self.logger.info('calculating the horizontal wind using the CONTINUOUS DBS method')
 
         compWindSpeed = self.radWindSpeedNon90/(2*np.cos(np.deg2rad(self.elevetionNon90)))
 
@@ -264,11 +302,11 @@ class getWindProperties5Beam:
         self.compV = -(self.compVN - compVS)
         self.compU = -(self.compUE - compUW)
 
-        self.compV = self.correctWindComp(self.compV)
-        self.compU = self.correctWindComp(self.compU)
-
         self.compV.name = 'compV'
         self.compU.name = 'compU'
+
+        self.compV = self.correctWindComp(self.compV)
+        self.compU = self.correctWindComp(self.compU)
 
         self.compU = self.compU.reindex(time = self.compV.time, method='Nearest',
                                         tolerance=self.tolerance)
@@ -278,19 +316,18 @@ class getWindProperties5Beam:
 
     def calcHorWindSpeed(self):
 
+
         """
         Function to calculate the wind speed.
 
         """
 
+        self.logger.info('calculating the horizontal wind speed using DBS observations')
+
         horWindSpeed = np.sqrt(self.compV**2. + self.compU**2.)
         horWindSpeed.name = 'hor_wind_speed'
         horWindSpeed.attrs['long_name'] = 'wind_speed'
         horWindSpeed.attrs['units'] = 'm/s'
-
-#         horWindSpeed = horWindSpeed.rename({'gate_index':'range'})
-#         horWindSpeed = horWindSpeed.assign_coords({'range':self.rangeVal90.values[0]})
-#         horWindSpeed.range.attrs = self.rangeVal90.attrs
 
         self.horWindSpeed = horWindSpeed
 
@@ -306,7 +343,8 @@ class getWindProperties5Beam:
 
         """
 
-############################################
+        self.logger.info('retrieving the wind direction using DBS observation')
+
         windDir = 180 + np.rad2deg(np.arctan2(-self.compU, -self.compV))
 
         windDir.name = 'hor_wind_dir'
@@ -314,40 +352,7 @@ class getWindProperties5Beam:
         windDir.attrs['units'] = 'deg'
 
         self.horWindDir = windDir
-############################################
 
-
-#         windDirTmp = np.rad2deg(np.arctan(self.compV/self.compU))
-
-#         windDir = windDirTmp.copy()*np.nan
-
-#         compV = self.compV.values * -1
-#         compU = self.compU.values * -1
-
-#         # arctan > 0
-#         windDir.values[(compU > 0) & (compV > 0)] = 270 - windDirTmp.values[(compU > 0) & (compV > 0)] #ok
-#         windDir.values[(compU < 0) & (compV > 0)] = 90 - windDirTmp.values[(compU < 0) & (compV > 0)]
-
-#         # arctan < 0
-#         windDir.values[(compU < 0) & (compV < 0)] = 90 - windDirTmp.values[(compU < 0) & (compV < 0)] #ok
-#         windDir.values[(compU > 0) & (compV < 0)] = 270 - windDirTmp.values[(compU > 0) & (compV < 0)] #
-
-#         # arctan = 0
-#         windDir.values[(compU > 0) & (compV == 0)] = 270 + windDirTmp.values[(compU > 0) & (compV == 0)] #ok
-#         windDir.values[(compU < 0) & (compV == 0)] = 90 + windDirTmp.values[(compU < 0) & (compV == 0)] #ok
-
-
-#         windDir.name = 'hor_wind_dir'
-#         windDir.attrs['long_name'] = 'wind_direction'
-#         windDir.attrs['units'] = 'deg'
-
-#         self.horWindDir = windDir
-
-
-
-#         windDir = windDir.rename({'gate_index':'range'})
-#         windDir = windDir.assign_coords({'range':self.rangeVal90.values[0]})
-#         windDir.range.attrs = self.rangeVal90.attrs
 
         return self
 
@@ -355,6 +360,9 @@ class getWindProperties5Beam:
 class retrieveWind:
 
     def __init__(self, transfdData):
+
+        self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
+        self.logger.info('creating an instance of fftWindPropRet')
 
         self.transfdData = transfdData
         self.retHorWindData()
@@ -365,6 +373,8 @@ class retrieveWind:
         return None
 
     def retHorWindData(self):
+
+        self.logger.info('retrieving horizontal wind from the 6 beam data')
 
         tmpWindProp = fftWindPropRet(self.transfdData.dataTransf).windProp()
         tmpWindProp = tmpWindProp.squeeze(dim='elv')
@@ -377,6 +387,8 @@ class retrieveWind:
 
     def retVertWindData(self):
 
+        self.logger.info('selecting the vertical wind observations')
+
         tmpWindW = self.transfdData.dataTransf90
         tmpWindW = tmpWindW.rename({'time':'time90', 'range90':'range'})
         self.windProp['vertical_wind_speed'] = tmpWindW
@@ -386,6 +398,8 @@ class retrieveWind:
 
     def getBeta(self):
 
+        self.logger.info('selcting beta from vertical observations')
+
         tmpBeta = self.transfdData.relative_beta90
         tmpBeta = tmpBeta.rename({'time':'time90', 'range90':'range'})
         self.windProp['lidar_relative_beta'] = tmpBeta
@@ -393,6 +407,8 @@ class retrieveWind:
         return self
 
     def loadAttrs(self):
+
+        self.logger.info('loading data attributes')
 
         self.windProp = loadAttributes(self.windProp).data
 

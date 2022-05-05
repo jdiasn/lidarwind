@@ -1,3 +1,5 @@
+import logging
+
 import xarray as xr
 import datetime as dt
 import pandas as pd
@@ -9,10 +11,17 @@ from .filters import secondTripEchoFilter
 
 from .lidar_code import getLidarData
 
+module_logger = logging.getLogger('lidarSuit.dataOperator')
+module_logger.debug('loading dataOperator')
+
+
 
 class dataOperations:
 
     def __init__(self, dataPaths, verbose=False):
+
+        self.logger = logging.getLogger('lidarSuit.dataOperator.dataOperations')
+        self.logger.info('creating an instance of dataOperations')
 
         self.verbose = verbose
         self.dataPaths = dataPaths
@@ -28,34 +37,35 @@ class dataOperations:
 
     def elevationFilter(self):
 
+        self.logger.info('coverting azimuth: from 360 to 0 degrees')
+
         for filePath in self.dataPaths:
 
             try:
                 tmpFile = getLidarData(filePath).openLidarFile()
-
                 elevation = tmpFile.elevation.round(1)
                 tmpFile['elevation'] = elevation
                 tmpFile['azimuth'] = tmpFile.azimuth.round(1)
                 tmpFile['azimuth'][tmpFile.azimuth==360]=0
-
             except:
-                print('Unknown file format: {0}'.format(filePath))
-                pass
+                self.logger.info('Unknown file format: {0}'.format(filePath))
 
             try: 
                 self.tmp90 = xr.merge([self.tmp90, tmpFile.where(elevation==90, drop=True)])
             except:
-                if self.verbose: print('This file does not have 90 elv: {0}'.format(filePath))
+                self.logger.info('This file does not have 90 elv: {0}'.format(filePath))
 
             try:
                 self.tmpNon90 = xr.merge([self.tmpNon90, tmpFile.where(elevation!=90, drop=True)])
             except:
-                if self.verbose: print('This file only has 90 elv: {0}'.format(filePath))
+                self.logger.info('This file only has 90 elv: {0}'.format(filePath))
 
         return self
 
 
     def renameVar90(self):
+
+        self.logger.info('renaming range coordinate from vertical measurements')
 
         for var in self.tmp90.variables:
 
@@ -68,23 +78,31 @@ class dataOperations:
 
     def getMergeData(self):
 
+        self.logger.info('merging vertical and non-vertical measurements')
+
         self.mergedData = xr.merge([self.tmp90, self.tmpNon90])
 
         return self
+
 
 
 class readProcessedData:
 
     def __init__(self, fileList):
 
+        self.logger = logging.getLogger('lidarSuit.dataOperator.readProcessedData')
+        self.logger.info('creating an instance of readProcessedData')
+
         self.fileList = fileList
 
         return None
 
+
     def mergeData(self):
-        # open_msfdataset is massing up the dimensions
-        # from radial observations. It will be deactivated
-        # for while
+        # open_msfdataset was massing up the dimensions
+        # from radial observations.
+
+        self.logger.info('merging pre-processed data')
 
         try:
             tmpMerged = self.mergeDataM1()
@@ -93,37 +111,45 @@ class readProcessedData:
             print('switching from xr.open_mfdataset to xr.open_dataset' )
             tmpMerged = self.mergeDataM2()
 
-#         tmpMerged = self.mergeDataM2()
-
         return tmpMerged
 
+
     def mergeDataM1(self):
+
+        self.logger.info('mergin files using xr.open_mfdataset')
 
         tmpMerged = xr.open_mfdataset(self.fileList, parallel=True)
 
         return tmpMerged
 
+
     def mergeDataM2(self):
+
+        self.logger.info('mergin files using xr.open_dataset')
 
         tmpMerged = xr.Dataset()
 
         for fileName in sorted(self.fileList):
 
             try:
-                print('opening {0}'.format(fileName))
+                self.logger.info('opening {0}'.format(fileName))
                 tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
 
             except:
-                print('problems with: {0}'.format(fileName))
+                self.logger.info('problems with: {0}'.format(fileName))
                 pass
 
         return tmpMerged
+
 
 
 class getRestructuredData:
 
     def __init__(self, data, snr=False, status=True, nProf=500,
                        center=True, min_periods=30, nStd=2):
+
+        self.logger = logging.getLogger('lidarSuit.dataOperator.getRestructuredData')
+        self.logger.info('creating an instance of getRestructuredData')
 
         self.data = data
         self.snr = snr
@@ -142,6 +168,8 @@ class getRestructuredData:
 
     def getCoordNon90(self):
 
+        self.logger.info('identifying and selecting the slanted observations')
+
         self.elvNon90 = np.unique(self.data.elevation.where(self.data.elevation!=90, drop=True))
         self.azmNon90 = np.unique(self.data.azimuth.where(self.data.elevation!=90, drop=True))
         self.azmNon90 = np.sort(self.azmNon90)
@@ -153,6 +181,8 @@ class getRestructuredData:
 
 
     def dataTransform(self):
+
+        self.logger.info('creating a DataArray of the slanted observations')
 
         dopWindArr = np.empty((self.timeNon90.shape[0], self.rangeNon90.shape[0],
                                len(self.azmNon90), len(self.elvNon90)))
@@ -186,6 +216,8 @@ class getRestructuredData:
 
     def dataTransform90(self):
 
+        self.logger.info('selcting zenith observations')
+
         tmpData = filtering(self.data).getVerticalObsComp('radial_wind_speed90',
                                                           snr=self.snr, status=self.status)
         tmpData = tmpData.isel(range90=slice(0,len(self.rangeNon90)))
@@ -207,6 +239,8 @@ class getResampledData:
     def __init__(self, xrDataArray, vertCoord = 'range',
                  timeFreq = '15s', tolerance=10, timeCoord = 'time'):
 
+        self.logger = logging.getLogger('lidarSuit.dataOperator.getResampledData')
+        self.logger.info('creating an instance of getResampledData')
 
         self.varName = xrDataArray.name
         self.attrs = xrDataArray.attrs
@@ -242,6 +276,8 @@ class getResampledData:
         timeRef: time reference grid (DatetimeIndex)
         """
 
+        self.logger.info('defining the reference time')
+
         start = dt.datetime(date.year,
                             date.month,
                             date.day,
@@ -272,6 +308,8 @@ class getResampledData:
             radar grid
         """
 
+        self.logger.info('calculating the distance to the reference')
+
         tmpGrid2d = np.ones((len(refGrid),
                              len(origGrid)))*origGrid
 
@@ -294,6 +332,8 @@ class getResampledData:
         gridIndex: array of indexes that fulfil the resampling
             tolerance
         """
+
+        self.logger.info('identifying index that fulfil the tolerance')
 
         gridIndex = np.argmin(abs(deltaGrid), axis=1)
         deltaGridMin = np.min(abs(deltaGrid), axis=1)
@@ -319,6 +359,8 @@ class getResampledData:
         resampledArr: time/range resampled numpy array
         """
 
+        self.logger.info('time resampling of: {0}'.format(self.varName))
+
         resampledTimeArr = np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))*np.nan
 
         for t, timeIndex in enumerate(timeIndexArray):
@@ -333,6 +375,11 @@ class getResampledData:
 
 
     def toDataArray(self):
+        """
+        It creates a DataArray of the resampled data.
+        """
+
+        self.logger.info('generating the new resampled DataArray: {0}'.format(self.varName))
 
         tmpDT = xr.DataArray(self.values,
                              dims=('time_ref', self.vertCoord.name),
@@ -347,65 +394,99 @@ class getResampledData:
         return tmpDT
 
 
+
 class dbsOperations:
+    """
+    This class extracts the variables required to
+    retrieve the wind information from the DBS files.
+    """
 
     def __init__(self, fileList, varList):
+        """
+        Parameters:
+        ------------
+
+        fileList: list of DBS files
+        varList: list of variables to be extracted from the DBS files
+
+        Returns:
+        --------
+
+        it returns an object containing an instance of the
+        merged files (.mergedDS)
+        """
+
+        self.logger = logging.getLogger('lidarSuit.dataOperator.dbsOperations')
+        self.logger.info('creating an instance of dbsOperations')
 
         self.mergedDS = xr.Dataset()
         self.fileList = fileList
         self.varList = varList
 
-        self.mergeData()
+        self.mergeData(fileList, varList)
 
-        return None
 
-    def mergeData(self):
+    def mergeData(self, file_list, var_list):
+        """
+        This method merges all files from a list of DBS files
+        """
 
-        for file in self.fileList:
+        self.logger.info('merging all DBS files')
 
+        if bool(file_list) == False:
+            self.logger.error('lidarSuit stopped due to an empty list of DBS files.')
+            raise FileNotFoundError
+
+        if bool(var_list) == False:
+            self.logger.error('lidarSuit stopped due to an empty list of variable')
+            raise KeyError
+
+        for file in file_list:
 
             try:
                 fileToMerge = getLidarData(file).openLidarFile()
-
+                self.logger.debug('reading file: {0}'.format(file))
             except:
-                print('This file has a problem {0}'.format(file))
-                pass
+                self.logger.warning('This file has a problem: {0}'.format(file))
+                raise
 
-            # fileToMerge.elevation
             fileToMerge = self.add_mean_time(fileToMerge)
 
-
             try:
-                self.merge2DS(fileToMerge)
-
+                self.merge2DS(fileToMerge, var_list)
             except:
-                print('Merging not possible {0}'.format(file))
-                pass
-
-        return None
-
+                self.logger.warning('Merging not possible: {0}'.format(file))
+                # raise
 
     def add_mean_time(self, lidarDS):
         """
         This method adds the mean time to each file from
-        the DBS scan strategy
+        the DBS scan strategy.
         """
+
+        self.logger.info('calculating the mean DBS time for each file')
 
         meanTimeNS = np.array(lidarDS.time.values, np.float64).mean()
         meanTime = pd.to_datetime(np.ones(len(lidarDS.time.values)) * meanTimeNS)
-        meanTimeDA = xr.DataArray(data=meanTime, dims=('time'), coords={'time':lidarDS.time}, name='scan_mean_time')
+        meanTimeDA = xr.DataArray(data=meanTime, dims=('time'),
+                                  coords={'time':lidarDS.time},
+                                  name='scan_mean_time')
 
         lidarDS = lidarDS.merge(meanTimeDA)
 
         return lidarDS
 
 
-    def merge2DS(self, fileToMerge):
+    def merge2DS(self, fileToMerge, var_list):
+        """
+        This method merges the variables extracted from
+        the single DBS file with the storage dataset (mergedDS).
+        """
 
-        for var in self.varList:
+        self.logger.info('merging single DBS file')
+
+        for var in var_list:
 
             self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
 
         self.mergedDS = xr.merge([self.mergedDS, fileToMerge['scan_mean_time']])
-
-        return None
