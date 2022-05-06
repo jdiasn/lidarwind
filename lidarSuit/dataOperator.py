@@ -15,13 +15,16 @@ module_logger = logging.getLogger('lidarSuit.dataOperator')
 module_logger.debug('loading dataOperator')
 
 
-
 class dataOperations:
 
     def __init__(self, dataPaths, verbose=False):
 
         self.logger = logging.getLogger('lidarSuit.dataOperator.dataOperations')
         self.logger.info('creating an instance of dataOperations')
+
+        if bool(dataPaths) == False:
+            self.logger.error('lidarSuit stopped due to an empty list of files.')
+            raise FileNotFoundError
 
         self.verbose = verbose
         self.dataPaths = dataPaths
@@ -43,12 +46,17 @@ class dataOperations:
 
             try:
                 tmpFile = getLidarData(filePath).openLidarFile()
+                self.logger.debug('reading file: {0}'.format(file))
+            except:
+                self.logger.warning('This file has a problem: {0}'.format(file))
+
+            try:
                 elevation = tmpFile.elevation.round(1)
                 tmpFile['elevation'] = elevation
                 tmpFile['azimuth'] = tmpFile.azimuth.round(1)
                 tmpFile['azimuth'][tmpFile.azimuth==360]=0
             except:
-                self.logger.info('Unknown file format: {0}'.format(filePath))
+                self.logger.info('Problems reading elv and axm: {0}'.format(filePath))
 
             try: 
                 self.tmp90 = xr.merge([self.tmp90, tmpFile.where(elevation==90, drop=True)])
@@ -92,6 +100,10 @@ class readProcessedData:
 
         self.logger = logging.getLogger('lidarSuit.dataOperator.readProcessedData')
         self.logger.info('creating an instance of readProcessedData')
+
+        if bool(fileList) == False:
+            self.logger.error('lidarSuit stopped due to an empty list of files.')
+            raise FileNotFoundError
 
         self.fileList = fileList
 
@@ -236,11 +248,15 @@ class getRestructuredData:
 
 class getResampledData:
 
-    def __init__(self, xrDataArray, vertCoord = 'range',
+    def __init__(self, xrDataArray: xr.DataArray, vertCoord = 'range',
                  timeFreq = '15s', tolerance=10, timeCoord = 'time'):
 
         self.logger = logging.getLogger('lidarSuit.dataOperator.getResampledData')
         self.logger.info('creating an instance of getResampledData')
+
+        if not isinstance(xrDataArray, xr.DataArray):
+            self.logger.error('wrong data type: expecting a xr.DataArray')
+            raise TypeError
 
         self.varName = xrDataArray.name
         self.attrs = xrDataArray.attrs

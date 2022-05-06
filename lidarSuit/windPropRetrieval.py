@@ -130,7 +130,7 @@ class fftWindPropRet:
 
 class getWindProperties5Beam:
 
-    def __init__(self, data, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
+    def __init__(self, data: xr.Dataset, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
 
         """
         This class caculates the wind speeed and direction
@@ -162,6 +162,10 @@ class getWindProperties5Beam:
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.getWindProperties5Beam')
         self.logger.info('creating an instance of getWindProperties5Beam')
+
+        if not isinstance(data, xr.Dataset):
+            self.logger.error('wrong data type: expecting a xr.Dataset')
+            raise TypeError
 
         if statusFilter:
             data['radial_wind_speed'] = data.radial_wind_speed.where(data.radial_wind_speed_status==1)
