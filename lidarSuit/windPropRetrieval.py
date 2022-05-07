@@ -6,6 +6,7 @@ import xrft
 
 from .filters import filtering
 from .dataAttributesL1 import loadAttributes
+from .dataOperator import getRestructuredData
 
 module_logger = logging.getLogger('lidarSuit.windPropRetrieval')
 module_logger.debug('loading windPropRetrieval')
@@ -14,10 +15,14 @@ module_logger.debug('loading windPropRetrieval')
 
 class fftWindPropRet:
 
-    def __init__(self, dopplerObs):
+    def __init__(self, dopplerObs: xr.DataArray):
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
         self.logger.info('creating an instance of fftWindPropRet')
+
+        if not isinstance(dopplerObs, xr.DataArray):
+            self.logger.error('wrong data type: expecting a xr.DataArray')
+            raise TypeError
 
         self.dopplerObs = dopplerObs
 #         self.elv = elv
@@ -130,7 +135,7 @@ class fftWindPropRet:
 
 class getWindProperties5Beam:
 
-    def __init__(self, data, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
+    def __init__(self, data: xr.Dataset, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
 
         """
         This class caculates the wind speeed and direction
@@ -162,6 +167,10 @@ class getWindProperties5Beam:
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.getWindProperties5Beam')
         self.logger.info('creating an instance of getWindProperties5Beam')
+
+        if not isinstance(data, xr.Dataset):
+            self.logger.error('wrong data type: expecting a xr.Dataset')
+            raise TypeError
 
         if statusFilter:
             data['radial_wind_speed'] = data.radial_wind_speed.where(data.radial_wind_speed_status==1)
@@ -359,10 +368,14 @@ class getWindProperties5Beam:
 
 class retrieveWind:
 
-    def __init__(self, transfdData):
+    def __init__(self, transfdData: getRestructuredData):
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
         self.logger.info('creating an instance of fftWindPropRet')
+
+        if not isinstance(transfdData, getRestructuredData):
+            self.logger.error('wrong data type: expecting a lst.getRestructuredData instance')
+            raise TypeError
 
         self.transfdData = transfdData
         self.retHorWindData()
