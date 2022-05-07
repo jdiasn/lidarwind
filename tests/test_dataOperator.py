@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+import xarray as xr
 
 import lidarSuit as lst
 
@@ -8,10 +9,18 @@ def test_dataOperator_dataOperations_dataPaths():
     with pytest.raises(FileNotFoundError):
         lst.dataOperations(dataPaths=None)
 
+
 def test_dataOperator_readProcessedData_fileList():
 
     with pytest.raises(FileNotFoundError):
         lst.readProcessedData(fileList=None)
+
+
+def test_dataOperator_getRestructuredData_data():
+
+    with pytest.raises(TypeError):
+        lst.getRestructuredData(data=xr.DataArray([0,1]))
+
 
 def test_dataOperator_getResampled_xrDataArray_none():
 

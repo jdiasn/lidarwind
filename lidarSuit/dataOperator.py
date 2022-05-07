@@ -157,11 +157,15 @@ class readProcessedData:
 
 class getRestructuredData:
 
-    def __init__(self, data, snr=False, status=True, nProf=500,
+    def __init__(self, data: xr.Dataset, snr=False, status=True, nProf=500,
                        center=True, min_periods=30, nStd=2):
 
         self.logger = logging.getLogger('lidarSuit.dataOperator.getRestructuredData')
         self.logger.info('creating an instance of getRestructuredData')
+
+        if not isinstance(data, xr.Dataset):
+            self.logger.error('wrong data type: expecting a xr.Dataset')
+            raise TypeError
 
         self.data = data
         self.snr = snr
