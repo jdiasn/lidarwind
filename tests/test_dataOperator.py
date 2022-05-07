@@ -21,7 +21,6 @@ def test_dataOperator_getRestructuredData_data():
     with pytest.raises(TypeError):
         lst.getRestructuredData(data=xr.DataArray(np.array([0,1])))
 
-
 def test_dataOperator_getResampled_xrDataArray_none():
 
     with pytest.raises(TypeError):

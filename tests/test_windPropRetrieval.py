@@ -4,6 +4,7 @@ import numpy as np
 
 import lidarSuit as lst
 
+
 def test_windPropRetrieval_ffWindPropRet_dopplerObs():
 
     with pytest.raises(TypeError):
