@@ -291,6 +291,7 @@ class getResampledData:
         ----------
         date: date for resampling (pandas Timestamp)
         dateFreq: resolution of the reference grid (str, default=1s)
+
         Returns
         -------
         timeRef: time reference grid (DatetimeIndex)
@@ -423,17 +424,19 @@ class dbsOperations:
 
     def __init__(self, fileList, varList):
         """
-        Parameters:
-        ------------
+        Parameters
+        ----------
+        fileList : list
+            list of DBS files
+        varList : list
+            list of variables to be extracted from the DBS files
 
-        fileList: list of DBS files
-        varList: list of variables to be extracted from the DBS files
+        Returns
+        -------
+        object
 
-        Returns:
-        --------
-
-        it returns an object containing an instance of the
-        merged files (.mergedDS)
+            it returns an object containing an instance of the
+            merged files (.mergedDS)
         """
 
         self.logger = logging.getLogger('lidarSuit.dataOperator.dbsOperations')

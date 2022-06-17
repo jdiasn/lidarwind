@@ -8,10 +8,13 @@ Welcome to LIDAR Suit's documentation!
    readme
    installation
    usage
-   modules
    contributing
    authors
-   history
+
+**Help & reference**
+
+* :doc:`api`
+* :doc:`history`
 
 Indices and tables
 ==================
