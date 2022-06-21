@@ -1,5 +1,5 @@
-"""
-Module for wrinting the attributes from the Level 1 data
+"""Module for wrinting the attributes from the Level 1 data
+
 """
 
 from .lstConfig import configurations
@@ -35,13 +35,10 @@ class loadAttributes:
         """Global attribute writer
 
         It loads and writes the global attributes from the Level 1 dataset.
-
         The global attributes are defiened in the configuration file.
-
-        See Also
-        --------
-        lstConfig.generateConf() documentation for information about generating
+        See lstConfig.generateConf documentation for information about generating
         the configuration file.
+        
         """
 
         configInfo = configurations(lst=None).loadConfFile()

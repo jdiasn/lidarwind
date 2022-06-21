@@ -12,14 +12,17 @@ Data Manager
 .. autosummary::
    :toctree: _autosummary
    
+   dataOperator.dataOperations
    dataOperator.dbsOperations
-
+   dataOperator.readProcessedData
+   dataOperator.getRestructuredData
 
 Data Attributes
 ===============
 
 .. autosummary::
-   :toctree: _autosummary
+   :toctree: _autosummary/
 
-   dataAttributesL1.loadAttributes  
+   dataAttributesL1.loadAttributes
+
 
