@@ -1,5 +1,5 @@
 ---
-title: 'A Framework to Quality Control Oceanographic Data'
+title: 'lidarSuit: A python package for retrieving wind profiles from Doppler lidar observations'
 
 tags:
   - Python
@@ -41,7 +41,7 @@ lidarSuit is a python package that allows retrieving horizontal wind speed and d
 
 # Acknowledgements
 
-This publication is part of the NWO Talent Scheme Vidi project CMTRACE with project number 192.050, financed by the Dutch Research Council (NWO). 
+This publication is part of the NWO Talent Scheme Vidi project CMTRACE with project number 192.050, financed by the Dutch Research Council (NWO). The authors thank Steven Knoop for suggesting improvements to the code. 
 
 
 # References
