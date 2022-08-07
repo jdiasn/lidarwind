@@ -113,7 +113,7 @@ class dataOperations:
 
     def renameVar90(self):
         """
-        It ranames the vertical coordinate
+        It renames the vertical coordinate
         """
 
         self.logger.info('renaming range coordinate from vertical measurements')
@@ -289,8 +289,7 @@ class getRestructuredData:
         -------
         object
             
-            an instance of the prepared for the retrieval and
-            patially filtered for the second trip echoes
+            an instance of the prepared for the retrieval 
             
         """
 
@@ -397,9 +396,45 @@ class getRestructuredData:
 
 
 class getResampledData:
+    """Basic data resample 
+    
+    This class is used to resample the data 
+    into a given temporal grid.
+    
+    It mainly used internal processings of 
+    the package.
+    
+    """
+    
 
     def __init__(self, xrDataArray: xr.DataArray, vertCoord = 'range',
                  timeFreq = '15s', tolerance=10, timeCoord = 'time'):
+        
+        """
+        Parameters:
+        -----------
+        xrDataArray : xr.DataArray
+            varaiable that will be resampled
+            
+        vertCoord : str
+            name of the vertical coordinate
+        
+        timeFreq : str
+            size of the window e.g.: '15s'
+            
+        tolerance : int
+            maximum separation from the reference
+            
+        timeCoord : str
+            name of the time coordinate
+            
+        return
+        ------
+        xr.DataArray
+        
+            time resampled variable
+        
+        """
 
         self.logger = logging.getLogger('lidarSuit.dataOperator.getResampledData')
         self.logger.info('creating an instance of getResampledData')
