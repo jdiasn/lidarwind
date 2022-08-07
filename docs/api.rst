@@ -25,4 +25,13 @@ Data Attributes
 
    dataAttributesL1.loadAttributes
 
+Filters
+=======
+
+.. autosummary::
+   :toctree: _autosummary/
+   
+   filters.filtering
+   filters.secondTripEchoFilter
+   filters.windCubeCloudRemoval
 
