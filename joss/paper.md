@@ -35,8 +35,10 @@ Several wind lidars are currently available on the market, but for some of them,
 
 # Statement of need 
 
+lidarSuit is a python package for retrieving horizontal wind speed and direction profiles from the non-predefined scanning strategy (e.g. 6beam, reference), and it also includes routines to process files from the standard Doppler beam swing strategy. This package was developed for retrieving wind profiles from the WindCube's NetCDF files output, but it can be extended to process other lidar's NetCDF output. lidarSuit reproduces the data filtering based on WindCube's manual [@windcube2020] and allows the user to define the signal-to-noise ratio threshold for filtering noise data. Two experimental filters to minimise the presence of second trip echoes on the observations are also included in the package.
 
-lidarSuit is a python package that allows retrieving horizontal wind speed and direction profiles from the non-predefined scanning strategy (e.g. 6beam), and it also includes routines to process files from the standard Doppler beam swing strategy. This package was initially developed for retrieving wind profiles from the WindCube's NetCDF files output, but it can be extended to other lidar's NetCDF output. lidarSuit reproduces the data filtering based on WindCube's manual [@windcube2020] and allows the user to define the signal-to-noise ratio threshold for filtering noise data. In addition, it was developed to be easy to use and flexible, allowing it to be used operationally to retrieve continuously wind profiles. Thanks to its flexibility, this package has been used for processing WindCube's data from the CMTRACE experiment [@diasneto2022a].
+
+lidarSuit was developed to be easy to use and flexible, allowing it to be used operationally to retrieve wind profiles continuously. Thanks to its flexibility, this package has been used for processing WindCube's data from the CMTRACE experiment[@diasneto2022a].
 
 
 # Acknowledgements
