@@ -1,3 +1,7 @@
+"""Module for keep all filtering functionalities
+
+"""
+
 import pandas as pd
 import numpy as np
 
