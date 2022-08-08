@@ -14,8 +14,31 @@ module_logger.debug('loading windPropRetrieval')
 
 
 class fftWindPropRet:
+    """FFT wind retrieval method
+        
+    It is a fft wind retrieval method. It was proposed 
+    by Ishwardat (2017). For more details see 
+    http://resolver.tudelft.nl/uuid:a659654b-e76a-4513-a656-ecad761bdbc8
+            
+    """
 
     def __init__(self, dopplerObs: xr.DataArray):
+        """
+        Parameters
+        ----------
+        dopplerObs : xarray.DataArray
+            It should be a DataArray of slanted Doppler velocity
+            observations as function of the azimuthal angle.
+            It must have a coordinate called azm.
+        
+        Returns
+        -------
+        xarray.Dataset 
+            A Dataset containing the horizontal wind speed 
+            and direction. It also includes the zonal and 
+            meridional wind components
+        
+        """
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
         self.logger.info('creating an instance of fftWindPropRet')
@@ -36,6 +59,11 @@ class fftWindPropRet:
         return None
 
     def getCompAmp(self):
+        """
+        It calculates the complex amplitudes from the 
+        first harmonic from the observations along the 
+        azm coordinate
+        """
 
         self.logger.info('calculating the complex amplitude')
 
@@ -44,6 +72,10 @@ class fftWindPropRet:
         return self
 
     def getPhase(self):
+        """
+        It calculates the phase of the first harmonic 
+        for retrieving wind direction
+        """
 
         self.logger.info('calculating the phase from the complex amplitude')
 
@@ -55,6 +87,10 @@ class fftWindPropRet:
         return self
 
     def getWindDir(self):
+        """
+        It calculates the wind direction based on the 
+        phase of the first harmonic
+        """
 
         self.logger.info('retrieving wind direction from the phase')
 
@@ -66,6 +102,9 @@ class fftWindPropRet:
         return self
 
     def getRadWindSpeed(self):
+        """
+        It calculates the wind speed using the first harmonic
+        """
 
         self.logger.info('calculating the radial wind speed from the complex amplitude')
 
@@ -77,6 +116,10 @@ class fftWindPropRet:
         return self
 
     def getHorWindSpeed(self):
+        """
+        It corrects the magnitude of the wind speed using
+        the elevation angle
+        """
 
         self.logger.info('retrieving the horizontal wind speed')
 
@@ -88,6 +131,11 @@ class fftWindPropRet:
         return self
 
     def getAzmWind(self, azm):
+        """
+        It retrieves the wind speed for a given azimuthal angle.
+        It cam be used to calculate the meridional and zonal wind
+        components
+        """
 
         self.logger.info('calculating wind speed for a give azimuth')
 
@@ -121,6 +169,10 @@ class fftWindPropRet:
         return self
 
     def windProp(self):
+        """
+        It creates the returned dataset containing 
+        the wind, direction, and components
+        """
 
         self.logger.info('creating a xarray dataset from the retrieved wind properties')
 
@@ -134,35 +186,53 @@ class fftWindPropRet:
 
 
 class getWindProperties5Beam:
+    """DBS wind retrieval
+    
+    This class caculates the wind speeed and direction
+    using the 5bean dataset (DBS files) as input.
+    
+    """
+    
 
     def __init__(self, data: xr.Dataset, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
 
         """
-        This class caculates the wind speeed and direction
-        using the 5bean dataset (DBS files) as input.
-
         Parameters
         ----------
 
-        data: merged xarray dataset (mergedDS) output from
-        lst.dbsOperations()
+        data: xarray.Dataset
+            merged xarray dataset (mergedDS) output from
+            lst.dbsOperations()
 
-        statusFilter: Data filtering based on the wind lidar
-        wind status variable. If True, all data with status not
-        equal to 1 are removed. If False, no filtering is applied.
+        statusFilter: bolean
+            Data filtering based on the wind lidar
+            wind status variable. If True, all data with status not
+            equal to 1 are removed. If False, no filtering is applied.
 
-        cnr: Filter based on the carrier to noise ratio.
-        If None, no filtering is applied. If a cnr value is given,
-        all data smaller than the cnr is removed.
+        cnr: int, optional
+            Filter based on the carrier to noise ratio.
+            If None, no filtering is applied. If a cnr value is given,
+            all data smaller than the cnr is removed.
+            
+        method: str
+            It can be 'single_dbs' (default) or 'continuous'.
+            If single_dbs: the wind information is retrieved
+            from comple sets of DBS profiles. If continuos:
+            it uses the nearest 4 observations to retrieve 
+            the wind information, a tolerance wind has to 
+            be specified.
+            
+        tolerance: str
+            It defines the tolerance window that the method will 
+            use for identify the nearest profile. Example: '8s'
+            for 8 seconds. 
 
-
-        Retunrs:
-        --------
-
-        This class returns an object containing the
-        derived wind speed (.horWindSpeed) and
-        direction (.horWindDir).
-
+        Returns
+        -------
+        object
+            This class returns an object containing the
+            derived wind speed (.horWindSpeed) and
+            direction (.horWindDir).
         """
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.getWindProperties5Beam')
@@ -215,7 +285,6 @@ class getWindProperties5Beam:
 
 
     def correctWindComp(self, comp):
-
         """
         This function replaces the gate_index coordinate
         by the measurement_height.
@@ -232,7 +301,6 @@ class getWindProperties5Beam:
 
 
     def correctVertWindComp(self):
-
         """
         This function replaces the original coordinate from the vertical
         wind component by the measurement_height.
@@ -248,7 +316,6 @@ class getWindProperties5Beam:
 
 
     def calcHorWindComp_single_dbs(self):
-
         """
         This method derives v and u components from the
         WindCube DBS files. The components are caculated
@@ -290,7 +357,6 @@ class getWindProperties5Beam:
 
 
     def calcHorWindComp_continuous(self):
-
         """
         Function to derive wind v and u components. 
         It folows the same approach used by the lidar software.
@@ -324,11 +390,8 @@ class getWindProperties5Beam:
 
 
     def calcHorWindSpeed(self):
-
-
         """
         Function to calculate the wind speed.
-
         """
 
         self.logger.info('calculating the horizontal wind speed using DBS observations')
@@ -345,11 +408,9 @@ class getWindProperties5Beam:
 
 
     def calcHorWindDir(self):
-
         """
         Function to derive wind direction. If folows the same 
         approach used by the lidar sftware. 
-
         """
 
         self.logger.info('retrieving the wind direction using DBS observation')
@@ -367,8 +428,28 @@ class getWindProperties5Beam:
 
 
 class retrieveWind:
+    """6 beam wind retrieval
+        
+    Wind retrieval based on the FFT method for
+    the 6 beam observations. 
+    """
 
     def __init__(self, transfdData: getRestructuredData):
+        """
+        Parameters
+        ----------
+        transfdData : object
+            An instance of the re-structured data, it 
+            should be preferentially filtered for artefacts.
+        
+        Returns
+        -------
+        object
+            An object containing an dataset of the retrieved wind 
+            speed, direction, wind components (meridional, zonal 
+            and vertical) and the relative beta
+        """
+        
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
         self.logger.info('creating an instance of fftWindPropRet')
@@ -386,6 +467,10 @@ class retrieveWind:
         return None
 
     def retHorWindData(self):
+        """
+        It applies the FFT based method to retrieve 
+        the horizontal wind information
+        """
 
         self.logger.info('retrieving horizontal wind from the 6 beam data')
 
@@ -399,6 +484,9 @@ class retrieveWind:
         return self
 
     def retVertWindData(self):
+        """
+        It copies the vertical wind from the observations
+        """
 
         self.logger.info('selecting the vertical wind observations')
 
@@ -410,6 +498,9 @@ class retrieveWind:
         return self
 
     def getBeta(self):
+        """
+        It copies the raw beta from the vertical observations
+        """
 
         self.logger.info('selcting beta from vertical observations')
 
@@ -420,6 +511,10 @@ class retrieveWind:
         return self
 
     def loadAttrs(self):
+        """
+        It loads the attributes from all variables
+        into the dataset
+        """
 
         self.logger.info('loading data attributes')
 

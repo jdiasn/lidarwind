@@ -34,4 +34,13 @@ Filters
    filters.filtering
    filters.secondTripEchoFilter
    filters.windCubeCloudRemoval
+   
+Wind Retrieval
+==============
+
+.. autosummary::
+    :toctree: _autosummary/
+    
+    windPropRetrieval.retrieveWind
+    windPropRetrieval.getWindProperties5Beam
 
