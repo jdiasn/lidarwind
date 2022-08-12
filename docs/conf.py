@@ -39,6 +39,11 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.napoleon']
 
 autosummary_generate = True
+autodoc_typehints = "none"
+
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
+napoleon_preprocess_types = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -134,9 +139,11 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass
 # [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'lidarSuit.tex',
+    (master_doc,
+     'lidarSuit.tex',
      'LIDAR Suit Documentation',
-     'Jose Dias', 'manual'),
+     'Jose Dias',
+     'manual'),
 ]
 
 
@@ -145,9 +152,11 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'lidarSuit',
+    (master_doc,
+     'lidarSuit',
      'LIDAR Suit Documentation',
-     [author], 1)
+     [author],
+     1)
 ]
 
 
