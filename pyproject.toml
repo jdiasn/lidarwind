@@ -43,6 +43,7 @@ dependencies = [
 
 [project.optional-dependencies]
 plots = ["matplotlib>=3.4.3"]
+dev = ["sphinx_rtd_theme==0.4.3"]
 
 [project.urls]
 homepage = "github.com/CMTRACE-team/lidarSuit"
