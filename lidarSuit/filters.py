@@ -12,19 +12,15 @@ class filtering:
     variables available in the WindCube's data. It is 
     similar to the filter described in the manual
     
+    Parameters
+    ----------
+    data : xrarray.Dataset
+        Dataset containing the original WindCube's data
+
     """
     
     
     def __init__(self, data):
-        
-        """
-        Parameters
-        ----------
-        data : xrarray.Dataset
-            Dataset containing the original WindCube's data
-        
-        """
-        
   
         self.data = data
         
@@ -52,9 +48,9 @@ class filtering:
             
         Returns
         -------
-        
-        It returns an instance of the variable filtered 
-        using SNR or status variable
+        tmpData : xarray.DataSet
+            an instance of the variable filtered using 
+            SNR or status variable
         
         """
     
@@ -99,12 +95,12 @@ class filtering:
             
         Returns
         -------
+        tmpaData : xarray.DataSet
         
-        It returns an instance of the variable filtered 
-        using SNR or status variable
+            an instance of the variable filtered using 
+            SNR or status variable
         
         """    
-    
     
         tmpData = self.data[variable]
     
@@ -125,7 +121,6 @@ class filtering:
         return tmpData
     
 
-
 # it removes the STE below cloud layer
 class secondTripEchoFilter:
     """Boundary layer second trip echoes filter
@@ -136,57 +131,49 @@ class secondTripEchoFilter:
     It is applicable in regions where there is a contrast
     between the real data and the STE.
     
+    Parameters
+    ----------
+    data : object
+        the object returned from the getRestructuredData
+
+    timeCloudMaks : xarray.DataArray
+        it is a time series for indicating the presence
+        of clouds above the maximum WinCube range. 
+        1 indicates cloud and 0 indicates no cloud.
+        (THIS MAKS IS NOT NEEDED NOW)
+
+    nProf : int
+        number of profiles used to calculating the anomaly
+
+    center : bool, optional
+        it defines how the mean value for the anomaly will 
+        be calculated
+
+    min_periods : int
+        minimum number of profiles used for calculating the 
+        mean value
+
+    nStd : int
+        Multiplication factor for defining the size of the 
+        window to keep the data. The filter removes any 
+        anomaly larger than nStd * std
+
+    strH : str
+        starting hour for calculating the anomaly
+
+    endH : str
+        end hour for calculating the anomaly
+
+    Returns
+    -------
+    object : object
+        an object containing data filtered for STE
+    
     """
 
     
     def __init__(self, data, timeCloudMask, nProf=500,
                  center=True, min_periods=30, nStd=2, strH='09', endH='16'):
-        
-        """
-        
-        Parameters
-        ----------
-        
-        data : object
-            the object returned from the getRestructuredData
-        
-        timeCloudMaks : xarray.DataArray
-            it is a time series for indicating the presence
-            of clouds above the maximum WinCube range. 
-            1 indicates cloud and 0 indicates no cloud.
-            (THIS MAKS IS NOT NEEDED NOW)
-            
-        nProf : int
-            number of profiles used to calculating the anomaly
-        
-        center : bool, optional
-            it defines how the mean value for the anomaly will 
-            be calculated
-        
-        min_periods : int
-            minimum number of profiles used for calculating the 
-            mean value
-        
-        nStd : int
-            Multiplication factor for defining the size of the 
-            window to keep the data. The filter removes any 
-            anomaly larger than nStd * std
-        
-        strH : str
-            starting hour for calculating the anomaly
-             
-        endH : str
-            end hour for calculating the anomaly
-        
-        Returns
-        -------
-        
-        object
-            
-            an object containing data filtered for STE
-        
-
-        """
         
         self.lidar = data
         # self.timeCloudMask = timeCloudMask
@@ -207,6 +194,15 @@ class secondTripEchoFilter:
     def getTimeEdges(self, strH='09', endH='16'):
         """
         It creates the time boundaries for the STD anomaly calculation
+        
+        Parameters
+        ----------
+        strH : str
+            starting hour for calculating the anomaly
+
+        endH : str
+            end hour for calculating the anomaly
+            
         """
 
         selTime = pd.to_datetime(self.lidar.dataTransf.time.values[0])
@@ -317,29 +313,26 @@ class windCubeCloudRemoval:
     and clouds from regions above the boundary layer. It
     requires information from the ceilometer.
     IT IS STILL EXPERIMENTAL 
+    
+    Parameters
+    ----------
+    ceilo : xarray.Dataset
+        A dataset of the CHM15k Nimbus ceilometer observations.
+
+    lidar : xarray.Dataset
+        An instance of the re-structured WindCube dataset
+
+    Returns
+    -------
+    object : object
+        an object containing an instance of the noise
+        height interface and the re-structured dataset 
+        filtered for STE and clouds.
+    
     """
 
 
     def __init__(self, ceilo, lidar=None):
-        """
-        
-        Parameters
-        ----------
-        ceilo : xarray.Dataset
-            A dataset of the CHM15k Nimbus ceilometer observations.
-        
-        lidar : xarray.Dataset
-            An instance of the re-structured WindCube dataset
-        
-        Returns
-        -------
-        object 
-            
-            an object containing an instance of the noise
-            height interface and the re-structured dataset 
-            filtered for STE and clouds.
-        
-        """
 
         self.lidar = lidar
         self.ceilo = ceilo

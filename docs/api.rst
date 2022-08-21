@@ -6,24 +6,24 @@ API reference
 
 The public API resources are listed below.
 
+Basic data reader
+=================
+
+.. autosummary::
+    :toctree: _autosummary
+    
+    lidar_code.getLidarData
+
 Data Manager
 ============
 
 .. autosummary::
-   :toctree: _autosummary
+   :toctree: _autosummary/
    
    dataOperator.dataOperations
-   dataOperator.dbsOperations
    dataOperator.readProcessedData
    dataOperator.getRestructuredData
-
-Data Attributes
-===============
-
-.. autosummary::
-   :toctree: _autosummary/
-
-   dataAttributesL1.loadAttributes
+   dataOperator.dbsOperations
 
 Filters
 =======
@@ -44,3 +44,26 @@ Wind Retrieval
     windPropRetrieval.retrieveWind
     windPropRetrieval.getWindProperties5Beam
 
+Turbulence estimation
+=====================
+
+.. autosummary::
+    :toctree: _autosummary/
+
+    windPropRetrieval6Beam.sixBeamMethod
+    
+Data Attributes
+===============
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   dataAttributesL1.loadAttributes
+   
+Global Attributes Definitions
+=============================
+
+.. autosummary::
+   :toctree: _autosummary/
+   
+   lstConfig.configurations

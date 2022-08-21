@@ -5,20 +5,19 @@
 import json
 
 class configurations:
-    """Global attributes deffinition
+    """Global attributes definition
     
     This class defines all global attributes 
     that will be writen on the dataset
     
+    Parameters
+    ----------
+    lst : object
+        an instance of the lidarSuit package
+
     """
     
     def __init__(self, lst=None):
-        """
-        Parameter
-        ---------
-        lst : object
-            an instance of the lidarSuit package
-        """
         
         self.loadVersion(lst)
         self.loadReference()
@@ -35,6 +34,12 @@ class configurations:
         """
         It identifies the lidarSuit version
         and writes it to the configuration file
+        
+        Parameters
+        ----------
+        lst : object
+            a instance of the lidarSuit package
+        
         """
         
         if lst == None:
@@ -47,6 +52,12 @@ class configurations:
     def loadInstitution(self, institution='institution name'):
         """
         It defines the institution affiliation name
+        
+        Parameters
+        ----------
+        institution : str
+            institution name
+        
         """
         
         self.institution = institution
@@ -56,6 +67,12 @@ class configurations:
     def loadInstrument(self, instrument='instrument name'):
         """
         It defines the instrument name
+        
+        Parameters
+        ----------
+        instrument : str
+            name of the instrument used during the experiment
+        
         """
 
         self.instrument = instrument
@@ -65,6 +82,12 @@ class configurations:
     def loadSite(self, site='site name'):
         """
         It defines the name of the experimental site
+        
+        Parameters
+        ----------
+        site : str
+            name of the experimental site
+        
         """
 
         self.site = site
@@ -74,6 +97,12 @@ class configurations:
     def loadContact(self, contact='contact person'):
         """
         It defines the author's name
+        
+        Parameters
+        ----------
+        contact : str
+            name of the contact person
+            
         """
 
         self.contact = contact
@@ -83,6 +112,12 @@ class configurations:
     def loadEmail(self, email='contact email'):
         """
         It defines the contacting email
+        
+        Parameters
+        ----------
+        email : str
+            contact email
+
         """
         self.email = email
 
@@ -92,6 +127,12 @@ class configurations:
         """
         It loads the lidarSuit's version used for
         processing the data
+        
+        Parameters
+        ----------
+        reference : str
+            lidarSuit version used to process the data
+
         """
 
         self.references = reference.format(self.lstVersion)
@@ -101,6 +142,12 @@ class configurations:
     def loadComments(self, comments='General comments'):
         """
         It defines additional comments
+        
+        Parameters
+        ----------
+        comments : str
+            additional comments
+        
         """
         self.comments = comments
         
@@ -109,6 +156,7 @@ class configurations:
     def generateConf(self):
         """
         It writes and saves all defined global attributes.
+        
         """
 
         configDic = {}
@@ -132,6 +180,12 @@ class configurations:
         """
         It loads the pre-defined global attributes
         from the config.json, if it exists. 
+        
+        Parameters
+        ----------
+        filePath : str
+            the path to the configuration file (config.json)
+        
         """
         
         try:

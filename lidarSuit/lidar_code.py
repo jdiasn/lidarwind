@@ -14,16 +14,16 @@ class getLidarData:
     
     It opens and reads the original NetCDF output
     from the Windcube lidar
+    
+    Parameters
+    ----------
+
+    fileName : str
+        name of the file that will be open
+    
     """
     
     def __init__(self, fileName):
-        """
-        Parameter
-        ---------
-        
-        fileName : str
-            name of the file that will be open
-        """
 
         self.fileName = fileName
 
@@ -33,6 +33,12 @@ class getLidarData:
 
         """
         Function to read the lidar NetCDF files
+        
+        Returns
+        -------
+        tmpData : xarray.DataSet
+        
+            a dataset from the original NetCDF files
         """
 
         tmpData = xr.open_dataset(self.fileName)

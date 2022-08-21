@@ -19,26 +19,24 @@ class fftWindPropRet:
     It is a fft wind retrieval method. It was proposed 
     by Ishwardat (2017). For more details see 
     http://resolver.tudelft.nl/uuid:a659654b-e76a-4513-a656-ecad761bdbc8
-            
+    
+    Parameters
+    ----------
+    dopplerObs : xarray.DataArray
+        It should be a DataArray of slanted Doppler velocity
+        observations as function of the azimuthal angle.
+        It must have a coordinate called azm.
+
+    Returns
+    -------
+    windProp : xarray.Dataset 
+        A Dataset containing the horizontal wind speed 
+        and direction. It also includes the zonal and 
+        meridional wind components
+         
     """
 
     def __init__(self, dopplerObs: xr.DataArray):
-        """
-        Parameters
-        ----------
-        dopplerObs : xarray.DataArray
-            It should be a DataArray of slanted Doppler velocity
-            observations as function of the azimuthal angle.
-            It must have a coordinate called azm.
-        
-        Returns
-        -------
-        xarray.Dataset 
-            A Dataset containing the horizontal wind speed 
-            and direction. It also includes the zonal and 
-            meridional wind components
-        
-        """
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
         self.logger.info('creating an instance of fftWindPropRet')
@@ -56,6 +54,7 @@ class fftWindPropRet:
         self.getWindDir()
         self.getWindConpU()
         self.getWindConpV()
+        
         return None
 
     def getCompAmp(self):
@@ -135,6 +134,12 @@ class fftWindPropRet:
         It retrieves the wind speed for a given azimuthal angle.
         It cam be used to calculate the meridional and zonal wind
         components
+        
+        Parameters
+        ----------
+        azm : float
+            an azimuth for retrieving the wind
+        
         """
 
         self.logger.info('calculating wind speed for a give azimuth')
@@ -145,6 +150,10 @@ class fftWindPropRet:
         return azmHorWind
 
     def getWindConpU(self):
+        """
+        It retrives the zonal wind component
+        """
+        
 
         self.logger.info('retrieving the zonal wind speed component')
 
@@ -157,6 +166,9 @@ class fftWindPropRet:
         return self
 
     def getWindConpV(self):
+        """
+        It retrieves the meridional wind component
+        """
 
         self.logger.info('retrieving the meridional wind speed component')
 
@@ -190,50 +202,47 @@ class getWindProperties5Beam:
     
     This class caculates the wind speeed and direction
     using the 5bean dataset (DBS files) as input.
-    
+
+    Parameters
+    ----------
+    data : xarray.Dataset
+        merged xarray dataset (mergedDS) output from
+        lst.dbsOperations()
+
+    statusFilter : bolean
+        Data filtering based on the wind lidar
+        wind status variable. If True, all data with status not
+        equal to 1 are removed. If False, no filtering is applied.
+
+    cnr : int, optional
+        Filter based on the carrier to noise ratio.
+        If None, no filtering is applied. If a cnr value is given,
+        all data smaller than the cnr is removed.
+
+    method : str
+        It can be 'single_dbs' (default) or 'continuous'.
+        If single_dbs: the wind information is retrieved
+        from comple sets of DBS profiles. If continuos:
+        it uses the nearest 4 observations to retrieve 
+        the wind information, a tolerance wind has to 
+        be specified.
+
+    tolerance : str
+        It defines the tolerance window that the method will 
+        use for identify the nearest profile. Example: '8s'
+        for 8 seconds. 
+
+    Returns
+    -------
+    object : object
+        This class returns an object containing the
+        derived wind speed (.horWindSpeed) and
+        direction (.horWindDir).
+
     """
     
 
     def __init__(self, data: xr.Dataset, statusFilter=True, cnr=None, method='single_dbs', tolerance='8s'):
-
-        """
-        Parameters
-        ----------
-
-        data: xarray.Dataset
-            merged xarray dataset (mergedDS) output from
-            lst.dbsOperations()
-
-        statusFilter: bolean
-            Data filtering based on the wind lidar
-            wind status variable. If True, all data with status not
-            equal to 1 are removed. If False, no filtering is applied.
-
-        cnr: int, optional
-            Filter based on the carrier to noise ratio.
-            If None, no filtering is applied. If a cnr value is given,
-            all data smaller than the cnr is removed.
-            
-        method: str
-            It can be 'single_dbs' (default) or 'continuous'.
-            If single_dbs: the wind information is retrieved
-            from comple sets of DBS profiles. If continuos:
-            it uses the nearest 4 observations to retrieve 
-            the wind information, a tolerance wind has to 
-            be specified.
-            
-        tolerance: str
-            It defines the tolerance window that the method will 
-            use for identify the nearest profile. Example: '8s'
-            for 8 seconds. 
-
-        Returns
-        -------
-        object
-            This class returns an object containing the
-            derived wind speed (.horWindSpeed) and
-            direction (.horWindDir).
-        """
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.getWindProperties5Beam')
         self.logger.info('creating an instance of getWindProperties5Beam')
@@ -289,6 +298,17 @@ class getWindProperties5Beam:
         This function replaces the gate_index coordinate
         by the measurement_height.
         (For any component)
+        
+        Parameters
+        ----------
+        comp : xarray.DataArray
+            a variable from the original dataset
+        
+        Returns
+        -------
+        comp : xarray.DataArray
+            updated variable
+        
         """
 
         self.logger.info('replacing the gate_index coordinate by range: {0}'.format(comp.name))
@@ -432,24 +452,23 @@ class retrieveWind:
         
     Wind retrieval based on the FFT method for
     the 6 beam observations. 
+    
+    Parameters
+    ----------
+    transfdData : object
+        An instance of the re-structured data, it 
+        should be preferentially filtered for artefacts.
+
+    Returns
+    -------
+    object : object
+        An object containing an dataset of the retrieved wind 
+        speed, direction, wind components (meridional, zonal 
+        and vertical) and the relative beta    
+    
     """
 
     def __init__(self, transfdData: getRestructuredData):
-        """
-        Parameters
-        ----------
-        transfdData : object
-            An instance of the re-structured data, it 
-            should be preferentially filtered for artefacts.
-        
-        Returns
-        -------
-        object
-            An object containing an dataset of the retrieved wind 
-            speed, direction, wind components (meridional, zonal 
-            and vertical) and the relative beta
-        """
-        
 
         self.logger = logging.getLogger('lidarSuit.windPropRetrieval.fftWindPropRet')
         self.logger.info('creating an instance of fftWindPropRet')
