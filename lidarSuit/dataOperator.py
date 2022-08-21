@@ -26,8 +26,8 @@ class dataOperations:
     """Basic data manager
     
     It performs some basic operations. For example: rounds 
-    the values from the azimuth coordinate and identifies
-    that vertically from the slanted observations. 
+    the values from the azimuth coordinate and separates
+    the vertical observations from the slanted observations. 
     
     It is helpful first use this class to process all data 
     and then save the data as NetCDF files to speed up the 
