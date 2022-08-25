@@ -1,3 +1,7 @@
+"""Module to open the lidar original output
+
+"""
+
 # code to open lidar files
 # by José Dias Neto, 17.03.2021
 #
@@ -6,7 +10,19 @@ import xarray as xr
 
 
 class getLidarData:
+    """Windcube's data reader
+    
+    It opens and reads the original NetCDF output
+    from the Windcube lidar
+    
+    Parameters
+    ----------
 
+    fileName : str
+        name of the file that will be open
+    
+    """
+    
     def __init__(self, fileName):
 
         self.fileName = fileName
@@ -16,7 +32,13 @@ class getLidarData:
     def openLidarFile(self):
 
         """
-        Function to read the lidar netCDF files
+        Function to read the lidar NetCDF files
+        
+        Returns
+        -------
+        tmpData : xarray.DataSet
+        
+            a dataset from the original NetCDF files
         """
 
         tmpData = xr.open_dataset(self.fileName)
