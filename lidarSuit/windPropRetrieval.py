@@ -150,14 +150,17 @@ class fftWindPropRet:
         return azmHorWind
 
     def getWindConpU(self):
+
         """
         It retrives the zonal wind component
+        the -1 multiplication is for comply with the
+        conventions used in meteorology 
         """
-        
+
 
         self.logger.info('retrieving the zonal wind speed component')
 
-        self.compU = self.getAzmWind(0)
+        self.compU = self.getAzmWind(0) * -1
         # self.compU.name = 'compU'
         # self.compU.attrs = {'standard_name': 'retrived_u_component',
         #                     'units': 'm s-1',
@@ -166,13 +169,16 @@ class fftWindPropRet:
         return self
 
     def getWindConpV(self):
+
         """
         It retrieves the meridional wind component
+        the -1 multiplication is for comply with the
+        conventions used in meteorology 
         """
 
         self.logger.info('retrieving the meridional wind speed component')
 
-        self.compV = self.getAzmWind(90)
+        self.compV = self.getAzmWind(90) * -1
         # self.compV.name = 'compV'
         # self.compV.attrs = {'standard_name': 'retrived_v_component',
         #                     'units': 'm s-1',

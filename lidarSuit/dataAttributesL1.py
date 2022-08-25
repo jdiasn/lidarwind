@@ -100,12 +100,12 @@ class loadAttributes:
         attrsDic['zonal_wind']=\
             {'standard_name':'zonal_wind',
              'units':'m/s',
-             'comments': 'zonal wind retrived using the FFT method (positive if it blows from the west)'}
+             'comments': 'zonal wind retrived using the FFT method'}
 
         attrsDic['meridional_wind']=\
             {'standard_name':'meridional_wind',
              'units':'m/s',
-             'comments': 'meridional wind retrived using the FFT method (positive if it blows from the shouth)'}
+             'comments': 'meridional wind retrived using the FFT method'}
 
         attrsDic['vertical_wind_speed']=\
             {'standard_name':'vertical_wind_speed',
