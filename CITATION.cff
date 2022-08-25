@@ -1,0 +1,17 @@
+cff-version: 1.1.0
+message: If you use this software, please cite it using these metadata.
+title: 'A python package for retrieving wind profiles from Doppler lidar observations'
+authors:
+- given-names: José
+  family-names: Dias Neto
+  affiliation: Delft University of Technology - The Netherlands
+  orcid: https://orcid.org/0000-0002-8488-8486
+- given-names: Guilherme
+  family-names: Castelao
+  affiliation: Scripps Institution of Oceanography - UC San Diego
+  orcid: https://orcid.org/0000-0002-6765-0708
+version: 
+doi: 
+date-released: 
+repository-code: https://github.com/jdiasn/lidarSuit
+license: BSD-3 Clause

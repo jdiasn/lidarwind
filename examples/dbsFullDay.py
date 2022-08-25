@@ -51,7 +51,7 @@ def getHourlyPathList(path, parameters):
 
 def getDaylyDS(parameters):
     """
-    This function gives a daly merged dataset cotaining 
+    This function gives a daily merged dataset cotaining
     all variables required for derivbing wind speed and 
     direction from a given set of parameters
     """
