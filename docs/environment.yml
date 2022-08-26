@@ -1,0 +1,12 @@
+name: lidarSuit
+
+dependencies:
+ - python=3.8
+ - numpy
+ - xrft
+ - xarray
+ - pandas
+ - matplotlib
+ - pip
+ - pip:
+     - lidarSuit
