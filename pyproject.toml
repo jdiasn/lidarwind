@@ -47,8 +47,9 @@ dev = ["sphinx_rtd_theme==0.4.3"]
 test = ["pytest"]
 
 [project.urls]
-homepage = "github.com/CMTRACE-team/lidarSuit"
-repository = "github.com/CMTRACE-team/lidarSuit'"
+homepage = "https://github.com/jdiasn/lidarSuit"
+repository = "https://github.com/jdiasn/lidarSuit"
+documentation = "https://lidarSuit.readthedocs.io"
 
 [project.scripts]
 "lidarSuit" = "lidarSuit.cli:main"
