@@ -23,4 +23,4 @@ This current version focuses on the WindCube's observations, and the wind retrie
 Documentation
 =============
 
-The lidarSuit's documentation is available at ADD_URL, and an introductory set of notebooks are available at ADD_URL
+The lidarSuit's documentation is available at https://lidarsuit.readthedocs.io, and an introductory set of notebooks are available at ADD_URL
