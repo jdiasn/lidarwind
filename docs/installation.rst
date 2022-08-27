@@ -12,7 +12,7 @@ To install LIDAR Suit, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install lidar_suit
+    $ pip install lidarSuit
 
 This is the preferred method to install LIDAR Suit, as it will always install the most recent stable release.
 
@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/jdiasn/lidar_suit
+    $ git clone git://github.com/jdiasn/lidarSuit
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl -OJL https://github.com/jdiasn/lidar_suit/tarball/master
+    $ curl -OJL https://github.com/jdiasn/lidarSuit/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/jdiasn/lidar_suit
-.. _tarball: https://github.com/jdiasn/lidar_suit/tarball/master
+.. _Github repo: https://github.com/jdiasn/lidarSuit
+.. _tarball: https://github.com/jdiasn/lidarSuit/tarball/master
