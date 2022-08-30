@@ -6,7 +6,7 @@ lidarSuit
    :target: https://zenodo.org/badge/latestdoi/355915578
 
 .. image:: https://mybinder.org/badge_logo.svg
- :target: https://mybinder.org/v2/gh/jdiasn/lidarSuit/main?labpath=%2Fdocs%2Fnotebooks
+   :target: https://mybinder.org/v2/gh/jdiasn/lidarSuit/main?labpath=docs%2Fnotebooks
 
 .. image:: https://readthedocs.org/projects/lidarsuit/badge/?version=latest
     :target: https://lidarsuit.readthedocs.io/en/latest/?badge=latest
