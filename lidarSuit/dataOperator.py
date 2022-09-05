@@ -84,9 +84,9 @@ class dataOperations:
 
             try:
                 tmpFile = getLidarData(filePath).openLidarFile()
-                self.logger.debug('reading file: {0}'.format(file))
+                self.logger.debug('reading file: {0}'.format(filePath))
             except:
-                self.logger.warning('This file has a problem: {0}'.format(file))
+                self.logger.warning('This file has a problem: {0}'.format(filePath))
 
             try:
                 elevation = tmpFile.elevation.round(1)
