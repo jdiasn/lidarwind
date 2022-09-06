@@ -27,3 +27,10 @@ Documentation
 =============
 
 The lidarSuit's documentation is available at https://lidarsuit.readthedocs.io, and an introductory set of notebooks are available at https://nbviewer.org/github/jdiasn/lidarSuit/tree/main/docs/notebooks/.
+
+
+==========
+Suggestion
+==========
+
+If you want to try using this package without instaling first, you can do it by clicking on the binder badge.
