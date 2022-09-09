@@ -6,6 +6,13 @@ channels:
 
 dependencies:
  - python=3.8
+ - xarray=2022.3.0
+ - xrft=0.4.1
+ - pandas=1.4.2
+ - numpy=1.22.3
+ - netCDF4=1.5.8
+ - matplotlib=3.5.1
+ - click=8.1.2
  - pip
  - pip:
      - lidarSuit

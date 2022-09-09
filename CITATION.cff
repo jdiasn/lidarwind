@@ -10,8 +10,7 @@ authors:
   family-names: Castelao
   affiliation: Scripps Institution of Oceanography - UC San Diego
   orcid: https://orcid.org/0000-0002-6765-0708
-version: 
-doi: 
-date-released: 
+version: 0.1.4
+doi: 10.5281/zenodo.7026548
 repository-code: https://github.com/jdiasn/lidarSuit
-license: BSD-3 Clause
+license: BSD-3-Clause
