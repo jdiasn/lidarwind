@@ -2,8 +2,8 @@
 lidarSuit
 =========
 
-.. image:: https://zenodo.org/badge/355915578.svg
-   :target: https://zenodo.org/badge/latestdoi/355915578
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7026548.svg
+   :target: https://doi.org/10.5281/zenodo.7026548
 
 .. image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/jdiasn/lidarSuit/main?labpath=docs%2Fnotebooks
