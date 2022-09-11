@@ -2,6 +2,9 @@
 lidarSuit
 =========
 
+.. image:: https://joss.theoj.org/papers/28430a0c6a79e6d1ff33579ff13458f7/status.svg
+   :target: https://raw.githubusercontent.com/openjournals/joss-papers/joss.04715/joss.04715/10.21105.joss.04715.pdf
+
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7026548.svg
    :target: https://doi.org/10.5281/zenodo.7026548
 
