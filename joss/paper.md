@@ -33,17 +33,17 @@ bibliography: paper.bib
 
 Wind is one of the essential components of the atmospheric system, modulating precipitation on larger scales,
 transporting moisture and heat, and contributing to dispersing aerosols. Due to the urgent need to replace
-fossil fuel-based power plants with systems based on renewable energy sources, the wind has become one of
+fossil fuel-based power plants with systems based on renewable energy sources, wind has become one of
 the primary energy sources. Understanding wind variability is imperative for improving numerical weather
 prediction models and for planning wind farms. However, the number of currently available wind observations
 is still limited, and most of the available observations are from radiosondes or meteorological towers (met-towers).
 Those observational systems are restricted to a particular time (radiosondes) or height (met-towers).
-Wind lidars have been used to minimise those limitations, allowing monitoring of wind constantly from near
+Wind lidar has been used to minimise those limitations, allowing monitoring of wind constantly from near
 the surface up to, for example, 5 km.
 
 Several wind lidar models are commercially available, but their operating software is often proprietary.
 Although different scanning strategies for retrieving wind exist, for example, the  Doppler beam swing
-(DBS, [@vanZandt2000]), the velocity azimuth display (VAD,  [@lhermitte1962; @eberhard1989]) and the
+[DBS, [@vanZandt2000]], the velocity azimuth display [VAD,  [@lhermitte1962; @eberhard1989]] and the
 6-beam introduced by [@sathe2015] most of the lidar operating software provides horizontal wind speed
 and direction profile retrievals for the DBS and VAD scanning strategies. However, the retrievals of
 horizontal wind profiles are unavailable if the lidar is set to scan using the 6-beam strategy. In addition,
@@ -54,7 +54,7 @@ different structures.
 
 lidarSuit is a python package for retrieving horizontal wind speed and direction profiles from the
 6-beam scanning strategy but also includes routines for retrieving wind profiles from the DBS. This
-package was developed for retrieving wind profiles from WindCube's NetCDF files output, but it can be
+package was developed for retrieving wind profiles from WindCube's NetCDF output, but it can be
 extended to process NetCDF output from other Doppler lidar systems. lidarSuit reproduces the data
 filtering described in WindCube's manual [@windcube2020] and allows the user to define the signal-to-noise
 ratio threshold for filtering noisy measurements or using the status variable. In addition, two experimental
