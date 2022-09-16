@@ -93,17 +93,21 @@ class fftWindPropRet:
         return self
 
     def getWindDir(self):
-        """
+        """Wind direction calculation
+
         It calculates the wind direction based on the
         phase of the first harmonic
         """
 
         self.logger.info("retrieving wind direction from the phase")
 
-        self.windDir = self.phase + 180
-        # self.windDir.attrs = {'standard_name': 'retrived_wind_direction',
-        #                       'units': 'deg',
-        #                       'comments': 'wind direction retrived using the FFT method'}
+        self["windDir"] = self.phase + 180
+        self["windDir"].attrs = {
+            "long_name": "Wind direction",
+            "standard_name": "wind_from_direction",
+            "units": "degree",
+            "comments": "wind direction retrived using the FFT method.",
+        }
 
         return self
 
