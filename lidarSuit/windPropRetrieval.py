@@ -71,17 +71,19 @@ class fftWindPropRet:
         return self
 
     def getPhase(self):
-        """
-        It calculates the phase of the first harmonic 
-        for retrieving wind direction
+        """First harmonic phase of wind direction
+        
+        It calculates the phase of the first harmonic from the complex
+        amplitude of the retrieving wind direction, i.e. compAmp.
         """
 
         self.logger.info('calculating the phase from the complex amplitude')
 
-        self.phase = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))
-        # self.phase.attrs = {'standard_name': 'retrived_phase',
-        #                       'units': 'deg',
-        #                       'comments': 'phase derived using the FFT method'}
+        self["phase"] = -np.rad2deg(np.arctan2(self.compAmp.imag, self.compAmp.real))
+        
+        self["phase"].attrs = {'long_name': 'Retrived phase',
+                               'units': 'deg',
+                               'comments': 'Phase derived from compAmp variable using the FFT method.'}
 
         return self
 
