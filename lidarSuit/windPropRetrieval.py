@@ -81,11 +81,11 @@ class fftWindPropRet:
 
         self.logger.info("calculating the phase from the complex amplitude")
 
-        self["phase"] = -np.rad2deg(
+        self.phase = -np.rad2deg(
             np.arctan2(self.compAmp.imag, self.compAmp.real)
         )
 
-        self["phase"].attrs = {
+        self.phase.attrs = {
             "long_name": "Retrived phase",
             "units": "degree",
             "comments": "Phase derived from compAmp variable using the FFT method.",
@@ -102,8 +102,8 @@ class fftWindPropRet:
 
         self.logger.info("retrieving wind direction from the phase")
 
-        self["windDir"] = self.phase + 180
-        self["windDir"].attrs = {
+        self.windDir = self.phase + 180
+        self.windDir.attrs = {
             "long_name": "Wind direction",
             "standard_name": "wind_from_direction",
             "units": "degree",
