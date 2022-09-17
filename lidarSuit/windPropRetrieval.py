@@ -59,7 +59,8 @@ class fftWindPropRet:
         return None
 
     def getCompAmp(self):
-        """
+        """First harmonic amplitude
+
         It calculates the complex amplitudes from the
         first harmonic from the observations along the
         azm coordinate
@@ -72,10 +73,10 @@ class fftWindPropRet:
         return self
 
     def getPhase(self):
-        """First harmonic phase of wind direction
+        """First harmonic phase
 
         It calculates the phase of the first harmonic from the complex
-        amplitude of the retrieving wind direction, i.e. compAmp.
+        amplitude used for retrieving wind direction, i.e. compAmp.
         """
 
         self.logger.info("calculating the phase from the complex amplitude")
@@ -86,7 +87,7 @@ class fftWindPropRet:
 
         self["phase"].attrs = {
             "long_name": "Retrived phase",
-            "units": "deg",
+            "units": "degree",
             "comments": "Phase derived from compAmp variable using the FFT method.",
         }
 
@@ -106,13 +107,14 @@ class fftWindPropRet:
             "long_name": "Wind direction",
             "standard_name": "wind_from_direction",
             "units": "degree",
-            "comments": "wind direction retrived using the FFT method.",
+            "comments": "Wind direction retrived using the FFT method.",
         }
 
         return self
 
     def getRadWindSpeed(self):
-        """
+        """Wind speed calculation
+
         It calculates the wind speed using the first harmonic
         """
 
@@ -123,14 +125,18 @@ class fftWindPropRet:
         self.radWindSpeed = (
             2 * np.abs(self.compAmp) / self.dopplerObs.azm.shape[0]
         )
-        # self.radWindSpeed.attrs = {'standard_name': 'retrived_radial_wind_velocity',
-        #                            'units': 'm s-1',
-        #                            'comments': 'radial wind velocity retrived using the FFT method'}
+
+        self.radWindSpeed.attrs = {
+            "long_name": "wind speed not corrected for the elevation",
+            "units": "m s-1",
+            "comments": "Radial wind velocity retrived using the FFT method not corrected for the elevation.",
+        }
 
         return self
 
     def getHorWindSpeed(self):
-        """
+        """Wind speed elevation correction
+
         It corrects the magnitude of the wind speed using
         the elevation angle
         """
@@ -140,14 +146,19 @@ class fftWindPropRet:
         self.horWindSpeed = self.radWindSpeed / np.cos(
             np.deg2rad(self.dopplerObs.elv)
         )
-        # self.horWindSpeed.attrs = {'standard_name': 'retrived_horizontal_wind_velocity',
-        #                            'units': 'm s-1',
-        #                            'comments': 'horizontal wind velocity retrived using the FFT method'}
+
+        self.horWindSpeed.attrs = {
+            "long_name": "horizontal wind speed",
+            "standard_name": "wind_speed",
+            "units": "m s-1",
+            "comments": "Horizontal wind velocity retrived using the FFT method corrected for the elevation.",
+        }
 
         return self
 
     def getAzmWind(self, azm):
-        """
+        """Wind speed for a given azimuth
+
         It retrieves the wind speed for a given azimuthal angle.
         It cam be used to calculate the meridional and zonal wind
         components
@@ -156,7 +167,6 @@ class fftWindPropRet:
         ----------
         azm : float
             an azimuth for retrieving the wind
-
         """
 
         self.logger.info("calculating wind speed for a give azimuth")
@@ -169,8 +179,8 @@ class fftWindPropRet:
         return azmHorWind
 
     def getWindConpU(self):
+        """Zonal wind calculation
 
-        """
         It retrives the zonal wind component
         the -1 multiplication is for comply with the
         conventions used in meteorology
@@ -179,16 +189,18 @@ class fftWindPropRet:
         self.logger.info("retrieving the zonal wind speed component")
 
         self.compU = self.getAzmWind(0) * -1
-        # self.compU.name = 'compU'
-        # self.compU.attrs = {'standard_name': 'retrived_u_component',
-        #                     'units': 'm s-1',
-        #                     'comments': 'u wind component retrieved using the FFT method'}
+        self.compU.name = "compU"
+        self.compU.attrs = {
+            "long_name": "Zonal wind component",
+            "units": "m s-1",
+            "comments": "Zonal wind component retrieved using the FFT method.",
+        }
 
         return self
 
     def getWindConpV(self):
+        """Meridional wind calculation
 
-        """
         It retrieves the meridional wind component
         the -1 multiplication is for comply with the
         conventions used in meteorology
@@ -197,17 +209,20 @@ class fftWindPropRet:
         self.logger.info("retrieving the meridional wind speed component")
 
         self.compV = self.getAzmWind(90) * -1
-        # self.compV.name = 'compV'
-        # self.compV.attrs = {'standard_name': 'retrived_v_component',
-        #                     'units': 'm s-1',
-        #                     'comments': 'v wind component retrieved using the FFT method'}
+        self.compV.name = "compV"
+        self.compV.attrs = {
+            "long_name": "Meridional wind component",
+            "units": "m s-1",
+            "comments": "Meridional wind component retrieved using the FFT method.",
+        }
 
         return self
 
     def windProp(self):
-        """
-        It creates the returned dataset containing
-        the wind, direction, and components
+        """Wind dataset
+
+        It creates and returnes a dataset containing
+        the wind speed, direction, and components
         """
 
         self.logger.info(
