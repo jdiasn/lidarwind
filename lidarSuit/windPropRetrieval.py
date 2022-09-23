@@ -56,8 +56,6 @@ class fftWindPropRet:
         self.getWindConpU()
         self.getWindConpV()
 
-        return None
-
     def getCompAmp(self):
         """First harmonic amplitude
 
@@ -345,8 +343,6 @@ class getWindProperties5Beam:
         self.calcHorWindSpeed()
         self.calcHorWindDir()
 
-        return None
-
     def correctWindComp(self, comp):
         """
         This function replaces the gate_index coordinate
@@ -439,8 +435,6 @@ class getWindProperties5Beam:
 
         self.compV = self.correctWindComp(self.compV)
         self.compU = self.correctWindComp(self.compU)
-
-        return None
 
     def calcHorWindComp_continuous(self):
         """
@@ -559,8 +553,6 @@ class retrieveWind:
         self.retVertWindData()
         self.getBeta()
         self.loadAttrs()
-
-        return None
 
     def retHorWindData(self):
         """
