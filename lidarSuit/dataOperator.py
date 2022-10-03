@@ -129,9 +129,11 @@ class dataOperations:
             "renaming range coordinate from vertical measurements"
         )
 
+        self.tmp90 = self.tmp90.rename_dims({"range": "range90"})
+
         for var in self.tmp90.variables:
 
-            if "range" in self.tmp90[var].dims:
+            if "range90" in self.tmp90[var].dims:
 
                 self.tmp90 = self.tmp90.rename({var: "{0}90".format(var)})
 
