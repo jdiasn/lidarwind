@@ -1,3 +1,7 @@
+import os
+import gdown
+import shutil
+import glob
 import pandas as pd
 import numpy as np
 import xarray as xr
@@ -10,6 +14,11 @@ class util:
     """
 
     def getTimeBins(selDay, freq="10min"):
+        """Bins estimation
+
+        Creating time bins for a given day and time resolution
+
+        """
 
         start = selDay.strftime("%Y%m%d")
         startTime = pd.to_datetime("{0} 00:00:00".format(start))
@@ -20,6 +29,59 @@ class util:
         timeBins = pd.date_range(startTime, endTime, freq=freq)
 
         return timeBins
+
+    def get_sample_data(sample_path, file_type):
+        """Downloading data
+
+        It downloads the sample needed for the examples.
+
+        """
+
+        if file_type == "12-00":
+            url = "https://drive.google.com/uc?export=download&id=1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
+
+        if file_type == "dbs":
+            url = "path"
+
+        output = f"{sample_path}{file_type}.zip"
+        gdown.download(url, output, quiet=False)
+
+        print(f"Extracting: {output}")
+        shutil.unpack_archive(output, sample_path)
+        os.remove(output)
+
+    def data_filenames():
+        """Sample file list
+
+        It searches for the sample files. If the files do not exist, it downloads them.
+
+        """
+
+        home = os.path.expanduser("~")
+        sample_path = f"{home}/.lidarSuitrc/sample_data/"
+        file_type = "12-00"  # change to 6 beam in the future
+
+        if os.path.isdir(sample_path):
+
+            if os.path.isdir(f"{sample_path}{file_type}/"):
+                file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+
+                if bool(file_list) == False:
+                    util.get_sample_data(sample_path, file_type)
+                    file_list = sorted(
+                        glob.glob(f"{sample_path}{file_type}/*.nc")
+                    )
+
+            else:
+                util.get_sample_data(sample_path, file_type)
+                file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+
+        else:
+            os.makedirs(sample_path)
+            util.get_sample_data(sample_path, file_type)
+            file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+
+        return file_list
 
 
 class cloudMask:

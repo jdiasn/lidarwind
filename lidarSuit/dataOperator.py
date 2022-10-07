@@ -129,9 +129,11 @@ class dataOperations:
             "renaming range coordinate from vertical measurements"
         )
 
+        self.tmp90 = self.tmp90.rename_dims({"range": "range90"})
+
         for var in self.tmp90.variables:
 
-            if "range" in self.tmp90[var].dims:
+            if "range90" in self.tmp90[var].dims:
 
                 self.tmp90 = self.tmp90.rename({var: "{0}90".format(var)})
 
@@ -281,6 +283,10 @@ class getRestructuredData:
         to partially remove the second trip echoes
         (IT GOES TO FILTER MODULE)
 
+    check90 : bool, optional
+        If True, it checks if the vertical observations
+        are available. If False, the verification is ignored.
+
     Returns
     -------
     object : object
@@ -298,6 +304,7 @@ class getRestructuredData:
         center=True,
         min_periods=30,
         nStd=2,
+        check90=True,
     ):
 
         self.logger = logging.getLogger(
@@ -317,6 +324,7 @@ class getRestructuredData:
         self.min_periods = min_periods
         self.nStd = nStd
 
+        self.vertical_component_check(check90)
         self.getCoordNon90()
         self.dataTransform()
         self.dataTransform90()
@@ -419,6 +427,14 @@ class getRestructuredData:
         self.relative_beta90 = tmpData
 
         return self
+
+    def vertical_component_check(self, check90):
+
+        if check90:
+            if not hasattr(self.data, "radial_wind_speed90"):
+                raise KeyError
+        else:
+            print("Vertical component check was ignored.")
 
 
 class getResampledData:
