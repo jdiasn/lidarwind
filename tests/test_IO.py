@@ -28,7 +28,7 @@ def get_sample_data(sample_path, file_type):
 def data_filenames():
 
     home = os.path.expanduser("~")
-    sample_path = f"{home}/lidarSuit/sample_data/"
+    sample_path = f"{home}/.lidarSuitrc/sample_data/"
     file_type = "12-00"  # change to 6 beam in the future
 
     if os.path.isdir(sample_path):
