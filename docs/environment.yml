@@ -8,5 +8,6 @@ dependencies:
  - matplotlib
  - pip
  - pip:
+     - gdown
      - xrft
      - lidarSuit
