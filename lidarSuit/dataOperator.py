@@ -738,7 +738,8 @@ class dbsOperations:
                 )
                 raise
 
-            fileToMerge = self.add_mean_time(fileToMerge)
+            fileToMerge = self.mean_time_derivation(fileToMerge)
+            # fileToMerge = self.add_mean_time(fileToMerge)
 
             try:
                 self.merge2DS(fileToMerge, var_list)
@@ -799,3 +800,32 @@ class dbsOperations:
         self.mergedDS = xr.merge(
             [self.mergedDS, fileToMerge["scan_mean_time"]]
         )
+
+    def mean_time_derivation(self, data):
+
+        data.azimuth.values = np.round(data.azimuth.values)
+        data.azimuth.values[data.azimuth.values == 360] = 0
+
+        azm_ref = data.azimuth.values[0]
+        index_new_scan = data.ray_index.where(
+            (data.elevation != 90) & (data.azimuth == azm_ref)
+        )
+        index_complete_scans = index_new_scan.values[
+            np.isfinite(index_new_scan.values)
+        ]
+
+        if not len(data.time) in index_complete_scans:
+            index_complete_scans = np.append(
+                index_complete_scans, len(data.time)
+            )
+
+        groups = data.groupby_bins(
+            "ray_index", index_complete_scans, right=False
+        )
+
+        new_data = xr.Dataset()
+        for grp in groups.groups:
+
+            new_data = xr.merge([new_data, self.add_mean_time(groups[grp])])
+
+        return new_data
