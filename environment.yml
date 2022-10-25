@@ -15,5 +15,5 @@ dependencies:
  - click=8.1.2
  - pip
  - pip:
-     - gdown=4.5.1
-     - lidarSuit=0.1.6
+     - gdown==4.5.1
+     - lidarSuit==0.1.6
