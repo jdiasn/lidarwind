@@ -16,6 +16,7 @@ from .io import open_sweep
 class getLidarData:
     """Windcube's data reader
 
+
     ATENTION, please move to io.open_sweep(). This getLidarData will
     be eventually removed.
 
@@ -35,6 +36,7 @@ class getLidarData:
 
         return None
 
+      
     def openLidarFile(self):
 
         """
@@ -43,7 +45,6 @@ class getLidarData:
         Returns
         -------
         tmpData : xarray.DataSet
-
             a dataset from the original NetCDF files
 
         Note
