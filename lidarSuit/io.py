@@ -25,7 +25,7 @@ def open_sweep(file_name):
     raw_data = datatree.open_datatree(file_name, decode_times=False)
 
     assert (
-        "sweep_group_name" in raw
+        "sweep_group_name" in raw_data
     ), "missing sweep group variable in input file"
     sweep_group_name = raw_data["sweep_group_name"].values[0]
     ds = raw_data[f"/{sweep_group_name}"].to_dataset()
