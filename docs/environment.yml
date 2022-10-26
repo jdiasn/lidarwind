@@ -6,6 +6,7 @@ dependencies:
  - xarray
  - pandas
  - matplotlib
+ - xarray-datatree
  - pip
  - pip:
      - gdown
