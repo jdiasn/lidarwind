@@ -18,6 +18,9 @@ lidarSuit
 .. image:: https://img.shields.io/pypi/v/lidarSuit.svg
    :target: https://pypi.python.org/pypi/lidarSuit/
 
+.. image:: https://codecov.io/gh/jdiasn/lidarSuit/branch/main/graph/badge.svg?token=CEZM17YY3I
+   :target: https://codecov.io/gh/jdiasn/lidarSuit
+
 lidarSuit is an open-source python project to retrieve wind speed and direction profiles from Doppler lidar observations from the WindCube-200s, and it was developed to be easy to use. It can retrieve wind profiles from the 6-beam and DBS scanning strategies and allow users to set the signal-to-noise ratio threshold to reduce the noise. It also calculates the Reynolds stress tensor matrix elements from the 6-beam observations.
 
 luidarSuit is a result of an effort to create an environment where it would be flexible and easy to process the observations from the WindCube Doppler lidar. Its development started in 2021 when I had to retrieve wind profiles from the 6-beam observations.
