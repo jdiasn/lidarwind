@@ -45,7 +45,12 @@ dependencies = [
 
 [project.optional-dependencies]
 plots = ["matplotlib>=3.4.3"]
-dev = ["sphinx_rtd_theme==0.4.3"]
+dev = [
+  "flake8~=4.0.1",
+  "pyupgrade~=3.2.2",
+  "pre-commit~=2.20.0",
+  "sphinx_rtd_theme~=0.4.3"
+]
 test = ["pytest", "gdown~=4.5.1", "pytest-cov>=3.0"]
 
 [project.urls]
