@@ -26,3 +26,7 @@ repos:
     -   id: black
         args: [ --safe ]
         exclude: docs/conf.py
+-   repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
+    hooks:
+    -   id: flake8
