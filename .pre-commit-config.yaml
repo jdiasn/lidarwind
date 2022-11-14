@@ -19,7 +19,8 @@ repos:
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 22.8.0
     hooks:
     -   id: black
+        args: [ --safe ]
         exclude: docs/conf.py
