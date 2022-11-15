@@ -51,7 +51,7 @@ dev = [
   "pre-commit~=2.20.0",
   "sphinx_rtd_theme~=0.4.3"
 ]
-test = ["pytest", "gdown~=4.5.1", "pytest-cov>=3.0"]
+test = ["pytest", "gdown~=4.5.1", "pytest-cov>=3.0", "nbval", "pooch"]
 
 [project.urls]
 homepage = "https://github.com/jdiasn/lidarSuit"
