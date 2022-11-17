@@ -90,7 +90,7 @@ class visualizer:
             tmpData = filtering(self.data).getVerticalObsComp(varName)
 
             if namePrefix:
-                strName = "{0}_{1}".format(
+                strName = "{}_{}".format(
                     namePrefix, tmpData.attrs["standard_name"]
                 )
 
@@ -177,13 +177,13 @@ class visualizer:
         plt.grid(b=True)
         plt.ylim(0, 12e3)
         plt.xlim(pd.to_datetime(selDay.strftime("%Y%m%d")), maxTime)
-        plt.title("elv: {0}, azm: {1}".format(elv, azm))
+        plt.title(f"elv: {elv}, azm: {azm}")
 
         if plotID == "hor_wind_dir":
             plot.colorbar.set_ticks(np.linspace(0, 360, 9))
 
         if save:
-            fileName = "{0}_{1}.png".format(selDay.strftime("%Y%m%d"), plotID)
+            fileName = "{}_{}.png".format(selDay.strftime("%Y%m%d"), plotID)
             outputFileName = os.path.join(figPath, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
@@ -230,10 +230,10 @@ class visualizer:
             axes[axN].grid(b=True)
             axes[axN].set_ylim(0, 12e3)
             axes[axN].set_xlim(pd.to_datetime(tmpData.time[0].values), maxTime)
-            axes[axN].set_title("elv: {0}, azm: {1}".format(elv, i))
+            axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
-            fileName = "{0}_{1}.png".format(selDay.strftime("%Y%m%d"), plotID)
+            fileName = "{}_{}.png".format(selDay.strftime("%Y%m%d"), plotID)
             outputFileName = os.path.join(figPath, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
