@@ -6,6 +6,7 @@ import matplotlib.dates as mdates
 
 from .filters import filtering
 
+
 class plotSettings:
     def __init__(self, mpl, style="dark_background"):
 
