@@ -33,6 +33,14 @@ def filter_status(ds: xr.Dataset):
     return ds.where(ds.radial_wind_speed_status90 == 1)
 
 
+def filter_snr(ds: xr.Dataset, snr: float):
+    if "cnr90" not in ds:
+        module_logger.error("filter_snr() requires cnr90")
+        raise ValueError
+
+    return ds.where(ds.cnr90 > snr)
+
+
 class Filtering:
     """SNR and Status filter
 
