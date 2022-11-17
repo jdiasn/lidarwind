@@ -230,7 +230,6 @@ class SecondTripEchoFilter:
             end hour for calculating the anomaly
 
         """
-
         sel_time = pd.to_datetime(self.lidar.data_transf.time.values[0])
         sel_time = sel_time.strftime("%Y%m%d")
         self.start_time = pd.to_datetime(f"{sel_time} {str_h}")
