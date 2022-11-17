@@ -52,48 +52,6 @@ class plotSettings:
         return plot
 
 
-# class filtering:
-
-#     def __init__(self, data):
-
-#         self.data = data
-
-#         return None
-
-#     def getVerticalObsComp(self, variable, snr=False, status=True):
-
-#         tmpData = self.data[variable]
-
-#         if status:
-#             tmpData = tmpData.where(self.data.radial_wind_speed_status90==1)
-
-
-#         if snr != False:
-#             tmpData = tmpData.where(self.data.cnr90 > snr)
-
-
-#         tmpData = tmpData.where(self.data.elevation==90, drop=True)
-
-
-#         return tmpData
-
-#     def getRadialObsComp(self, variable, azm, snr=False, status=True):
-
-#         tmpData = self.data[variable]
-
-#         if status:
-#             tmpData = tmpData.where(self.data.radial_wind_speed_status==1)
-
-
-#         if snr != False:
-#             tmpData = tmpData.where(self.data.cnr > snr)
-
-
-#         tmpData = tmpData.where((self.data.elevation!=90) & (self.data.azimuth==azm), drop=True)
-
-#         return tmpData
-
-
 class visualizer:
     def __init__(self, data):
 
