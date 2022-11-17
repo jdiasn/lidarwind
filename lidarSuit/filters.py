@@ -1,9 +1,36 @@
 """Module for keep all filtering functionalities
 
 """
+import logging
 
 import pandas as pd
 import numpy as np
+import xarray as xr
+
+module_logger = logging.getLogger("lidarSuit.filters")
+
+
+def filter_status(ds: xr.Dataset):
+    """Filter dataset based on WindCube's software
+
+    Parameters
+    ----------
+    ds: xr.Dataset
+        Dataset with LIDAR records
+
+    Returns
+    -------
+
+    xr.Dataset:
+        A Dataset with records where status was true (1)
+    """
+    if "radial_wind_speed_status90" not in ds:
+        module_logger.error(
+            "filter_status() requires radial_wind_speed_status90"
+        )
+        raise ValueError
+
+    return ds.where(ds.radial_wind_speed_status90 == 1)
 
 
 class Filtering:
