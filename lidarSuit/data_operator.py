@@ -19,6 +19,13 @@ module_logger = logging.getLogger("lidarSuit.data_operator")
 module_logger.debug("loading data_operator")
 
 
+def name_to_think_about(ds: xr.Dataset, azimuth_resolution: float = 1.0):
+
+    ds["azimuth"] = ds["azimuth"].round(azimuth_resolution)
+    # Avoid ambiguity on 360 degrees
+    ds["azimuth"] = ds["azimuth"].where(ds.azimuth != 360, 0)
+
+
 class DataOperations:
 
     """Basic data manager
