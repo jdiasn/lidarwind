@@ -59,6 +59,8 @@ jobs:
         pytest --cov=./ --cov-report=xml
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/turbulence_6beam_data.ipynb
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/merging_6beam_data.ipynb
+        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/dbs_scans.ipynb
+
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
