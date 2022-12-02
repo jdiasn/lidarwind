@@ -39,8 +39,8 @@ class loadAttributes:
 
         It loads and writes the global attributes from the Level 1 dataset.
         The global attributes are defiened in the configuration file.
-        See lstConfig.generateConf documentation for information about generating
-        the configuration file.
+        See lstConfig.generateConf documentation for information about
+        generating the configuration file.
 
         """
 
@@ -75,7 +75,8 @@ class loadAttributes:
         attrsDic["range"] = {
             "standard_name": "range",
             "units": "m",
-            "comments": "Distance between the instrument and the center of each range gate",
+            "comments": "Distance between the instrument "
+            "and the center of each range gate",
         }
 
         attrsDic["time"] = {
@@ -99,8 +100,10 @@ class loadAttributes:
         attrsDic["horizontal_wind_direction"] = {
             "standard_name": "wind_direction",
             "units": "degrees",
-            "comments": "horizontal wind direction retrived using the FFT method with respect to true north",
-            "info": "0=wind coming from the north, 90=east, 180=south, 270=west",
+            "comments": "horizontal wind direction retrived "
+            "using the FFT method with respect to true north",
+            "info": "0=wind coming from the north, "
+            "90=east, 180=south, 270=west",
         }
 
         attrsDic["zonal_wind"] = {
@@ -118,13 +121,16 @@ class loadAttributes:
         attrsDic["vertical_wind_speed"] = {
             "standard_name": "vertical_wind_speed",
             "units": "m/s",
-            "comments": "observed vertical wind speed (negative towards the ground)",
+            "comments": "observed vertical wind speed "
+            "(negative towards the ground)",
         }
 
         attrsDic["lidar_relative_beta"] = {
-            "standard_name": "volume_attenuated_backwards_scattering_function_in_air",
+            "standard_name": "volume_attenuated_backwards_"
+            "scattering_function_in_air",
             "units": "m-1 sr-1",
-            "comments": "Attenuated relative backscatter coefficient from the vertical beam",
+            "comments": "Attenuated relative backscatter "
+            "coefficient from the vertical beam",
         }
 
         self.attrsDic = attrsDic
@@ -144,8 +150,8 @@ class loadAttributes:
             try:
                 self.data[key].attrs = self.attrsDic[key]
 
-            except:
-                print("coord not found: {0}".format(key))
+            except KeyError:
+                print(f"coord not found: {key}")
 
         return self
 
@@ -162,7 +168,7 @@ class loadAttributes:
             try:
                 self.data[key].attrs = self.attrsDic[key]
 
-            except:
-                print("variable not found: {0}".format(key))
+            except KeyError:
+                print(f"variable not found: {key}")
 
         return self
