@@ -57,10 +57,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .[test]
         pytest --cov=./ --cov-report=xml
-        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/turbulence_6beam_data.ipynb
-        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/merging_6beam_data.ipynb
-        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/dbs_scans.ipynb
-        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/reading_long_dbs.ipynb
+#        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/turbulence_6beam_data.ipynb
+#        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/merging_6beam_data.ipynb
+#        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/dbs_scans.ipynb
+#        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/notebooks/reading_long_dbs.ipynb
 
 
     - name: Upload coverage to Codecov
