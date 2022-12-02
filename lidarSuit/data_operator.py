@@ -25,6 +25,13 @@ def name_to_think_about(ds: xr.Dataset, azimuth_resolution: int = 1):
     # Avoid ambiguity on 360 degrees
     ds["azimuth"] = ds["azimuth"].where(ds.azimuth != 360, 0)
 
+    assert "elevation" in ds
+    assert ds["elevation"].dims == ("time",)
+    assert ds.dims["time"] == 1
+
+    ds["elevation"] = ds["elevation"].squeeze()
+    return ds.expand_dims("elevation").set_coords("elevation")
+
 
 class DataOperations:
 
