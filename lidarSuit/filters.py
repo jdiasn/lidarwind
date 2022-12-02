@@ -57,7 +57,7 @@ class filtering:
         if status:
             tmpData = tmpData.where(self.data.radial_wind_speed_status90 == 1)
 
-        if snr != False:
+        if snr is not False:
             tmpData = tmpData.where(self.data.cnr90 > snr)
 
         tmpData = tmpData.where(self.data.elevation == 90, drop=True)
@@ -98,7 +98,7 @@ class filtering:
         if status:
             tmpData = tmpData.where(self.data.radial_wind_speed_status == 1)
 
-        if snr != False:
+        if snr is not False:
             tmpData = tmpData.where(self.data.cnr > snr)
 
         tmpData = tmpData.where(
@@ -199,8 +199,8 @@ class secondTripEchoFilter:
 
         selTime = pd.to_datetime(self.lidar.dataTransf.time.values[0])
         selTime = selTime.strftime("%Y%m%d")
-        self.startTime = pd.to_datetime("{0} {1}".format(selTime, strH))
-        self.endTime = pd.to_datetime("{0} {1}".format(selTime, endH))
+        self.startTime = pd.to_datetime(f"{selTime} {strH}")
+        self.endTime = pd.to_datetime(f"{selTime} {endH}")
 
     def calMeanAndAnomSlant(self):
         """
@@ -246,13 +246,17 @@ class secondTripEchoFilter:
         # Cross check if this commented part is still needed for
         # for filter the slanted profiles
 
-        # tmpNoCloud = self.lidar.dataTransf.where(self.timeCloudMask == 0).copy()
-        # tmpCloud = self.lidar.dataTransf.where(self.timeCloudMask == 1).copy()
+        # tmpNoCloud = self.lidar.dataTransf.where(
+        #    self.timeCloudMask == 0).copy()
+        # tmpCloud = self.lidar.dataTransf.where(
+        #    self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom) < self.nStd * anomStd)
+        # tmpCloud = tmpCloud.where(
+        #    np.abs(self.dataAnom) < self.nStd * anomStd)
 
         # tmpCleanData = tmpNoCloud.copy()
-        # tmpCleanData.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
+        # tmpCleanData.values[np.isfinite(tmpCloud)] = \
+        #   tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmpCleanData = self.lidar.dataTransf.copy()
         tmpCleanData = tmpCleanData.where(
@@ -273,13 +277,17 @@ class secondTripEchoFilter:
 
         anomStd = tmpAnom.std(dim=["time", "range90"])
 
-        # tmpNoCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 0).copy()
-        # tmpCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 1).copy()
+        # tmpNoCloud = self.lidar.dataTransf90.where(
+        #   self.timeCloudMask == 0).copy()
+        # tmpCloud = self.lidar.dataTransf90.where(
+        #   self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom90) < self.nStd * anomStd)
+        # tmpCloud = tmpCloud.where(np.abs(
+        #   self.dataAnom90) < self.nStd * anomStd)
 
         # tmpCleanData = tmpNoCloud.copy()
-        # tmpCleanData.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
+        # tmpCleanData.values[np.isfinite(tmpCloud)] =\
+        #   tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmpCleanData = self.lidar.dataTransf90.copy()
         tmpCleanData = tmpCleanData.where(
@@ -324,7 +332,7 @@ class windCubeCloudRemoval:
         self.getNoiseFreeBeta()
         self.getHeightInterface()
 
-        if lidar != None:
+        if lidar is not None:
             self.getInterpInterfHeight()
             self.removeCloud()
 
