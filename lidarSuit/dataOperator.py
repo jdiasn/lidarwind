@@ -12,8 +12,6 @@ import numpy as np
 
 # import lidarSuit as lst
 from .filters import filtering
-from .filters import secondTripEchoFilter
-
 from .lidar_code import getLidarData
 
 module_logger = logging.getLogger("lidarSuit.dataOperator")
@@ -57,7 +55,7 @@ class dataOperations:
         )
         self.logger.info("creating an instance of dataOperations")
 
-        if bool(dataPaths) == False:
+        if bool(dataPaths) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
@@ -84,39 +82,31 @@ class dataOperations:
 
             try:
                 tmpFile = getLidarData(filePath).openLidarFile()
-                self.logger.debug("reading file: {0}".format(filePath))
-            except:
-                self.logger.warning(
-                    "This file has a problem: {0}".format(filePath)
-                )
+                self.logger.debug(f"reading file: {filePath}")
+            except ValueError:
+                self.logger.warning(f"This file has a problem: {filePath}")
 
             try:
                 elevation = tmpFile.elevation.round(1)
                 tmpFile["elevation"] = elevation
                 tmpFile["azimuth"] = tmpFile.azimuth.round(1)
                 tmpFile["azimuth"][tmpFile.azimuth == 360] = 0
-            except:
-                self.logger.info(
-                    "Problems reading elv and axm: {0}".format(filePath)
-                )
+            except KeyError:
+                self.logger.info(f"Problems reading elv and azm: {filePath}")
 
             try:
                 self.tmp90 = xr.merge(
                     [self.tmp90, tmpFile.where(elevation == 90, drop=True)]
                 )
-            except:
-                self.logger.info(
-                    "This file does not have 90 elv: {0}".format(filePath)
-                )
+            except IndexError:
+                self.logger.info(f"This file does not have 90 elv: {filePath}")
 
             try:
                 self.tmpNon90 = xr.merge(
                     [self.tmpNon90, tmpFile.where(elevation != 90, drop=True)]
                 )
-            except:
-                self.logger.info(
-                    "This file only has 90 elv: {0}".format(filePath)
-                )
+            except IndexError:
+                self.logger.info(f"This file only has 90 elv: {filePath}")
 
         return self
 
@@ -135,7 +125,7 @@ class dataOperations:
 
             if "range90" in self.tmp90[var].dims:
 
-                self.tmp90 = self.tmp90.rename({var: "{0}90".format(var)})
+                self.tmp90 = self.tmp90.rename({var: f"{var}90"})
 
         return self
 
@@ -180,7 +170,7 @@ class readProcessedData:
         )
         self.logger.info("creating an instance of readProcessedData")
 
-        if bool(fileList) == False:
+        if bool(fileList) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
@@ -203,7 +193,7 @@ class readProcessedData:
         try:
             tmpMerged = self.mergeDataM1()
 
-        except:
+        except ValueError:
             print("switching from xr.open_mfdataset to xr.open_dataset")
             tmpMerged = self.mergeDataM2()
 
@@ -232,11 +222,11 @@ class readProcessedData:
         for fileName in sorted(self.fileList):
 
             try:
-                self.logger.info("opening {0}".format(fileName))
+                self.logger.info(f"opening {fileName}")
                 tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
 
-            except:
-                self.logger.info("problems with: {0}".format(fileName))
+            except ValueError:
+                self.logger.info(f"problems with: {fileName}")
                 pass
 
         return tmpMerged
@@ -401,8 +391,10 @@ class getRestructuredData:
 
         self.dataTransf = respDopVel
         # (maybe all STE filter should be in the same class)
-        # self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf, center=self.center,
-        #                                        min_periods=self.min_periods, nStd=self.nStd).data
+        # self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf,
+        #                                        center=self.center,
+        #                                        min_periods=self.min_periods,
+        #                                        nStd=self.nStd).data
 
         return self
 
@@ -624,7 +616,7 @@ class getResampledData:
             time/range resampled numpy array
         """
 
-        self.logger.info("time resampling of: {0}".format(self.varName))
+        self.logger.info(f"time resampling of: {self.varName}")
 
         resampledTimeArr = (
             np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))
@@ -636,7 +628,7 @@ class getResampledData:
             try:
                 resampledTimeArr[t] = data.values[int(timeIndex)]
 
-            except:
+            except ValueError:
                 pass
 
         return resampledTimeArr
@@ -647,7 +639,7 @@ class getResampledData:
         """
 
         self.logger.info(
-            "generating the new resampled DataArray: {0}".format(self.varName)
+            f"generating the new resampled DataArray: {self.varName}"
         )
 
         tmpDT = xr.DataArray(
@@ -715,13 +707,13 @@ class dbsOperations:
 
         self.logger.info("merging all DBS files")
 
-        if bool(file_list) == False:
+        if bool(file_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of DBS files."
             )
             raise FileNotFoundError
 
-        if bool(var_list) == False:
+        if bool(var_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of variable"
             )
@@ -731,11 +723,9 @@ class dbsOperations:
 
             try:
                 fileToMerge = getLidarData(file).openLidarFile()
-                self.logger.debug("reading file: {0}".format(file))
-            except:
-                self.logger.warning(
-                    "This file has a problem: {0}".format(file)
-                )
+                self.logger.debug(f"reading file: {file}")
+            except ValueError:
+                self.logger.warning(f"This file has a problem: {file}")
                 raise
 
             fileToMerge = self.mean_time_derivation(fileToMerge)
@@ -743,8 +733,8 @@ class dbsOperations:
 
             try:
                 self.merge2DS(fileToMerge, var_list)
-            except:
-                self.logger.warning("Merging not possible: {0}".format(file))
+            except ValueError:
+                self.logger.warning(f"Merging not possible: {file}")
                 # raise
 
     def add_mean_time(self, lidarDS):
