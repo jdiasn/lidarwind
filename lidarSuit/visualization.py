@@ -231,7 +231,9 @@ class visualizer:
 
             axes[axN].grid(b=True)
             axes[axN].set_ylim(0, 12e3)
-            axes[axN].set_xlim(pd.to_datetime(tmpData.time[0].values), maxTime)
+            axes[axN].set_xlim(
+                pd.to_datetime(selDay.strftime("%Y%m%d")), maxTime
+            )
             axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
