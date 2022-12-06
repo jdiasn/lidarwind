@@ -72,6 +72,8 @@ class visualizer:
         figPath=None,
         namePrefix=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         if plotID == "rad_wind_speed_panel":
@@ -86,6 +88,8 @@ class visualizer:
                 figPath=figPath,
                 save=save,
                 show=show,
+                minTime=minTime,
+                maxTime=maxTime,
             )
 
         else:
@@ -111,6 +115,8 @@ class visualizer:
                 strName=strName,
                 figPath=figPath,
                 show=show,
+                minTime=minTime,
+                maxTime=maxTime,
             )
 
     def viewRetVar(
@@ -126,6 +132,8 @@ class visualizer:
         figPath=None,
         namePrefix=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         tmpData = self.data[varName]
@@ -144,6 +152,8 @@ class visualizer:
             strName=strName,
             figPath=figPath,
             show=show,
+            minTime=minTime,
+            maxTime=maxTime,
         )
 
     def plotData(
@@ -159,15 +169,25 @@ class visualizer:
         figPath=None,
         strName=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         selDay = pd.to_datetime(tmpData.time[0].values)
-        maxTime = pd.to_datetime(
-            pd.to_datetime(tmpData.time[0].values).strftime("%Y%m%d 23:59:59")
-        )
-        tmpData = tmpData.sel(
-            time=slice(pd.to_datetime(tmpData.time[0].values), maxTime)
-        )
+
+        if maxTime is not None:
+            maxTime = pd.to_datetime(maxTime)
+
+        else:
+            maxTime = pd.to_datetime(selDay.strftime("%Y%m%d 23:59:59"))
+
+        if minTime is not None:
+            minTime = pd.to_datetime(minTime)
+
+        else:
+            minTime = pd.to_datetime(selDay.strftime("%Y%m%d 00:00:00"))
+
+        tmpData = tmpData.sel(time=slice(minTime, maxTime))
 
         if strName:
             tmpData.attrs["standard_name"] = strName
@@ -178,7 +198,7 @@ class visualizer:
 
         plt.grid(b=True)
         plt.ylim(0, 12e3)
-        plt.xlim(pd.to_datetime(selDay.strftime("%Y%m%d")), maxTime)
+        plt.xlim(minTime, maxTime)
         plt.title(f"elv: {elv}, azm: {azm}")
 
         if plotID == "hor_wind_dir":
@@ -205,33 +225,42 @@ class visualizer:
         save=False,
         plotID=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         elv = dataNon90.elv.values[0]
         fig, axes = plt.subplots(5, 1, sharex=True, figsize=(18, 25))
 
+        selDay = pd.to_datetime(dataNon90.time[0].values)
+
+        if maxTime is not None:
+            maxTime = pd.to_datetime(maxTime)
+
+        else:
+            maxTime = pd.to_datetime(selDay.strftime("%Y%m%d 23:59:59"))
+
+        if minTime is not None:
+            minTime = pd.to_datetime(minTime)
+
+        else:
+            minTime = pd.to_datetime(selDay.strftime("%Y%m%d 00:00:00"))
+
         for axN, i in enumerate(dataNon90.azm.values):
 
             tmpData = dataNon90.sel(azm=i)
 
-            selDay = pd.to_datetime(tmpData.time[0].values)
-            maxTime = pd.to_datetime(
-                pd.to_datetime(tmpData.time[0].values).strftime(
-                    "%Y%m%d 23:59:59"
-                )
-            )
-            tmpData = tmpData.sel(
-                time=slice(pd.to_datetime(tmpData.time[0].values), maxTime)
-            )
+            tmpData = tmpData.sel(time=slice(minTime, maxTime))
 
             plot = tmpData.plot(
                 x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
             )
+
             plot = plotSettings.plotSetup(plot)
 
             axes[axN].grid(b=True)
             axes[axN].set_ylim(0, 12e3)
-            axes[axN].set_xlim(pd.to_datetime(tmpData.time[0].values), maxTime)
+            axes[axN].set_xlim(minTime, maxTime)
             axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
