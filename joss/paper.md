@@ -7,12 +7,12 @@ tags:
   - Doppler wind lidar
   - lidar remote sensing
   - wind profile retrievals
-  
+
 authors:
   - name: José Dias Neto
     orcid: 0000-0002-8488-8486
-    affiliation: 1 
-    
+    affiliation: 1
+
   - name: Guilherme P. Castelao
     orcid: 0000-0002-6765-0708
     affiliation: 2 # (Multiple affiliations must be quoted)
@@ -23,7 +23,7 @@ affiliations:
 
  - name: Scripps Institution of Oceanography
    index: 2
-   
+
 date: 4 August 2022
 bibliography: paper.bib
 ---
