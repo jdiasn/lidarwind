@@ -72,6 +72,8 @@ class visualizer:
         figPath=None,
         namePrefix=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         if plotID == "rad_wind_speed_panel":
@@ -86,6 +88,8 @@ class visualizer:
                 figPath=figPath,
                 save=save,
                 show=show,
+                minTime=minTime,
+                maxTime=maxTime,
             )
 
         else:
@@ -111,6 +115,8 @@ class visualizer:
                 strName=strName,
                 figPath=figPath,
                 show=show,
+                minTime=minTime,
+                maxTime=maxTime,
             )
 
     def viewRetVar(
@@ -126,6 +132,8 @@ class visualizer:
         figPath=None,
         namePrefix=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         tmpData = self.data[varName]
@@ -144,6 +152,8 @@ class visualizer:
             strName=strName,
             figPath=figPath,
             show=show,
+            minTime=minTime,
+            maxTime=maxTime,
         )
 
     def plotData(
@@ -159,6 +169,8 @@ class visualizer:
         figPath=None,
         strName=None,
         show=False,
+        minTime=None,
+        maxTime=None,
     ):
 
         selDay = pd.to_datetime(tmpData.time[0].values)
