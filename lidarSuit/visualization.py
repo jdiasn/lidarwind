@@ -174,12 +174,20 @@ class visualizer:
     ):
 
         selDay = pd.to_datetime(tmpData.time[0].values)
-        maxTime = pd.to_datetime(
-            pd.to_datetime(tmpData.time[0].values).strftime("%Y%m%d 23:59:59")
-        )
-        tmpData = tmpData.sel(
-            time=slice(pd.to_datetime(tmpData.time[0].values), maxTime)
-        )
+
+        if maxTime is not None:
+            maxTime = pd.to_datetime(maxTime)
+
+        else:
+            maxTime = pd.to_datetime(selDay.strftime("%Y%m%d 23:59:59"))
+
+        if minTime is not None:
+            minTime = pd.to_datetime(minTime)
+
+        else:
+            minTime = pd.to_datetime(selDay.strftime("%Y%m%d 00:00:00"))
+
+        tmpData = tmpData.sel(time=slice(minTime, maxTime))
 
         if strName:
             tmpData.attrs["standard_name"] = strName
