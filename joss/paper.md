@@ -1,5 +1,5 @@
 ---
-title: 'lidarSuit: A python package for retrieving wind profiles from Doppler lidar observations'
+title: 'lidarSuit: A Python package for retrieving wind profiles from Doppler lidar observations'
 
 tags:
   - Python
@@ -7,12 +7,12 @@ tags:
   - Doppler wind lidar
   - lidar remote sensing
   - wind profile retrievals
-  
+
 authors:
   - name: José Dias Neto
     orcid: 0000-0002-8488-8486
-    affiliation: 1 
-    
+    affiliation: 1
+
   - name: Guilherme P. Castelao
     orcid: 0000-0002-6765-0708
     affiliation: 2 # (Multiple affiliations must be quoted)
@@ -23,7 +23,7 @@ affiliations:
 
  - name: Scripps Institution of Oceanography
    index: 2
-   
+
 date: 4 August 2022
 bibliography: paper.bib
 ---
@@ -52,7 +52,7 @@ different structures.
 
 # Statement of need
 
-lidarSuit is a python package for retrieving horizontal wind speed and direction profiles from the
+lidarSuit is a Python package for retrieving horizontal wind speed and direction profiles from the
 6-beam scanning strategy but also includes routines for retrieving wind profiles from the DBS. This
 package was developed for retrieving wind profiles from WindCube's NetCDF output, but it can be
 extended to process NetCDF output from other Doppler lidar systems. lidarSuit reproduces the data
