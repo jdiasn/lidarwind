@@ -375,7 +375,7 @@ class windCubeCloudRemoval:
         It interpolates the noise height interface to the same
         temporal resolution from the windcube data
         """
-        self.interpInterfHeight = self.interfHeight.interp(
+        self.interp_interf_height = self.interfHeight.interp(
             time=self.lidar.dataTransf.time
         )
         self.interp_interf_height_90 = self.interfHeight.interp(
@@ -396,7 +396,7 @@ class windCubeCloudRemoval:
         tmp_height.values = tmp_values
         tmp_height = tmp_height * self.lidar.dataTransf.range
         self.lidar.dataTransf = self.lidar.dataTransf.where(
-            tmp_height < self.interpInterfHeight
+            tmp_height < self.interp_interf_height
         )
 
         tmp_height = self.lidar.dataTransf90.copy()
