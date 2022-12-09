@@ -363,7 +363,6 @@ class getWindProperties5Beam:
 
         self.logger.info(
             f"replacing the gate_index coordinate by range: {comp.name}"
-            )
         )
 
         comp = comp.rename({"gate_index": "range"})
