@@ -332,16 +332,16 @@ class windCubeCloudRemoval:
         """
         It removes the noise from the backscattered signal
         """
-        positiveBeta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
+        positive_beta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
 
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             range=10, center=True, min_periods=10
         ).mean()
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             time=15, center=True, min_periods=15
         ).mean()
 
-        self.noiseFreeBeta = positiveBeta
+        self.noiseFreeBeta = positive_beta
 
         return self
 
@@ -351,9 +351,9 @@ class windCubeCloudRemoval:
         the noise and the non-noise data from the ceilometer
         backscattered signal
         """
-        positiveBeta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
+        positive_beta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
 
-        tmp_ceilo_hgt = positiveBeta.copy()
+        tmp_ceilo_hgt = positive_beta.copy()
         tmp_values = tmp_ceilo_hgt.values
         tmp_values[np.isfinite(tmp_values)] = 1
         tmp_ceilo_hgt.values = tmp_values
