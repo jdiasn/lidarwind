@@ -62,3 +62,15 @@ def test_wc_fixed_preprocessing_slanted():
 
     ds = wc_fixed_preprocessing(ds)
     assert "elevation" in ds.dims
+
+
+def test_wc_fixed_preprocessing_without_elevation():
+    """It should raise an error with a Dataset missing elevation
+
+    It would be best to raise a specific error in wc_fixed_preprocessing().
+    """
+    ds = sample_dataset("WLS200s-218_2021-05-13_12-00-08_fixed_381_50m.nc")
+    ds = ds.drop("elevation")
+
+    with pytest.raises(AssertionError):
+        ds = wc_fixed_preprocessing(ds)
