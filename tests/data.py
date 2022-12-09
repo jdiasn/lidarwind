@@ -41,6 +41,14 @@ def get_sample_data(sample_path, file_type):
     os.remove(output)
 
 
+def download_samples():
+    file_type = "12-00"  # change to 6 beam in the future
+    sample_path = lidarsuitrc("sample_data")
+
+    if not os.path.isdir(sample_path):
+        os.makedirs(sample_path)
+        get_sample_data(sample_path, file_type)
+
 @pytest.fixture
 def data_filenames():
 
@@ -61,8 +69,7 @@ def data_filenames():
             file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
     else:
-        os.makedirs(sample_path)
-        get_sample_data(sample_path, file_type)
+        download_samples()
         file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
     return file_list
@@ -77,6 +84,10 @@ def sample_dataset(filename: str):
     @jdiasn will refactor how these testing data is managed, so let's leave
     optimizations for later as long as thid function keep returning a
     Dataset.
+
+    !!ATENTION!!! the data_filenames as an argument is a requirement while
+    the download of sample data is not refactored. This function only access
+    a file that was expected to have been previously downlaoded.
     """
     path = os.path.join(lidarsuitrc("sample_data"), "12-00", filename)
 
