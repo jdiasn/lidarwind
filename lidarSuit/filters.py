@@ -145,7 +145,7 @@ class secondTripEchoFilter:
         window to keep the data. The filter removes any
         anomaly larger than nStd * std
 
-    strH : str
+    str_h : str
         starting hour for calculating the anomaly
 
     end_h : str
@@ -166,7 +166,7 @@ class secondTripEchoFilter:
         center=True,
         min_periods=30,
         nStd=2,
-        strH="09",
+        str_h="09",
         end_h="16",
     ):
 
@@ -183,13 +183,13 @@ class secondTripEchoFilter:
         self.cleaning()
         self.cleaning90()
 
-    def getTimeEdges(self, strH="09", end_h="16"):
+    def getTimeEdges(self, str_h="09", end_h="16"):
         """
         It creates the time boundaries for the STD anomaly calculation
 
         Parameters
         ----------
-        strH : str
+        str_h : str
             starting hour for calculating the anomaly
 
         end_h : str
@@ -199,7 +199,7 @@ class secondTripEchoFilter:
 
         sel_time = pd.to_datetime(self.lidar.dataTransf.time.values[0])
         sel_time = sel_time.strftime("%Y%m%d")
-        self.startTime = pd.to_datetime(f"{sel_time} {strH}")
+        self.startTime = pd.to_datetime(f"{sel_time} {str_h}")
         self.endTime = pd.to_datetime(f"{sel_time} {end_h}")
 
     def cal_mean_and_anom_slant(self):
