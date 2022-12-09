@@ -378,7 +378,7 @@ class windCubeCloudRemoval:
         self.interp_interf_height = self.interf_height.interp(
             time=self.lidar.dataTransf.time
         )
-        self.interp_interf_height_90 = self.interfHeight.interp(
+        self.interp_interf_height_90 = self.interf_height.interp(
             time=self.lidar.dataTransf90.time
         )
 
