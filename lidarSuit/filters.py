@@ -236,12 +236,12 @@ class secondTripEchoFilter:
         from the slanted observations
         """
 
-        tmpAnom = self.dataAnom.where(
+        tmp_anom = self.dataAnom.where(
             (self.lidar.dataTransf.time > self.startTime)
             & (self.lidar.dataTransf.time < self.endTime)
         )
 
-        anom_std = tmpAnom.std(dim=["time", "range", "elv"])
+        anom_std = tmp_anom.std(dim=["time", "range", "elv"])
 
         # Cross check if this commented part is still needed for
         # for filter the slanted profiles
@@ -266,12 +266,12 @@ class secondTripEchoFilter:
         from the vertical observations
         """
 
-        tmpAnom = self.dataAnom90.where(
+        tmp_anom = self.dataAnom90.where(
             (self.lidar.dataTransf90.time > self.startTime)
             & (self.lidar.dataTransf90.time < self.endTime)
         )
 
-        anom_std = tmpAnom.std(dim=["time", "range90"])
+        anom_std = tmp_anom.std(dim=["time", "range90"])
 
         # tmpNoCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 1).copy()
