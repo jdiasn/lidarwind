@@ -359,9 +359,9 @@ class windCubeCloudRemoval:
         tmp_ceilo_hgt.values = tmp_values
         tmp_ceilo_hgt = tmp_ceilo_hgt * self.ceilo.range
 
-        lowestBeta = self.noiseFreeBeta.where(tmp_ceilo_hgt < 4e3)
+        lowest_beta = self.noiseFreeBeta.where(tmp_ceilo_hgt < 4e3)
 
-        tmp_ceilo_hgt = tmp_ceilo_hgt.where(np.isfinite(lowestBeta))
+        tmp_ceilo_hgt = tmp_ceilo_hgt.where(np.isfinite(lowest_beta))
 
         self.interfHeight = tmp_ceilo_hgt.max(dim="range")
         self.interfHeight = self.interfHeight.rolling(
