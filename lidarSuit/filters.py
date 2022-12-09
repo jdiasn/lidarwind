@@ -140,10 +140,10 @@ class SecondTripEchoFilter:
         minimum number of profiles used for calculating the
         mean value
 
-    nStd : int
+    n_std : int
         Multiplication factor for defining the size of the
         window to keep the data. The filter removes any
-        anomaly larger than nStd * std
+        anomaly larger than n_std * std
 
     str_h : str
         starting hour for calculating the anomaly
@@ -164,7 +164,7 @@ class SecondTripEchoFilter:
         n_prof=500,
         center=True,
         min_periods=30,
-        nStd=2,
+        n_std=2,
         str_h="09",
         end_h="16",
     ):
@@ -174,7 +174,7 @@ class SecondTripEchoFilter:
         self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
-        self.nStd = nStd
+        self.n_std = n_std
 
         self.get_time_edges(str_h=str_h, end_h=end_h)
         self.cal_mean_and_anom_slant()
@@ -232,7 +232,7 @@ class SecondTripEchoFilter:
 
     def cleaning(self):
         """
-        It removes the data that is larger than the nStd * anomaly
+        It removes the data that is larger than the n_std * anomaly
         from the slanted observations
         """
 
@@ -249,20 +249,20 @@ class SecondTripEchoFilter:
         # tmpNoCloud = self.lidar.dataTransf.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf.where(self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom) < self.nStd * anom_std)
+        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom) < self.n_std * anom_std)
 
         # tmp_clean_data = tmpNoCloud.copy()
         # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmp_clean_data = self.lidar.dataTransf.copy()
         tmp_clean_data = tmp_clean_data.where(
-            np.abs(self.dataAnom) < self.nStd * anom_std
+            np.abs(self.dataAnom) < self.n_std * anom_std
         )
         self.lidar.dataTransf.values = tmp_clean_data.values
 
     def cleaning90(self):
         """
-        It removes the data that is larger than the nStd * anomaly
+        It removes the data that is larger than the n_std * anomaly
         from the vertical observations
         """
 
@@ -276,14 +276,14 @@ class SecondTripEchoFilter:
         # tmpNoCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.nStd * anom_std)
+        # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.n_std * anom_std)
 
         # tmp_clean_data = tmpNoCloud.copy()
         # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmp_clean_data = self.lidar.dataTransf90.copy()
         tmp_clean_data = tmp_clean_data.where(
-            np.abs(self.data_anom_90) < self.nStd * anom_std
+            np.abs(self.data_anom_90) < self.n_std * anom_std
         )
 
         self.lidar.dataTransf90.values = tmp_clean_data.values

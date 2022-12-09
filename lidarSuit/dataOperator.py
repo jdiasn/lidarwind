@@ -270,7 +270,7 @@ class getRestructuredData:
     min_periods : int, optional
         (IT GOES TO FILTER MODULE)
 
-    nStd : int, optional
+    n_std : int, optional
         size of the standard deviation window used
         to partially remove the second trip echoes
         (IT GOES TO FILTER MODULE)
@@ -295,7 +295,7 @@ class getRestructuredData:
         n_prof=500,
         center=True,
         min_periods=30,
-        nStd=2,
+        n_std=2,
         check90=True,
     ):
 
@@ -314,7 +314,7 @@ class getRestructuredData:
         self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
-        self.nStd = nStd
+        self.n_std = n_std
 
         self.vertical_component_check(check90)
         self.getCoordNon90()
@@ -394,7 +394,7 @@ class getRestructuredData:
         self.dataTransf = respDopVel
         # (maybe all STE filter should be in the same class)
         # self.dataTransf = secondTripEchoFilter(respDopVel, n_prof=self.n_prof, center=self.center,
-        #                                        min_periods=self.min_periods, nStd=self.nStd).data
+        #                                        min_periods=self.min_periods, n_std=self.n_std).data
 
         return self
 
