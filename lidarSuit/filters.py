@@ -251,14 +251,14 @@ class secondTripEchoFilter:
 
         # tmpCloud = tmpCloud.where(np.abs(self.dataAnom) < self.nStd * anomStd)
 
-        # tmpCleanData = tmpNoCloud.copy()
-        # tmpCleanData.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
+        # tmp_clean_data = tmpNoCloud.copy()
+        # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
-        tmpCleanData = self.lidar.dataTransf.copy()
-        tmpCleanData = tmpCleanData.where(
+        tmp_clean_data = self.lidar.dataTransf.copy()
+        tmp_clean_data = tmp_clean_data.where(
             np.abs(self.dataAnom) < self.nStd * anomStd
         )
-        self.lidar.dataTransf.values = tmpCleanData.values
+        self.lidar.dataTransf.values = tmp_clean_data.values
 
     def cleaning90(self):
         """
@@ -278,15 +278,15 @@ class secondTripEchoFilter:
 
         # tmpCloud = tmpCloud.where(np.abs(self.dataAnom90) < self.nStd * anomStd)
 
-        # tmpCleanData = tmpNoCloud.copy()
-        # tmpCleanData.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
+        # tmp_clean_data = tmpNoCloud.copy()
+        # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
-        tmpCleanData = self.lidar.dataTransf90.copy()
-        tmpCleanData = tmpCleanData.where(
+        tmp_clean_data = self.lidar.dataTransf90.copy()
+        tmp_clean_data = tmp_clean_data.where(
             np.abs(self.dataAnom90) < self.nStd * anomStd
         )
 
-        self.lidar.dataTransf90.values = tmpCleanData.values
+        self.lidar.dataTransf90.values = tmp_clean_data.values
 
 
 # it removes STE and clouds contamination
