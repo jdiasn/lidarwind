@@ -214,7 +214,7 @@ class SecondTripEchoFilter:
             time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.dataAnom = self.lidar.dataTransf - self.data_mean
+        self.data_anom = self.lidar.dataTransf - self.data_mean
 
     def cal_mean_and_anom_90(self):
         """
@@ -236,7 +236,7 @@ class SecondTripEchoFilter:
         from the slanted observations
         """
 
-        tmp_anom = self.dataAnom.where(
+        tmp_anom = self.data_anom.where(
             (self.lidar.dataTransf.time > self.start_time)
             & (self.lidar.dataTransf.time < self.end_time)
         )
@@ -249,14 +249,14 @@ class SecondTripEchoFilter:
         # tmpNoCloud = self.lidar.dataTransf.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf.where(self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom) < self.n_std * anom_std)
+        # tmpCloud = tmpCloud.where(np.abs(self.data_anom) < self.n_std * anom_std)
 
         # tmp_clean_data = tmpNoCloud.copy()
         # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmp_clean_data = self.lidar.dataTransf.copy()
         tmp_clean_data = tmp_clean_data.where(
-            np.abs(self.dataAnom) < self.n_std * anom_std
+            np.abs(self.data_anom) < self.n_std * anom_std
         )
         self.lidar.dataTransf.values = tmp_clean_data.values
 
