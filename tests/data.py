@@ -41,27 +41,26 @@ def get_sample_data(sample_path, file_type):
 @pytest.fixture
 def data_filenames():
 
-    home = os.path.expanduser("~")
-    sample_path = f"{home}/.lidarSuitrc/sample_data/"
     file_type = "12-00"  # change to 6 beam in the future
+    sample_path = os.path.join(lidarsuitrc("sample_data"), file_type)
 
     if os.path.isdir(sample_path):
 
-        if os.path.isdir(f"{sample_path}{file_type}/"):
-            file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+        if os.path.isdir(sample_path):
+            file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
             if bool(file_list) == False:
                 get_sample_data(sample_path, file_type)
-                file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+                file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
         else:
             get_sample_data(sample_path, file_type)
-            file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+            file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
     else:
         os.makedirs(sample_path)
         get_sample_data(sample_path, file_type)
-        file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
+        file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
     return file_list
 
