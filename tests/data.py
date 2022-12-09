@@ -5,6 +5,19 @@ import glob
 import pytest
 
 
+def lidarsuitrc(subdir: str|None =None):
+    """Standard path for Lidar Suit configurations
+
+    This might be moved into lidarSuit.utils if used somewhere else
+    """
+    path = os.getenv("LIDARSUIT_DIR", os.path.join("~", ".lidarSuitrc"))
+    path = os.path.expanduser(path)
+
+    if subdir is not None:
+        path = os.path.join(path, subdir)
+
+    return path
+
 def get_sample_data(sample_path, file_type):
 
     if file_type == "12-00":
