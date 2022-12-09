@@ -178,7 +178,7 @@ class secondTripEchoFilter:
         self.nStd = nStd
 
         self.getTimeEdges()
-        self.calMeanAndAnomSlant()
+        self.cal_mean_and_anom_slant()
         self.cal_mean_and_anom_90()
         self.cleaning()
         self.cleaning90()
@@ -202,7 +202,7 @@ class secondTripEchoFilter:
         self.startTime = pd.to_datetime(f"{selTime} {strH}")
         self.endTime = pd.to_datetime(f"{selTime} {endH}")
 
-    def calMeanAndAnomSlant(self):
+    def cal_mean_and_anom_slant(self):
         """
         It calculates the anomaly from the slanted observations
         """
