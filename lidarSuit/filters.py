@@ -199,7 +199,7 @@ class SecondTripEchoFilter:
         sel_time = pd.to_datetime(self.lidar.dataTransf.time.values[0])
         sel_time = sel_time.strftime("%Y%m%d")
         self.start_time = pd.to_datetime(f"{sel_time} {str_h}")
-        self.endTime = pd.to_datetime(f"{sel_time} {end_h}")
+        self.end_time = pd.to_datetime(f"{sel_time} {end_h}")
 
 
     def cal_mean_and_anom_slant(self):
@@ -238,7 +238,7 @@ class SecondTripEchoFilter:
 
         tmp_anom = self.dataAnom.where(
             (self.lidar.dataTransf.time > self.start_time)
-            & (self.lidar.dataTransf.time < self.endTime)
+            & (self.lidar.dataTransf.time < self.end_time)
         )
 
         anom_std = tmp_anom.std(dim=["time", "range", "elv"])
@@ -268,7 +268,7 @@ class SecondTripEchoFilter:
 
         tmp_anom = self.data_anom_90.where(
             (self.lidar.dataTransf90.time > self.start_time)
-            & (self.lidar.dataTransf90.time < self.endTime)
+            & (self.lidar.dataTransf90.time < self.end_time)
         )
 
         anom_std = tmp_anom.std(dim=["time", "range90"])
