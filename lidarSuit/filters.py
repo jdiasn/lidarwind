@@ -321,14 +321,14 @@ class windCubeCloudRemoval:
         self.lidar = lidar
         self.ceilo = ceilo
 
-        self.getNoiseFreeBeta()
+        self.get_noise_free_beta()
         self.get_height_interface()
 
         if lidar != None:
             self.get_interp_interf_height()
             self.remove_cloud()
 
-    def getNoiseFreeBeta(self):
+    def get_noise_free_beta(self):
         """
         It removes the noise from the backscattered signal
         """
