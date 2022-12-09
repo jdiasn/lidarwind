@@ -222,9 +222,9 @@ class secondTripEchoFilter:
         """
 
         # vertical beam
-        tmpSelData90 = self.lidar.dataTransf90
+        tmp_sel_data_90 = self.lidar.dataTransf90
 
-        self.dataMean90 = tmpSelData90.rolling(
+        self.dataMean90 = tmp_sel_data_90.rolling(
             time=self.nProf, center=self.center, min_periods=self.min_periods
         ).mean()
 
