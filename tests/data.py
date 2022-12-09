@@ -1,8 +1,9 @@
 import os
 import shutil
 import glob
-import pytest
+from typing import Optional
 
+import pytest
 import gdown
 
 from lidarSuit.io import open_sweep
@@ -10,7 +11,7 @@ from lidarSuit.io import open_sweep
 GDRIVE_ID = "1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
 
 
-def lidarsuitrc(subdir: str | None = None):
+def lidarsuitrc(subdir: Optional[str] = None):
     """Standard path for Lidar Suit configurations
 
     This might be moved into lidarSuit.utils if used somewhere else
