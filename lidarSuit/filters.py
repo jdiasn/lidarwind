@@ -161,7 +161,6 @@ class secondTripEchoFilter:
     def __init__(
         self,
         data,
-        timeCloudMask,
         nProf=500,
         center=True,
         min_periods=30,
