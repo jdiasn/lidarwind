@@ -354,9 +354,9 @@ class windCubeCloudRemoval:
         positiveBeta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
 
         tmpCeiloHgt = positiveBeta.copy()
-        tmpValues = tmpCeiloHgt.values
-        tmpValues[np.isfinite(tmpValues)] = 1
-        tmpCeiloHgt.values = tmpValues
+        tmp_values = tmpCeiloHgt.values
+        tmp_values[np.isfinite(tmp_values)] = 1
+        tmpCeiloHgt.values = tmp_values
         tmpCeiloHgt = tmpCeiloHgt * self.ceilo.range
 
         lowestBeta = self.noiseFreeBeta.where(tmpCeiloHgt < 4e3)
@@ -391,18 +391,18 @@ class windCubeCloudRemoval:
         """
 
         tmp_height = self.lidar.dataTransf.copy()
-        tmpValues = tmp_height.values
-        tmpValues[np.isfinite(tmpValues)] = 1
-        tmp_height.values = tmpValues
+        tmp_values = tmp_height.values
+        tmp_values[np.isfinite(tmp_values)] = 1
+        tmp_height.values = tmp_values
         tmp_height = tmp_height * self.lidar.dataTransf.range
         self.lidar.dataTransf = self.lidar.dataTransf.where(
             tmp_height < self.interpInterfHeight
         )
 
         tmp_height = self.lidar.dataTransf90.copy()
-        tmpValues = tmp_height.values
-        tmpValues[np.isfinite(tmpValues)] = 1
-        tmp_height.values = tmpValues
+        tmp_values = tmp_height.values
+        tmp_values[np.isfinite(tmp_values)] = 1
+        tmp_height.values = tmp_values
         tmp_height = tmp_height * self.lidar.dataTransf90.range90
         self.lidar.dataTransf90 = self.lidar.dataTransf90.where(
             tmp_height < self.interpInterfHeight90
