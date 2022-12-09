@@ -177,13 +177,13 @@ class secondTripEchoFilter:
         self.min_periods = min_periods
         self.nStd = nStd
 
-        self.getTimeEdges()
+        self.get_time_edges()
         self.cal_mean_and_anom_slant()
         self.cal_mean_and_anom_90()
         self.cleaning()
         self.cleaning90()
 
-    def getTimeEdges(self, str_h="09", end_h="16"):
+    def get_time_edges(self, str_h="09", end_h="16"):
         """
         It creates the time boundaries for the STD anomaly calculation
 
