@@ -177,7 +177,7 @@ class secondTripEchoFilter:
         self.min_periods = min_periods
         self.nStd = nStd
 
-        self.get_time_edges()
+        self.get_time_edges(str_h=str_h, end_h=end_h)
         self.cal_mean_and_anom_slant()
         self.cal_mean_and_anom_90()
         self.cleaning()
