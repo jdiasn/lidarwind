@@ -227,7 +227,7 @@ class secondTripEchoFilter:
             time=self.nProf, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.dataAnom90 = self.lidar.dataTransf90 - self.dataMean90
+        self.data_anom_90 = self.lidar.dataTransf90 - self.dataMean90
 
     def cleaning(self):
         """
@@ -265,7 +265,7 @@ class secondTripEchoFilter:
         from the vertical observations
         """
 
-        tmp_anom = self.dataAnom90.where(
+        tmp_anom = self.data_anom_90.where(
             (self.lidar.dataTransf90.time > self.startTime)
             & (self.lidar.dataTransf90.time < self.endTime)
         )
@@ -275,14 +275,14 @@ class secondTripEchoFilter:
         # tmpNoCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom90) < self.nStd * anom_std)
+        # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.nStd * anom_std)
 
         # tmp_clean_data = tmpNoCloud.copy()
         # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmp_clean_data = self.lidar.dataTransf90.copy()
         tmp_clean_data = tmp_clean_data.where(
-            np.abs(self.dataAnom90) < self.nStd * anom_std
+            np.abs(self.data_anom_90) < self.nStd * anom_std
         )
 
         self.lidar.dataTransf90.values = tmp_clean_data.values
