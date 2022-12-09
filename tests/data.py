@@ -4,11 +4,11 @@ import glob
 import pytest
 
 import gdown
-import xarray as xr
 
 from lidarSuit.io import open_sweep
 
-def lidarsuitrc(subdir: str|None =None):
+
+def lidarsuitrc(subdir: str | None = None):
     """Standard path for Lidar Suit configurations
 
     This might be moved into lidarSuit.utils if used somewhere else
@@ -20,6 +20,7 @@ def lidarsuitrc(subdir: str|None =None):
         path = os.path.join(path, subdir)
 
     return path
+
 
 def get_sample_data(sample_path, file_type):
 
@@ -65,7 +66,7 @@ def data_filenames():
     return file_list
 
 
-def sample_dataset(filename:str):
+def sample_dataset(filename: str):
     """Single xr.Dataset for testing
 
     For a given identifier, for now it is the filename, download if needed,
