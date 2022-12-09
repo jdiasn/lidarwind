@@ -325,7 +325,7 @@ class windCubeCloudRemoval:
         self.getHeightInterface()
 
         if lidar != None:
-            self.getInterpInterfHeight()
+            self.get_interp_interf_height()
             self.remove_cloud()
 
     def getNoiseFreeBeta(self):
@@ -370,7 +370,7 @@ class windCubeCloudRemoval:
 
         return self
 
-    def getInterpInterfHeight(self):
+    def get_interp_interf_height(self):
         """
         It interpolates the noise height interface to the same
         temporal resolution from the windcube data
