@@ -341,7 +341,7 @@ class windCubeCloudRemoval:
             time=15, center=True, min_periods=15
         ).mean()
 
-        self.noiseFreeBeta = positive_beta
+        self.noise_free_beta = positive_beta
 
         return self
 
@@ -359,7 +359,7 @@ class windCubeCloudRemoval:
         tmp_ceilo_hgt.values = tmp_values
         tmp_ceilo_hgt = tmp_ceilo_hgt * self.ceilo.range
 
-        lowest_beta = self.noiseFreeBeta.where(tmp_ceilo_hgt < 4e3)
+        lowest_beta = self.noise_free_beta.where(tmp_ceilo_hgt < 4e3)
 
         tmp_ceilo_hgt = tmp_ceilo_hgt.where(np.isfinite(lowest_beta))
 
