@@ -353,17 +353,17 @@ class windCubeCloudRemoval:
         """
         positiveBeta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
 
-        tmpCeiloHgt = positiveBeta.copy()
-        tmp_values = tmpCeiloHgt.values
+        tmp_ceilo_hgt = positiveBeta.copy()
+        tmp_values = tmp_ceilo_hgt.values
         tmp_values[np.isfinite(tmp_values)] = 1
-        tmpCeiloHgt.values = tmp_values
-        tmpCeiloHgt = tmpCeiloHgt * self.ceilo.range
+        tmp_ceilo_hgt.values = tmp_values
+        tmp_ceilo_hgt = tmp_ceilo_hgt * self.ceilo.range
 
-        lowestBeta = self.noiseFreeBeta.where(tmpCeiloHgt < 4e3)
+        lowestBeta = self.noiseFreeBeta.where(tmp_ceilo_hgt < 4e3)
 
-        tmpCeiloHgt = tmpCeiloHgt.where(np.isfinite(lowestBeta))
+        tmp_ceilo_hgt = tmp_ceilo_hgt.where(np.isfinite(lowestBeta))
 
-        self.interfHeight = tmpCeiloHgt.max(dim="range")
+        self.interfHeight = tmp_ceilo_hgt.max(dim="range")
         self.interfHeight = self.interfHeight.rolling(
             time=7, center=True, min_periods=5
         ).mean()
