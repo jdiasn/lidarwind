@@ -208,9 +208,9 @@ class secondTripEchoFilter:
         """
 
         # slanted beam
-        tmpSelData = self.lidar.dataTransf
+        tmp_sel_data = self.lidar.dataTransf
 
-        self.dataMean = tmpSelData.rolling(
+        self.dataMean = tmp_sel_data.rolling(
             time=self.nProf, center=self.center, min_periods=self.min_periods
         ).mean()
 
