@@ -4,6 +4,7 @@ import xarray as xr
 
 import lidarSuit as lst
 
+
 def test_dataOperator_dataOperations_dataPaths():
 
     with pytest.raises(FileNotFoundError):
@@ -19,20 +20,22 @@ def test_dataOperator_readProcessedData_fileList():
 def test_dataOperator_getRestructuredData_data():
 
     with pytest.raises(TypeError):
-        lst.getRestructuredData(data=xr.DataArray(np.array([0,1])))
+        lst.getRestructuredData(data=xr.DataArray(np.array([0, 1])))
+
 
 def test_dataOperator_getResampled_xrDataArray_none():
 
     with pytest.raises(TypeError):
-        lst.getResampledData(xrDataArray=np.array([0,1]))
+        lst.getResampledData(xrDataArray=np.array([0, 1]))
 
 
 def test_dataOperator_dbsOperations_fileList_none():
 
     with pytest.raises(FileNotFoundError):
-        lst.dbsOperations(fileList=None, varList=['range'])
+        lst.dbsOperations(fileList=None, varList=["range"])
+
 
 def test_dataOperator_dbsOperations_varList_none():
 
     with pytest.raises(KeyError):
-        lst.dbsOperations(fileList=['file_path'], varList=None)
+        lst.dbsOperations(fileList=["file_path"], varList=None)

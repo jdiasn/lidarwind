@@ -225,7 +225,7 @@ class sixBeamMethod:
                     "time": self.rVariances["rVariance90"].time,
                     "range": self.rVariances["rVariance"].range,
                 },
-                name="var_{0}".format(varComp),
+                name=f"var_{varComp}",
             )
 
             varCompDS = xr.merge([varCompDS, tmpData])

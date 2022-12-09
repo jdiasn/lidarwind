@@ -145,7 +145,7 @@ class loadAttributes:
                 self.data[key].attrs = self.attrsDic[key]
 
             except:
-                print("coord not found: {0}".format(key))
+                print(f"coord not found: {key}")
 
         return self
 
@@ -163,6 +163,6 @@ class loadAttributes:
                 self.data[key].attrs = self.attrsDic[key]
 
             except:
-                print("variable not found: {0}".format(key))
+                print(f"variable not found: {key}")
 
         return self

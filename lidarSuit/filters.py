@@ -201,6 +201,7 @@ class secondTripEchoFilter:
         self.startTime = pd.to_datetime(f"{sel_time} {str_h}")
         self.endTime = pd.to_datetime(f"{sel_time} {end_h}")
 
+
     def cal_mean_and_anom_slant(self):
         """
         It calculates the anomaly from the slanted observations

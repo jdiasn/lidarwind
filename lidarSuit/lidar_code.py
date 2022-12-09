@@ -36,7 +36,6 @@ class getLidarData:
 
         return None
 
-      
     def openLidarFile(self):
 
         """
