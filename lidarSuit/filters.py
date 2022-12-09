@@ -324,7 +324,7 @@ class windCubeCloudRemoval:
         self.get_noise_free_beta()
         self.get_height_interface()
 
-        if lidar != None:
+        if lidar is not None:
             self.get_interp_interf_height()
             self.remove_cloud()
 
