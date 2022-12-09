@@ -365,7 +365,7 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = Filtering(self.data).getRadialObsComp(
+                tmpRadWind = Filtering(self.data).get_radial_obs_comp(
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
                 )
 

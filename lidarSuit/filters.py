@@ -64,7 +64,7 @@ class Filtering:
 
         return tmp_data
 
-    def getRadialObsComp(self, variable, azm, snr=False, status=True):
+    def get_radial_obs_comp(self, variable, azm, snr=False, status=True):
         """Slanted data filter
 
         It uses the SNR and status variables to filter out
