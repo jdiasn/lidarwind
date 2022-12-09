@@ -129,7 +129,7 @@ class SecondTripEchoFilter:
         1 indicates cloud and 0 indicates no cloud.
         (THIS MAKS IS NOT NEEDED NOW)
 
-    nProf : int
+    n_prof : int
         number of profiles used to calculating the anomaly
 
     center : bool, optional
@@ -161,7 +161,7 @@ class SecondTripEchoFilter:
     def __init__(
         self,
         data,
-        nProf=500,
+        n_prof=500,
         center=True,
         min_periods=30,
         nStd=2,
@@ -171,7 +171,7 @@ class SecondTripEchoFilter:
 
         self.lidar = data
         # self.timeCloudMask = timeCloudMask
-        self.nProf = nProf
+        self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
         self.nStd = nStd
@@ -211,7 +211,7 @@ class SecondTripEchoFilter:
         tmp_sel_data = self.lidar.dataTransf
 
         self.dataMean = tmp_sel_data.rolling(
-            time=self.nProf, center=self.center, min_periods=self.min_periods
+            time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
         self.dataAnom = self.lidar.dataTransf - self.dataMean
@@ -225,7 +225,7 @@ class SecondTripEchoFilter:
         tmp_sel_data_90 = self.lidar.dataTransf90
 
         self.dataMean90 = tmp_sel_data_90.rolling(
-            time=self.nProf, center=self.center, min_periods=self.min_periods
+            time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
         self.data_anom_90 = self.lidar.dataTransf90 - self.dataMean90

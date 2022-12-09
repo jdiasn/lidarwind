@@ -292,7 +292,7 @@ class getRestructuredData:
         data: xr.Dataset,
         snr=False,
         status=True,
-        nProf=500,
+        n_prof=500,
         center=True,
         min_periods=30,
         nStd=2,
@@ -311,7 +311,7 @@ class getRestructuredData:
         self.data = data
         self.snr = snr
         self.status = status
-        self.nProf = nProf
+        self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
         self.nStd = nStd
@@ -393,7 +393,7 @@ class getRestructuredData:
 
         self.dataTransf = respDopVel
         # (maybe all STE filter should be in the same class)
-        # self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf, center=self.center,
+        # self.dataTransf = secondTripEchoFilter(respDopVel, n_prof=self.n_prof, center=self.center,
         #                                        min_periods=self.min_periods, nStd=self.nStd).data
 
         return self
