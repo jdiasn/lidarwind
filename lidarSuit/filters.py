@@ -46,23 +46,23 @@ class Filtering:
 
         Returns
         -------
-        tmpData : xarray.DataSet
+        tmp_data : xarray.DataSet
             an instance of the variable filtered using
             SNR or status variable
 
         """
 
-        tmpData = self.data[variable]
+        tmp_data = self.data[variable]
 
         if status:
-            tmpData = tmpData.where(self.data.radial_wind_speed_status90 == 1)
+            tmp_data = tmp_data.where(self.data.radial_wind_speed_status90 == 1)
 
         if snr != False:
-            tmpData = tmpData.where(self.data.cnr90 > snr)
+            tmp_data = tmp_data.where(self.data.cnr90 > snr)
 
-        tmpData = tmpData.where(self.data.elevation == 90, drop=True)
+        tmp_data = tmp_data.where(self.data.elevation == 90, drop=True)
 
-        return tmpData
+        return tmp_data
 
     def getRadialObsComp(self, variable, azm, snr=False, status=True):
         """Slanted data filter
@@ -93,19 +93,19 @@ class Filtering:
 
         """
 
-        tmpData = self.data[variable]
+        tmp_data = self.data[variable]
 
         if status:
-            tmpData = tmpData.where(self.data.radial_wind_speed_status == 1)
+            tmp_data = tmp_data.where(self.data.radial_wind_speed_status == 1)
 
         if snr != False:
-            tmpData = tmpData.where(self.data.cnr > snr)
+            tmp_data = tmp_data.where(self.data.cnr > snr)
 
-        tmpData = tmpData.where(
+        tmp_data = tmp_data.where(
             (self.data.elevation != 90) & (self.data.azimuth == azm), drop=True
         )
 
-        return tmpData
+        return tmp_data
 
 
 # it removes the STE below cloud layer
