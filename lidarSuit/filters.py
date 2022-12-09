@@ -24,7 +24,7 @@ class Filtering:
 
         self.data = data
 
-    def getVerticalObsComp(self, variable, snr=False, status=True):
+    def get_vertical_obs_comp(self, variable, snr=False, status=True):
         """Vertical data filter
 
         It uses the SNR and status variables to filter out

@@ -93,7 +93,7 @@ class visualizer:
             )
 
         else:
-            tmpData = Filtering(self.data).getVerticalObsComp(varName)
+            tmpData = Filtering(self.data).get_vertical_obs_comp(varName)
 
             if namePrefix:
                 strName = "{}_{}".format(
