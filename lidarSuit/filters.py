@@ -291,7 +291,7 @@ class secondTripEchoFilter:
 
 # it removes STE and clouds contamination
 # from above the aerosol loaded region
-class wind_cube_cloud_removal:
+class WindCubeCloudRemoval:
     """Above boundary layer second trip echoes filter
 
     This filter reduces the second trip echoes contamination
