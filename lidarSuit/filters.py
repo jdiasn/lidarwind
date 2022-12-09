@@ -390,25 +390,25 @@ class windCubeCloudRemoval:
         data above the noise height interface
         """
 
-        tmpHeight = self.lidar.dataTransf.copy()
-        tmpValues = tmpHeight.values
+        tmp_height = self.lidar.dataTransf.copy()
+        tmpValues = tmp_height.values
         tmpValues[np.isfinite(tmpValues)] = 1
-        tmpHeight.values = tmpValues
-        tmpHeight = tmpHeight * self.lidar.dataTransf.range
+        tmp_height.values = tmpValues
+        tmp_height = tmp_height * self.lidar.dataTransf.range
         self.lidar.dataTransf = self.lidar.dataTransf.where(
-            tmpHeight < self.interpInterfHeight
+            tmp_height < self.interpInterfHeight
         )
 
-        tmpHeight = self.lidar.dataTransf90.copy()
-        tmpValues = tmpHeight.values
+        tmp_height = self.lidar.dataTransf90.copy()
+        tmpValues = tmp_height.values
         tmpValues[np.isfinite(tmpValues)] = 1
-        tmpHeight.values = tmpValues
-        tmpHeight = tmpHeight * self.lidar.dataTransf90.range90
+        tmp_height.values = tmpValues
+        tmp_height = tmp_height * self.lidar.dataTransf90.range90
         self.lidar.dataTransf90 = self.lidar.dataTransf90.where(
-            tmpHeight < self.interpInterfHeight90
+            tmp_height < self.interpInterfHeight90
         )
         self.lidar.relative_beta90 = self.lidar.relative_beta90.where(
-            tmpHeight < self.interpInterfHeight90
+            tmp_height < self.interpInterfHeight90
         )
 
         return self
