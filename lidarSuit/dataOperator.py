@@ -12,7 +12,7 @@ import numpy as np
 
 # import lidarSuit as lst
 from .filters import Filtering
-from .filters import secondTripEchoFilter
+from .filters import SecondTripEchoFilter
 
 from .lidar_code import getLidarData
 

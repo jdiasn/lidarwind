@@ -109,7 +109,7 @@ class Filtering:
 
 
 # it removes the STE below cloud layer
-class secondTripEchoFilter:
+class SecondTripEchoFilter:
     """Boundary layer second trip echoes filter
 
     This filter minimises the presence of second
