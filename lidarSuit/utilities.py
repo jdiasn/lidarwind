@@ -21,12 +21,12 @@ class util:
         """
 
         start = selDay.strftime("%Y%m%d")
-        startTime = pd.to_datetime(f"{start} 00:00:00")
+        start_time = pd.to_datetime(f"{start} 00:00:00")
 
         end = (selDay + pd.to_timedelta(1, "D")).strftime("%Y%m%d")
         endTime = pd.to_datetime(f"{end} 00:00:00")
 
-        timeBins = pd.date_range(startTime, endTime, freq=freq)
+        timeBins = pd.date_range(start_time, endTime, freq=freq)
 
         return timeBins
 
