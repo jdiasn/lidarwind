@@ -1,9 +1,12 @@
 import os
-import gdown
 import shutil
 import glob
 import pytest
 
+import gdown
+import xarray as xr
+
+from lidarSuit.io import open_sweep
 
 def lidarsuitrc(subdir: str|None =None):
     """Standard path for Lidar Suit configurations
@@ -60,3 +63,19 @@ def data_filenames():
         file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
     return file_list
+
+
+def sample_dataset(filename:str):
+    """Single xr.Dataset for testing
+
+    For a given identifier, for now it is the filename, download if needed,
+    and return already as an xarray Dataset ready to be used.
+
+    @jdiasn will refactor how these testing data is managed, so let's leave
+    optimizations for later as long as thid function keep returning a
+    Dataset.
+    """
+    path = os.path.join(lidarsuitrc("sample_data"), "12-00", filename)
+
+    ds = open_sweep(path)
+    return ds
