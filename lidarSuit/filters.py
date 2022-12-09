@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 
-class filtering:
+class Filtering:
     """SNR and Status filter
 
     It uses the carrier to noise ratio (SNR) and status

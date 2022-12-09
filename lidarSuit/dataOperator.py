@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 
 # import lidarSuit as lst
-from .filters import filtering
+from .filters import Filtering
 from .filters import secondTripEchoFilter
 
 from .lidar_code import getLidarData
@@ -373,7 +373,7 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = filtering(self.data).getRadialObsComp(
+                tmpRadWind = Filtering(self.data).getRadialObsComp(
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
                 )
 
@@ -414,13 +414,13 @@ class getRestructuredData:
 
         self.logger.info("selcting zenith observations")
 
-        tmpData = filtering(self.data).getVerticalObsComp(
+        tmpData = Filtering(self.data).getVerticalObsComp(
             "radial_wind_speed90", snr=self.snr, status=self.status
         )
         tmpData = tmpData.isel(range90=slice(0, len(self.rangeNon90)))
         self.dataTransf90 = tmpData
 
-        tmpData = filtering(self.data).getVerticalObsComp(
+        tmpData = Filtering(self.data).getVerticalObsComp(
             "relative_beta90", snr=self.snr, status=self.status
         )
         tmpData = tmpData.isel(range90=slice(0, len(self.rangeNon90)))
