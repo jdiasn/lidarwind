@@ -7,6 +7,8 @@ import gdown
 
 from lidarSuit.io import open_sweep
 
+GDRIVE_ID = "1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
+
 
 def lidarsuitrc(subdir: str | None = None):
     """Standard path for Lidar Suit configurations
@@ -25,7 +27,7 @@ def lidarsuitrc(subdir: str | None = None):
 def get_sample_data(sample_path, file_type):
 
     if file_type == "12-00":
-        url = "https://drive.google.com/uc?export=download&id=1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
+        url = f"https://drive.google.com/uc?export=download&id={GDRIVE_ID}"
 
     if file_type == "dbs":
         url = "path"
@@ -49,7 +51,7 @@ def data_filenames():
         if os.path.isdir(sample_path):
             file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
-            if bool(file_list) == False:
+            if bool(file_list) is False:
                 get_sample_data(sample_path, file_type)
                 file_list = sorted(glob.glob(f"{sample_path}/*.nc"))
 
