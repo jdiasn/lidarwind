@@ -2,7 +2,10 @@ import pytest
 import numpy as np
 import xarray as xr
 
+from lidarSuit.dataOperator import wc_fixed_preprocessing
 import lidarSuit as lst
+
+from .data import sample_dataset
 
 
 def test_data_operator_DataOperations_data_paths():
@@ -39,3 +42,23 @@ def test_data_operator_DbsOperations_varList_none():
 
     with pytest.raises(KeyError):
         lst.DbsOperations(file_list=["file_path"], var_list=None)
+
+
+def test_wc_fixed_preprocessing_vertical():
+    """Pre-process a vertical WC dataset"""
+    ds = sample_dataset("WLS200s-218_2021-05-13_12-00-14_fixed_399_50m.nc")
+    # Sanity check. Is it indeed a vertical example?
+    assert (ds.elevation == 90).all()
+
+    ds = wc_fixed_preprocessing(ds)
+    assert "elevation" in ds.dims
+
+
+def test_wc_fixed_preprocessing_slanted():
+    """Pre-process a slanted WC dataset"""
+    ds = sample_dataset("WLS200s-218_2021-05-13_12-00-08_fixed_381_50m.nc")
+    # Sanity check. Is it indeed a slanted example?
+    assert (ds.elevation != 90).all()
+
+    ds = wc_fixed_preprocessing(ds)
+    assert "elevation" in ds.dims
