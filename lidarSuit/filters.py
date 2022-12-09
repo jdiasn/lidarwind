@@ -210,11 +210,11 @@ class SecondTripEchoFilter:
         # slanted beam
         tmp_sel_data = self.lidar.dataTransf
 
-        self.dataMean = tmp_sel_data.rolling(
+        self.data_mean = tmp_sel_data.rolling(
             time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.dataAnom = self.lidar.dataTransf - self.dataMean
+        self.dataAnom = self.lidar.dataTransf - self.data_mean
 
     def cal_mean_and_anom_90(self):
         """
@@ -224,11 +224,11 @@ class SecondTripEchoFilter:
         # vertical beam
         tmp_sel_data_90 = self.lidar.dataTransf90
 
-        self.dataMean90 = tmp_sel_data_90.rolling(
+        self.data_mean90 = tmp_sel_data_90.rolling(
             time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.data_anom_90 = self.lidar.dataTransf90 - self.dataMean90
+        self.data_anom_90 = self.lidar.dataTransf90 - self.data_mean90
 
     def cleaning(self):
         """
