@@ -326,7 +326,7 @@ class windCubeCloudRemoval:
 
         if lidar != None:
             self.getInterpInterfHeight()
-            self.removeCloud()
+            self.remove_cloud()
 
     def getNoiseFreeBeta(self):
         """
@@ -384,7 +384,7 @@ class windCubeCloudRemoval:
 
         return self
 
-    def removeCloud(self):
+    def remove_cloud(self):
         """
         It removes from the windcube's observation all
         data above the noise height interface
