@@ -57,7 +57,7 @@ class Filtering:
         if status:
             tmp_data = tmp_data.where(self.data.radial_wind_speed_status90 == 1)
 
-        if snr != False:
+        if snr is not False:
             tmp_data = tmp_data.where(self.data.cnr90 > snr)
 
         tmp_data = tmp_data.where(self.data.elevation == 90, drop=True)
