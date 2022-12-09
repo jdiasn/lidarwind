@@ -179,7 +179,7 @@ class secondTripEchoFilter:
 
         self.getTimeEdges()
         self.calMeanAndAnomSlant()
-        self.calMeanAndAnom90()
+        self.cal_mean_and_anom_90()
         self.cleaning()
         self.cleaning90()
 
@@ -216,7 +216,7 @@ class secondTripEchoFilter:
 
         self.dataAnom = self.lidar.dataTransf - self.dataMean
 
-    def calMeanAndAnom90(self):
+    def cal_mean_and_anom_90(self):
         """
         It calculates the anomaly from the vertical observations
         """
