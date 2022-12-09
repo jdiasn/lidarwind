@@ -322,7 +322,7 @@ class windCubeCloudRemoval:
         self.ceilo = ceilo
 
         self.getNoiseFreeBeta()
-        self.getHeightInterface()
+        self.get_height_interface()
 
         if lidar != None:
             self.get_interp_interf_height()
@@ -345,7 +345,7 @@ class windCubeCloudRemoval:
 
         return self
 
-    def getHeightInterface(self):
+    def get_height_interface(self):
         """
         It identifies the height of the separation between
         the noise and the non-noise data from the ceilometer
