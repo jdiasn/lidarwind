@@ -378,7 +378,7 @@ class windCubeCloudRemoval:
         self.interpInterfHeight = self.interfHeight.interp(
             time=self.lidar.dataTransf.time
         )
-        self.interpInterfHeight90 = self.interfHeight.interp(
+        self.interp_interf_height_90 = self.interfHeight.interp(
             time=self.lidar.dataTransf90.time
         )
 
@@ -405,10 +405,10 @@ class windCubeCloudRemoval:
         tmp_height.values = tmp_values
         tmp_height = tmp_height * self.lidar.dataTransf90.range90
         self.lidar.dataTransf90 = self.lidar.dataTransf90.where(
-            tmp_height < self.interpInterfHeight90
+            tmp_height < self.interp_interf_height_90
         )
         self.lidar.relative_beta90 = self.lidar.relative_beta90.where(
-            tmp_height < self.interpInterfHeight90
+            tmp_height < self.interp_interf_height_90
         )
 
         return self
