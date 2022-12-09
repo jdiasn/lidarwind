@@ -84,11 +84,9 @@ class dataOperations:
 
             try:
                 tmpFile = getLidarData(filePath).openLidarFile()
-                self.logger.debug("reading file: {0}".format(filePath))
+                self.logger.debug(f"reading file: {filePath}")
             except:
-                self.logger.warning(
-                    "This file has a problem: {0}".format(filePath)
-                )
+                self.logger.warning(f"This file has a problem: {filePath}")
 
             try:
                 elevation = tmpFile.elevation.round(1)
@@ -96,27 +94,21 @@ class dataOperations:
                 tmpFile["azimuth"] = tmpFile.azimuth.round(1)
                 tmpFile["azimuth"][tmpFile.azimuth == 360] = 0
             except:
-                self.logger.info(
-                    "Problems reading elv and axm: {0}".format(filePath)
-                )
+                self.logger.info(f"Problems reading elv and axm: {filePath}")
 
             try:
                 self.tmp90 = xr.merge(
                     [self.tmp90, tmpFile.where(elevation == 90, drop=True)]
                 )
             except:
-                self.logger.info(
-                    "This file does not have 90 elv: {0}".format(filePath)
-                )
+                self.logger.info(f"This file does not have 90 elv: {filePath}")
 
             try:
                 self.tmpNon90 = xr.merge(
                     [self.tmpNon90, tmpFile.where(elevation != 90, drop=True)]
                 )
             except:
-                self.logger.info(
-                    "This file only has 90 elv: {0}".format(filePath)
-                )
+                self.logger.info(f"This file only has 90 elv: {filePath}")
 
         return self
 
@@ -135,7 +127,7 @@ class dataOperations:
 
             if "range90" in self.tmp90[var].dims:
 
-                self.tmp90 = self.tmp90.rename({var: "{0}90".format(var)})
+                self.tmp90 = self.tmp90.rename({var: f"{var}90"})
 
         return self
 
@@ -232,11 +224,11 @@ class readProcessedData:
         for fileName in sorted(self.fileList):
 
             try:
-                self.logger.info("opening {0}".format(fileName))
+                self.logger.info(f"opening {fileName}")
                 tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
 
             except:
-                self.logger.info("problems with: {0}".format(fileName))
+                self.logger.info(f"problems with: {fileName}")
                 pass
 
         return tmpMerged
@@ -624,7 +616,7 @@ class getResampledData:
             time/range resampled numpy array
         """
 
-        self.logger.info("time resampling of: {0}".format(self.varName))
+        self.logger.info(f"time resampling of: {self.varName}")
 
         resampledTimeArr = (
             np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))
@@ -647,7 +639,7 @@ class getResampledData:
         """
 
         self.logger.info(
-            "generating the new resampled DataArray: {0}".format(self.varName)
+            f"generating the new resampled DataArray: {self.varName}"
         )
 
         tmpDT = xr.DataArray(
@@ -731,11 +723,9 @@ class dbsOperations:
 
             try:
                 fileToMerge = getLidarData(file).openLidarFile()
-                self.logger.debug("reading file: {0}".format(file))
+                self.logger.debug(f"reading file: {file}")
             except:
-                self.logger.warning(
-                    "This file has a problem: {0}".format(file)
-                )
+                self.logger.warning(f"This file has a problem: {file}")
                 raise
 
             fileToMerge = self.mean_time_derivation(fileToMerge)
@@ -744,7 +734,7 @@ class dbsOperations:
             try:
                 self.merge2DS(fileToMerge, var_list)
             except:
-                self.logger.warning("Merging not possible: {0}".format(file))
+                self.logger.warning(f"Merging not possible: {file}")
                 # raise
 
     def add_mean_time(self, lidarDS):
