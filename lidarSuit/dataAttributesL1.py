@@ -2,7 +2,7 @@
 
 """
 
-from .lstConfig import configurations
+from .lstConfig import Configurations
 
 
 class loadAttributes:
@@ -44,7 +44,7 @@ class loadAttributes:
 
         """
 
-        configInfo = configurations(lst=None).load_conf_file()
+        configInfo = Configurations(lst=None).load_conf_file()
 
         tmpAtt = {
             "Conventions": "Cf/Radial 2.0",
