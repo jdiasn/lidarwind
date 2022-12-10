@@ -1,3 +1,4 @@
+
 """Module for configuring the data global attribute
 
 """
@@ -158,17 +159,17 @@ class configurations:
 
         """
 
-        configDic = {}
+        config_dic = {}
 
-        configDic["references"] = self.references
-        configDic["institution"] = self.institution
-        configDic["instrument_name"] = self.instrument
-        configDic["site_name"] = self.site
-        configDic["comments"] = self.comments
-        configDic["contact_person"] = self.contact
-        configDic["email"] = self.email
+        config_dic["references"] = self.references
+        config_dic["institution"] = self.institution
+        config_dic["instrument_name"] = self.instrument
+        config_dic["site_name"] = self.site
+        config_dic["comments"] = self.comments
+        config_dic["contact_person"] = self.contact
+        config_dic["email"] = self.email
 
-        configJS = json.dumps(configDic)
+        configJS = json.dumps(config_dic)
         configFile = open("config.json", "w")
         configFile.write(configJS)
         configFile.close()
@@ -186,7 +187,7 @@ class configurations:
         """
 
         try:
-            configDic = json.load(open(filePath))
+            config_dic = json.load(open(filePath))
 
         except FileNotFoundError:
 
@@ -194,14 +195,14 @@ class configurations:
             print("a temporary config file was generated")
             print("See the documentation for generating it")
             self.generateConf()
-            configDic = json.load(open(filePath))
+            config_dic = json.load(open(filePath))
 
-        self.loadReference(configDic["references"])
-        self.loadInstitution(configDic["institution"])
-        self.loadInstrument(configDic["instrument_name"])
-        self.loadComments(configDic["comments"])
-        self.loadSite(configDic["site_name"])
-        self.loadContact(configDic["contact_person"])
-        self.loadEmail(configDic["email"])
+        self.loadReference(config_dic["references"])
+        self.loadInstitution(config_dic["institution"])
+        self.loadInstrument(config_dic["instrument_name"])
+        self.loadComments(config_dic["comments"])
+        self.loadSite(config_dic["site_name"])
+        self.loadContact(config_dic["contact_person"])
+        self.loadEmail(config_dic["email"])
 
         return self
