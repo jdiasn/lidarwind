@@ -174,7 +174,7 @@ class configurations:
         configFile.write(configJS)
         configFile.close()
 
-    def loadConfFile(self, file_path="config.json"):
+    def load_conf_file(self, file_path="config.json"):
         """
         It loads the pre-defined global attributes
         from the config.json, if it exists.
