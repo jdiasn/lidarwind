@@ -6,7 +6,7 @@
 import json
 
 
-class configurations:
+class Configurations:
     """Global attributes definition
 
     This class defines all global attributes
