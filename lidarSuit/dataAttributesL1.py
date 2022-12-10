@@ -5,7 +5,7 @@
 from .lstConfig import Configurations
 
 
-class loadAttributes:
+class LoadAttributes:
 
     """Level 1 Attribute generator
 
