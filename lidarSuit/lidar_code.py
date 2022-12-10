@@ -36,7 +36,7 @@ class GetLidarData:
 
 
 
-    def openLidarFile(self):
+    def OpenLidarFile(self):
 
         """
         Function to read the lidar NetCDF files
