@@ -170,9 +170,9 @@ class configurations:
         config_dic["email"] = self.email
 
         configJS = json.dumps(config_dic)
-        configFile = open("config.json", "w")
-        configFile.write(configJS)
-        configFile.close()
+        config_file = open("config.json", "w")
+        config_file.write(configJS)
+        config_file.close()
 
     def load_conf_file(self, file_path="config.json"):
         """
