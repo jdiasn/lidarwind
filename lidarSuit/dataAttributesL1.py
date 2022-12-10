@@ -2,7 +2,7 @@
 
 """
 
-from .lstConfig import configurations
+from .lstConfig import Configurations
 
 
 class loadAttributes:
@@ -39,12 +39,12 @@ class loadAttributes:
 
         It loads and writes the global attributes from the Level 1 dataset.
         The global attributes are defiened in the configuration file.
-        See lstConfig.generateConf documentation for information about generating
+        See lstConfig.generate_conf documentation for information about generating
         the configuration file.
 
         """
 
-        configInfo = configurations(lst=None).loadConfFile()
+        configInfo = Configurations(lst=None).load_conf_file()
 
         tmpAtt = {
             "Conventions": "Cf/Radial 2.0",
