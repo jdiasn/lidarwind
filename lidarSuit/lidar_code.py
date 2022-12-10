@@ -8,16 +8,15 @@
 
 import warnings
 
-import xarray as xr
 
 from .io import open_sweep
 
 
-class getLidarData:
+class GetLidarData:
     """Windcube's data reader
 
 
-    ATENTION, please move to io.open_sweep(). This getLidarData will
+    ATENTION, please move to io.open_sweep(). This GetLidarData will
     be eventually removed.
 
     It opens and reads the original NetCDF output from the Windcube lidar
@@ -25,18 +24,18 @@ class getLidarData:
     Parameters
     ----------
 
-    fileName : str
+    file_name : str
         name of the file that will be open
 
     """
 
-    def __init__(self, fileName):
+    def __init__(self, file_name):
 
-        self.fileName = fileName
+        self.file_name = file_name
 
-        return None
 
-    def openLidarFile(self):
+
+    def open_lidar_file(self):
 
         """
         Function to read the lidar NetCDF files
@@ -52,9 +51,9 @@ class getLidarData:
         finished the transition to new I/O.
         """
         warnings.warn(
-            "getLidarData will be removed eventually. Please use io module instead",
+            "GetLidarData will be removed eventually. Please use io module instead",
             DeprecationWarning,
             stacklevel=2,
         )
 
-        return open_sweep(self.fileName)
+        return open_sweep(self.file_name)
