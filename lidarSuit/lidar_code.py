@@ -25,14 +25,14 @@ class GetLidarData:
     Parameters
     ----------
 
-    fileName : str
+    file_name : str
         name of the file that will be open
 
     """
 
-    def __init__(self, fileName):
+    def __init__(self, file_name):
 
-        self.fileName = fileName
+        self.file_name = file_name
 
         return None
 
@@ -57,4 +57,4 @@ class GetLidarData:
             stacklevel=2,
         )
 
-        return open_sweep(self.fileName)
+        return open_sweep(self.file_name)
