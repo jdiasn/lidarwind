@@ -34,7 +34,7 @@ class GetLidarData:
 
         self.file_name = file_name
 
-        return None
+
 
     def openLidarFile(self):
 
