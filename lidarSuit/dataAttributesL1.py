@@ -5,7 +5,7 @@
 from .lstConfig import Configurations
 
 
-class loadAttributes:
+class LoadAttributes:
 
     """Level 1 Attribute generator
 
@@ -28,12 +28,12 @@ class loadAttributes:
     def __init__(self, data):
 
         self.data = data
-        self.writeGlobalAttrs()
-        self.variablesAttrs()
-        self.writeCoordsAttrs()
-        self.writeVariablesAttrs()
+        self.write_global_attrs()
+        self.variables_attrs()
+        self.write_coords_attrs()
+        self.write_variables_attrs()
 
-    def writeGlobalAttrs(self):
+    def write_global_attrs(self):
 
         """Global attribute writer
 
@@ -44,25 +44,25 @@ class loadAttributes:
 
         """
 
-        configInfo = Configurations(lst=None).load_conf_file()
+        config_info = Configurations(lst=None).load_conf_file()
 
-        tmpAtt = {
+        tmp_att = {
             "Conventions": "Cf/Radial 2.0",
             "title": "Wind properties",
-            "references": configInfo.references,
-            "institution": configInfo.institution,
-            "instrument_name": configInfo.instrument,
-            "comments": configInfo.comments,
-            "site_name": configInfo.site,
-            "contact_person": configInfo.contact,
-            "email": configInfo.email,
+            "references": config_info.references,
+            "institution": config_info.institution,
+            "instrument_name": config_info.instrument,
+            "comments": config_info.comments,
+            "site_name": config_info.site,
+            "contact_person": config_info.contact,
+            "email": config_info.email,
         }
 
-        self.data.attrs = tmpAtt
+        self.data.attrs = tmp_att
 
         return self
 
-    def variablesAttrs(self):
+    def variables_attrs(self):
 
         """Variable attributes definitions
 
@@ -70,68 +70,69 @@ class loadAttributes:
 
         """
 
-        attrsDic = {}
+        attrs_dic = {}
 
-        attrsDic["range"] = {
+        attrs_dic["range"] = {
             "standard_name": "range",
             "units": "m",
             "comments": "Distance between the instrument and the center of each range gate",
         }
 
-        attrsDic["time"] = {
+        attrs_dic["time"] = {
             "standard_name": "time",
             "reference": "seconds since 1970-01-01 00:00:00",
             "comments": "time of the horizotal observations",
         }
 
-        attrsDic["time90"] = {
+        attrs_dic["time90"] = {
             "standard_name": "time90",
             "reference": "seconds since 1970-01-01 00:00:00",
             "comments": "time of the vertical observations",
         }
 
-        attrsDic["horizontal_wind_speed"] = {
+        attrs_dic["horizontal_wind_speed"] = {
             "standard_name": "wind_speed",
             "units": "m/s",
             "comments": "horizontal wind speed retrived using the FFT method",
         }
 
-        attrsDic["horizontal_wind_direction"] = {
+        attrs_dic["horizontal_wind_direction"] = {
             "standard_name": "wind_direction",
             "units": "degrees",
-            "comments": "horizontal wind direction retrived using the FFT method with respect to true north",
+            "comments": "horizontal wind direction retrived "
+                        "using the FFT method with respect to true north",
             "info": "0=wind coming from the north, 90=east, 180=south, 270=west",
         }
 
-        attrsDic["zonal_wind"] = {
+        attrs_dic["zonal_wind"] = {
             "standard_name": "zonal_wind",
             "units": "m/s",
             "comments": "zonal wind retrived using the FFT method",
         }
 
-        attrsDic["meridional_wind"] = {
+        attrs_dic["meridional_wind"] = {
             "standard_name": "meridional_wind",
             "units": "m/s",
             "comments": "meridional wind retrived using the FFT method",
         }
 
-        attrsDic["vertical_wind_speed"] = {
+        attrs_dic["vertical_wind_speed"] = {
             "standard_name": "vertical_wind_speed",
             "units": "m/s",
             "comments": "observed vertical wind speed (negative towards the ground)",
         }
 
-        attrsDic["lidar_relative_beta"] = {
+        attrs_dic["lidar_relative_beta"] = {
             "standard_name": "volume_attenuated_backwards_scattering_function_in_air",
             "units": "m-1 sr-1",
             "comments": "Attenuated relative backscatter coefficient from the vertical beam",
         }
 
-        self.attrsDic = attrsDic
+        self.attrs_dic = attrs_dic
 
         return self
 
-    def writeCoordsAttrs(self):
+    def write_coords_attrs(self):
 
         """Coordinate attribute writer
 
@@ -142,14 +143,14 @@ class loadAttributes:
         for key in self.data.coords:
 
             try:
-                self.data[key].attrs = self.attrsDic[key]
+                self.data[key].attrs = self.attrs_dic[key]
 
-            except:
+            except KeyError:
                 print(f"coord not found: {key}")
 
         return self
 
-    def writeVariablesAttrs(self):
+    def write_variables_attrs(self):
 
         """Variable attribute writer
 
@@ -160,9 +161,9 @@ class loadAttributes:
         for key in self.data.keys():
 
             try:
-                self.data[key].attrs = self.attrsDic[key]
+                self.data[key].attrs = self.attrs_dic[key]
 
-            except:
+            except KeyError:
                 print(f"variable not found: {key}")
 
         return self

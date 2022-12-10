@@ -5,7 +5,7 @@ import xarray as xr
 import xrft
 
 from .filters import Filtering
-from .dataAttributesL1 import loadAttributes
+from .dataAttributesL1 import LoadAttributes
 from .dataOperator import getRestructuredData
 
 module_logger = logging.getLogger("lidarSuit.windPropRetrieval")
@@ -565,7 +565,7 @@ class retrieveWind:
         tmpWindProp = tmpWindProp.drop(["elv", "freq_azm"])
         self.windProp = tmpWindProp
 
-        # loadAttributes(tmpWindProp).data
+        # LoadAttributes(tmpWindProp).data
 
         return self
 
@@ -579,7 +579,7 @@ class retrieveWind:
         tmpWindW = self.transfdData.dataTransf90
         tmpWindW = tmpWindW.rename({"time": "time90", "range90": "range"})
         self.windProp["vertical_wind_speed"] = tmpWindW
-        # self.windProp = loadAttributes(self.windProp).data
+        # self.windProp = LoadAttributes(self.windProp).data
 
         return self
 
@@ -604,6 +604,6 @@ class retrieveWind:
 
         self.logger.info("loading data attributes")
 
-        self.windProp = loadAttributes(self.windProp).data
+        self.windProp = LoadAttributes(self.windProp).data
 
         return self
