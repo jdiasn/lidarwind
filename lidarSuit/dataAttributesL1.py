@@ -29,7 +29,7 @@ class LoadAttributes:
 
         self.data = data
         self.write_global_attrs()
-        self.variablesAttrs()
+        self.variables_attrs()
         self.writeCoordsAttrs()
         self.writeVariablesAttrs()
 
@@ -62,7 +62,7 @@ class LoadAttributes:
 
         return self
 
-    def variablesAttrs(self):
+    def variables_attrs(self):
 
         """Variable attributes definitions
 
