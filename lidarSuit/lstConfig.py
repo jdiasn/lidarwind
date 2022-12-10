@@ -174,20 +174,20 @@ class configurations:
         configFile.write(configJS)
         configFile.close()
 
-    def loadConfFile(self, filePath="config.json"):
+    def loadConfFile(self, file_path="config.json"):
         """
         It loads the pre-defined global attributes
         from the config.json, if it exists.
 
         Parameters
         ----------
-        filePath : str
+        file_path : str
             the path to the configuration file (config.json)
 
         """
 
         try:
-            config_dic = json.load(open(filePath))
+            config_dic = json.load(open(file_path))
 
         except FileNotFoundError:
 
@@ -195,7 +195,7 @@ class configurations:
             print("a temporary config file was generated")
             print("See the documentation for generating it")
             self.generateConf()
-            config_dic = json.load(open(filePath))
+            config_dic = json.load(open(file_path))
 
         self.loadReference(config_dic["references"])
         self.loadInstitution(config_dic["institution"])
