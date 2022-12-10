@@ -145,7 +145,7 @@ class LoadAttributes:
             try:
                 self.data[key].attrs = self.attrs_dic[key]
 
-            except:
+            except KeyError:
                 print(f"coord not found: {key}")
 
         return self
@@ -163,7 +163,7 @@ class LoadAttributes:
             try:
                 self.data[key].attrs = self.attrs_dic[key]
 
-            except:
+            except KeyError:
                 print(f"variable not found: {key}")
 
         return self
