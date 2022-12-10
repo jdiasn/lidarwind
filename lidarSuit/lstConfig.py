@@ -42,7 +42,7 @@ class Configurations:
 
         """
 
-        if lst == None:
+        if lst is None:
             self.lst_version = "temporary config file"
         else:
             self.lst_version = lst.__version__
