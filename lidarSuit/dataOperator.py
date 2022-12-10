@@ -14,7 +14,7 @@ import numpy as np
 from .filters import Filtering
 from .filters import SecondTripEchoFilter
 
-from .lidar_code import getLidarData
+from .lidar_code import GetLidarData
 
 module_logger = logging.getLogger("lidarSuit.dataOperator")
 module_logger.debug("loading dataOperator")
@@ -83,7 +83,7 @@ class dataOperations:
         for filePath in self.dataPaths:
 
             try:
-                tmpFile = getLidarData(filePath).openLidarFile()
+                tmpFile = GetLidarData(filePath).openLidarFile()
                 self.logger.debug(f"reading file: {filePath}")
             except:
                 self.logger.warning(f"This file has a problem: {filePath}")
@@ -722,7 +722,7 @@ class dbsOperations:
         for file in file_list:
 
             try:
-                fileToMerge = getLidarData(file).openLidarFile()
+                fileToMerge = GetLidarData(file).openLidarFile()
                 self.logger.debug(f"reading file: {file}")
             except:
                 self.logger.warning(f"This file has a problem: {file}")
