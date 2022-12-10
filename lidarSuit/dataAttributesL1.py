@@ -44,18 +44,18 @@ class LoadAttributes:
 
         """
 
-        configInfo = Configurations(lst=None).load_conf_file()
+        config_info = Configurations(lst=None).load_conf_file()
 
         tmpAtt = {
             "Conventions": "Cf/Radial 2.0",
             "title": "Wind properties",
-            "references": configInfo.references,
-            "institution": configInfo.institution,
-            "instrument_name": configInfo.instrument,
-            "comments": configInfo.comments,
-            "site_name": configInfo.site,
-            "contact_person": configInfo.contact,
-            "email": configInfo.email,
+            "references": config_info.references,
+            "institution": config_info.institution,
+            "instrument_name": config_info.instrument,
+            "comments": config_info.comments,
+            "site_name": config_info.site,
+            "contact_person": config_info.contact,
+            "email": config_info.email,
         }
 
         self.data.attrs = tmpAtt
