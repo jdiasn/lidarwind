@@ -153,7 +153,7 @@ class configurations:
 
         return self
 
-    def generateConf(self):
+    def generate_conf(self):
         """
         It writes and saves all defined global attributes.
 
@@ -194,7 +194,7 @@ class configurations:
             print("You do not have a config file yet")
             print("a temporary config file was generated")
             print("See the documentation for generating it")
-            self.generateConf()
+            self.generate_conf()
             config_dic = json.load(open(file_path))
 
         self.loadReference(config_dic["references"])

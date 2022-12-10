@@ -24,13 +24,13 @@ After installing lidarSuit, it is recommended to generate the configuration file
     >>> config = config.loadContact('contact person')
     >>> config = config.loadEmail('contact email')
     >>> config = config.loadComments('additional information')
-    >>> config.generateConf()
+    >>> config.generate_conf()
 
 The configuration file can also be created using the default values.
 
 .. code-block:: python
 
-    >>> lst.configurations(lst=lst).generateConf()
+    >>> lst.configurations(lst=lst).generate_conf()
 
 Whenever the class lst.retrieveWind() is used to retrieve wind, lidarSuit will try to load the global attributes from the config.json. If this file does not exist, lidarSuit will create it using the default values and displays the following message.
 

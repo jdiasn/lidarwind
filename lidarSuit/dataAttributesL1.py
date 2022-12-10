@@ -39,7 +39,7 @@ class loadAttributes:
 
         It loads and writes the global attributes from the Level 1 dataset.
         The global attributes are defiened in the configuration file.
-        See lstConfig.generateConf documentation for information about generating
+        See lstConfig.generate_conf documentation for information about generating
         the configuration file.
 
         """
