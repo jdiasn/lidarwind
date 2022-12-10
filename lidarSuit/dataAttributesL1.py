@@ -28,12 +28,12 @@ class LoadAttributes:
     def __init__(self, data):
 
         self.data = data
-        self.writeGlobalAttrs()
+        self.write_global_attrs()
         self.variablesAttrs()
         self.writeCoordsAttrs()
         self.writeVariablesAttrs()
 
-    def writeGlobalAttrs(self):
+    def write_global_attrs(self):
 
         """Global attribute writer
 
