@@ -17,13 +17,13 @@ After installing lidarSuit, it is recommended to generate the configuration file
 
 .. code-block:: python
 
-    >>> config = lst.configurations(lst=lst)
-    >>> config = config.loadInstitution('institution name')
-    >>> config = config.loadInstrument('instrument name')
-    >>> config = config.loadSite('site name')
-    >>> config = config.loadContact('contact person')
-    >>> config = config.loadEmail('contact email')
-    >>> config = config.loadComments('additional information')
+    >>> config = lst.Configurations(lst=lst)
+    >>> config = config.load_institution('institution name')
+    >>> config = config.load_instrument('instrument name')
+    >>> config = config.load_site('site name')
+    >>> config = config.load_contact('contact person')
+    >>> config = config.load_email('contact email')
+    >>> config = config.load_comments('additional information')
     >>> config.generate_conf()
 
 The configuration file can also be created using the default values.
