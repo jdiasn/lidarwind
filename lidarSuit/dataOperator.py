@@ -11,8 +11,8 @@ import pandas as pd
 import numpy as np
 
 # import lidarSuit as lst
-from .filters import filtering
-from .filters import secondTripEchoFilter
+from .filters import Filtering
+from .filters import SecondTripEchoFilter
 
 from .lidar_code import getLidarData
 
@@ -270,7 +270,7 @@ class getRestructuredData:
     min_periods : int, optional
         (IT GOES TO FILTER MODULE)
 
-    nStd : int, optional
+    n_std : int, optional
         size of the standard deviation window used
         to partially remove the second trip echoes
         (IT GOES TO FILTER MODULE)
@@ -292,10 +292,10 @@ class getRestructuredData:
         data: xr.Dataset,
         snr=False,
         status=True,
-        nProf=500,
+        n_prof=500,
         center=True,
         min_periods=30,
-        nStd=2,
+        n_std=2,
         check90=True,
     ):
 
@@ -311,10 +311,10 @@ class getRestructuredData:
         self.data = data
         self.snr = snr
         self.status = status
-        self.nProf = nProf
+        self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
-        self.nStd = nStd
+        self.n_std = n_std
 
         self.vertical_component_check(check90)
         self.getCoordNon90()
@@ -365,7 +365,7 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = filtering(self.data).getRadialObsComp(
+                tmpRadWind = Filtering(self.data).get_radial_obs_comp(
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
                 )
 
@@ -393,8 +393,8 @@ class getRestructuredData:
 
         self.dataTransf = respDopVel
         # (maybe all STE filter should be in the same class)
-        # self.dataTransf = secondTripEchoFilter(respDopVel, nProf=self.nProf, center=self.center,
-        #                                        min_periods=self.min_periods, nStd=self.nStd).data
+        # self.dataTransf = secondTripEchoFilter(respDopVel, n_prof=self.n_prof, center=self.center,
+        #                                        min_periods=self.min_periods, n_std=self.n_std).data
 
         return self
 
@@ -406,13 +406,13 @@ class getRestructuredData:
 
         self.logger.info("selcting zenith observations")
 
-        tmpData = filtering(self.data).getVerticalObsComp(
+        tmpData = Filtering(self.data).get_vertical_obs_comp(
             "radial_wind_speed90", snr=self.snr, status=self.status
         )
         tmpData = tmpData.isel(range90=slice(0, len(self.rangeNon90)))
         self.dataTransf90 = tmpData
 
-        tmpData = filtering(self.data).getVerticalObsComp(
+        tmpData = Filtering(self.data).get_vertical_obs_comp(
             "relative_beta90", snr=self.snr, status=self.status
         )
         tmpData = tmpData.isel(range90=slice(0, len(self.rangeNon90)))

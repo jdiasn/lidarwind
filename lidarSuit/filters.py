@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 
-class filtering:
+class Filtering:
     """SNR and Status filter
 
     It uses the carrier to noise ratio (SNR) and status
@@ -24,7 +24,7 @@ class filtering:
 
         self.data = data
 
-    def getVerticalObsComp(self, variable, snr=False, status=True):
+    def get_vertical_obs_comp(self, variable, snr=False, status=True):
         """Vertical data filter
 
         It uses the SNR and status variables to filter out
@@ -46,25 +46,25 @@ class filtering:
 
         Returns
         -------
-        tmpData : xarray.DataSet
+        tmp_data : xarray.DataSet
             an instance of the variable filtered using
             SNR or status variable
 
         """
 
-        tmpData = self.data[variable]
+        tmp_data = self.data[variable]
 
         if status:
-            tmpData = tmpData.where(self.data.radial_wind_speed_status90 == 1)
+            tmp_data = tmp_data.where(self.data.radial_wind_speed_status90 == 1)
 
-        if snr != False:
-            tmpData = tmpData.where(self.data.cnr90 > snr)
+        if snr is not False:
+            tmp_data = tmp_data.where(self.data.cnr90 > snr)
 
-        tmpData = tmpData.where(self.data.elevation == 90, drop=True)
+        tmp_data = tmp_data.where(self.data.elevation == 90, drop=True)
 
-        return tmpData
+        return tmp_data
 
-    def getRadialObsComp(self, variable, azm, snr=False, status=True):
+    def get_radial_obs_comp(self, variable, azm, snr=False, status=True):
         """Slanted data filter
 
         It uses the SNR and status variables to filter out
@@ -93,23 +93,23 @@ class filtering:
 
         """
 
-        tmpData = self.data[variable]
+        tmp_data = self.data[variable]
 
         if status:
-            tmpData = tmpData.where(self.data.radial_wind_speed_status == 1)
+            tmp_data = tmp_data.where(self.data.radial_wind_speed_status == 1)
 
-        if snr != False:
-            tmpData = tmpData.where(self.data.cnr > snr)
+        if snr is not False:
+            tmp_data = tmp_data.where(self.data.cnr > snr)
 
-        tmpData = tmpData.where(
+        tmp_data = tmp_data.where(
             (self.data.elevation != 90) & (self.data.azimuth == azm), drop=True
         )
 
-        return tmpData
+        return tmp_data
 
 
 # it removes the STE below cloud layer
-class secondTripEchoFilter:
+class SecondTripEchoFilter:
     """Boundary layer second trip echoes filter
 
     This filter minimises the presence of second
@@ -129,7 +129,7 @@ class secondTripEchoFilter:
         1 indicates cloud and 0 indicates no cloud.
         (THIS MAKS IS NOT NEEDED NOW)
 
-    nProf : int
+    n_prof : int
         number of profiles used to calculating the anomaly
 
     center : bool, optional
@@ -140,15 +140,15 @@ class secondTripEchoFilter:
         minimum number of profiles used for calculating the
         mean value
 
-    nStd : int
+    n_std : int
         Multiplication factor for defining the size of the
         window to keep the data. The filter removes any
-        anomaly larger than nStd * std
+        anomaly larger than n_std * std
 
-    strH : str
+    str_h : str
         starting hour for calculating the anomaly
 
-    endH : str
+    end_h : str
         end hour for calculating the anomaly
 
     Returns
@@ -161,87 +161,87 @@ class secondTripEchoFilter:
     def __init__(
         self,
         data,
-        timeCloudMask,
-        nProf=500,
+        n_prof=500,
         center=True,
         min_periods=30,
-        nStd=2,
-        strH="09",
-        endH="16",
+        n_std=2,
+        str_h="09",
+        end_h="16",
     ):
 
         self.lidar = data
         # self.timeCloudMask = timeCloudMask
-        self.nProf = nProf
+        self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
-        self.nStd = nStd
+        self.n_std = n_std
 
-        self.getTimeEdges()
-        self.calMeanAndAnomSlant()
-        self.calMeanAndAnom90()
+        self.get_time_edges(str_h=str_h, end_h=end_h)
+        self.cal_mean_and_anom_slant()
+        self.cal_mean_and_anom_90()
         self.cleaning()
         self.cleaning90()
 
-    def getTimeEdges(self, strH="09", endH="16"):
+    def get_time_edges(self, str_h="09", end_h="16"):
         """
         It creates the time boundaries for the STD anomaly calculation
 
         Parameters
         ----------
-        strH : str
+        str_h : str
             starting hour for calculating the anomaly
 
-        endH : str
+        end_h : str
             end hour for calculating the anomaly
 
         """
 
-        selTime = pd.to_datetime(self.lidar.dataTransf.time.values[0])
-        selTime = selTime.strftime("%Y%m%d")
-        self.startTime = pd.to_datetime(f"{selTime} {strH}")
-        self.endTime = pd.to_datetime(f"{selTime} {endH}")
+        sel_time = pd.to_datetime(self.lidar.dataTransf.time.values[0])
+        sel_time = sel_time.strftime("%Y%m%d")
+        self.start_time = pd.to_datetime(f"{sel_time} {str_h}")
+        self.end_time = pd.to_datetime(f"{sel_time} {end_h}")
 
-    def calMeanAndAnomSlant(self):
+
+    def cal_mean_and_anom_slant(self):
         """
         It calculates the anomaly from the slanted observations
         """
 
         # slanted beam
-        tmpSelData = self.lidar.dataTransf
+        tmp_sel_data = self.lidar.dataTransf
 
-        self.dataMean = tmpSelData.rolling(
-            time=self.nProf, center=self.center, min_periods=self.min_periods
+        self.data_mean = tmp_sel_data.rolling(
+            time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.dataAnom = self.lidar.dataTransf - self.dataMean
+        self.data_anom = self.lidar.dataTransf - self.data_mean
 
-    def calMeanAndAnom90(self):
+    def cal_mean_and_anom_90(self):
         """
         It calculates the anomaly from the vertical observations
         """
 
         # vertical beam
-        tmpSelData90 = self.lidar.dataTransf90
+        tmp_sel_data_90 = self.lidar.dataTransf90
 
-        self.dataMean90 = tmpSelData90.rolling(
-            time=self.nProf, center=self.center, min_periods=self.min_periods
+        self.data_mean90 = tmp_sel_data_90.rolling(
+            time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.dataAnom90 = self.lidar.dataTransf90 - self.dataMean90
+        self.data_anom_90 = self.lidar.dataTransf90 - self.data_mean90
 
     def cleaning(self):
         """
-        It removes the data that is larger than the nStd * anomaly
+        It removes the data that is larger than the n_std * anomaly
         from the slanted observations
         """
 
-        tmpAnom = self.dataAnom.where(
-            (self.lidar.dataTransf.time > self.startTime)
-            & (self.lidar.dataTransf.time < self.endTime)
+        tmp_anom = self.data_anom.where(
+            (self.lidar.dataTransf.time > self.start_time)
+            & (self.lidar.dataTransf.time < self.end_time)
         )
 
-        anomStd = tmpAnom.std(dim=["time", "range", "elv"])
+        anom_std = tmp_anom.std(dim=["time", "range", "elv"])
 
         # Cross check if this commented part is still needed for
         # for filter the slanted profiles
@@ -249,49 +249,49 @@ class secondTripEchoFilter:
         # tmpNoCloud = self.lidar.dataTransf.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf.where(self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom) < self.nStd * anomStd)
+        # tmpCloud = tmpCloud.where(np.abs(self.data_anom) < self.n_std * anom_std)
 
-        # tmpCleanData = tmpNoCloud.copy()
-        # tmpCleanData.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
+        # tmp_clean_data = tmpNoCloud.copy()
+        # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
-        tmpCleanData = self.lidar.dataTransf.copy()
-        tmpCleanData = tmpCleanData.where(
-            np.abs(self.dataAnom) < self.nStd * anomStd
+        tmp_clean_data = self.lidar.dataTransf.copy()
+        tmp_clean_data = tmp_clean_data.where(
+            np.abs(self.data_anom) < self.n_std * anom_std
         )
-        self.lidar.dataTransf.values = tmpCleanData.values
+        self.lidar.dataTransf.values = tmp_clean_data.values
 
     def cleaning90(self):
         """
-        It removes the data that is larger than the nStd * anomaly
+        It removes the data that is larger than the n_std * anomaly
         from the vertical observations
         """
 
-        tmpAnom = self.dataAnom90.where(
-            (self.lidar.dataTransf90.time > self.startTime)
-            & (self.lidar.dataTransf90.time < self.endTime)
+        tmp_anom = self.data_anom_90.where(
+            (self.lidar.dataTransf90.time > self.start_time)
+            & (self.lidar.dataTransf90.time < self.end_time)
         )
 
-        anomStd = tmpAnom.std(dim=["time", "range90"])
+        anom_std = tmp_anom.std(dim=["time", "range90"])
 
         # tmpNoCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 0).copy()
         # tmpCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 1).copy()
 
-        # tmpCloud = tmpCloud.where(np.abs(self.dataAnom90) < self.nStd * anomStd)
+        # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.n_std * anom_std)
 
-        # tmpCleanData = tmpNoCloud.copy()
-        # tmpCleanData.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
+        # tmp_clean_data = tmpNoCloud.copy()
+        # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
-        tmpCleanData = self.lidar.dataTransf90.copy()
-        tmpCleanData = tmpCleanData.where(
-            np.abs(self.dataAnom90) < self.nStd * anomStd
+        tmp_clean_data = self.lidar.dataTransf90.copy()
+        tmp_clean_data = tmp_clean_data.where(
+            np.abs(self.data_anom_90) < self.n_std * anom_std
         )
 
-        self.lidar.dataTransf90.values = tmpCleanData.values
+        self.lidar.dataTransf90.values = tmp_clean_data.values
 
 
 # it removes STE and clouds contamination
 # from above the aerosol loaded region
-class windCubeCloudRemoval:
+class WindCubeCloudRemoval:
     """Above boundary layer second trip echoes filter
 
     This filter reduces the second trip echoes contamination
@@ -321,94 +321,94 @@ class windCubeCloudRemoval:
         self.lidar = lidar
         self.ceilo = ceilo
 
-        self.getNoiseFreeBeta()
-        self.getHeightInterface()
+        self.get_noise_free_beta()
+        self.get_height_interface()
 
-        if lidar != None:
-            self.getInterpInterfHeight()
-            self.removeCloud()
+        if lidar is not None:
+            self.get_interp_interf_height()
+            self.remove_cloud()
 
-    def getNoiseFreeBeta(self):
+    def get_noise_free_beta(self):
         """
         It removes the noise from the backscattered signal
         """
-        positiveBeta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
+        positive_beta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
 
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             range=10, center=True, min_periods=10
         ).mean()
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             time=15, center=True, min_periods=15
         ).mean()
 
-        self.noiseFreeBeta = positiveBeta
+        self.noise_free_beta = positive_beta
 
         return self
 
-    def getHeightInterface(self):
+    def get_height_interface(self):
         """
         It identifies the height of the separation between
         the noise and the non-noise data from the ceilometer
         backscattered signal
         """
-        positiveBeta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
+        positive_beta = self.ceilo.beta_raw.where(self.ceilo.beta_raw > 0)
 
-        tmpCeiloHgt = positiveBeta.copy()
-        tmpValues = tmpCeiloHgt.values
-        tmpValues[np.isfinite(tmpValues)] = 1
-        tmpCeiloHgt.values = tmpValues
-        tmpCeiloHgt = tmpCeiloHgt * self.ceilo.range
+        tmp_ceilo_hgt = positive_beta.copy()
+        tmp_values = tmp_ceilo_hgt.values
+        tmp_values[np.isfinite(tmp_values)] = 1
+        tmp_ceilo_hgt.values = tmp_values
+        tmp_ceilo_hgt = tmp_ceilo_hgt * self.ceilo.range
 
-        lowestBeta = self.noiseFreeBeta.where(tmpCeiloHgt < 4e3)
+        lowest_beta = self.noise_free_beta.where(tmp_ceilo_hgt < 4e3)
 
-        tmpCeiloHgt = tmpCeiloHgt.where(np.isfinite(lowestBeta))
+        tmp_ceilo_hgt = tmp_ceilo_hgt.where(np.isfinite(lowest_beta))
 
-        self.interfHeight = tmpCeiloHgt.max(dim="range")
-        self.interfHeight = self.interfHeight.rolling(
+        self.interf_height = tmp_ceilo_hgt.max(dim="range")
+        self.interf_height = self.interf_height.rolling(
             time=7, center=True, min_periods=5
         ).mean()
 
         return self
 
-    def getInterpInterfHeight(self):
+    def get_interp_interf_height(self):
         """
         It interpolates the noise height interface to the same
         temporal resolution from the windcube data
         """
-        self.interpInterfHeight = self.interfHeight.interp(
+        self.interp_interf_height = self.interf_height.interp(
             time=self.lidar.dataTransf.time
         )
-        self.interpInterfHeight90 = self.interfHeight.interp(
+        self.interp_interf_height_90 = self.interf_height.interp(
             time=self.lidar.dataTransf90.time
         )
 
         return self
 
-    def removeCloud(self):
+    def remove_cloud(self):
         """
         It removes from the windcube's observation all
         data above the noise height interface
         """
 
-        tmpHeight = self.lidar.dataTransf.copy()
-        tmpValues = tmpHeight.values
-        tmpValues[np.isfinite(tmpValues)] = 1
-        tmpHeight.values = tmpValues
-        tmpHeight = tmpHeight * self.lidar.dataTransf.range
+        tmp_height = self.lidar.dataTransf.copy()
+        tmp_values = tmp_height.values
+        tmp_values[np.isfinite(tmp_values)] = 1
+        tmp_height.values = tmp_values
+        tmp_height = tmp_height * self.lidar.dataTransf.range
         self.lidar.dataTransf = self.lidar.dataTransf.where(
-            tmpHeight < self.interpInterfHeight
+            tmp_height < self.interp_interf_height
         )
 
-        tmpHeight = self.lidar.dataTransf90.copy()
-        tmpValues = tmpHeight.values
-        tmpValues[np.isfinite(tmpValues)] = 1
-        tmpHeight.values = tmpValues
-        tmpHeight = tmpHeight * self.lidar.dataTransf90.range90
+        tmp_height = self.lidar.dataTransf90.copy()
+        tmp_values = tmp_height.values
+        tmp_values[np.isfinite(tmp_values)] = 1
+        tmp_height.values = tmp_values
+        tmp_height = tmp_height * self.lidar.dataTransf90.range90
         self.lidar.dataTransf90 = self.lidar.dataTransf90.where(
-            tmpHeight < self.interpInterfHeight90
+            tmp_height < self.interp_interf_height_90
         )
         self.lidar.relative_beta90 = self.lidar.relative_beta90.where(
-            tmpHeight < self.interpInterfHeight90
+            tmp_height < self.interp_interf_height_90
         )
 
         return self

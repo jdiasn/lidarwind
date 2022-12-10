@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-from .filters import filtering
+from .filters import Filtering
 
 
 class plotSettings:
@@ -93,7 +93,7 @@ class visualizer:
             )
 
         else:
-            tmpData = filtering(self.data).getVerticalObsComp(varName)
+            tmpData = Filtering(self.data).get_vertical_obs_comp(varName)
 
             if namePrefix:
                 strName = "{}_{}".format(

@@ -4,7 +4,7 @@ import numpy as np
 import xarray as xr
 import xrft
 
-from .filters import filtering
+from .filters import Filtering
 from .dataAttributesL1 import loadAttributes
 from .dataOperator import getRestructuredData
 
