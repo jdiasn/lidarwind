@@ -70,33 +70,33 @@ class LoadAttributes:
 
         """
 
-        attrsDic = {}
+        attrs_dic = {}
 
-        attrsDic["range"] = {
+        attrs_dic["range"] = {
             "standard_name": "range",
             "units": "m",
             "comments": "Distance between the instrument and the center of each range gate",
         }
 
-        attrsDic["time"] = {
+        attrs_dic["time"] = {
             "standard_name": "time",
             "reference": "seconds since 1970-01-01 00:00:00",
             "comments": "time of the horizotal observations",
         }
 
-        attrsDic["time90"] = {
+        attrs_dic["time90"] = {
             "standard_name": "time90",
             "reference": "seconds since 1970-01-01 00:00:00",
             "comments": "time of the vertical observations",
         }
 
-        attrsDic["horizontal_wind_speed"] = {
+        attrs_dic["horizontal_wind_speed"] = {
             "standard_name": "wind_speed",
             "units": "m/s",
             "comments": "horizontal wind speed retrived using the FFT method",
         }
 
-        attrsDic["horizontal_wind_direction"] = {
+        attrs_dic["horizontal_wind_direction"] = {
             "standard_name": "wind_direction",
             "units": "degrees",
             "comments": "horizontal wind direction retrived "
@@ -104,31 +104,31 @@ class LoadAttributes:
             "info": "0=wind coming from the north, 90=east, 180=south, 270=west",
         }
 
-        attrsDic["zonal_wind"] = {
+        attrs_dic["zonal_wind"] = {
             "standard_name": "zonal_wind",
             "units": "m/s",
             "comments": "zonal wind retrived using the FFT method",
         }
 
-        attrsDic["meridional_wind"] = {
+        attrs_dic["meridional_wind"] = {
             "standard_name": "meridional_wind",
             "units": "m/s",
             "comments": "meridional wind retrived using the FFT method",
         }
 
-        attrsDic["vertical_wind_speed"] = {
+        attrs_dic["vertical_wind_speed"] = {
             "standard_name": "vertical_wind_speed",
             "units": "m/s",
             "comments": "observed vertical wind speed (negative towards the ground)",
         }
 
-        attrsDic["lidar_relative_beta"] = {
+        attrs_dic["lidar_relative_beta"] = {
             "standard_name": "volume_attenuated_backwards_scattering_function_in_air",
             "units": "m-1 sr-1",
             "comments": "Attenuated relative backscatter coefficient from the vertical beam",
         }
 
-        self.attrsDic = attrsDic
+        self.attrs_dic = attrs_dic
 
         return self
 
@@ -143,7 +143,7 @@ class LoadAttributes:
         for key in self.data.coords:
 
             try:
-                self.data[key].attrs = self.attrsDic[key]
+                self.data[key].attrs = self.attrs_dic[key]
 
             except:
                 print(f"coord not found: {key}")
@@ -161,7 +161,7 @@ class LoadAttributes:
         for key in self.data.keys():
 
             try:
-                self.data[key].attrs = self.attrsDic[key]
+                self.data[key].attrs = self.attrs_dic[key]
 
             except:
                 print(f"variable not found: {key}")
