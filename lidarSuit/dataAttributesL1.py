@@ -46,7 +46,7 @@ class LoadAttributes:
 
         config_info = Configurations(lst=None).load_conf_file()
 
-        tmpAtt = {
+        tmp_att = {
             "Conventions": "Cf/Radial 2.0",
             "title": "Wind properties",
             "references": config_info.references,
@@ -58,7 +58,7 @@ class LoadAttributes:
             "email": config_info.email,
         }
 
-        self.data.attrs = tmpAtt
+        self.data.attrs = tmp_att
 
         return self
 
