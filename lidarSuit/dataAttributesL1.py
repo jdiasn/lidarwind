@@ -99,7 +99,8 @@ class LoadAttributes:
         attrsDic["horizontal_wind_direction"] = {
             "standard_name": "wind_direction",
             "units": "degrees",
-            "comments": "horizontal wind direction retrived using the FFT method with respect to true north",
+            "comments": "horizontal wind direction retrived "
+                        "using the FFT method with respect to true north",
             "info": "0=wind coming from the north, 90=east, 180=south, 270=west",
         }
 
