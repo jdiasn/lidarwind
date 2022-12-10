@@ -8,7 +8,6 @@
 
 import warnings
 
-import xarray as xr
 
 from .io import open_sweep
 
