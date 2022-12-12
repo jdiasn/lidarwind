@@ -168,7 +168,7 @@ class cloudMask:
                 coords={"time": self.wcData.time.values},
             )
 
-            self.timeCloudMask = auxCloudMask
+            self.time_cloud_mask = auxCloudMask
 
         elif maskType == "real":
             print("real mask")
@@ -176,13 +176,13 @@ class cloudMask:
             # 6500 is the value I defined as maximum range
             highCloudLayer = self.cloudMask.where(self.cloudMask.range > 6500)
 
-            timeCloudMask = highCloudLayer.sum(dim="range")
+            time_cloud_mask = highCloudLayer.sum(dim="range")
 
             # 1 indicates that there is a cloud above
             # the maximum range
-            timeCloudMask.values[timeCloudMask.values > 0] = 1
+            time_cloud_mask.values[time_cloud_mask.values > 0] = 1
 
-            self.timeCloudMask = timeCloudMask
+            self.time_cloud_mask = time_cloud_mask
 
         else:
             print("maskType not defined")

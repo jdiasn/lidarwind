@@ -170,7 +170,7 @@ class SecondTripEchoFilter:
     ):
 
         self.lidar = data
-        # self.timeCloudMask = timeCloudMask
+        # self.time_cloud_mask = time_cloud_mask
         self.n_prof = n_prof
         self.center = center
         self.min_periods = min_periods
@@ -246,8 +246,8 @@ class SecondTripEchoFilter:
         # Cross check if this commented part is still needed for
         # for filter the slanted profiles
 
-        # tmpNoCloud = self.lidar.dataTransf.where(self.timeCloudMask == 0).copy()
-        # tmpCloud = self.lidar.dataTransf.where(self.timeCloudMask == 1).copy()
+        # tmpNoCloud = self.lidar.dataTransf.where(self.time_cloud_mask == 0).copy()
+        # tmpCloud = self.lidar.dataTransf.where(self.time_cloud_mask == 1).copy()
 
         # tmpCloud = tmpCloud.where(np.abs(self.data_anom) < self.n_std * anom_std)
 
@@ -273,8 +273,8 @@ class SecondTripEchoFilter:
 
         anom_std = tmp_anom.std(dim=["time", "range90"])
 
-        # tmpNoCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 0).copy()
-        # tmpCloud = self.lidar.dataTransf90.where(self.timeCloudMask == 1).copy()
+        # tmpNoCloud = self.lidar.dataTransf90.where(self.time_cloud_mask == 0).copy()
+        # tmpCloud = self.lidar.dataTransf90.where(self.time_cloud_mask == 1).copy()
 
         # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.n_std * anom_std)
 
