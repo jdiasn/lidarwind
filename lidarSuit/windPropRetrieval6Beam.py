@@ -53,7 +53,7 @@ class SixBeamMethod:
         self.radial_variances = {}
         self.calcVariances(data, freq, freq90)
 
-        self.get_S()
+        self.get_s_matrix()
         self.get_sigma()
         self.get_variance_ds()
 
@@ -176,13 +176,13 @@ class SixBeamMethod:
     #         return self
     #####################################################
 
-    def get_S(self):
+    def get_s_matrix(self):
 
         """
         This method fills the observation variance matrix (S).
         """
 
-        S = np.dstack(
+        s_matrix = np.dstack(
             (
                 self.radial_variances["rVariance"].values,
                 self.radial_variances["rVariance90"].values[
@@ -191,7 +191,7 @@ class SixBeamMethod:
             )
         )
 
-        self.S = S
+        self.s_matrix = s_matrix
 
     def get_sigma(self):
 
@@ -202,7 +202,7 @@ class SixBeamMethod:
         SIGMA = M^-1 x S
         """
 
-        self.SIGMA = np.matmul(self.M_inv, self.S)
+        self.SIGMA = np.matmul(self.M_inv, self.s_matrix)
 
         return self
 
