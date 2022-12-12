@@ -74,7 +74,7 @@ class SixBeamMethod:
         """
 
         phis = np.append(np.ones_like(self.azm) * self.elv, np.array([90]))
-        phisRad = np.deg2rad(phis)
+        phis_rad = np.deg2rad(phis)
 
         thetas = np.append(self.azm, np.array([0]))
         thetas_rad = np.deg2rad(thetas)
@@ -83,7 +83,7 @@ class SixBeamMethod:
 
         for i, theta in enumerate(thetas_rad):
 
-            phi = phisRad[i]
+            phi = phis_rad[i]
 
             ci1 = np.cos(phi) ** 2 * np.sin(theta) ** 2
             ci2 = np.cos(phi) ** 2 * np.cos(theta) ** 2
