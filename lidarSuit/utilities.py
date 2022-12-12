@@ -27,9 +27,9 @@ class Util:
         end = (sel_day + pd.to_timedelta(1, "D")).strftime("%Y%m%d")
         end_time = pd.to_datetime(f"{end} 00:00:00")
 
-        timeBins = pd.date_range(start_time, end_time, freq=freq)
+        time_bins = pd.date_range(start_time, end_time, freq=freq)
 
-        return timeBins
+        return time_bins
 
     def get_sample_data(sample_path, file_type):
         """Downloading data
