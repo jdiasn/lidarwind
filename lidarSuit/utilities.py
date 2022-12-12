@@ -109,12 +109,12 @@ class CloudMask:
 
         else:
 
-            self.cleanCeilo()
+            self.clean_ceilo()
             self.cleanRadar()
             self.getCloudMask2D()
             self.getTimeMask(mask_type="real")
 
-    def cleanCeilo(self):
+    def clean_ceilo(self):
 
         positiveBeta = self.ceilo_data.beta_raw.where(
             self.ceilo_data.beta_raw > 0
