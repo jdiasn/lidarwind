@@ -93,11 +93,11 @@ class CloudMask:
     from lidar and ceilometer.
     """
 
-    def __init__(self, wcData=None, ceilo_data=None, radar_data=None):
+    def __init__(self, wc_data=None, ceilo_data=None, radar_data=None):
 
         self.ceilo_data = ceilo_data
         self.radar_data = radar_data
-        self.wcData = wcData
+        self.wc_data = wc_data
 
         self.callMethods()
 
@@ -127,7 +127,7 @@ class CloudMask:
         ).mean()
 
         # grid interpolation: to lidar time
-        self.cleanCeiloData = positiveBeta.interp({"time": self.wcData.time})
+        self.cleanCeiloData = positiveBeta.interp({"time": self.wc_data.time})
 
     def cleanRadar(self):
 
@@ -137,7 +137,7 @@ class CloudMask:
 
         # grid interpolation: to lidar time, to ceilo range
         self.cleanRadarData = positiveZe.interp(
-            {"time": self.wcData.time, "range": self.cleanCeiloData.range}
+            {"time": self.wc_data.time, "range": self.cleanCeiloData.range}
         )
 
     def getCloudMask2D(self):
@@ -163,9 +163,9 @@ class CloudMask:
             print("aux mask")
 
             aux_cloud_mask = xr.DataArray(
-                np.ones(len(self.wcData.time)),
+                np.ones(len(self.wc_data.time)),
                 dims="time",
-                coords={"time": self.wcData.time.values},
+                coords={"time": self.wc_data.time.values},
             )
 
             self.time_cloud_mask = aux_cloud_mask
