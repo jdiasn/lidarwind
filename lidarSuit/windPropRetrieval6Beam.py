@@ -50,7 +50,7 @@ class SixBeamMethod:
 
         self.get_M()
         self.get_M_inv()
-        self.rVariances = {}
+        self.radial_variances = {}
         self.calcVariances(data, freq, freq90)
 
         self.get_S()
@@ -149,8 +149,8 @@ class SixBeamMethod:
             time=freq, center=True, min_periods=int(freq * 0.3)
         ).var()
 
-        self.rVariances[name] = variance
-        # self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
+        self.radial_variances[name] = variance
+        # self.radial_variances['{0}_counts'.format(name)] = groupedData.count(dim='time')
 
         return self
 
@@ -170,8 +170,8 @@ class SixBeamMethod:
     #         timeBins = util.getTimeBins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
     #         groupedData = data.groupby_bins('time', timeBins)
 
-    #         self.rVariances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
-    #         self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
+    #         self.radial_variances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
+    #         self.radial_variances['{0}_counts'.format(name)] = groupedData.count(dim='time')
 
     #         return self
     #####################################################
@@ -184,8 +184,8 @@ class SixBeamMethod:
 
         S = np.dstack(
             (
-                self.rVariances["rVariance"].values,
-                self.rVariances["rVariance90"].values[
+                self.radial_variances["rVariance"].values,
+                self.radial_variances["rVariance90"].values[
                     :, :, np.newaxis, np.newaxis
                 ],
             )
@@ -221,8 +221,8 @@ class SixBeamMethod:
                 self.SIGMA[:, :, i, 0],
                 dims=("time", "range"),
                 coords={
-                    "time": self.rVariances["rVariance90"].time,
-                    "range": self.rVariances["rVariance"].range,
+                    "time": self.radial_variances["rVariance90"].time,
+                    "range": self.radial_variances["rVariance"].range,
                 },
                 name=f"var_{var_comp}",
             )
