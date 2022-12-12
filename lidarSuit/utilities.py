@@ -93,9 +93,9 @@ class CloudMask:
     from lidar and ceilometer.
     """
 
-    def __init__(self, wcData=None, ceiloData=None, radarData=None):
+    def __init__(self, wcData=None, ceilo_data=None, radarData=None):
 
-        self.ceiloData = ceiloData
+        self.ceilo_data = ceilo_data
         self.radarData = radarData
         self.wcData = wcData
 
@@ -103,7 +103,7 @@ class CloudMask:
 
     def callMethods(self):
 
-        if self.ceiloData is None or self.radarData is None:
+        if self.ceilo_data is None or self.radarData is None:
 
             self.getTimeMask(mask_type="aux")
 
@@ -116,8 +116,8 @@ class CloudMask:
 
     def cleanCeilo(self):
 
-        positiveBeta = self.ceiloData.beta_raw.where(
-            self.ceiloData.beta_raw > 0
+        positiveBeta = self.ceilo_data.beta_raw.where(
+            self.ceilo_data.beta_raw > 0
         )
         positiveBeta = positiveBeta.rolling(
             time=20, center=True, min_periods=13
