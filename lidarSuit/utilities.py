@@ -85,7 +85,7 @@ class Util:
         return file_list
 
 
-class cloud_mask:
+class CloudMask:
 
     """
     This class generates the time-height cloud mask
