@@ -14,7 +14,7 @@ class Util:
     This class contains useful tools
     """
 
-    def getTimeBins(selDay, freq="10min"):
+    def get_time_bins(selDay, freq="10min"):
         """Bins estimation
 
         Creating time bins for a given day and time resolution

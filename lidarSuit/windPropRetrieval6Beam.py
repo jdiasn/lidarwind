@@ -167,7 +167,7 @@ class SixBeamMethod:
     #         The default size of this window is 10 minutes.
     #         """
 
-    #         timeBins = util.getTimeBins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
+    #         timeBins = Util.get_time_bins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
     #         groupedData = data.groupby_bins('time', timeBins)
 
     #         self.radial_variances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
