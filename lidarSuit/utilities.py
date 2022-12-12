@@ -105,14 +105,14 @@ class cloudMask:
 
         if self.ceiloData is None or self.radarData is None:
 
-            self.getTimeMask(maskType="aux")
+            self.getTimeMask(mask_type="aux")
 
         else:
 
             self.cleanCeilo()
             self.cleanRadar()
             self.getCloudMask2D()
-            self.getTimeMask(maskType="real")
+            self.getTimeMask(mask_type="real")
 
     def cleanCeilo(self):
 
@@ -157,9 +157,9 @@ class cloudMask:
         # final mask
         self.cloudMask = self.cleanCeiloData + self.cleanRadarData
 
-    def getTimeMask(self, maskType=None):
+    def getTimeMask(self, mask_type=None):
 
-        if maskType == "aux":
+        if mask_type == "aux":
             print("aux mask")
 
             aux_cloud_mask = xr.DataArray(
@@ -170,7 +170,7 @@ class cloudMask:
 
             self.time_cloud_mask = aux_cloud_mask
 
-        elif maskType == "real":
+        elif mask_type == "real":
             print("real mask")
 
             # 6500 is the value I defined as maximum range
@@ -185,4 +185,4 @@ class cloudMask:
             self.time_cloud_mask = time_cloud_mask
 
         else:
-            print("maskType not defined")
+            print("mask_type not defined")
