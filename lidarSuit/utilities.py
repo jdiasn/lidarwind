@@ -8,7 +8,7 @@ import numpy as np
 import xarray as xr
 
 
-class util:
+class Util:
 
     """
     This class contains useful tools
@@ -68,18 +68,18 @@ class util:
                 file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
                 if bool(file_list) == False:
-                    util.get_sample_data(sample_path, file_type)
+                    Util.get_sample_data(sample_path, file_type)
                     file_list = sorted(
                         glob.glob(f"{sample_path}{file_type}/*.nc")
                     )
 
             else:
-                util.get_sample_data(sample_path, file_type)
+                Util.get_sample_data(sample_path, file_type)
                 file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
         else:
             os.makedirs(sample_path)
-            util.get_sample_data(sample_path, file_type)
+            Util.get_sample_data(sample_path, file_type)
             file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
         return file_list

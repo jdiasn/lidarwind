@@ -5,7 +5,7 @@
 import numpy as np
 import xarray as xr
 
-from .utilities import util
+from .utilities import Util
 
 
 class SixBeamMethod:
