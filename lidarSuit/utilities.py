@@ -99,9 +99,9 @@ class CloudMask:
         self.radar_data = radar_data
         self.wc_data = wc_data
 
-        self.callMethods()
+        self.call_methods()
 
-    def callMethods(self):
+    def call_methods(self):
 
         if self.ceilo_data is None or self.radar_data is None:
 
