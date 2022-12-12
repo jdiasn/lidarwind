@@ -131,12 +131,12 @@ class CloudMask:
 
     def clean_radar(self):
 
-        positiveZe = self.radar_data.radar_equivalent_reflectivity.where(
+        positive_ze = self.radar_data.radar_equivalent_reflectivity.where(
             self.radar_data.radar_equivalent_reflectivity > 0
         )
 
         # grid interpolation: to lidar time, to ceilo range
-        self.clean_radar_data = positiveZe.interp(
+        self.clean_radar_data = positive_ze.interp(
             {"time": self.wc_data.time, "range": self.clean_ceilo_data.range}
         )
 
