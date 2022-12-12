@@ -202,7 +202,7 @@ class SixBeamMethod:
         SIGMA = M^-1 x S
         """
 
-        self.SIGMA = np.matmul(self.m_matrix_inv, self.s_matrix)
+        self.sigma_matrix = np.matmul(self.m_matrix_inv, self.s_matrix)
 
         return self
 
@@ -218,7 +218,7 @@ class SixBeamMethod:
         for i, var_comp in enumerate(var_comp_name):
 
             tmp_data = xr.DataArray(
-                self.SIGMA[:, :, i, 0],
+                self.sigma_matrix[:, :, i, 0],
                 dims=("time", "range"),
                 coords={
                     "time": self.radial_variances["rVariance90"].time,
