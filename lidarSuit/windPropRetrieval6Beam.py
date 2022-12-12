@@ -120,14 +120,14 @@ class SixBeamMethod:
         interpDataTransf = data.dataTransf.interp(
             time=data.dataTransf90.time, method="nearest"
         )
-        self.getVariance(interpDataTransf, freq=freq)
-        self.getVariance(
+        self.get_variance(interpDataTransf, freq=freq)
+        self.get_variance(
             -1 * data.dataTransf90, freq=freq90, name="rVariance90"
         )  # think about the -1 coefficient
 
         return self
 
-    def getVariance(self, data, freq=10, name="rVariance"):
+    def get_variance(self, data, freq=10, name="rVariance"):
 
         """
         This method calculates the variance from the
@@ -159,7 +159,7 @@ class SixBeamMethod:
     ### new approach to calculate the variances ##############
 
     ### old approach to calculate the variances
-    #     def getVariance(self, data, name='rVariance'):
+    #     def get_variance(self, data, name='rVariance'):
 
     #         """
     #         This method calculates the variance from the
