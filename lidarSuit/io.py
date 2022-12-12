@@ -17,7 +17,7 @@ def open_sweep(file_name):
 
     Returns
     -------
-    tmpData : xarray.DataSet
+    ds : xarray.DataSet
 
         a dataset from the original NetCDF files
     """
