@@ -54,7 +54,7 @@ class SixBeamMethod:
         self.calcVariances(data, freq, freq90)
 
         self.get_S()
-        self.get_SIGMA()
+        self.get_sigma()
         self.get_variance_ds()
 
     def get_M(self):
@@ -193,7 +193,7 @@ class SixBeamMethod:
 
         self.S = S
 
-    def get_SIGMA(self):
+    def get_sigma(self):
 
         """
         This method calculates the components of the
