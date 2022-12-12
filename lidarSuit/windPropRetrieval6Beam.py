@@ -48,7 +48,7 @@ class SixBeamMethod:
         # self.timeFreq = freq
         # self.timeFreq = freq
 
-        self.get_M()
+        self.get_m_matrix()
         self.get_m_matrix_inv()
         self.radial_variances = {}
         self.calc_variances(data, freq, freq90)
@@ -57,7 +57,7 @@ class SixBeamMethod:
         self.get_sigma()
         self.get_variance_ds()
 
-    def get_M(self):
+    def get_m_matrix(self):
 
         """
         This method populates the coefficient matrix (M).
