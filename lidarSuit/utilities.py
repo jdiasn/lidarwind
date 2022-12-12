@@ -136,7 +136,7 @@ class CloudMask:
         )
 
         # grid interpolation: to lidar time, to ceilo range
-        self.cleanRadarData = positiveZe.interp(
+        self.clean_radar_data = positiveZe.interp(
             {"time": self.wc_data.time, "range": self.clean_ceilo_data.range}
         )
 
@@ -149,13 +149,13 @@ class CloudMask:
         ] = 0
 
         # RADAR mask
-        self.cleanRadarData.values[np.isfinite(self.cleanRadarData.values)] = 1
-        self.cleanRadarData.values[
-            ~np.isfinite(self.cleanRadarData.values)
+        self.clean_radar_data.values[np.isfinite(self.clean_radar_data.values)] = 1
+        self.clean_radar_data.values[
+            ~np.isfinite(self.clean_radar_data.values)
         ] = 0
 
         # final mask
-        self.cloud_mask = self.clean_ceilo_data + self.cleanRadarData
+        self.cloud_mask = self.clean_ceilo_data + self.clean_radar_data
 
     def getTimeMask(self, mask_type=None):
 
