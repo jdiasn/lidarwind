@@ -1,34 +1,35 @@
 import os
-import gdown
 import shutil
 import glob
+
+import gdown
 import pandas as pd
 import numpy as np
 import xarray as xr
 
 
-class util:
+class Util:
 
     """
     This class contains useful tools
     """
 
-    def getTimeBins(selDay, freq="10min"):
+    def get_time_bins(sel_day, freq="10min"):
         """Bins estimation
 
         Creating time bins for a given day and time resolution
 
         """
 
-        start = selDay.strftime("%Y%m%d")
+        start = sel_day.strftime("%Y%m%d")
         start_time = pd.to_datetime(f"{start} 00:00:00")
 
-        end = (selDay + pd.to_timedelta(1, "D")).strftime("%Y%m%d")
+        end = (sel_day + pd.to_timedelta(1, "D")).strftime("%Y%m%d")
         end_time = pd.to_datetime(f"{end} 00:00:00")
 
-        timeBins = pd.date_range(start_time, end_time, freq=freq)
+        time_bins = pd.date_range(start_time, end_time, freq=freq)
 
-        return timeBins
+        return time_bins
 
     def get_sample_data(sample_path, file_type):
         """Downloading data
@@ -66,25 +67,25 @@ class util:
             if os.path.isdir(f"{sample_path}{file_type}/"):
                 file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
-                if bool(file_list) == False:
-                    util.get_sample_data(sample_path, file_type)
+                if bool(file_list) is False:
+                    Util.get_sample_data(sample_path, file_type)
                     file_list = sorted(
                         glob.glob(f"{sample_path}{file_type}/*.nc")
                     )
 
             else:
-                util.get_sample_data(sample_path, file_type)
+                Util.get_sample_data(sample_path, file_type)
                 file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
         else:
             os.makedirs(sample_path)
-            util.get_sample_data(sample_path, file_type)
+            Util.get_sample_data(sample_path, file_type)
             file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
         return file_list
 
 
-class cloudMask:
+class CloudMask:
 
     """
     This class generates the time-height cloud mask
@@ -92,96 +93,96 @@ class cloudMask:
     from lidar and ceilometer.
     """
 
-    def __init__(self, wcData=None, ceiloData=None, radarData=None):
+    def __init__(self, wc_data=None, ceilo_data=None, radar_data=None):
 
-        self.ceiloData = ceiloData
-        self.radarData = radarData
-        self.wcData = wcData
+        self.ceilo_data = ceilo_data
+        self.radar_data = radar_data
+        self.wc_data = wc_data
 
-        self.callMethods()
+        self.call_methods()
 
-    def callMethods(self):
+    def call_methods(self):
 
-        if self.ceiloData is None or self.radarData is None:
+        if self.ceilo_data is None or self.radar_data is None:
 
-            self.getTimeMask(maskType="aux")
+            self.get_time_mask(mask_type="aux")
 
         else:
 
-            self.cleanCeilo()
-            self.cleanRadar()
-            self.getCloudMask2D()
-            self.getTimeMask(maskType="real")
+            self.clean_ceilo()
+            self.clean_radar()
+            self.get_cloud_mask_2d()
+            self.get_time_mask(mask_type="real")
 
-    def cleanCeilo(self):
+    def clean_ceilo(self):
 
-        positiveBeta = self.ceiloData.beta_raw.where(
-            self.ceiloData.beta_raw > 0
+        positive_beta = self.ceilo_data.beta_raw.where(
+            self.ceilo_data.beta_raw > 0
         )
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             time=20, center=True, min_periods=13
         ).mean()
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             range=10, center=True, min_periods=8
         ).mean()
 
         # grid interpolation: to lidar time
-        self.cleanCeiloData = positiveBeta.interp({"time": self.wcData.time})
+        self.clean_ceilo_data = positive_beta.interp({"time": self.wc_data.time})
 
-    def cleanRadar(self):
+    def clean_radar(self):
 
-        positiveZe = self.radarData.radar_equivalent_reflectivity.where(
-            self.radarData.radar_equivalent_reflectivity > 0
+        positive_ze = self.radar_data.radar_equivalent_reflectivity.where(
+            self.radar_data.radar_equivalent_reflectivity > 0
         )
 
         # grid interpolation: to lidar time, to ceilo range
-        self.cleanRadarData = positiveZe.interp(
-            {"time": self.wcData.time, "range": self.cleanCeiloData.range}
+        self.clean_radar_data = positive_ze.interp(
+            {"time": self.wc_data.time, "range": self.clean_ceilo_data.range}
         )
 
-    def getCloudMask2D(self):
+    def get_cloud_mask_2d(self):
 
         # CEILOMETER mask
-        self.cleanCeiloData.values[np.isfinite(self.cleanCeiloData.values)] = 2
-        self.cleanCeiloData.values[
-            ~np.isfinite(self.cleanCeiloData.values)
+        self.clean_ceilo_data.values[np.isfinite(self.clean_ceilo_data.values)] = 2
+        self.clean_ceilo_data.values[
+            ~np.isfinite(self.clean_ceilo_data.values)
         ] = 0
 
         # RADAR mask
-        self.cleanRadarData.values[np.isfinite(self.cleanRadarData.values)] = 1
-        self.cleanRadarData.values[
-            ~np.isfinite(self.cleanRadarData.values)
+        self.clean_radar_data.values[np.isfinite(self.clean_radar_data.values)] = 1
+        self.clean_radar_data.values[
+            ~np.isfinite(self.clean_radar_data.values)
         ] = 0
 
         # final mask
-        self.cloudMask = self.cleanCeiloData + self.cleanRadarData
+        self.cloud_mask = self.clean_ceilo_data + self.clean_radar_data
 
-    def getTimeMask(self, maskType=None):
+    def get_time_mask(self, mask_type=None):
 
-        if maskType == "aux":
+        if mask_type == "aux":
             print("aux mask")
 
-            auxCloudMask = xr.DataArray(
-                np.ones(len(self.wcData.time)),
+            aux_cloud_mask = xr.DataArray(
+                np.ones(len(self.wc_data.time)),
                 dims="time",
-                coords={"time": self.wcData.time.values},
+                coords={"time": self.wc_data.time.values},
             )
 
-            self.timeCloudMask = auxCloudMask
+            self.time_cloud_mask = aux_cloud_mask
 
-        elif maskType == "real":
+        elif mask_type == "real":
             print("real mask")
 
             # 6500 is the value I defined as maximum range
-            highCloudLayer = self.cloudMask.where(self.cloudMask.range > 6500)
+            high_cloud_layer = self.cloud_mask.where(self.cloud_mask.range > 6500)
 
-            timeCloudMask = highCloudLayer.sum(dim="range")
+            time_cloud_mask = high_cloud_layer.sum(dim="range")
 
             # 1 indicates that there is a cloud above
             # the maximum range
-            timeCloudMask.values[timeCloudMask.values > 0] = 1
+            time_cloud_mask.values[time_cloud_mask.values > 0] = 1
 
-            self.timeCloudMask = timeCloudMask
+            self.time_cloud_mask = time_cloud_mask
 
         else:
-            print("maskType not defined")
+            print("mask_type not defined")
