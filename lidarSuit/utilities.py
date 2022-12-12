@@ -110,7 +110,7 @@ class CloudMask:
         else:
 
             self.clean_ceilo()
-            self.cleanRadar()
+            self.clean_radar()
             self.getCloudMask2D()
             self.getTimeMask(mask_type="real")
 
@@ -129,7 +129,7 @@ class CloudMask:
         # grid interpolation: to lidar time
         self.clean_ceilo_data = positive_beta.interp({"time": self.wc_data.time})
 
-    def cleanRadar(self):
+    def clean_radar(self):
 
         positiveZe = self.radar_data.radar_equivalent_reflectivity.where(
             self.radar_data.radar_equivalent_reflectivity > 0
