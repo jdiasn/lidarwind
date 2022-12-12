@@ -174,9 +174,9 @@ class cloudMask:
             print("real mask")
 
             # 6500 is the value I defined as maximum range
-            highCloudLayer = self.cloudMask.where(self.cloudMask.range > 6500)
+            high_cloud_layer = self.cloudMask.where(self.cloudMask.range > 6500)
 
-            time_cloud_mask = highCloudLayer.sum(dim="range")
+            time_cloud_mask = high_cloud_layer.sum(dim="range")
 
             # 1 indicates that there is a cloud above
             # the maximum range
