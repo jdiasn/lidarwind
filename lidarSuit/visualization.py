@@ -78,9 +78,9 @@ class visualizer:
 
         if plotID == "rad_wind_speed_panel":
 
-            tmpData = self.data
+            tmp_data = self.data
             self.plotDataAZM(
-                dataNon90=tmpData,
+                dataNon90=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
                 vmax=vmax,
@@ -93,18 +93,18 @@ class visualizer:
             )
 
         else:
-            tmpData = Filtering(self.data).get_vertical_obs_comp(varName)
+            tmp_data = Filtering(self.data).get_vertical_obs_comp(varName)
 
             if namePrefix:
                 strName = "{}_{}".format(
-                    namePrefix, tmpData.attrs["standard_name"]
+                    namePrefix, tmp_data.attrs["standard_name"]
                 )
 
             else:
-                strName = tmpData.attrs["standard_name"]
+                strName = tmp_data.attrs["standard_name"]
 
             self.plotData(
-                tmpData=tmpData,
+                tmp_data=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
                 vmax=vmax,
@@ -136,12 +136,12 @@ class visualizer:
         maxTime=None,
     ):
 
-        tmpData = self.data[varName]
+        tmp_data = self.data[varName]
 
-        strName = tmpData.attrs["standard_name"]
+        strName = tmp_data.attrs["standard_name"]
 
         self.plotData(
-            tmpData=tmpData,
+            tmp_data=tmp_data,
             cmap=cmap,
             vmin=vmin,
             vmax=vmax,
@@ -158,7 +158,7 @@ class visualizer:
 
     def plotData(
         self,
-        tmpData,
+        tmp_data,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
@@ -173,7 +173,7 @@ class visualizer:
         maxTime=None,
     ):
 
-        selDay = pd.to_datetime(tmpData.time[0].values)
+        selDay = pd.to_datetime(tmp_data.time[0].values)
 
         if maxTime is not None:
             maxTime = pd.to_datetime(maxTime)
@@ -187,13 +187,13 @@ class visualizer:
         else:
             minTime = pd.to_datetime(selDay.strftime("%Y%m%d 00:00:00"))
 
-        tmpData = tmpData.sel(time=slice(minTime, maxTime))
+        tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
 
         if strName:
-            tmpData.attrs["standard_name"] = strName
+            tmp_data.attrs["standard_name"] = strName
 
         plt.figure(figsize=(18, 8))
-        plot = tmpData.plot(x="time", cmap=cmap, vmin=vmin, vmax=vmax)
+        plot = tmp_data.plot(x="time", cmap=cmap, vmin=vmin, vmax=vmax)
         plot = plotSettings.plotSetup(plot)
 
         plt.grid(b=True)
@@ -248,11 +248,11 @@ class visualizer:
 
         for axN, i in enumerate(dataNon90.azm.values):
 
-            tmpData = dataNon90.sel(azm=i)
+            tmp_data = dataNon90.sel(azm=i)
 
-            tmpData = tmpData.sel(time=slice(minTime, maxTime))
+            tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
 
-            plot = tmpData.plot(
+            plot = tmp_data.plot(
                 x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
             )
 

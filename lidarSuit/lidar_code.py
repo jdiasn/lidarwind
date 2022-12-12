@@ -42,7 +42,7 @@ class GetLidarData:
 
         Returns
         -------
-        tmpData : xarray.DataSet
+        ds: xarray.DataSet
             a dataset from the original NetCDF files
 
         Note

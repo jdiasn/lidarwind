@@ -4,12 +4,11 @@
 
 import numpy as np
 import xarray as xr
-import pandas as pd
 
 from .utilities import util
 
 
-class sixBeamMethod:
+class SixBeamMethod:
 
     """6 beam method
 
@@ -35,7 +34,7 @@ class sixBeamMethod:
 
     Returns
     -------
-    varCompDS : xarray.DataSet
+    var_comp_ds : xarray.DataSet
         a dataset of the eynolds stress tensor
         matrix elementes
 
@@ -49,16 +48,16 @@ class sixBeamMethod:
         # self.timeFreq = freq
         # self.timeFreq = freq
 
-        self.get_M()
-        self.get_M_inv()
-        self.rVariances = {}
-        self.calcVariances(data, freq, freq90)
+        self.get_m_matrix()
+        self.get_m_matrix_inv()
+        self.radial_variances = {}
+        self.calc_variances(data, freq, freq90)
 
-        self.get_S()
-        self.get_SIGMA()
-        self.getVarianceDS()
+        self.get_s_matrix()
+        self.get_sigma()
+        self.get_variance_ds()
 
-    def get_M(self):
+    def get_m_matrix(self):
 
         """
         This method populates the coefficient matrix (M).
@@ -75,16 +74,16 @@ class sixBeamMethod:
         """
 
         phis = np.append(np.ones_like(self.azm) * self.elv, np.array([90]))
-        phisRad = np.deg2rad(phis)
+        phis_rad = np.deg2rad(phis)
 
         thetas = np.append(self.azm, np.array([0]))
-        thetasRad = np.deg2rad(thetas)
+        thetas_rad = np.deg2rad(thetas)
 
-        M = np.ones((len(phis), len(thetas))) * np.nan
+        m_matrix = np.ones((len(phis), len(thetas))) * np.nan
 
-        for i, theta in enumerate(thetasRad):
+        for i, theta in enumerate(thetas_rad):
 
-            phi = phisRad[i]
+            phi = phis_rad[i]
 
             ci1 = np.cos(phi) ** 2 * np.sin(theta) ** 2
             ci2 = np.cos(phi) ** 2 * np.cos(theta) ** 2
@@ -95,40 +94,40 @@ class sixBeamMethod:
             ci5 = np.cos(phi) * np.sin(phi) * np.sin(theta)
             ci6 = np.cos(phi) * np.sin(phi) * np.cos(theta)
 
-            Mline = np.array([ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2])
+            m_matrix_line = np.array([ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2])
 
-            M[i] = Mline
+            m_matrix[i] = m_matrix_line
 
-        self.M = M
+        self.m_matrix = m_matrix
 
         return self
 
-    def get_M_inv(self):
+    def get_m_matrix_inv(self):
 
         """
         This method calculates the inverse matrix of M.
         """
 
-        self.M_inv = np.linalg.inv(self.M)
+        self.m_matrix_inv = np.linalg.inv(self.m_matrix)
 
         return self
 
     ### new approach to calculate the variances ##############
     #
     #
-    def calcVariances(self, data, freq, freq90):
+    def calc_variances(self, data, freq, freq90):
 
-        interpDataTransf = data.dataTransf.interp(
+        interp_data_transf = data.dataTransf.interp(
             time=data.dataTransf90.time, method="nearest"
         )
-        self.getVariance(interpDataTransf, freq=freq)
-        self.getVariance(
+        self.get_variance(interp_data_transf, freq=freq)
+        self.get_variance(
             -1 * data.dataTransf90, freq=freq90, name="rVariance90"
         )  # think about the -1 coefficient
 
         return self
 
-    def getVariance(self, data, freq=10, name="rVariance"):
+    def get_variance(self, data, freq=10, name="rVariance"):
 
         """
         This method calculates the variance from the
@@ -150,8 +149,8 @@ class sixBeamMethod:
             time=freq, center=True, min_periods=int(freq * 0.3)
         ).var()
 
-        self.rVariances[name] = variance
-        # self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
+        self.radial_variances[name] = variance
+        # self.radial_variances['{0}_counts'.format(name)] = groupedData.count(dim='time')
 
         return self
 
@@ -160,7 +159,7 @@ class sixBeamMethod:
     ### new approach to calculate the variances ##############
 
     ### old approach to calculate the variances
-    #     def getVariance(self, data, name='rVariance'):
+    #     def get_variance(self, data, name='rVariance'):
 
     #         """
     #         This method calculates the variance from the
@@ -171,30 +170,30 @@ class sixBeamMethod:
     #         timeBins = util.getTimeBins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
     #         groupedData = data.groupby_bins('time', timeBins)
 
-    #         self.rVariances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
-    #         self.rVariances['{0}_counts'.format(name)] = groupedData.count(dim='time')
+    #         self.radial_variances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
+    #         self.radial_variances['{0}_counts'.format(name)] = groupedData.count(dim='time')
 
     #         return self
     #####################################################
 
-    def get_S(self):
+    def get_s_matrix(self):
 
         """
         This method fills the observation variance matrix (S).
         """
 
-        S = np.dstack(
+        s_matrix = np.dstack(
             (
-                self.rVariances["rVariance"].values,
-                self.rVariances["rVariance90"].values[
+                self.radial_variances["rVariance"].values,
+                self.radial_variances["rVariance90"].values[
                     :, :, np.newaxis, np.newaxis
                 ],
             )
         )
 
-        self.S = S
+        self.s_matrix = s_matrix
 
-    def get_SIGMA(self):
+    def get_sigma(self):
 
         """
         This method calculates the components of the
@@ -203,31 +202,31 @@ class sixBeamMethod:
         SIGMA = M^-1 x S
         """
 
-        self.SIGMA = np.matmul(self.M_inv, self.S)
+        self.sigma_matrix = np.matmul(self.m_matrix_inv, self.s_matrix)
 
         return self
 
-    def getVarianceDS(self):
+    def get_variance_ds(self):
 
         """
         This method converts the SIGMA into a xarray dataset.
         """
 
-        varCompDS = xr.Dataset()
-        varCompName = ["u", "v", "w", "uv", "uw", "vw"]
+        var_comp_ds = xr.Dataset()
+        var_comp_name = ["u", "v", "w", "uv", "uw", "vw"]
 
-        for i, varComp in enumerate(varCompName):
+        for i, var_comp in enumerate(var_comp_name):
 
-            tmpData = xr.DataArray(
-                self.SIGMA[:, :, i, 0],
+            tmp_data = xr.DataArray(
+                self.sigma_matrix[:, :, i, 0],
                 dims=("time", "range"),
                 coords={
-                    "time": self.rVariances["rVariance90"].time,
-                    "range": self.rVariances["rVariance"].range,
+                    "time": self.radial_variances["rVariance90"].time,
+                    "range": self.radial_variances["rVariance"].range,
                 },
-                name=f"var_{varComp}",
+                name=f"var_{var_comp}",
             )
 
-            varCompDS = xr.merge([varCompDS, tmpData])
+            var_comp_ds = xr.merge([var_comp_ds, tmp_data])
 
-        self.varCompDS = varCompDS
+        self.var_comp_ds = var_comp_ds
