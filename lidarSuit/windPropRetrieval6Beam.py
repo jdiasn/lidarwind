@@ -8,7 +8,7 @@ import xarray as xr
 from .utilities import util
 
 
-class six_beam_method:
+class SixBeamMethod:
 
     """6 beam method
 
