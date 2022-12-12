@@ -162,13 +162,13 @@ class cloudMask:
         if maskType == "aux":
             print("aux mask")
 
-            auxCloudMask = xr.DataArray(
+            aux_cloud_mask = xr.DataArray(
                 np.ones(len(self.wcData.time)),
                 dims="time",
                 coords={"time": self.wcData.time.values},
             )
 
-            self.time_cloud_mask = auxCloudMask
+            self.time_cloud_mask = aux_cloud_mask
 
         elif maskType == "real":
             print("real mask")
