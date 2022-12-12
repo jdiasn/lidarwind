@@ -55,7 +55,7 @@ class sixBeamMethod:
 
         self.get_S()
         self.get_SIGMA()
-        self.getVarianceDS()
+        self.get_variance_ds()
 
     def get_M(self):
 
@@ -206,7 +206,7 @@ class sixBeamMethod:
 
         return self
 
-    def getVarianceDS(self):
+    def get_variance_ds(self):
 
         """
         This method converts the SIGMA into a xarray dataset.
