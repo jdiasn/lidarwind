@@ -34,7 +34,7 @@ class sixBeamMethod:
 
     Returns
     -------
-    varCompDS : xarray.DataSet
+    var_comp_ds : xarray.DataSet
         a dataset of the eynolds stress tensor
         matrix elementes
 
@@ -212,7 +212,7 @@ class sixBeamMethod:
         This method converts the SIGMA into a xarray dataset.
         """
 
-        varCompDS = xr.Dataset()
+        var_comp_ds = xr.Dataset()
         varCompName = ["u", "v", "w", "uv", "uw", "vw"]
 
         for i, varComp in enumerate(varCompName):
@@ -227,6 +227,6 @@ class sixBeamMethod:
                 name=f"var_{varComp}",
             )
 
-            varCompDS = xr.merge([varCompDS, tmpData])
+            var_comp_ds = xr.merge([var_comp_ds, tmpData])
 
-        self.varCompDS = varCompDS
+        self.var_comp_ds = var_comp_ds
