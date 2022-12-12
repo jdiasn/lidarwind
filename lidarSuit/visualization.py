@@ -173,19 +173,19 @@ class visualizer:
         maxTime=None,
     ):
 
-        selDay = pd.to_datetime(tmp_data.time[0].values)
+        sel_day = pd.to_datetime(tmp_data.time[0].values)
 
         if maxTime is not None:
             maxTime = pd.to_datetime(maxTime)
 
         else:
-            maxTime = pd.to_datetime(selDay.strftime("%Y%m%d 23:59:59"))
+            maxTime = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
 
         if minTime is not None:
             minTime = pd.to_datetime(minTime)
 
         else:
-            minTime = pd.to_datetime(selDay.strftime("%Y%m%d 00:00:00"))
+            minTime = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
         tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
 
@@ -205,7 +205,7 @@ class visualizer:
             plot.colorbar.set_ticks(np.linspace(0, 360, 9))
 
         if save:
-            fileName = "{}_{}.png".format(selDay.strftime("%Y%m%d"), plotID)
+            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plotID)
             outputFileName = os.path.join(figPath, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
@@ -232,19 +232,19 @@ class visualizer:
         elv = dataNon90.elv.values[0]
         fig, axes = plt.subplots(5, 1, sharex=True, figsize=(18, 25))
 
-        selDay = pd.to_datetime(dataNon90.time[0].values)
+        sel_day = pd.to_datetime(dataNon90.time[0].values)
 
         if maxTime is not None:
             maxTime = pd.to_datetime(maxTime)
 
         else:
-            maxTime = pd.to_datetime(selDay.strftime("%Y%m%d 23:59:59"))
+            maxTime = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
 
         if minTime is not None:
             minTime = pd.to_datetime(minTime)
 
         else:
-            minTime = pd.to_datetime(selDay.strftime("%Y%m%d 00:00:00"))
+            minTime = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
         for axN, i in enumerate(dataNon90.azm.values):
 
@@ -264,7 +264,7 @@ class visualizer:
             axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
-            fileName = "{}_{}.png".format(selDay.strftime("%Y%m%d"), plotID)
+            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plotID)
             outputFileName = os.path.join(figPath, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
