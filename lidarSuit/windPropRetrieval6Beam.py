@@ -51,7 +51,7 @@ class SixBeamMethod:
         self.get_M()
         self.get_M_inv()
         self.radial_variances = {}
-        self.calcVariances(data, freq, freq90)
+        self.calc_variances(data, freq, freq90)
 
         self.get_s_matrix()
         self.get_sigma()
@@ -115,7 +115,7 @@ class SixBeamMethod:
     ### new approach to calculate the variances ##############
     #
     #
-    def calcVariances(self, data, freq, freq90):
+    def calc_variances(self, data, freq, freq90):
 
         interp_data_transf = data.dataTransf.interp(
             time=data.dataTransf90.time, method="nearest"
