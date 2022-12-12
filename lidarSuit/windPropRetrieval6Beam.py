@@ -94,9 +94,9 @@ class SixBeamMethod:
             ci5 = np.cos(phi) * np.sin(phi) * np.sin(theta)
             ci6 = np.cos(phi) * np.sin(phi) * np.cos(theta)
 
-            Mline = np.array([ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2])
+            m_matrix_line = np.array([ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2])
 
-            M[i] = Mline
+            M[i] = m_matrix_line
 
         self.M = M
 
