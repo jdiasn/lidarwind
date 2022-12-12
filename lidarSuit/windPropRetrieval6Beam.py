@@ -79,7 +79,7 @@ class SixBeamMethod:
         thetas = np.append(self.azm, np.array([0]))
         thetasRad = np.deg2rad(thetas)
 
-        M = np.ones((len(phis), len(thetas))) * np.nan
+        m_matrix = np.ones((len(phis), len(thetas))) * np.nan
 
         for i, theta in enumerate(thetasRad):
 
@@ -96,9 +96,9 @@ class SixBeamMethod:
 
             m_matrix_line = np.array([ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2])
 
-            M[i] = m_matrix_line
+            m_matrix[i] = m_matrix_line
 
-        self.M = M
+        self.m_matrix = m_matrix
 
         return self
 
@@ -108,7 +108,7 @@ class SixBeamMethod:
         This method calculates the inverse matrix of M.
         """
 
-        self.M_inv = np.linalg.inv(self.M)
+        self.m_matrix_inv = np.linalg.inv(self.m_matrix)
 
         return self
 
@@ -202,7 +202,7 @@ class SixBeamMethod:
         SIGMA = M^-1 x S
         """
 
-        self.SIGMA = np.matmul(self.M_inv, self.s_matrix)
+        self.SIGMA = np.matmul(self.m_matrix_inv, self.s_matrix)
 
         return self
 
