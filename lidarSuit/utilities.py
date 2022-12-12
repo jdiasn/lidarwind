@@ -85,7 +85,7 @@ class Util:
         return file_list
 
 
-class cloudMask:
+class cloud_mask:
 
     """
     This class generates the time-height cloud mask
@@ -155,7 +155,7 @@ class cloudMask:
         ] = 0
 
         # final mask
-        self.cloudMask = self.cleanCeiloData + self.cleanRadarData
+        self.cloud_mask = self.cleanCeiloData + self.cleanRadarData
 
     def getTimeMask(self, mask_type=None):
 
@@ -174,7 +174,7 @@ class cloudMask:
             print("real mask")
 
             # 6500 is the value I defined as maximum range
-            high_cloud_layer = self.cloudMask.where(self.cloudMask.range > 6500)
+            high_cloud_layer = self.cloud_mask.where(self.cloud_mask.range > 6500)
 
             time_cloud_mask = high_cloud_layer.sum(dim="range")
 
