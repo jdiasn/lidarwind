@@ -49,7 +49,7 @@ class SixBeamMethod:
         # self.timeFreq = freq
 
         self.get_M()
-        self.get_M_inv()
+        self.get_m_matrix_inv()
         self.radial_variances = {}
         self.calc_variances(data, freq, freq90)
 
@@ -102,7 +102,7 @@ class SixBeamMethod:
 
         return self
 
-    def get_M_inv(self):
+    def get_m_matrix_inv(self):
 
         """
         This method calculates the inverse matrix of M.
