@@ -77,11 +77,11 @@ class SixBeamMethod:
         phisRad = np.deg2rad(phis)
 
         thetas = np.append(self.azm, np.array([0]))
-        thetasRad = np.deg2rad(thetas)
+        thetas_rad = np.deg2rad(thetas)
 
         m_matrix = np.ones((len(phis), len(thetas))) * np.nan
 
-        for i, theta in enumerate(thetasRad):
+        for i, theta in enumerate(thetas_rad):
 
             phi = phisRad[i]
 
