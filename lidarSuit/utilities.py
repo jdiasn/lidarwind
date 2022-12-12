@@ -67,7 +67,7 @@ class Util:
             if os.path.isdir(f"{sample_path}{file_type}/"):
                 file_list = sorted(glob.glob(f"{sample_path}{file_type}/*.nc"))
 
-                if bool(file_list) == False:
+                if bool(file_list) is False:
                     Util.get_sample_data(sample_path, file_type)
                     file_list = sorted(
                         glob.glob(f"{sample_path}{file_type}/*.nc")
