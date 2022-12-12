@@ -111,7 +111,7 @@ class CloudMask:
 
             self.clean_ceilo()
             self.clean_radar()
-            self.getCloudMask2D()
+            self.get_cloud_mask_2d()
             self.getTimeMask(mask_type="real")
 
     def clean_ceilo(self):
@@ -140,7 +140,7 @@ class CloudMask:
             {"time": self.wc_data.time, "range": self.clean_ceilo_data.range}
         )
 
-    def getCloudMask2D(self):
+    def get_cloud_mask_2d(self):
 
         # CEILOMETER mask
         self.clean_ceilo_data.values[np.isfinite(self.clean_ceilo_data.values)] = 2
