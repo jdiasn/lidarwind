@@ -105,14 +105,14 @@ class CloudMask:
 
         if self.ceilo_data is None or self.radar_data is None:
 
-            self.getTimeMask(mask_type="aux")
+            self.get_time_mask(mask_type="aux")
 
         else:
 
             self.clean_ceilo()
             self.clean_radar()
             self.get_cloud_mask_2d()
-            self.getTimeMask(mask_type="real")
+            self.get_time_mask(mask_type="real")
 
     def clean_ceilo(self):
 
@@ -157,7 +157,7 @@ class CloudMask:
         # final mask
         self.cloud_mask = self.clean_ceilo_data + self.clean_radar_data
 
-    def getTimeMask(self, mask_type=None):
+    def get_time_mask(self, mask_type=None):
 
         if mask_type == "aux":
             print("aux mask")
