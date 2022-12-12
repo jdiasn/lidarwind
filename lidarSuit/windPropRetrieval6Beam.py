@@ -215,7 +215,7 @@ class sixBeamMethod:
         var_comp_ds = xr.Dataset()
         var_comp_name = ["u", "v", "w", "uv", "uw", "vw"]
 
-        for i, varComp in enumerate(var_comp_name):
+        for i, var_comp in enumerate(var_comp_name):
 
             tmp_data = xr.DataArray(
                 self.SIGMA[:, :, i, 0],
@@ -224,7 +224,7 @@ class sixBeamMethod:
                     "time": self.rVariances["rVariance90"].time,
                     "range": self.rVariances["rVariance"].range,
                 },
-                name=f"var_{varComp}",
+                name=f"var_{var_comp}",
             )
 
             var_comp_ds = xr.merge([var_comp_ds, tmp_data])
