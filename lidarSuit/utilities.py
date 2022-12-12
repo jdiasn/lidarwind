@@ -116,18 +116,18 @@ class CloudMask:
 
     def clean_ceilo(self):
 
-        positiveBeta = self.ceilo_data.beta_raw.where(
+        positive_beta = self.ceilo_data.beta_raw.where(
             self.ceilo_data.beta_raw > 0
         )
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             time=20, center=True, min_periods=13
         ).mean()
-        positiveBeta = positiveBeta.rolling(
+        positive_beta = positive_beta.rolling(
             range=10, center=True, min_periods=8
         ).mean()
 
         # grid interpolation: to lidar time
-        self.clean_ceilo_data = positiveBeta.interp({"time": self.wc_data.time})
+        self.clean_ceilo_data = positive_beta.interp({"time": self.wc_data.time})
 
     def cleanRadar(self):
 
