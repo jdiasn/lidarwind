@@ -406,17 +406,17 @@ class getRestructuredData:
 
         self.logger.info("selcting zenith observations")
 
-        tmpData = Filtering(self.data).get_vertical_obs_comp(
+        tmp_data = Filtering(self.data).get_vertical_obs_comp(
             "radial_wind_speed90", snr=self.snr, status=self.status
         )
-        tmpData = tmpData.isel(range90=slice(0, len(self.rangeNon90)))
-        self.dataTransf90 = tmpData
+        tmp_data = tmp_data.isel(range90=slice(0, len(self.rangeNon90)))
+        self.dataTransf90 = tmp_data
 
-        tmpData = Filtering(self.data).get_vertical_obs_comp(
+        tmp_data = Filtering(self.data).get_vertical_obs_comp(
             "relative_beta90", snr=self.snr, status=self.status
         )
-        tmpData = tmpData.isel(range90=slice(0, len(self.rangeNon90)))
-        self.relative_beta90 = tmpData
+        tmp_data = tmp_data.isel(range90=slice(0, len(self.rangeNon90)))
+        self.relative_beta90 = tmp_data
 
         return self
 

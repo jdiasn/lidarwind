@@ -217,7 +217,7 @@ class sixBeamMethod:
 
         for i, varComp in enumerate(varCompName):
 
-            tmpData = xr.DataArray(
+            tmp_data = xr.DataArray(
                 self.SIGMA[:, :, i, 0],
                 dims=("time", "range"),
                 coords={
@@ -227,6 +227,6 @@ class sixBeamMethod:
                 name=f"var_{varComp}",
             )
 
-            var_comp_ds = xr.merge([var_comp_ds, tmpData])
+            var_comp_ds = xr.merge([var_comp_ds, tmp_data])
 
         self.var_comp_ds = var_comp_ds
