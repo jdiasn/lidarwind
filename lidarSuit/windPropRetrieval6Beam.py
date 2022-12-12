@@ -213,9 +213,9 @@ class sixBeamMethod:
         """
 
         var_comp_ds = xr.Dataset()
-        varCompName = ["u", "v", "w", "uv", "uw", "vw"]
+        var_comp_name = ["u", "v", "w", "uv", "uw", "vw"]
 
-        for i, varComp in enumerate(varCompName):
+        for i, varComp in enumerate(var_comp_name):
 
             tmp_data = xr.DataArray(
                 self.SIGMA[:, :, i, 0],
