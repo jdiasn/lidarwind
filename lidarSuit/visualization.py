@@ -59,7 +59,7 @@ class Visualizer:
 
         self.data = data
 
-    def viewOrigVar(
+    def view_orig_var(
         self,
         varName,
         cmap="Spectral",
