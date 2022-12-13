@@ -42,7 +42,7 @@ class PlotSettings:
 
         return self
 
-    def plotSetup(plot):
+    def plot_setup(plot):
 
         plt.setp(plot.axes.xaxis.get_majorticklabels(), rotation=0)
         locator = mdates.AutoDateLocator()
@@ -194,7 +194,7 @@ class visualizer:
 
         plt.figure(figsize=(18, 8))
         plot = tmp_data.plot(x="time", cmap=cmap, vmin=vmin, vmax=vmax)
-        plot = PlotSettings.plotSetup(plot)
+        plot = PlotSettings.plot_setup(plot)
 
         plt.grid(b=True)
         plt.ylim(0, 12e3)
@@ -256,7 +256,7 @@ class visualizer:
                 x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
             )
 
-            plot = PlotSettings.plotSetup(plot)
+            plot = PlotSettings.plot_setup(plot)
 
             axes[axN].grid(b=True)
             axes[axN].set_ylim(0, 12e3)
