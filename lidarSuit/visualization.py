@@ -79,7 +79,7 @@ class Visualizer:
         if plot_id == "rad_wind_speed_panel":
 
             tmp_data = self.data
-            self.plotDataAZM(
+            self.plot_data_azm(
                 dataNon90=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
@@ -214,7 +214,7 @@ class Visualizer:
 
         plt.close()
 
-    def plotDataAZM(
+    def plot_data_azm(
         self,
         dataNon90,
         cmap="Spectral",
