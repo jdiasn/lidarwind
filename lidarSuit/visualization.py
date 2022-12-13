@@ -61,7 +61,7 @@ class Visualizer:
 
     def view_orig_var(
         self,
-        varName,
+        var_name,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
@@ -93,7 +93,7 @@ class Visualizer:
             )
 
         else:
-            tmp_data = Filtering(self.data).get_vertical_obs_comp(varName)
+            tmp_data = Filtering(self.data).get_vertical_obs_comp(var_name)
 
             if namePrefix:
                 strName = "{}_{}".format(
@@ -121,7 +121,7 @@ class Visualizer:
 
     def viewRetVar(
         self,
-        varName,
+        var_name,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
@@ -136,7 +136,7 @@ class Visualizer:
         maxTime=None,
     ):
 
-        tmp_data = self.data[varName]
+        tmp_data = self.data[var_name]
 
         strName = tmp_data.attrs["standard_name"]
 
