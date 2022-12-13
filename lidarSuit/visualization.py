@@ -16,7 +16,7 @@ class PlotSettings:
 
     def update_settings(self):
 
-        fs = 16
+        font_size = 16
 
         # mpl.style.use('seaborn')
         self.mpl.style.use(self.style)
@@ -24,14 +24,14 @@ class PlotSettings:
         self.mpl.rcParams["figure.dpi"] = 80
         self.mpl.rcParams["savefig.dpi"] = 100
 
-        self.mpl.rcParams["font.size"] = fs
-        self.mpl.rcParams["legend.fontsize"] = fs
-        self.mpl.rcParams["figure.titlesize"] = fs
+        self.mpl.rcParams["font.size"] = font_size
+        self.mpl.rcParams["legend.fontsize"] = font_size
+        self.mpl.rcParams["figure.titlesize"] = font_size
 
-        self.mpl.rcParams["ytick.labelsize"] = fs
-        self.mpl.rcParams["xtick.labelsize"] = fs
-        self.mpl.rcParams["axes.titlesize"] = fs
-        self.mpl.rcParams["axes.labelsize"] = fs
+        self.mpl.rcParams["ytick.labelsize"] = font_size
+        self.mpl.rcParams["xtick.labelsize"] = font_size
+        self.mpl.rcParams["axes.titlesize"] = font_size
+        self.mpl.rcParams["axes.labelsize"] = font_size
 
         self.mpl.rcParams["legend.fancybox"] = True
         self.mpl.rcParams["legend.framealpha"] = 0.7
