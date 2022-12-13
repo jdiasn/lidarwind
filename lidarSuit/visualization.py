@@ -80,7 +80,7 @@ class Visualizer:
 
             tmp_data = self.data
             self.plot_data_azm(
-                dataNon90=tmp_data,
+                data_non_90=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
                 vmax=vmax,
@@ -216,7 +216,7 @@ class Visualizer:
 
     def plot_data_azm(
         self,
-        dataNon90,
+        data_non_90,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
@@ -228,10 +228,10 @@ class Visualizer:
         max_time=None,
     ):
 
-        elv = dataNon90.elv.values[0]
+        elv = data_non_90.elv.values[0]
         fig, axes = plt.subplots(5, 1, sharex=True, figsize=(18, 25))
 
-        sel_day = pd.to_datetime(dataNon90.time[0].values)
+        sel_day = pd.to_datetime(data_non_90.time[0].values)
 
         if max_time is not None:
             max_time = pd.to_datetime(max_time)
@@ -245,9 +245,9 @@ class Visualizer:
         else:
             min_time = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
-        for axN, i in enumerate(dataNon90.azm.values):
+        for axN, i in enumerate(data_non_90.azm.values):
 
-            tmp_data = dataNon90.sel(azm=i)
+            tmp_data = data_non_90.sel(azm=i)
 
             tmp_data = tmp_data.sel(time=slice(min_time, max_time))
 
