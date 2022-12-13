@@ -245,22 +245,22 @@ class Visualizer:
         else:
             min_time = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
-        for axN, i in enumerate(data_non_90.azm.values):
+        for ax_number, i in enumerate(data_non_90.azm.values):
 
             tmp_data = data_non_90.sel(azm=i)
 
             tmp_data = tmp_data.sel(time=slice(min_time, max_time))
 
             plot = tmp_data.plot(
-                x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
+                x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[ax_number]
             )
 
             plot = PlotSettings.plot_setup(plot)
 
-            axes[axN].grid(b=True)
-            axes[axN].set_ylim(0, 12e3)
-            axes[axN].set_xlim(min_time, max_time)
-            axes[axN].set_title(f"elv: {elv}, azm: {i}")
+            axes[ax_number].grid(b=True)
+            axes[ax_number].set_ylim(0, 12e3)
+            axes[ax_number].set_xlim(min_time, max_time)
+            axes[ax_number].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
             file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
