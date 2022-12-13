@@ -118,7 +118,7 @@ class Visualizer:
                 max_time=max_time,
             )
 
-    def viewRetVar(
+    def view_ret_var(
         self,
         var_name,
         cmap="Spectral",
