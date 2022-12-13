@@ -70,7 +70,7 @@ class Visualizer:
         save=False,
         plot_id=None,
         fig_path=None,
-        namePrefix=None,
+        name_prefix=None,
         show=False,
         minTime=None,
         maxTime=None,
@@ -95,9 +95,9 @@ class Visualizer:
         else:
             tmp_data = Filtering(self.data).get_vertical_obs_comp(var_name)
 
-            if namePrefix:
+            if name_prefix:
                 strName = "{}_{}".format(
-                    namePrefix, tmp_data.attrs["standard_name"]
+                    name_prefix, tmp_data.attrs["standard_name"]
                 )
 
             else:
@@ -130,7 +130,7 @@ class Visualizer:
         save=False,
         plot_id=None,
         fig_path=None,
-        namePrefix=None,
+        name_prefix=None,
         show=False,
         minTime=None,
         maxTime=None,
