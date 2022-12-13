@@ -69,7 +69,7 @@ class Visualizer:
         azm="-",
         save=False,
         plot_id=None,
-        figPath=None,
+        fig_path=None,
         namePrefix=None,
         show=False,
         minTime=None,
@@ -85,7 +85,7 @@ class Visualizer:
                 vmin=vmin,
                 vmax=vmax,
                 plot_id=plot_id,
-                figPath=figPath,
+                fig_path=fig_path,
                 save=save,
                 show=show,
                 minTime=minTime,
@@ -113,7 +113,7 @@ class Visualizer:
                 save=save,
                 plot_id=plot_id,
                 strName=strName,
-                figPath=figPath,
+                fig_path=fig_path,
                 show=show,
                 minTime=minTime,
                 maxTime=maxTime,
@@ -129,7 +129,7 @@ class Visualizer:
         azm="-",
         save=False,
         plot_id=None,
-        figPath=None,
+        fig_path=None,
         namePrefix=None,
         show=False,
         minTime=None,
@@ -150,7 +150,7 @@ class Visualizer:
             save=save,
             plot_id=plot_id,
             strName=strName,
-            figPath=figPath,
+            fig_path=fig_path,
             show=show,
             minTime=minTime,
             maxTime=maxTime,
@@ -166,7 +166,7 @@ class Visualizer:
         azm="-",
         save=False,
         plot_id=None,
-        figPath=None,
+        fig_path=None,
         strName=None,
         show=False,
         minTime=None,
@@ -206,7 +206,7 @@ class Visualizer:
 
         if save:
             fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
-            outputFileName = os.path.join(figPath, fileName)
+            outputFileName = os.path.join(fig_path, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
 
@@ -221,7 +221,7 @@ class Visualizer:
         cmap="Spectral",
         vmin=-1,
         vmax=1,
-        figPath=None,
+        fig_path=None,
         save=False,
         plot_id=None,
         show=False,
@@ -265,7 +265,7 @@ class Visualizer:
 
         if save:
             fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
-            outputFileName = os.path.join(figPath, fileName)
+            outputFileName = os.path.join(fig_path, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
 
