@@ -221,14 +221,14 @@ class readProcessedData:
 
         tmpMerged = xr.Dataset()
 
-        for fileName in sorted(self.fileList):
+        for file_name in sorted(self.fileList):
 
             try:
-                self.logger.info(f"opening {fileName}")
-                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
+                self.logger.info(f"opening {file_name}")
+                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(file_name)])
 
             except:
-                self.logger.info(f"problems with: {fileName}")
+                self.logger.info(f"problems with: {file_name}")
                 pass
 
         return tmpMerged
@@ -481,7 +481,7 @@ class getResampledData:
             self.logger.error("wrong data type: expecting a xr.DataArray")
             raise TypeError
 
-        self.varName = xrDataArray.name
+        self.var_name = xrDataArray.name
         self.attrs = xrDataArray.attrs
         data = xrDataArray
         date = pd.to_datetime(data[timeCoord].values[0])
@@ -616,7 +616,7 @@ class getResampledData:
             time/range resampled numpy array
         """
 
-        self.logger.info(f"time resampling of: {self.varName}")
+        self.logger.info(f"time resampling of: {self.var_name}")
 
         resampledTimeArr = (
             np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))
@@ -639,7 +639,7 @@ class getResampledData:
         """
 
         self.logger.info(
-            f"generating the new resampled DataArray: {self.varName}"
+            f"generating the new resampled DataArray: {self.var_name}"
         )
 
         tmpDT = xr.DataArray(
@@ -649,7 +649,7 @@ class getResampledData:
                 "time_ref": self.timeRef,
                 self.vertCoord.name: self.vertCoord.values,
             },
-            name=self.varName,
+            name=self.var_name,
             attrs=self.attrs,
         )
 

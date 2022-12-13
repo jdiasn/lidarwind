@@ -7,16 +7,16 @@ import matplotlib.dates as mdates
 from .filters import Filtering
 
 
-class plotSettings:
+class PlotSettings:
     def __init__(self, mpl, style="dark_background"):
 
         self.mpl = mpl
         self.style = style
-        # self.updateSettings()
+        # self.update_settings()
 
-    def updateSettings(self):
+    def update_settings(self):
 
-        fs = 16
+        font_size = 16
 
         # mpl.style.use('seaborn')
         self.mpl.style.use(self.style)
@@ -24,14 +24,14 @@ class plotSettings:
         self.mpl.rcParams["figure.dpi"] = 80
         self.mpl.rcParams["savefig.dpi"] = 100
 
-        self.mpl.rcParams["font.size"] = fs
-        self.mpl.rcParams["legend.fontsize"] = fs
-        self.mpl.rcParams["figure.titlesize"] = fs
+        self.mpl.rcParams["font.size"] = font_size
+        self.mpl.rcParams["legend.fontsize"] = font_size
+        self.mpl.rcParams["figure.titlesize"] = font_size
 
-        self.mpl.rcParams["ytick.labelsize"] = fs
-        self.mpl.rcParams["xtick.labelsize"] = fs
-        self.mpl.rcParams["axes.titlesize"] = fs
-        self.mpl.rcParams["axes.labelsize"] = fs
+        self.mpl.rcParams["ytick.labelsize"] = font_size
+        self.mpl.rcParams["xtick.labelsize"] = font_size
+        self.mpl.rcParams["axes.titlesize"] = font_size
+        self.mpl.rcParams["axes.labelsize"] = font_size
 
         self.mpl.rcParams["legend.fancybox"] = True
         self.mpl.rcParams["legend.framealpha"] = 0.7
@@ -42,7 +42,7 @@ class plotSettings:
 
         return self
 
-    def plotSetup(plot):
+    def plot_setup(plot):
 
         plt.setp(plot.axes.xaxis.get_majorticklabels(), rotation=0)
         locator = mdates.AutoDateLocator()
@@ -54,56 +54,56 @@ class plotSettings:
         return plot
 
 
-class visualizer:
+class Visualizer:
     def __init__(self, data):
 
         self.data = data
 
-    def viewOrigVar(
+    def view_orig_var(
         self,
-        varName,
+        var_name,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
         elv="90",
         azm="-",
         save=False,
-        plotID=None,
-        figPath=None,
-        namePrefix=None,
+        plot_id=None,
+        fig_path=None,
+        name_prefix=None,
         show=False,
-        minTime=None,
-        maxTime=None,
+        min_time=None,
+        max_time=None,
     ):
 
-        if plotID == "rad_wind_speed_panel":
+        if plot_id == "rad_wind_speed_panel":
 
             tmp_data = self.data
-            self.plotDataAZM(
-                dataNon90=tmp_data,
+            self.plot_data_azm(
+                data_non_90=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
                 vmax=vmax,
-                plotID=plotID,
-                figPath=figPath,
+                plot_id=plot_id,
+                fig_path=fig_path,
                 save=save,
                 show=show,
-                minTime=minTime,
-                maxTime=maxTime,
+                min_time=min_time,
+                max_time=max_time,
             )
 
         else:
-            tmp_data = Filtering(self.data).get_vertical_obs_comp(varName)
+            tmp_data = Filtering(self.data).get_vertical_obs_comp(var_name)
 
-            if namePrefix:
-                strName = "{}_{}".format(
-                    namePrefix, tmp_data.attrs["standard_name"]
+            if name_prefix:
+                string_name = "{}_{}".format(
+                    name_prefix, tmp_data.attrs["standard_name"]
                 )
 
             else:
-                strName = tmp_data.attrs["standard_name"]
+                string_name = tmp_data.attrs["standard_name"]
 
-            self.plotData(
+            self.plot_data(
                 tmp_data=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
@@ -111,36 +111,35 @@ class visualizer:
                 elv=elv,
                 azm=azm,
                 save=save,
-                plotID=plotID,
-                strName=strName,
-                figPath=figPath,
-                show=show,
-                minTime=minTime,
-                maxTime=maxTime,
+                plot_id=plot_id,
+                string_name=string_name,
+                fig_path=fig_path,
+                min_time=min_time,
+                max_time=max_time,
             )
 
-    def viewRetVar(
+    def view_ret_var(
         self,
-        varName,
+        var_name,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
         elv="90",
         azm="-",
         save=False,
-        plotID=None,
-        figPath=None,
-        namePrefix=None,
+        plot_id=None,
+        fig_path=None,
+        name_prefix=None,
         show=False,
-        minTime=None,
-        maxTime=None,
+        min_time=None,
+        max_time=None,
     ):
 
-        tmp_data = self.data[varName]
+        tmp_data = self.data[var_name]
 
-        strName = tmp_data.attrs["standard_name"]
+        string_name = tmp_data.attrs["standard_name"]
 
-        self.plotData(
+        self.plot_data(
             tmp_data=tmp_data,
             cmap=cmap,
             vmin=vmin,
@@ -148,15 +147,15 @@ class visualizer:
             elv=elv,
             azm=azm,
             save=save,
-            plotID=plotID,
-            strName=strName,
-            figPath=figPath,
+            plot_id=plot_id,
+            string_name=string_name,
+            fig_path=fig_path,
             show=show,
-            minTime=minTime,
-            maxTime=maxTime,
+            min_time=min_time,
+            max_time=max_time,
         )
 
-    def plotData(
+    def plot_data(
         self,
         tmp_data,
         cmap="Spectral",
@@ -165,109 +164,109 @@ class visualizer:
         elv="90",
         azm="-",
         save=False,
-        plotID=None,
-        figPath=None,
-        strName=None,
+        plot_id=None,
+        fig_path=None,
+        string_name=None,
         show=False,
-        minTime=None,
-        maxTime=None,
+        min_time=None,
+        max_time=None,
     ):
 
         sel_day = pd.to_datetime(tmp_data.time[0].values)
 
-        if maxTime is not None:
-            maxTime = pd.to_datetime(maxTime)
+        if max_time is not None:
+            max_time = pd.to_datetime(max_time)
 
         else:
-            maxTime = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
+            max_time = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
 
-        if minTime is not None:
-            minTime = pd.to_datetime(minTime)
+        if min_time is not None:
+            min_time = pd.to_datetime(min_time)
 
         else:
-            minTime = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
+            min_time = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
-        tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
+        tmp_data = tmp_data.sel(time=slice(min_time, max_time))
 
-        if strName:
-            tmp_data.attrs["standard_name"] = strName
+        if string_name:
+            tmp_data.attrs["standard_name"] = string_name
 
         plt.figure(figsize=(18, 8))
         plot = tmp_data.plot(x="time", cmap=cmap, vmin=vmin, vmax=vmax)
-        plot = plotSettings.plotSetup(plot)
+        plot = PlotSettings.plot_setup(plot)
 
         plt.grid(b=True)
         plt.ylim(0, 12e3)
-        plt.xlim(minTime, maxTime)
+        plt.xlim(min_time, max_time)
         plt.title(f"elv: {elv}, azm: {azm}")
 
-        if plotID == "hor_wind_dir":
+        if plot_id == "hor_wind_dir":
             plot.colorbar.set_ticks(np.linspace(0, 360, 9))
 
         if save:
-            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plotID)
-            outputFileName = os.path.join(figPath, fileName)
-            print(outputFileName)
-            plt.savefig(outputFileName, bbox_inches="tight")
+            file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
+            output_file_name = os.path.join(fig_path, file_name)
+            print(output_file_name)
+            plt.savefig(output_file_name, bbox_inches="tight")
 
         if show:
             plt.show()
 
         plt.close()
 
-    def plotDataAZM(
+    def plot_data_azm(
         self,
-        dataNon90,
+        data_non_90,
         cmap="Spectral",
         vmin=-1,
         vmax=1,
-        figPath=None,
+        fig_path=None,
         save=False,
-        plotID=None,
+        plot_id=None,
         show=False,
-        minTime=None,
-        maxTime=None,
+        min_time=None,
+        max_time=None,
     ):
 
-        elv = dataNon90.elv.values[0]
+        elv = data_non_90.elv.values[0]
         fig, axes = plt.subplots(5, 1, sharex=True, figsize=(18, 25))
 
-        sel_day = pd.to_datetime(dataNon90.time[0].values)
+        sel_day = pd.to_datetime(data_non_90.time[0].values)
 
-        if maxTime is not None:
-            maxTime = pd.to_datetime(maxTime)
-
-        else:
-            maxTime = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
-
-        if minTime is not None:
-            minTime = pd.to_datetime(minTime)
+        if max_time is not None:
+            max_time = pd.to_datetime(max_time)
 
         else:
-            minTime = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
+            max_time = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
 
-        for axN, i in enumerate(dataNon90.azm.values):
+        if min_time is not None:
+            min_time = pd.to_datetime(min_time)
 
-            tmp_data = dataNon90.sel(azm=i)
+        else:
+            min_time = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
-            tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
+        for ax_number, i in enumerate(data_non_90.azm.values):
+
+            tmp_data = data_non_90.sel(azm=i)
+
+            tmp_data = tmp_data.sel(time=slice(min_time, max_time))
 
             plot = tmp_data.plot(
-                x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
+                x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[ax_number]
             )
 
-            plot = plotSettings.plotSetup(plot)
+            plot = PlotSettings.plot_setup(plot)
 
-            axes[axN].grid(b=True)
-            axes[axN].set_ylim(0, 12e3)
-            axes[axN].set_xlim(minTime, maxTime)
-            axes[axN].set_title(f"elv: {elv}, azm: {i}")
+            axes[ax_number].grid(b=True)
+            axes[ax_number].set_ylim(0, 12e3)
+            axes[ax_number].set_xlim(min_time, max_time)
+            axes[ax_number].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
-            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plotID)
-            outputFileName = os.path.join(figPath, fileName)
-            print(outputFileName)
-            plt.savefig(outputFileName, bbox_inches="tight")
+            file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
+            output_file_name = os.path.join(fig_path, file_name)
+            print(output_file_name)
+            plt.savefig(output_file_name, bbox_inches="tight")
 
         if show:
             plt.show()
