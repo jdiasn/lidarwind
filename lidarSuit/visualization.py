@@ -12,9 +12,9 @@ class PlotSettings:
 
         self.mpl = mpl
         self.style = style
-        # self.updateSettings()
+        # self.update_settings()
 
-    def updateSettings(self):
+    def update_settings(self):
 
         fs = 16
 
