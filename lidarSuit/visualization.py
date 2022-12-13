@@ -54,7 +54,7 @@ class PlotSettings:
         return plot
 
 
-class visualizer:
+class Visualizer:
     def __init__(self, data):
 
         self.data = data
