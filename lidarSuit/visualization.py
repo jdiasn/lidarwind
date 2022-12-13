@@ -68,7 +68,7 @@ class Visualizer:
         elv="90",
         azm="-",
         save=False,
-        plotID=None,
+        plot_id=None,
         figPath=None,
         namePrefix=None,
         show=False,
@@ -76,7 +76,7 @@ class Visualizer:
         maxTime=None,
     ):
 
-        if plotID == "rad_wind_speed_panel":
+        if plot_id == "rad_wind_speed_panel":
 
             tmp_data = self.data
             self.plotDataAZM(
@@ -84,7 +84,7 @@ class Visualizer:
                 cmap=cmap,
                 vmin=vmin,
                 vmax=vmax,
-                plotID=plotID,
+                plot_id=plot_id,
                 figPath=figPath,
                 save=save,
                 show=show,
@@ -111,7 +111,7 @@ class Visualizer:
                 elv=elv,
                 azm=azm,
                 save=save,
-                plotID=plotID,
+                plot_id=plot_id,
                 strName=strName,
                 figPath=figPath,
                 show=show,
@@ -128,7 +128,7 @@ class Visualizer:
         elv="90",
         azm="-",
         save=False,
-        plotID=None,
+        plot_id=None,
         figPath=None,
         namePrefix=None,
         show=False,
@@ -148,7 +148,7 @@ class Visualizer:
             elv=elv,
             azm=azm,
             save=save,
-            plotID=plotID,
+            plot_id=plot_id,
             strName=strName,
             figPath=figPath,
             show=show,
@@ -165,7 +165,7 @@ class Visualizer:
         elv="90",
         azm="-",
         save=False,
-        plotID=None,
+        plot_id=None,
         figPath=None,
         strName=None,
         show=False,
@@ -201,11 +201,11 @@ class Visualizer:
         plt.xlim(minTime, maxTime)
         plt.title(f"elv: {elv}, azm: {azm}")
 
-        if plotID == "hor_wind_dir":
+        if plot_id == "hor_wind_dir":
             plot.colorbar.set_ticks(np.linspace(0, 360, 9))
 
         if save:
-            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plotID)
+            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
             outputFileName = os.path.join(figPath, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
@@ -223,7 +223,7 @@ class Visualizer:
         vmax=1,
         figPath=None,
         save=False,
-        plotID=None,
+        plot_id=None,
         show=False,
         minTime=None,
         maxTime=None,
@@ -264,7 +264,7 @@ class Visualizer:
             axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
-            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plotID)
+            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
             outputFileName = os.path.join(figPath, fileName)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
