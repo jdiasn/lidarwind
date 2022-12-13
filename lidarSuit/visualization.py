@@ -96,12 +96,12 @@ class Visualizer:
             tmp_data = Filtering(self.data).get_vertical_obs_comp(var_name)
 
             if name_prefix:
-                strName = "{}_{}".format(
+                string_name = "{}_{}".format(
                     name_prefix, tmp_data.attrs["standard_name"]
                 )
 
             else:
-                strName = tmp_data.attrs["standard_name"]
+                string_name = tmp_data.attrs["standard_name"]
 
             self.plotData(
                 tmp_data=tmp_data,
@@ -112,9 +112,8 @@ class Visualizer:
                 azm=azm,
                 save=save,
                 plot_id=plot_id,
-                strName=strName,
+                string_name=string_name,
                 fig_path=fig_path,
-                show=show,
                 min_time=min_time,
                 max_time=max_time,
             )
@@ -138,7 +137,7 @@ class Visualizer:
 
         tmp_data = self.data[var_name]
 
-        strName = tmp_data.attrs["standard_name"]
+        string_name = tmp_data.attrs["standard_name"]
 
         self.plotData(
             tmp_data=tmp_data,
@@ -149,7 +148,7 @@ class Visualizer:
             azm=azm,
             save=save,
             plot_id=plot_id,
-            strName=strName,
+            string_name=string_name,
             fig_path=fig_path,
             show=show,
             min_time=min_time,
@@ -167,7 +166,7 @@ class Visualizer:
         save=False,
         plot_id=None,
         fig_path=None,
-        strName=None,
+        string_name=None,
         show=False,
         min_time=None,
         max_time=None,
@@ -189,8 +188,8 @@ class Visualizer:
 
         tmp_data = tmp_data.sel(time=slice(min_time, max_time))
 
-        if strName:
-            tmp_data.attrs["standard_name"] = strName
+        if string_name:
+            tmp_data.attrs["standard_name"] = string_name
 
         plt.figure(figsize=(18, 8))
         plot = tmp_data.plot(x="time", cmap=cmap, vmin=vmin, vmax=vmax)
