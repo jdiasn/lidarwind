@@ -204,8 +204,8 @@ class Visualizer:
             plot.colorbar.set_ticks(np.linspace(0, 360, 9))
 
         if save:
-            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
-            outputFileName = os.path.join(fig_path, fileName)
+            file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
+            outputFileName = os.path.join(fig_path, file_name)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
 
@@ -263,8 +263,8 @@ class Visualizer:
             axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
-            fileName = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
-            outputFileName = os.path.join(fig_path, fileName)
+            file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
+            outputFileName = os.path.join(fig_path, file_name)
             print(outputFileName)
             plt.savefig(outputFileName, bbox_inches="tight")
 
