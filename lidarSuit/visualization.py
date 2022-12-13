@@ -103,7 +103,7 @@ class Visualizer:
             else:
                 string_name = tmp_data.attrs["standard_name"]
 
-            self.plotData(
+            self.plot_data(
                 tmp_data=tmp_data,
                 cmap=cmap,
                 vmin=vmin,
@@ -139,7 +139,7 @@ class Visualizer:
 
         string_name = tmp_data.attrs["standard_name"]
 
-        self.plotData(
+        self.plot_data(
             tmp_data=tmp_data,
             cmap=cmap,
             vmin=vmin,
@@ -155,7 +155,7 @@ class Visualizer:
             max_time=max_time,
         )
 
-    def plotData(
+    def plot_data(
         self,
         tmp_data,
         cmap="Spectral",
