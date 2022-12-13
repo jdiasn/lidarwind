@@ -72,7 +72,7 @@ class Visualizer:
         fig_path=None,
         name_prefix=None,
         show=False,
-        minTime=None,
+        min_time=None,
         maxTime=None,
     ):
 
@@ -88,7 +88,7 @@ class Visualizer:
                 fig_path=fig_path,
                 save=save,
                 show=show,
-                minTime=minTime,
+                min_time=min_time,
                 maxTime=maxTime,
             )
 
@@ -115,7 +115,7 @@ class Visualizer:
                 strName=strName,
                 fig_path=fig_path,
                 show=show,
-                minTime=minTime,
+                min_time=min_time,
                 maxTime=maxTime,
             )
 
@@ -132,7 +132,7 @@ class Visualizer:
         fig_path=None,
         name_prefix=None,
         show=False,
-        minTime=None,
+        min_time=None,
         maxTime=None,
     ):
 
@@ -152,7 +152,7 @@ class Visualizer:
             strName=strName,
             fig_path=fig_path,
             show=show,
-            minTime=minTime,
+            min_time=min_time,
             maxTime=maxTime,
         )
 
@@ -169,7 +169,7 @@ class Visualizer:
         fig_path=None,
         strName=None,
         show=False,
-        minTime=None,
+        min_time=None,
         maxTime=None,
     ):
 
@@ -181,13 +181,13 @@ class Visualizer:
         else:
             maxTime = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
 
-        if minTime is not None:
-            minTime = pd.to_datetime(minTime)
+        if min_time is not None:
+            min_time = pd.to_datetime(min_time)
 
         else:
-            minTime = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
+            min_time = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
-        tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
+        tmp_data = tmp_data.sel(time=slice(min_time, maxTime))
 
         if strName:
             tmp_data.attrs["standard_name"] = strName
@@ -198,7 +198,7 @@ class Visualizer:
 
         plt.grid(b=True)
         plt.ylim(0, 12e3)
-        plt.xlim(minTime, maxTime)
+        plt.xlim(min_time, maxTime)
         plt.title(f"elv: {elv}, azm: {azm}")
 
         if plot_id == "hor_wind_dir":
@@ -225,7 +225,7 @@ class Visualizer:
         save=False,
         plot_id=None,
         show=False,
-        minTime=None,
+        min_time=None,
         maxTime=None,
     ):
 
@@ -240,17 +240,17 @@ class Visualizer:
         else:
             maxTime = pd.to_datetime(sel_day.strftime("%Y%m%d 23:59:59"))
 
-        if minTime is not None:
-            minTime = pd.to_datetime(minTime)
+        if min_time is not None:
+            min_time = pd.to_datetime(min_time)
 
         else:
-            minTime = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
+            min_time = pd.to_datetime(sel_day.strftime("%Y%m%d 00:00:00"))
 
         for axN, i in enumerate(dataNon90.azm.values):
 
             tmp_data = dataNon90.sel(azm=i)
 
-            tmp_data = tmp_data.sel(time=slice(minTime, maxTime))
+            tmp_data = tmp_data.sel(time=slice(min_time, maxTime))
 
             plot = tmp_data.plot(
                 x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
@@ -260,7 +260,7 @@ class Visualizer:
 
             axes[axN].grid(b=True)
             axes[axN].set_ylim(0, 12e3)
-            axes[axN].set_xlim(minTime, maxTime)
+            axes[axN].set_xlim(min_time, maxTime)
             axes[axN].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
