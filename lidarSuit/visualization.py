@@ -7,7 +7,7 @@ import matplotlib.dates as mdates
 from .filters import Filtering
 
 
-class plotSettings:
+class PlotSettings:
     def __init__(self, mpl, style="dark_background"):
 
         self.mpl = mpl
@@ -194,7 +194,7 @@ class visualizer:
 
         plt.figure(figsize=(18, 8))
         plot = tmp_data.plot(x="time", cmap=cmap, vmin=vmin, vmax=vmax)
-        plot = plotSettings.plotSetup(plot)
+        plot = PlotSettings.plotSetup(plot)
 
         plt.grid(b=True)
         plt.ylim(0, 12e3)
@@ -256,7 +256,7 @@ class visualizer:
                 x="time", cmap=cmap, vmin=vmin, vmax=vmax, ax=axes[axN]
             )
 
-            plot = plotSettings.plotSetup(plot)
+            plot = PlotSettings.plotSetup(plot)
 
             axes[axN].grid(b=True)
             axes[axN].set_ylim(0, 12e3)
