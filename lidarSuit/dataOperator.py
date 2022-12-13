@@ -221,14 +221,14 @@ class readProcessedData:
 
         tmpMerged = xr.Dataset()
 
-        for fileName in sorted(self.fileList):
+        for file_name in sorted(self.fileList):
 
             try:
-                self.logger.info(f"opening {fileName}")
-                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(fileName)])
+                self.logger.info(f"opening {file_name}")
+                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(file_name)])
 
             except:
-                self.logger.info(f"problems with: {fileName}")
+                self.logger.info(f"problems with: {file_name}")
                 pass
 
         return tmpMerged
