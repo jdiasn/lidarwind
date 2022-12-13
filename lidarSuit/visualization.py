@@ -205,9 +205,9 @@ class Visualizer:
 
         if save:
             file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
-            outputFileName = os.path.join(fig_path, file_name)
-            print(outputFileName)
-            plt.savefig(outputFileName, bbox_inches="tight")
+            output_file_name = os.path.join(fig_path, file_name)
+            print(output_file_name)
+            plt.savefig(output_file_name, bbox_inches="tight")
 
         if show:
             plt.show()
@@ -264,9 +264,9 @@ class Visualizer:
 
         if save:
             file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
-            outputFileName = os.path.join(fig_path, file_name)
-            print(outputFileName)
-            plt.savefig(outputFileName, bbox_inches="tight")
+            output_file_name = os.path.join(fig_path, file_name)
+            print(output_file_name)
+            plt.savefig(output_file_name, bbox_inches="tight")
 
         if show:
             plt.show()
