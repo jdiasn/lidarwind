@@ -397,29 +397,29 @@ class getWindProperties5Beam:
             "calculating the horizontal wind using the SINGLE DBS method"
         )
 
-        compWindSpeed = self.radWindSpeedNon90 / (
+        comp_wind_speed = self.radWindSpeedNon90 / (
             2 * np.cos(np.deg2rad(self.elevetionNon90))
         )
 
-        compVN = compWindSpeed.where(self.azimuthNon90 == 0, drop=True)
+        compVN = comp_wind_speed.where(self.azimuthNon90 == 0, drop=True)
         meanTimeVN = self.meanTimeNon90.where(
             self.azimuthNon90 == 0, drop=True
         )
         compVN = compVN.assign_coords({"time": meanTimeVN})
 
-        comp_vs = compWindSpeed.where(self.azimuthNon90 == 180, drop=True)
+        comp_vs = comp_wind_speed.where(self.azimuthNon90 == 180, drop=True)
         meanTimeVS = self.meanTimeNon90.where(
             self.azimuthNon90 == 180, drop=True
         )
         comp_vs = comp_vs.assign_coords({"time": meanTimeVS})
 
-        compUE = compWindSpeed.where(self.azimuthNon90 == 90, drop=True)
+        compUE = comp_wind_speed.where(self.azimuthNon90 == 90, drop=True)
         meanTimeUE = self.meanTimeNon90.where(
             self.azimuthNon90 == 90, drop=True
         )
         compUE = compUE.assign_coords({"time": meanTimeUE})
 
-        comp_uw = compWindSpeed.where(self.azimuthNon90 == 270, drop=True)
+        comp_uw = comp_wind_speed.where(self.azimuthNon90 == 270, drop=True)
         meanTimeUW = self.meanTimeNon90.where(
             self.azimuthNon90 == 270, drop=True
         )
@@ -444,18 +444,18 @@ class getWindProperties5Beam:
             "calculating the horizontal wind using the CONTINUOUS DBS method"
         )
 
-        compWindSpeed = self.radWindSpeedNon90 / (
+        comp_wind_speed = self.radWindSpeedNon90 / (
             2 * np.cos(np.deg2rad(self.elevetionNon90))
         )
 
-        self.compVN = compWindSpeed.where(self.azimuthNon90 == 0, drop=True)
-        self.comp_vs = compWindSpeed.where(self.azimuthNon90 == 180, drop=True)
+        self.compVN = comp_wind_speed.where(self.azimuthNon90 == 0, drop=True)
+        self.comp_vs = comp_wind_speed.where(self.azimuthNon90 == 180, drop=True)
         comp_vs = self.comp_vs.reindex(
             time=self.compVN.time, method="Nearest", tolerance=self.tolerance
         )
 
-        self.compUE = compWindSpeed.where(self.azimuthNon90 == 90, drop=True)
-        self.comp_uw = compWindSpeed.where(self.azimuthNon90 == 270, drop=True)
+        self.compUE = comp_wind_speed.where(self.azimuthNon90 == 90, drop=True)
+        self.comp_uw = comp_wind_speed.where(self.azimuthNon90 == 270, drop=True)
         comp_uw = self.comp_uw.reindex(
             time=self.compUE.time, method="Nearest", tolerance=self.tolerance
         )
