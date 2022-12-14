@@ -20,4 +20,4 @@ def test_windPropRetrieval_getWindProperties5Beam_data():
 def test_windPropRetrieval_retrieveWind_tranfdData():
 
     with pytest.raises(TypeError):
-        lst.retrieveWind(transfdData=np.array([0, 1]))
+        lst.retrieveWind(transfd_data=np.array([0, 1]))

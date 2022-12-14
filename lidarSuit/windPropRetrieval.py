@@ -520,7 +520,7 @@ class retrieveWind:
 
     Parameters
     ----------
-    transfdData : object
+    transfd_data : object
         An instance of the re-structured data, it
         should be preferentially filtered for artefacts.
 
@@ -533,20 +533,20 @@ class retrieveWind:
 
     """
 
-    def __init__(self, transfdData: getRestructuredData):
+    def __init__(self, transfd_data: getRestructuredData):
 
         self.logger = logging.getLogger(
             "lidarSuit.windPropRetrieval.fftWindPropRet"
         )
         self.logger.info("creating an instance of fftWindPropRet")
 
-        if not isinstance(transfdData, getRestructuredData):
+        if not isinstance(transfd_data, getRestructuredData):
             self.logger.error(
                 "wrong data type: expecting a lst.getRestructuredData instance"
             )
             raise TypeError
 
-        self.transfdData = transfdData
+        self.transfd_data = transfd_data
         self.ret_hor_wind_data()
         self.ret_vert_wind_data()
         self.get_beta()
@@ -560,7 +560,7 @@ class retrieveWind:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmp_wind_prop = fftWindPropRet(self.transfdData.dataTransf).windProp()
+        tmp_wind_prop = fftWindPropRet(self.transfd_data.dataTransf).windProp()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
         tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
         self.windProp = tmp_wind_prop
@@ -576,7 +576,7 @@ class retrieveWind:
 
         self.logger.info("selecting the vertical wind observations")
 
-        tmp_wind_w = self.transfdData.dataTransf90
+        tmp_wind_w = self.transfd_data.dataTransf90
         tmp_wind_w = tmp_wind_w.rename({"time": "time90", "range90": "range"})
         self.windProp["vertical_wind_speed"] = tmp_wind_w
         # self.windProp = LoadAttributes(self.windProp).data
@@ -590,7 +590,7 @@ class retrieveWind:
 
         self.logger.info("selcting beta from vertical observations")
 
-        tmp_beta = self.transfdData.relative_beta90
+        tmp_beta = self.transfd_data.relative_beta90
         tmp_beta = tmp_beta.rename({"time": "time90", "range90": "range"})
         self.windProp["lidar_relative_beta"] = tmp_beta
 
