@@ -141,11 +141,11 @@ class fftWindPropRet:
 
         self.logger.info("retrieving the horizontal wind speed")
 
-        self.horWindSpeed = self.radWindSpeed / np.cos(
+        self.hor_wind_speed = self.radWindSpeed / np.cos(
             np.deg2rad(self.dopplerObs.elv)
         )
 
-        self.horWindSpeed.attrs = {
+        self.hor_wind_speed.attrs = {
             "long_name": "horizontal wind speed",
             "standard_name": "wind_speed",
             "units": "m s-1",
@@ -229,7 +229,7 @@ class fftWindPropRet:
 
         windProp = xr.Dataset()
         windProp["horizontal_wind_direction"] = self.wind_dir
-        windProp["horizontal_wind_speed"] = self.horWindSpeed
+        windProp["horizontal_wind_speed"] = self.hor_wind_speed
         windProp["zonal_wind"] = self.compU
         windProp["meridional_wind"] = self.compV
 
@@ -275,7 +275,7 @@ class getWindProperties5Beam:
     -------
     object : object
         This class returns an object containing the
-        derived wind speed (.horWindSpeed) and
+        derived wind speed (.hor_wind_speed) and
         direction (.horWindDir).
 
     """
@@ -484,12 +484,12 @@ class getWindProperties5Beam:
             "calculating the horizontal wind speed using DBS observations"
         )
 
-        horWindSpeed = np.sqrt(self.compV**2.0 + self.compU**2.0)
-        horWindSpeed.name = "hor_wind_speed"
-        horWindSpeed.attrs["long_name"] = "wind_speed"
-        horWindSpeed.attrs["units"] = "m/s"
+        hor_wind_speed = np.sqrt(self.compV**2.0 + self.compU**2.0)
+        hor_wind_speed.name = "hor_wind_speed"
+        hor_wind_speed.attrs["long_name"] = "wind_speed"
+        hor_wind_speed.attrs["units"] = "m/s"
 
-        self.horWindSpeed = horWindSpeed
+        self.hor_wind_speed = hor_wind_speed
 
         return self
 
