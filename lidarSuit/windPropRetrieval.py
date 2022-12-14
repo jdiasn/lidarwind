@@ -340,7 +340,7 @@ class getWindProperties5Beam:
         if method == "single_dbs":
             self.calcHorWindComp_single_dbs()
 
-        self.calcHorWindSpeed()
+        self.calc_hor_wind_speed()
         self.calc_hor_wind_dir()
 
     def correctWindComp(self, comp):
@@ -475,7 +475,7 @@ class getWindProperties5Beam:
 
         return self
 
-    def calcHorWindSpeed(self):
+    def calc_hor_wind_speed(self):
         """
         Function to calculate the wind speed.
         """
