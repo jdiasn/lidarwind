@@ -100,8 +100,8 @@ class fftWindPropRet:
 
         self.logger.info("retrieving wind direction from the phase")
 
-        self.windDir = self.phase + 180
-        self.windDir.attrs = {
+        self.wind_dir = self.phase + 180
+        self.wind_dir.attrs = {
             "long_name": "Wind direction",
             "standard_name": "wind_from_direction",
             "units": "degree",
@@ -228,7 +228,7 @@ class fftWindPropRet:
         )
 
         windProp = xr.Dataset()
-        windProp["horizontal_wind_direction"] = self.windDir
+        windProp["horizontal_wind_direction"] = self.wind_dir
         windProp["horizontal_wind_speed"] = self.horWindSpeed
         windProp["zonal_wind"] = self.compU
         windProp["meridional_wind"] = self.compV
@@ -501,13 +501,13 @@ class getWindProperties5Beam:
 
         self.logger.info("retrieving the wind direction using DBS observation")
 
-        windDir = 180 + np.rad2deg(np.arctan2(-self.compU, -self.compV))
+        wind_dir = 180 + np.rad2deg(np.arctan2(-self.compU, -self.compV))
 
-        windDir.name = "hor_wind_dir"
-        windDir.attrs["long_name"] = "wind_direction"
-        windDir.attrs["units"] = "deg"
+        wind_dir.name = "hor_wind_dir"
+        wind_dir.attrs["long_name"] = "wind_direction"
+        wind_dir.attrs["units"] = "deg"
 
-        self.horWindDir = windDir
+        self.horWindDir = wind_dir
 
         return self
 
