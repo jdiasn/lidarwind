@@ -560,12 +560,12 @@ class retrieveWind:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmpWindProp = fftWindPropRet(self.transfdData.dataTransf).windProp()
-        tmpWindProp = tmpWindProp.squeeze(dim="elv")
-        tmpWindProp = tmpWindProp.drop(["elv", "freq_azm"])
-        self.windProp = tmpWindProp
+        tmp_wind_prop = fftWindPropRet(self.transfdData.dataTransf).windProp()
+        tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
+        tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
+        self.windProp = tmp_wind_prop
 
-        # LoadAttributes(tmpWindProp).data
+        # LoadAttributes(tmp_wind_prop).data
 
         return self
 
