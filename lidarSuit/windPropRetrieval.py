@@ -547,12 +547,12 @@ class retrieveWind:
             raise TypeError
 
         self.transfdData = transfdData
-        self.retHorWindData()
+        self.ret_hor_wind_data()
         self.ret_vert_wind_data()
         self.get_beta()
         self.load_attrs()
 
-    def retHorWindData(self):
+    def ret_hor_wind_data(self):
         """
         It applies the FFT based method to retrieve
         the horizontal wind information
