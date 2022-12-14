@@ -549,7 +549,7 @@ class retrieveWind:
         self.transfdData = transfdData
         self.retHorWindData()
         self.retVertWindData()
-        self.getBeta()
+        self.get_beta()
         self.load_attrs()
 
     def retHorWindData(self):
@@ -583,7 +583,7 @@ class retrieveWind:
 
         return self
 
-    def getBeta(self):
+    def get_beta(self):
         """
         It copies the raw beta from the vertical observations
         """
