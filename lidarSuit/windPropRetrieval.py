@@ -548,7 +548,7 @@ class retrieveWind:
 
         self.transfdData = transfdData
         self.retHorWindData()
-        self.retVertWindData()
+        self.ret_vert_wind_data()
         self.get_beta()
         self.load_attrs()
 
@@ -569,7 +569,7 @@ class retrieveWind:
 
         return self
 
-    def retVertWindData(self):
+    def ret_vert_wind_data(self):
         """
         It copies the vertical wind from the observations
         """
