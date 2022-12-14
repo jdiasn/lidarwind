@@ -32,7 +32,7 @@ The configuration file can also be created using the default values.
 
     >>> lst.configurations(lst=lst).generate_conf()
 
-Whenever the class lst.retrieveWind() is used to retrieve wind, lidarSuit will try to load the global attributes from the config.json. If this file does not exist, lidarSuit will create it using the default values and displays the following message.
+Whenever the class lst.retrieve_wind() is used to retrieve wind, lidarSuit will try to load the global attributes from the config.json. If this file does not exist, lidarSuit will create it using the default values and displays the following message.
 
 .. code-block:: python
 

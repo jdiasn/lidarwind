@@ -512,7 +512,7 @@ class getWindProperties5Beam:
         return self
 
 
-class retrieveWind:
+class retrieve_wind:
     """6 beam wind retrieval
 
     Wind retrieval based on the FFT method for
