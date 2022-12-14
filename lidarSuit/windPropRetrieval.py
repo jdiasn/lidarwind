@@ -420,10 +420,10 @@ class getWindProperties5Beam:
         compUE = compUE.assign_coords({"time": meanTimeUE})
 
         comp_uw = comp_wind_speed.where(self.azimuthNon90 == 270, drop=True)
-        meanTimeUW = self.meanTimeNon90.where(
+        mean_time_uw = self.meanTimeNon90.where(
             self.azimuthNon90 == 270, drop=True
         )
-        comp_uw = comp_uw.assign_coords({"time": meanTimeUW})
+        comp_uw = comp_uw.assign_coords({"time": mean_time_uw})
 
         self.compV = -(compVN - comp_vs)
         self.compU = -(compUE - comp_uw)
