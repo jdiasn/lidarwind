@@ -335,7 +335,7 @@ class getWindProperties5Beam:
         self.correctVertWindComp()
 
         if method == "continuous":
-            self.calcHorWindComp_continuous()
+            self.calc_hor_wind_comp_continuous()
 
         if method == "single_dbs":
             self.calcHorWindComp_single_dbs()
@@ -434,7 +434,7 @@ class getWindProperties5Beam:
         self.compV = self.correctWindComp(self.compV)
         self.compU = self.correctWindComp(self.compU)
 
-    def calcHorWindComp_continuous(self):
+    def calc_hor_wind_comp_continuous(self):
         """
         Function to derive wind v and u components.
         It folows the same approach used by the lidar software.
