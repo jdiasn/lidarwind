@@ -550,7 +550,7 @@ class retrieveWind:
         self.retHorWindData()
         self.retVertWindData()
         self.getBeta()
-        self.loadAttrs()
+        self.load_attrs()
 
     def retHorWindData(self):
         """
@@ -596,7 +596,7 @@ class retrieveWind:
 
         return self
 
-    def loadAttrs(self):
+    def load_attrs(self):
         """
         It loads the attributes from all variables
         into the dataset
