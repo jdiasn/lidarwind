@@ -590,9 +590,9 @@ class retrieveWind:
 
         self.logger.info("selcting beta from vertical observations")
 
-        tmpBeta = self.transfdData.relative_beta90
-        tmpBeta = tmpBeta.rename({"time": "time90", "range90": "range"})
-        self.windProp["lidar_relative_beta"] = tmpBeta
+        tmp_beta = self.transfdData.relative_beta90
+        tmp_beta = tmp_beta.rename({"time": "time90", "range90": "range"})
+        self.windProp["lidar_relative_beta"] = tmp_beta
 
         return self
 
