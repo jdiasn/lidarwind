@@ -413,11 +413,11 @@ class getWindProperties5Beam:
         )
         comp_vs = comp_vs.assign_coords({"time": meanTimeVS})
 
-        compUE = comp_wind_speed.where(self.azimuthNon90 == 90, drop=True)
+        comp_ue = comp_wind_speed.where(self.azimuthNon90 == 90, drop=True)
         meanTimeUE = self.meanTimeNon90.where(
             self.azimuthNon90 == 90, drop=True
         )
-        compUE = compUE.assign_coords({"time": meanTimeUE})
+        comp_ue = comp_ue.assign_coords({"time": meanTimeUE})
 
         comp_uw = comp_wind_speed.where(self.azimuthNon90 == 270, drop=True)
         mean_time_uw = self.meanTimeNon90.where(
@@ -426,7 +426,7 @@ class getWindProperties5Beam:
         comp_uw = comp_uw.assign_coords({"time": mean_time_uw})
 
         self.compV = -(compVN - comp_vs)
-        self.compU = -(compUE - comp_uw)
+        self.compU = -(comp_ue - comp_uw)
 
         self.compV.name = "compV"
         self.compU.name = "compU"
@@ -454,14 +454,14 @@ class getWindProperties5Beam:
             time=self.compVN.time, method="Nearest", tolerance=self.tolerance
         )
 
-        self.compUE = comp_wind_speed.where(self.azimuthNon90 == 90, drop=True)
+        self.comp_ue = comp_wind_speed.where(self.azimuthNon90 == 90, drop=True)
         self.comp_uw = comp_wind_speed.where(self.azimuthNon90 == 270, drop=True)
         comp_uw = self.comp_uw.reindex(
-            time=self.compUE.time, method="Nearest", tolerance=self.tolerance
+            time=self.comp_ue.time, method="Nearest", tolerance=self.tolerance
         )
 
         self.compV = -(self.compVN - comp_vs)
-        self.compU = -(self.compUE - comp_uw)
+        self.compU = -(self.comp_ue - comp_uw)
 
         self.compV.name = "compV"
         self.compU.name = "compU"
