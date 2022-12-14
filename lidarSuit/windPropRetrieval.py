@@ -341,7 +341,7 @@ class getWindProperties5Beam:
             self.calcHorWindComp_single_dbs()
 
         self.calcHorWindSpeed()
-        self.calcHorWindDir()
+        self.calc_hor_wind_dir()
 
     def correctWindComp(self, comp):
         """
@@ -493,7 +493,7 @@ class getWindProperties5Beam:
 
         return self
 
-    def calcHorWindDir(self):
+    def calc_hor_wind_dir(self):
         """
         Function to derive wind direction. If folows the same
         approach used by the lidar sftware.
