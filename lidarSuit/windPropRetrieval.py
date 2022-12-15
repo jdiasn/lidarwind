@@ -331,7 +331,7 @@ class getWindProperties5Beam:
 
         # self.rangeVal90 = data.range.sel(time=time90)
         self.rangeVal90 = data.measurement_height.sel(time=time90)
-        self.verWindSpeed = data.radial_wind_speed.sel(time=time90)
+        self.ver_wind_speed = data.radial_wind_speed.sel(time=time90)
         self.correctVertWindComp()
 
         if method == "continuous":
@@ -379,9 +379,9 @@ class getWindProperties5Beam:
 
         self.logger.info("replacing coordinate from the vertical measurement")
 
-        self.verWindSpeed.name = "compW"
-        verWindSpeed = self.correctWindComp(self.verWindSpeed)
-        self.verWindSpeed = verWindSpeed
+        self.ver_wind_speed.name = "compW"
+        ver_wind_speed = self.correctWindComp(self.ver_wind_speed)
+        self.ver_wind_speed = ver_wind_speed
 
         return self
 
