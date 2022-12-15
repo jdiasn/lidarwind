@@ -276,7 +276,7 @@ class getWindProperties5Beam:
     object : object
         This class returns an object containing the
         derived wind speed (.hor_wind_speed) and
-        direction (.horWindDir).
+        direction (.hor_wind_dir).
 
     """
 
@@ -507,7 +507,7 @@ class getWindProperties5Beam:
         wind_dir.attrs["long_name"] = "wind_direction"
         wind_dir.attrs["units"] = "deg"
 
-        self.horWindDir = wind_dir
+        self.hor_wind_dir = wind_dir
 
         return self
 
