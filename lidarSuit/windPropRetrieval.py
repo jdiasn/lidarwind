@@ -311,23 +311,23 @@ class getWindProperties5Beam:
         elevation = data.elevation.round(1)
 
         time90 = elevation.time.where(elevation == 90, drop=True)
-        timeNon90 = elevation.time.where(elevation != 90, drop=True)
+        time_non_90 = elevation.time.where(elevation != 90, drop=True)
 
         azimuth_non_90 = data.azimuth.sel(
-            time=timeNon90, method="Nearest"
+            time=time_non_90, method="Nearest"
         ).round(1)
         azimuth_non_90[azimuth_non_90 == 360] = 0
 
         self.tolerance = tolerance
 
         self.azimuth_non_90 = azimuth_non_90
-        self.elevetionNon90 = elevation.sel(time=timeNon90)
+        self.elevetionNon90 = elevation.sel(time=time_non_90)
 
         # replace range by measurement_height
-        # self.rangeValNon90 = data.range.sel(time=timeNon90)
-        self.rangeValNon90 = data.measurement_height.sel(time=timeNon90)
-        self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=timeNon90)
-        self.meanTimeNon90 = data.scan_mean_time.sel(time=timeNon90)
+        # self.rangeValNon90 = data.range.sel(time=time_non_90)
+        self.rangeValNon90 = data.measurement_height.sel(time=time_non_90)
+        self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=time_non_90)
+        self.meanTimeNon90 = data.scan_mean_time.sel(time=time_non_90)
 
         # self.rangeVal90 = data.range.sel(time=time90)
         self.rangeVal90 = data.measurement_height.sel(time=time90)
