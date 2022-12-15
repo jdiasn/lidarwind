@@ -321,7 +321,7 @@ class getWindProperties5Beam:
         self.tolerance = tolerance
 
         self.azimuth_non_90 = azimuth_non_90
-        self.elevetionNon90 = elevation.sel(time=time_non_90)
+        self.elevation_non_90 = elevation.sel(time=time_non_90)
 
         # replace range by measurement_height
         # self.range_val_non_90 = data.range.sel(time=time_non_90)
@@ -398,7 +398,7 @@ class getWindProperties5Beam:
         )
 
         comp_wind_speed = self.rad_wind_speed_non_90 / (
-            2 * np.cos(np.deg2rad(self.elevetionNon90))
+            2 * np.cos(np.deg2rad(self.elevation_non_90))
         )
 
         comp_vn = comp_wind_speed.where(self.azimuth_non_90 == 0, drop=True)
@@ -445,7 +445,7 @@ class getWindProperties5Beam:
         )
 
         comp_wind_speed = self.rad_wind_speed_non_90 / (
-            2 * np.cos(np.deg2rad(self.elevetionNon90))
+            2 * np.cos(np.deg2rad(self.elevation_non_90))
         )
 
         self.comp_vn = comp_wind_speed.where(self.azimuth_non_90 == 0, drop=True)
