@@ -5,19 +5,19 @@ import numpy as np
 import lidarSuit as lst
 
 
-def test_windPropRetrieval_ffWindPropRet_dopplerObs():
+def test_windPropRetrieval_ffWindPropRet_doppler_obs():
 
     with pytest.raises(TypeError):
-        lst.fftWindPropRet(dopplerObs=np.array([0, 1]))
+        lst.FourierTransfWindMethod(doppler_obs=np.array([0, 1]))
 
 
-def test_windPropRetrieval_getWindProperties5Beam_data():
-
-    with pytest.raises(TypeError):
-        lst.getWindProperties5Beam(data=xr.DataArray(np.array([0, 1])))
-
-
-def test_windPropRetrieval_retrieveWind_tranfdData():
+def test_windPropRetrieval_GetWindProperties5Beam_data():
 
     with pytest.raises(TypeError):
-        lst.retrieveWind(transfdData=np.array([0, 1]))
+        lst.GetWindProperties5Beam(data=xr.DataArray(np.array([0, 1])))
+
+
+def test_windPropRetrieval_RetriveWindFFT_tranfdData():
+
+    with pytest.raises(TypeError):
+        lst.RetriveWindFFT(transfd_data=np.array([0, 1]))

@@ -243,7 +243,7 @@ class getRestructuredData:
 
     Examples
     --------
-    >>> windProp = lidarSuit.getRestructuredData(mergedData)
+    >>> wind_prop = lidarSuit.getRestructuredData(mergedData)
 
     Parameters
     ----------
@@ -337,7 +337,7 @@ class getRestructuredData:
         )
         self.azmNon90 = np.sort(self.azmNon90)
 
-        self.timeNon90 = self.data.time.where(
+        self.time_non_90 = self.data.time.where(
             self.data.elevation != 90, drop=True
         )
         self.rangeNon90 = self.data.range
@@ -354,7 +354,7 @@ class getRestructuredData:
 
         dopWindArr = np.empty(
             (
-                self.timeNon90.shape[0],
+                self.time_non_90.shape[0],
                 self.rangeNon90.shape[0],
                 len(self.azmNon90),
                 len(self.elvNon90),
@@ -370,7 +370,7 @@ class getRestructuredData:
                 )
 
                 dopWindArr[:, :, i, j] = tmpRadWind.sel(
-                    time=self.timeNon90, method="Nearest"
+                    time=self.time_non_90, method="Nearest"
                 ).values
 
         newRange = self.data.range90.values[: len(self.data.range)]
@@ -378,7 +378,7 @@ class getRestructuredData:
             data=dopWindArr,
             dims=("time", "range", "azm", "elv"),
             coords={
-                "time": self.timeNon90,
+                "time": self.time_non_90,
                 "range": newRange,
                 "azm": self.azmNon90,
                 "elv": self.elvNon90,
