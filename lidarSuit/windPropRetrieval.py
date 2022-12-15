@@ -327,7 +327,7 @@ class getWindProperties5Beam:
         # self.rangeValNon90 = data.range.sel(time=time_non_90)
         self.rangeValNon90 = data.measurement_height.sel(time=time_non_90)
         self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=time_non_90)
-        self.meanTimeNon90 = data.scan_mean_time.sel(time=time_non_90)
+        self.mean_time_non_90 = data.scan_mean_time.sel(time=time_non_90)
 
         # self.range_val_90 = data.range.sel(time=time90)
         self.range_val_90 = data.measurement_height.sel(time=time90)
@@ -402,25 +402,25 @@ class getWindProperties5Beam:
         )
 
         comp_vn = comp_wind_speed.where(self.azimuth_non_90 == 0, drop=True)
-        mean_time_vn = self.meanTimeNon90.where(
+        mean_time_vn = self.mean_time_non_90.where(
             self.azimuth_non_90 == 0, drop=True
         )
         comp_vn = comp_vn.assign_coords({"time": mean_time_vn})
 
         comp_vs = comp_wind_speed.where(self.azimuth_non_90 == 180, drop=True)
-        mean_time_vs = self.meanTimeNon90.where(
+        mean_time_vs = self.mean_time_non_90.where(
             self.azimuth_non_90 == 180, drop=True
         )
         comp_vs = comp_vs.assign_coords({"time": mean_time_vs})
 
         comp_ue = comp_wind_speed.where(self.azimuth_non_90 == 90, drop=True)
-        mean_time_ue = self.meanTimeNon90.where(
+        mean_time_ue = self.mean_time_non_90.where(
             self.azimuth_non_90 == 90, drop=True
         )
         comp_ue = comp_ue.assign_coords({"time": mean_time_ue})
 
         comp_uw = comp_wind_speed.where(self.azimuth_non_90 == 270, drop=True)
-        mean_time_uw = self.meanTimeNon90.where(
+        mean_time_uw = self.mean_time_non_90.where(
             self.azimuth_non_90 == 270, drop=True
         )
         comp_uw = comp_uw.assign_coords({"time": mean_time_uw})
