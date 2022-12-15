@@ -329,8 +329,8 @@ class getWindProperties5Beam:
         self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=time_non_90)
         self.meanTimeNon90 = data.scan_mean_time.sel(time=time_non_90)
 
-        # self.rangeVal90 = data.range.sel(time=time90)
-        self.rangeVal90 = data.measurement_height.sel(time=time90)
+        # self.range_val_90 = data.range.sel(time=time90)
+        self.range_val_90 = data.measurement_height.sel(time=time90)
         self.ver_wind_speed = data.radial_wind_speed.sel(time=time90)
         self.correct_vert_wind_comp()
 
@@ -366,8 +366,8 @@ class getWindProperties5Beam:
         )
 
         comp = comp.rename({"gate_index": "range"})
-        comp = comp.assign_coords({"range": self.rangeVal90.values[0]})
-        comp.range.attrs = self.rangeVal90.attrs
+        comp = comp.assign_coords({"range": self.range_val_90.values[0]})
+        comp.range.attrs = self.range_val_90.attrs
 
         return comp
 
