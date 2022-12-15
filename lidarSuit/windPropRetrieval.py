@@ -49,7 +49,7 @@ class FourierTransfWindMethod:
         self.dopplerObs = dopplerObs
         #         self.elv = elv
         self.getCompAmp()
-        self.getPhase()
+        self.get_phase()
         self.get_rad_wind_speed()
         self.get_hor_wind_speed()
         self.get_wind_dir()
@@ -70,7 +70,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def getPhase(self):
+    def get_phase(self):
         """First harmonic phase
 
         It calculates the phase of the first harmonic from the complex
