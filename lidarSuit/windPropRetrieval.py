@@ -303,7 +303,7 @@ class GetWindProperties5Beam:
                 data.radial_wind_speed_status == 1
             )
 
-        if cnr != None:
+        if cnr is not None:
             data["radial_wind_speed"] = data.radial_wind_speed.where(
                 data.cnr >= cnr
             )
