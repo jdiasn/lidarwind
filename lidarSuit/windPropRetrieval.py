@@ -21,7 +21,7 @@ class FourierTransfWindMethod:
 
     Parameters
     ----------
-    dopplerObs : xarray.DataArray
+    doppler_obs : xarray.DataArray
         It should be a DataArray of slanted Doppler velocity
         observations as function of the azimuthal angle.
         It must have a coordinate called azm.
@@ -35,18 +35,18 @@ class FourierTransfWindMethod:
 
     """
 
-    def __init__(self, dopplerObs: xr.DataArray):
+    def __init__(self, doppler_obs: xr.DataArray):
 
         self.logger = logging.getLogger(
             "lidarSuit.windPropRetrieval.FourierTransfWindMethod"
         )
         self.logger.info("creating an instance of FourierTransfWindMethod")
 
-        if not isinstance(dopplerObs, xr.DataArray):
+        if not isinstance(doppler_obs, xr.DataArray):
             self.logger.error("wrong data type: expecting a xr.DataArray")
             raise TypeError
 
-        self.dopplerObs = dopplerObs
+        self.doppler_obs = doppler_obs
         #         self.elv = elv
         self.get_comp_amp()
         self.get_phase()
@@ -66,7 +66,7 @@ class FourierTransfWindMethod:
 
         self.logger.info("calculating the complex amplitude")
 
-        self.compAmp = xrft.fft(self.dopplerObs, dim=["azm"]).isel(freq_azm=-2)
+        self.compAmp = xrft.fft(self.doppler_obs, dim=["azm"]).isel(freq_azm=-2)
 
         return self
 
@@ -121,7 +121,7 @@ class FourierTransfWindMethod:
         )
 
         self.radWindSpeed = (
-            2 * np.abs(self.compAmp) / self.dopplerObs.azm.shape[0]
+            2 * np.abs(self.compAmp) / self.doppler_obs.azm.shape[0]
         )
 
         self.radWindSpeed.attrs = {
@@ -142,7 +142,7 @@ class FourierTransfWindMethod:
         self.logger.info("retrieving the horizontal wind speed")
 
         self.hor_wind_speed = self.radWindSpeed / np.cos(
-            np.deg2rad(self.dopplerObs.elv)
+            np.deg2rad(self.doppler_obs.elv)
         )
 
         self.hor_wind_speed.attrs = {
@@ -172,7 +172,7 @@ class FourierTransfWindMethod:
         azm_hor_wind = self.radWindSpeed * np.sin(
             np.deg2rad(azm) + np.deg2rad(self.phase.values + 180)
         )
-        azm_hor_wind = azm_hor_wind / np.cos(np.deg2rad(self.dopplerObs.elv))
+        azm_hor_wind = azm_hor_wind / np.cos(np.deg2rad(self.doppler_obs.elv))
 
         return azm_hor_wind
 
