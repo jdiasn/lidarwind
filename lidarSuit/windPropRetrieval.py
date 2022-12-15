@@ -186,9 +186,9 @@ class FourierTransfWindMethod:
 
         self.logger.info("retrieving the zonal wind speed component")
 
-        self.compU = self.getAzmWind(0) * -1
-        self.compU.name = "compU"
-        self.compU.attrs = {
+        self.comp_u = self.getAzmWind(0) * -1
+        self.comp_u.name = "comp_u"
+        self.comp_u.attrs = {
             "long_name": "Zonal wind component",
             "units": "m s-1",
             "comments": "Zonal wind component retrieved using the FFT method.",
@@ -230,7 +230,7 @@ class FourierTransfWindMethod:
         windProp = xr.Dataset()
         windProp["horizontal_wind_direction"] = self.wind_dir
         windProp["horizontal_wind_speed"] = self.hor_wind_speed
-        windProp["zonal_wind"] = self.compU
+        windProp["zonal_wind"] = self.comp_u
         windProp["meridional_wind"] = self.compV
 
         return windProp
@@ -426,13 +426,13 @@ class getWindProperties5Beam:
         comp_uw = comp_uw.assign_coords({"time": mean_time_uw})
 
         self.compV = -(comp_vn - comp_vs)
-        self.compU = -(comp_ue - comp_uw)
+        self.comp_u = -(comp_ue - comp_uw)
 
         self.compV.name = "compV"
-        self.compU.name = "compU"
+        self.comp_u.name = "comp_u"
 
         self.compV = self.correctWindComp(self.compV)
-        self.compU = self.correctWindComp(self.compU)
+        self.comp_u = self.correctWindComp(self.comp_u)
 
     def calc_hor_wind_comp_continuous(self):
         """
@@ -461,15 +461,15 @@ class getWindProperties5Beam:
         )
 
         self.compV = -(self.comp_vn - comp_vs)
-        self.compU = -(self.comp_ue - comp_uw)
+        self.comp_u = -(self.comp_ue - comp_uw)
 
         self.compV.name = "compV"
-        self.compU.name = "compU"
+        self.comp_u.name = "comp_u"
 
         self.compV = self.correctWindComp(self.compV)
-        self.compU = self.correctWindComp(self.compU)
+        self.comp_u = self.correctWindComp(self.comp_u)
 
-        self.compU = self.compU.reindex(
+        self.comp_u = self.comp_u.reindex(
             time=self.compV.time, method="Nearest", tolerance=self.tolerance
         )
 
@@ -484,7 +484,7 @@ class getWindProperties5Beam:
             "calculating the horizontal wind speed using DBS observations"
         )
 
-        hor_wind_speed = np.sqrt(self.compV**2.0 + self.compU**2.0)
+        hor_wind_speed = np.sqrt(self.compV**2.0 + self.comp_u**2.0)
         hor_wind_speed.name = "hor_wind_speed"
         hor_wind_speed.attrs["long_name"] = "wind_speed"
         hor_wind_speed.attrs["units"] = "m/s"
@@ -501,7 +501,7 @@ class getWindProperties5Beam:
 
         self.logger.info("retrieving the wind direction using DBS observation")
 
-        wind_dir = 180 + np.rad2deg(np.arctan2(-self.compU, -self.compV))
+        wind_dir = 180 + np.rad2deg(np.arctan2(-self.comp_u, -self.compV))
 
         wind_dir.name = "hor_wind_dir"
         wind_dir.attrs["long_name"] = "wind_direction"
