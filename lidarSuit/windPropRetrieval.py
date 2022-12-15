@@ -248,7 +248,7 @@ class getWindProperties5Beam:
         merged xarray dataset (mergedDS) output from
         lst.dbsOperations()
 
-    statusFilter : bolean
+    status_filter : bolean
         Data filtering based on the wind lidar
         wind status variable. If True, all data with status not
         equal to 1 are removed. If False, no filtering is applied.
@@ -283,7 +283,7 @@ class getWindProperties5Beam:
     def __init__(
         self,
         data: xr.Dataset,
-        statusFilter=True,
+        status_filter=True,
         cnr=None,
         method="single_dbs",
         tolerance="8s",
@@ -298,7 +298,7 @@ class getWindProperties5Beam:
             self.logger.error("wrong data type: expecting a xr.Dataset")
             raise TypeError
 
-        if statusFilter:
+        if status_filter:
             data["radial_wind_speed"] = data.radial_wind_speed.where(
                 data.radial_wind_speed_status == 1
             )
