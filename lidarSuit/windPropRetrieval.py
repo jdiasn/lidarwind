@@ -48,7 +48,7 @@ class FourierTransfWindMethod:
 
         self.dopplerObs = dopplerObs
         #         self.elv = elv
-        self.getCompAmp()
+        self.get_comp_amp()
         self.get_phase()
         self.get_rad_wind_speed()
         self.get_hor_wind_speed()
@@ -56,7 +56,7 @@ class FourierTransfWindMethod:
         self.get_wind_comp_u()
         self.get_wind_comp_v()
 
-    def getCompAmp(self):
+    def get_comp_amp(self):
         """First harmonic amplitude
 
         It calculates the complex amplitudes from the
