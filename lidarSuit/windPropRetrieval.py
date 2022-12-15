@@ -53,7 +53,7 @@ class FourierTransfWindMethod:
         self.getRadWindSpeed()
         self.getHorWindSpeed()
         self.getWindDir()
-        self.getWindConpU()
+        self.get_wind_comp_u()
         self.get_wind_conp_v()
 
     def getCompAmp(self):
@@ -176,7 +176,7 @@ class FourierTransfWindMethod:
 
         return azmHorWind
 
-    def getWindConpU(self):
+    def get_wind_comp_u(self):
         """Zonal wind calculation
 
         It retrives the zonal wind component
