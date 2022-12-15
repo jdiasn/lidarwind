@@ -28,7 +28,7 @@ class FourierTransfWindMethod:
 
     Returns
     -------
-    windProp : xarray.Dataset
+    wind_prop : xarray.Dataset
         A Dataset containing the horizontal wind speed
         and direction. It also includes the zonal and
         meridional wind components
@@ -216,7 +216,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def windProp(self):
+    def wind_prop(self):
         """Wind dataset
 
         It creates and returnes a dataset containing
@@ -227,13 +227,13 @@ class FourierTransfWindMethod:
             "creating a xarray dataset from the retrieved wind properties"
         )
 
-        windProp = xr.Dataset()
-        windProp["horizontal_wind_direction"] = self.wind_dir
-        windProp["horizontal_wind_speed"] = self.hor_wind_speed
-        windProp["zonal_wind"] = self.comp_u
-        windProp["meridional_wind"] = self.comp_v
+        wind_prop = xr.Dataset()
+        wind_prop["horizontal_wind_direction"] = self.wind_dir
+        wind_prop["horizontal_wind_speed"] = self.hor_wind_speed
+        wind_prop["zonal_wind"] = self.comp_u
+        wind_prop["meridional_wind"] = self.comp_v
 
-        return windProp
+        return wind_prop
 
 
 class GetWindProperties5Beam:
@@ -560,10 +560,10 @@ class RetriveWindFFT:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.dataTransf).windProp()
+        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.dataTransf).wind_prop()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
         tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
-        self.windProp = tmp_wind_prop
+        self.wind_prop = tmp_wind_prop
 
         # LoadAttributes(tmp_wind_prop).data
 
@@ -578,8 +578,8 @@ class RetriveWindFFT:
 
         tmp_wind_w = self.transfd_data.dataTransf90
         tmp_wind_w = tmp_wind_w.rename({"time": "time90", "range90": "range"})
-        self.windProp["vertical_wind_speed"] = tmp_wind_w
-        # self.windProp = LoadAttributes(self.windProp).data
+        self.wind_prop["vertical_wind_speed"] = tmp_wind_w
+        # self.wind_prop = LoadAttributes(self.wind_prop).data
 
         return self
 
@@ -592,7 +592,7 @@ class RetriveWindFFT:
 
         tmp_beta = self.transfd_data.relative_beta90
         tmp_beta = tmp_beta.rename({"time": "time90", "range90": "range"})
-        self.windProp["lidar_relative_beta"] = tmp_beta
+        self.wind_prop["lidar_relative_beta"] = tmp_beta
 
         return self
 
@@ -604,6 +604,6 @@ class RetriveWindFFT:
 
         self.logger.info("loading data attributes")
 
-        self.windProp = LoadAttributes(self.windProp).data
+        self.wind_prop = LoadAttributes(self.wind_prop).data
 
         return self

@@ -243,7 +243,7 @@ class getRestructuredData:
 
     Examples
     --------
-    >>> windProp = lidarSuit.getRestructuredData(mergedData)
+    >>> wind_prop = lidarSuit.getRestructuredData(mergedData)
 
     Parameters
     ----------
