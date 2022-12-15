@@ -169,12 +169,12 @@ class FourierTransfWindMethod:
 
         self.logger.info("calculating wind speed for a give azimuth")
 
-        azmHorWind = self.radWindSpeed * np.sin(
+        azm_hor_wind = self.radWindSpeed * np.sin(
             np.deg2rad(azm) + np.deg2rad(self.phase.values + 180)
         )
-        azmHorWind = azmHorWind / np.cos(np.deg2rad(self.dopplerObs.elv))
+        azm_hor_wind = azm_hor_wind / np.cos(np.deg2rad(self.dopplerObs.elv))
 
-        return azmHorWind
+        return azm_hor_wind
 
     def get_wind_comp_u(self):
         """Zonal wind calculation
