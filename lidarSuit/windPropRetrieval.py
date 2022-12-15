@@ -236,7 +236,7 @@ class FourierTransfWindMethod:
         return windProp
 
 
-class getWindProperties5Beam:
+class GetWindProperties5Beam:
     """DBS wind retrieval
 
     This class caculates the wind speeed and direction
@@ -290,9 +290,9 @@ class getWindProperties5Beam:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.windPropRetrieval.getWindProperties5Beam"
+            "lidarSuit.windPropRetrieval.GetWindProperties5Beam"
         )
-        self.logger.info("creating an instance of getWindProperties5Beam")
+        self.logger.info("creating an instance of GetWindProperties5Beam")
 
         if not isinstance(data, xr.Dataset):
             self.logger.error("wrong data type: expecting a xr.Dataset")

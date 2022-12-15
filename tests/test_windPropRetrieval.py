@@ -11,10 +11,10 @@ def test_windPropRetrieval_ffWindPropRet_dopplerObs():
         lst.FourierTransfWindMethod(dopplerObs=np.array([0, 1]))
 
 
-def test_windPropRetrieval_getWindProperties5Beam_data():
+def test_windPropRetrieval_GetWindProperties5Beam_data():
 
     with pytest.raises(TypeError):
-        lst.getWindProperties5Beam(data=xr.DataArray(np.array([0, 1])))
+        lst.GetWindProperties5Beam(data=xr.DataArray(np.array([0, 1])))
 
 
 def test_windPropRetrieval_RetriveWindFFT_tranfdData():
