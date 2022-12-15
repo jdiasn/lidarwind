@@ -66,7 +66,7 @@ class FourierTransfWindMethod:
 
         self.logger.info("calculating the complex amplitude")
 
-        self.compAmp = xrft.fft(self.doppler_obs, dim=["azm"]).isel(freq_azm=-2)
+        self.comp_amp = xrft.fft(self.doppler_obs, dim=["azm"]).isel(freq_azm=-2)
 
         return self
 
@@ -74,19 +74,19 @@ class FourierTransfWindMethod:
         """First harmonic phase
 
         It calculates the phase of the first harmonic from the complex
-        amplitude used for retrieving wind direction, i.e. compAmp.
+        amplitude used for retrieving wind direction, i.e. comp_amp.
         """
 
         self.logger.info("calculating the phase from the complex amplitude")
 
         self.phase = -np.rad2deg(
-            np.arctan2(self.compAmp.imag, self.compAmp.real)
+            np.arctan2(self.comp_amp.imag, self.comp_amp.real)
         )
 
         self.phase.attrs = {
             "long_name": "Retrived phase",
             "units": "degree",
-            "comments": "Phase derived from compAmp variable using the FFT method.",
+            "comments": "Phase derived from comp_amp variable using the FFT method.",
         }
 
         return self
@@ -121,7 +121,7 @@ class FourierTransfWindMethod:
         )
 
         self.rad_wind_speed = (
-            2 * np.abs(self.compAmp) / self.doppler_obs.azm.shape[0]
+            2 * np.abs(self.comp_amp) / self.doppler_obs.azm.shape[0]
         )
 
         self.rad_wind_speed.attrs = {
