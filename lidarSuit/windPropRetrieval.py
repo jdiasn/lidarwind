@@ -52,7 +52,7 @@ class FourierTransfWindMethod:
         self.getPhase()
         self.get_rad_wind_speed()
         self.get_hor_wind_speed()
-        self.getWindDir()
+        self.get_wind_dir()
         self.get_wind_comp_u()
         self.get_wind_comp_v()
 
@@ -91,7 +91,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def getWindDir(self):
+    def get_wind_dir(self):
         """Wind direction calculation
 
         It calculates the wind direction based on the
