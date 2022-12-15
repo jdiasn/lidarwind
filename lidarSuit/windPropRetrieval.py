@@ -50,7 +50,7 @@ class FourierTransfWindMethod:
         #         self.elv = elv
         self.getCompAmp()
         self.getPhase()
-        self.getRadWindSpeed()
+        self.get_rad_wind_speed()
         self.get_hor_wind_speed()
         self.getWindDir()
         self.get_wind_comp_u()
@@ -110,7 +110,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def getRadWindSpeed(self):
+    def get_rad_wind_speed(self):
         """Wind speed calculation
 
         It calculates the wind speed using the first harmonic
