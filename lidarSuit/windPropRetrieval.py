@@ -338,7 +338,7 @@ class getWindProperties5Beam:
             self.calc_hor_wind_comp_continuous()
 
         if method == "single_dbs":
-            self.calcHorWindComp_single_dbs()
+            self.calc_hor_wind_comp_single_dbs()
 
         self.calc_hor_wind_speed()
         self.calc_hor_wind_dir()
@@ -385,7 +385,7 @@ class getWindProperties5Beam:
 
         return self
 
-    def calcHorWindComp_single_dbs(self):
+    def calc_hor_wind_comp_single_dbs(self):
         """
         This method derives v and u components from the
         WindCube DBS files. The components are caculated
