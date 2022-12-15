@@ -54,7 +54,7 @@ class FourierTransfWindMethod:
         self.getHorWindSpeed()
         self.getWindDir()
         self.getWindConpU()
-        self.getWindConpV()
+        self.get_wind_conp_v()
 
     def getCompAmp(self):
         """First harmonic amplitude
@@ -196,7 +196,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def getWindConpV(self):
+    def get_wind_conp_v(self):
         """Meridional wind calculation
 
         It retrieves the meridional wind component
