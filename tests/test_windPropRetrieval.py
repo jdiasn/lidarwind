@@ -8,7 +8,7 @@ import lidarSuit as lst
 def test_windPropRetrieval_ffWindPropRet_dopplerObs():
 
     with pytest.raises(TypeError):
-        lst.fftWindPropRet(dopplerObs=np.array([0, 1]))
+        lst.FourierTransfWindMethod(dopplerObs=np.array([0, 1]))
 
 
 def test_windPropRetrieval_getWindProperties5Beam_data():

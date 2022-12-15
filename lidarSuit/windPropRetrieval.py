@@ -12,7 +12,7 @@ module_logger = logging.getLogger("lidarSuit.windPropRetrieval")
 module_logger.debug("loading windPropRetrieval")
 
 
-class fftWindPropRet:
+class FourierTransfWindMethod:
     """FFT wind retrieval method
 
     It is a fft wind retrieval method. It was proposed
@@ -38,9 +38,9 @@ class fftWindPropRet:
     def __init__(self, dopplerObs: xr.DataArray):
 
         self.logger = logging.getLogger(
-            "lidarSuit.windPropRetrieval.fftWindPropRet"
+            "lidarSuit.windPropRetrieval.FourierTransfWindMethod"
         )
-        self.logger.info("creating an instance of fftWindPropRet")
+        self.logger.info("creating an instance of FourierTransfWindMethod")
 
         if not isinstance(dopplerObs, xr.DataArray):
             self.logger.error("wrong data type: expecting a xr.DataArray")
@@ -536,9 +536,9 @@ class RetriveWindFFT:
     def __init__(self, transfd_data: getRestructuredData):
 
         self.logger = logging.getLogger(
-            "lidarSuit.windPropRetrieval.fftWindPropRet"
+            "lidarSuit.windPropRetrieval.FourierTransfWindMethod"
         )
-        self.logger.info("creating an instance of fftWindPropRet")
+        self.logger.info("creating an instance of FourierTransfWindMethod")
 
         if not isinstance(transfd_data, getRestructuredData):
             self.logger.error(
@@ -560,7 +560,7 @@ class RetriveWindFFT:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmp_wind_prop = fftWindPropRet(self.transfd_data.dataTransf).windProp()
+        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.dataTransf).windProp()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
         tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
         self.windProp = tmp_wind_prop
