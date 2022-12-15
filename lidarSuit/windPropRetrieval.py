@@ -324,8 +324,8 @@ class getWindProperties5Beam:
         self.elevetionNon90 = elevation.sel(time=time_non_90)
 
         # replace range by measurement_height
-        # self.rangeValNon90 = data.range.sel(time=time_non_90)
-        self.rangeValNon90 = data.measurement_height.sel(time=time_non_90)
+        # self.range_val_non_90 = data.range.sel(time=time_non_90)
+        self.range_val_non_90 = data.measurement_height.sel(time=time_non_90)
         self.rad_wind_speed_non_90 = data.radial_wind_speed.sel(time=time_non_90)
         self.mean_time_non_90 = data.scan_mean_time.sel(time=time_non_90)
 
