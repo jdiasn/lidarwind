@@ -154,7 +154,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def getAzmWind(self, azm):
+    def get_azm_wind(self, azm):
         """Wind speed for a given azimuth
 
         It retrieves the wind speed for a given azimuthal angle.
@@ -186,7 +186,7 @@ class FourierTransfWindMethod:
 
         self.logger.info("retrieving the zonal wind speed component")
 
-        self.comp_u = self.getAzmWind(0) * -1
+        self.comp_u = self.get_azm_wind(0) * -1
         self.comp_u.name = "comp_u"
         self.comp_u.attrs = {
             "long_name": "Zonal wind component",
@@ -206,7 +206,7 @@ class FourierTransfWindMethod:
 
         self.logger.info("retrieving the meridional wind speed component")
 
-        self.comp_v = self.getAzmWind(90) * -1
+        self.comp_v = self.get_azm_wind(90) * -1
         self.comp_v.name = "comp_v"
         self.comp_v.attrs = {
             "long_name": "Meridional wind component",
