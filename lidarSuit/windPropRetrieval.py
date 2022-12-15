@@ -332,7 +332,7 @@ class getWindProperties5Beam:
         # self.rangeVal90 = data.range.sel(time=time90)
         self.rangeVal90 = data.measurement_height.sel(time=time90)
         self.ver_wind_speed = data.radial_wind_speed.sel(time=time90)
-        self.correctVertWindComp()
+        self.correct_vert_wind_comp()
 
         if method == "continuous":
             self.calc_hor_wind_comp_continuous()
@@ -371,7 +371,7 @@ class getWindProperties5Beam:
 
         return comp
 
-    def correctVertWindComp(self):
+    def correct_vert_wind_comp(self):
         """
         This function replaces the original coordinate from the vertical
         wind component by the measurement_height.
