@@ -51,7 +51,7 @@ class FourierTransfWindMethod:
         self.getCompAmp()
         self.getPhase()
         self.getRadWindSpeed()
-        self.getHorWindSpeed()
+        self.get_hor_wind_speed()
         self.getWindDir()
         self.get_wind_comp_u()
         self.get_wind_comp_v()
@@ -132,7 +132,7 @@ class FourierTransfWindMethod:
 
         return self
 
-    def getHorWindSpeed(self):
+    def get_hor_wind_speed(self):
         """Wind speed elevation correction
 
         It corrects the magnitude of the wind speed using
