@@ -120,11 +120,11 @@ class FourierTransfWindMethod:
             "calculating the radial wind speed from the complex amplitude"
         )
 
-        self.radWindSpeed = (
+        self.rad_wind_speed = (
             2 * np.abs(self.compAmp) / self.doppler_obs.azm.shape[0]
         )
 
-        self.radWindSpeed.attrs = {
+        self.rad_wind_speed.attrs = {
             "long_name": "wind speed not corrected for the elevation",
             "units": "m s-1",
             "comments": "Radial wind velocity retrived using the FFT method not corrected for the elevation.",
@@ -141,7 +141,7 @@ class FourierTransfWindMethod:
 
         self.logger.info("retrieving the horizontal wind speed")
 
-        self.hor_wind_speed = self.radWindSpeed / np.cos(
+        self.hor_wind_speed = self.rad_wind_speed / np.cos(
             np.deg2rad(self.doppler_obs.elv)
         )
 
@@ -169,7 +169,7 @@ class FourierTransfWindMethod:
 
         self.logger.info("calculating wind speed for a give azimuth")
 
-        azm_hor_wind = self.radWindSpeed * np.sin(
+        azm_hor_wind = self.rad_wind_speed * np.sin(
             np.deg2rad(azm) + np.deg2rad(self.phase.values + 180)
         )
         azm_hor_wind = azm_hor_wind / np.cos(np.deg2rad(self.doppler_obs.elv))
