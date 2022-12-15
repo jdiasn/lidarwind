@@ -326,7 +326,7 @@ class getWindProperties5Beam:
         # replace range by measurement_height
         # self.rangeValNon90 = data.range.sel(time=time_non_90)
         self.rangeValNon90 = data.measurement_height.sel(time=time_non_90)
-        self.radWindSpeedNon90 = data.radial_wind_speed.sel(time=time_non_90)
+        self.rad_wind_speed_non_90 = data.radial_wind_speed.sel(time=time_non_90)
         self.mean_time_non_90 = data.scan_mean_time.sel(time=time_non_90)
 
         # self.range_val_90 = data.range.sel(time=time90)
@@ -397,7 +397,7 @@ class getWindProperties5Beam:
             "calculating the horizontal wind using the SINGLE DBS method"
         )
 
-        comp_wind_speed = self.radWindSpeedNon90 / (
+        comp_wind_speed = self.rad_wind_speed_non_90 / (
             2 * np.cos(np.deg2rad(self.elevetionNon90))
         )
 
@@ -444,7 +444,7 @@ class getWindProperties5Beam:
             "calculating the horizontal wind using the CONTINUOUS DBS method"
         )
 
-        comp_wind_speed = self.radWindSpeedNon90 / (
+        comp_wind_speed = self.rad_wind_speed_non_90 / (
             2 * np.cos(np.deg2rad(self.elevetionNon90))
         )
 
