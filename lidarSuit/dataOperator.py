@@ -20,7 +20,7 @@ module_logger = logging.getLogger("lidarSuit.dataOperator")
 module_logger.debug("loading dataOperator")
 
 
-class dataOperations:
+class DataOperations:
 
     """Basic data manager
 
@@ -34,45 +34,45 @@ class dataOperations:
 
     Examples
     --------
-    >>> mergedDS = lidarSuit.dataOperations(fileList).mergedData
-    >>> mergedDS.to_netcdf(outputFilePath)
+    >>> merged_ds = lidarSuit.DataOperations(file_list).merged_data
+    >>> merged_ds.to_netcdf(output_file_path)
 
     Parameters
     ----------
-    dataPaths : list
+    data_paths : list
        List of paths of the original WindCube's output.
 
     Returns
     -------
     object : object
         it returns an object containing an instance of the
-        original files merged (.mergedData)
+        original files merged (.merged_data)
 
     """
 
-    def __init__(self, dataPaths, verbose=False):
+    def __init__(self, data_paths, verbose=False):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.dataOperations"
+            "lidarSuit.dataOperator.DataOperations"
         )
-        self.logger.info("creating an instance of dataOperations")
+        self.logger.info("creating an instance of DataOperations")
 
-        if bool(dataPaths) == False:
+        if bool(data_paths) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
             raise FileNotFoundError
 
         self.verbose = verbose
-        self.dataPaths = dataPaths
+        self.data_paths = data_paths
         self.tmp90 = xr.Dataset()
-        self.tmpNon90 = xr.Dataset()
+        self.tmp_non_90 = xr.Dataset()
 
-        self.elevationFilter()
-        self.renameVar90()
-        self.getMergeData()
+        self.elevation_filter()
+        self.rename_var_90()
+        self.get_merge_data()
 
-    def elevationFilter(self):
+    def elevation_filter(self):
         """
         It groups the data from the vertical and slanted observations
         and rounds the azimuth coordinate
@@ -80,39 +80,39 @@ class dataOperations:
 
         self.logger.info("coverting azimuth: from 360 to 0 degrees")
 
-        for filePath in self.dataPaths:
+        for file_path in self.data_paths:
 
             try:
-                tmpFile = GetLidarData(filePath).open_lidar_file()
-                self.logger.debug(f"reading file: {filePath}")
+                tmp_file = GetLidarData(file_path).open_lidar_file()
+                self.logger.debug(f"reading file: {file_path}")
             except:
-                self.logger.warning(f"This file has a problem: {filePath}")
+                self.logger.warning(f"This file has a problem: {file_path}")
 
             try:
-                elevation = tmpFile.elevation.round(1)
-                tmpFile["elevation"] = elevation
-                tmpFile["azimuth"] = tmpFile.azimuth.round(1)
-                tmpFile["azimuth"][tmpFile.azimuth == 360] = 0
+                elevation = tmp_file.elevation.round(1)
+                tmp_file["elevation"] = elevation
+                tmp_file["azimuth"] = tmp_file.azimuth.round(1)
+                tmp_file["azimuth"][tmp_file.azimuth == 360] = 0
             except:
-                self.logger.info(f"Problems reading elv and axm: {filePath}")
+                self.logger.info(f"Problems reading elv and axm: {file_path}")
 
             try:
                 self.tmp90 = xr.merge(
-                    [self.tmp90, tmpFile.where(elevation == 90, drop=True)]
+                    [self.tmp90, tmp_file.where(elevation == 90, drop=True)]
                 )
             except:
-                self.logger.info(f"This file does not have 90 elv: {filePath}")
+                self.logger.info(f"This file does not have 90 elv: {file_path}")
 
             try:
-                self.tmpNon90 = xr.merge(
-                    [self.tmpNon90, tmpFile.where(elevation != 90, drop=True)]
+                self.tmp_non_90 = xr.merge(
+                    [self.tmp_non_90, tmp_file.where(elevation != 90, drop=True)]
                 )
             except:
-                self.logger.info(f"This file only has 90 elv: {filePath}")
+                self.logger.info(f"This file only has 90 elv: {file_path}")
 
         return self
 
-    def renameVar90(self):
+    def rename_var_90(self):
         """
         It renames the vertical coordinate
         """
@@ -131,31 +131,31 @@ class dataOperations:
 
         return self
 
-    def getMergeData(self):
+    def get_merge_data(self):
         """
         It merges all readable data
         """
 
         self.logger.info("merging vertical and non-vertical measurements")
 
-        self.mergedData = xr.merge([self.tmp90, self.tmpNon90])
+        self.merged_data = xr.merge([self.tmp90, self.tmp_non_90])
 
         return self
 
 
-class readProcessedData:
+class ReadProcessedData:
     """Pre-processed data reader
 
-    It reads all data pre-processed by dataOperator.dbsOperations
+    It reads all data pre-processed by dataOperator.DbsOperations
     and merges them.
 
     Examples
     --------
-    >>> mergedData = lidarSuit.readProcessedData(fileList).mergeData()
+    >>> merged_data = lidarSuit.ReadProcessedData(file_list).merge_data()
 
     Parameters
     ----------
-    fileList : list
+    file_list : list
         list of pre-processed NetCDF files
 
     Returns
@@ -165,24 +165,24 @@ class readProcessedData:
 
     """
 
-    def __init__(self, fileList):
+    def __init__(self, file_list):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.readProcessedData"
+            "lidarSuit.dataOperator.ReadProcessedData"
         )
-        self.logger.info("creating an instance of readProcessedData")
+        self.logger.info("creating an instance of ReadProcessedData")
 
-        if bool(fileList) == False:
+        if bool(file_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
             raise FileNotFoundError
 
-        self.fileList = fileList
+        self.file_list = file_list
 
-    def mergeData(self):
+    def merge_data(self):
         """
-        It merges all data from the fileList. It can choose between
+        It merges all data from the file_list. It can choose between
         two different methods. One uses xr.open_mfdataset and the other
         uses xr.open_dataset.
         """
@@ -193,48 +193,48 @@ class readProcessedData:
         self.logger.info("merging pre-processed data")
 
         try:
-            tmpMerged = self.mergeDataM1()
+            tmp_merged = self.merge_data_method_1()
 
         except:
             print("switching from xr.open_mfdataset to xr.open_dataset")
-            tmpMerged = self.mergeDataM2()
+            tmp_merged = self.merge_data_method_2()
 
-        return tmpMerged
+        return tmp_merged
 
-    def mergeDataM1(self):
+    def merge_data_method_1(self):
         """
         It merges data using xr.open_mfdatset
         """
 
         self.logger.info("mergin files using xr.open_mfdataset")
 
-        tmpMerged = xr.open_mfdataset(self.fileList, parallel=True)
+        tmp_merged = xr.open_mfdataset(self.file_list, parallel=True)
 
-        return tmpMerged
+        return tmp_merged
 
-    def mergeDataM2(self):
+    def merge_data_method_2(self):
         """
         It merges data using xr.open_dataset
         """
 
         self.logger.info("mergin files using xr.open_dataset")
 
-        tmpMerged = xr.Dataset()
+        tmp_merged = xr.Dataset()
 
-        for file_name in sorted(self.fileList):
+        for file_name in sorted(self.file_list):
 
             try:
                 self.logger.info(f"opening {file_name}")
-                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(file_name)])
+                tmp_merged = xr.merge([tmp_merged, xr.open_dataset(file_name)])
 
             except:
                 self.logger.info(f"problems with: {file_name}")
                 pass
 
-        return tmpMerged
+        return tmp_merged
 
 
-class getRestructuredData:
+class GetRestructuredData:
 
     """Data re-structurer
 
@@ -243,7 +243,7 @@ class getRestructuredData:
 
     Examples
     --------
-    >>> wind_prop = lidarSuit.getRestructuredData(mergedData)
+    >>> wind_prop = lidarSuit.GetRestructuredData(merged_data)
 
     Parameters
     ----------
@@ -300,9 +300,9 @@ class getRestructuredData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.getRestructuredData"
+            "lidarSuit.dataOperator.GetRestructuredData"
         )
-        self.logger.info("creating an instance of getRestructuredData")
+        self.logger.info("creating an instance of GetRestructuredData")
 
         if not isinstance(data, xr.Dataset):
             self.logger.error("wrong data type: expecting a xr.Dataset")
@@ -317,11 +317,11 @@ class getRestructuredData:
         self.n_std = n_std
 
         self.vertical_component_check(check90)
-        self.getCoordNon90()
-        self.dataTransform()
-        self.dataTransform90()
+        self.get_coord_non_90()
+        self.data_transform()
+        self.data_transform_90()
 
-    def getCoordNon90(self):
+    def get_coord_non_90(self):
 
         """
         It identifies and selects the slanted data
@@ -329,22 +329,22 @@ class getRestructuredData:
 
         self.logger.info("identifying and selecting the slanted observations")
 
-        self.elvNon90 = np.unique(
+        self.elv_non_90 = np.unique(
             self.data.elevation.where(self.data.elevation != 90, drop=True)
         )
-        self.azmNon90 = np.unique(
+        self.azm_non_90 = np.unique(
             self.data.azimuth.where(self.data.elevation != 90, drop=True)
         )
-        self.azmNon90 = np.sort(self.azmNon90)
+        self.azm_non_90 = np.sort(self.azm_non_90)
 
         self.time_non_90 = self.data.time.where(
             self.data.elevation != 90, drop=True
         )
-        self.rangeNon90 = self.data.range
+        self.range_non_90 = self.data.range
 
         return self
 
-    def dataTransform(self):
+    def data_transform(self):
 
         """
         It creates an xr.DataArray from all slanted observations
@@ -352,53 +352,53 @@ class getRestructuredData:
 
         self.logger.info("creating a DataArray of the slanted observations")
 
-        dopWindArr = np.empty(
+        dop_wind_arr = np.empty(
             (
                 self.time_non_90.shape[0],
-                self.rangeNon90.shape[0],
-                len(self.azmNon90),
-                len(self.elvNon90),
+                self.range_non_90.shape[0],
+                len(self.azm_non_90),
+                len(self.elv_non_90),
             )
         )
 
-        for j, elv in enumerate(self.elvNon90):
+        for j, elv in enumerate(self.elv_non_90):
 
-            for i, azm in enumerate(self.azmNon90):
+            for i, azm in enumerate(self.azm_non_90):
 
-                tmpRadWind = Filtering(self.data).get_radial_obs_comp(
+                tmp_rad_wind = Filtering(self.data).get_radial_obs_comp(
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
                 )
 
-                dopWindArr[:, :, i, j] = tmpRadWind.sel(
+                dop_wind_arr[:, :, i, j] = tmp_rad_wind.sel(
                     time=self.time_non_90, method="Nearest"
                 ).values
 
-        newRange = self.data.range90.values[: len(self.data.range)]
-        respDopVel = xr.DataArray(
-            data=dopWindArr,
+        new_range = self.data.range90.values[: len(self.data.range)]
+        resampled_dop_vel = xr.DataArray(
+            data=dop_wind_arr,
             dims=("time", "range", "azm", "elv"),
             coords={
                 "time": self.time_non_90,
-                "range": newRange,
-                "azm": self.azmNon90,
-                "elv": self.elvNon90,
+                "range": new_range,
+                "azm": self.azm_non_90,
+                "elv": self.elv_non_90,
             },
         )
 
-        respDopVel.attrs = {
+        resampled_dop_vel.attrs = {
             "standard_name": "radial_wind_speed",
             "units": "m s-1",
             "comments": "radial wind speed vector.",
         }
 
-        self.dataTransf = respDopVel
+        self.data_transf = resampled_dop_vel
         # (maybe all STE filter should be in the same class)
-        # self.dataTransf = secondTripEchoFilter(respDopVel, n_prof=self.n_prof, center=self.center,
+        # self.data_transf = secondTripEchoFilter(resampled_dop_vel, n_prof=self.n_prof, center=self.center,
         #                                        min_periods=self.min_periods, n_std=self.n_std).data
 
         return self
 
-    def dataTransform90(self):
+    def data_transform_90(self):
 
         """
         It creates an xr.DataArray from all vertically pointing observations
@@ -409,13 +409,13 @@ class getRestructuredData:
         tmp_data = Filtering(self.data).get_vertical_obs_comp(
             "radial_wind_speed90", snr=self.snr, status=self.status
         )
-        tmp_data = tmp_data.isel(range90=slice(0, len(self.rangeNon90)))
-        self.dataTransf90 = tmp_data
+        tmp_data = tmp_data.isel(range90=slice(0, len(self.range_non_90)))
+        self.data_transf_90 = tmp_data
 
         tmp_data = Filtering(self.data).get_vertical_obs_comp(
             "relative_beta90", snr=self.snr, status=self.status
         )
-        tmp_data = tmp_data.isel(range90=slice(0, len(self.rangeNon90)))
+        tmp_data = tmp_data.isel(range90=slice(0, len(self.range_non_90)))
         self.relative_beta90 = tmp_data
 
         return self
@@ -429,7 +429,7 @@ class getRestructuredData:
             print("Vertical component check was ignored.")
 
 
-class getResampledData:
+class GetResampledData:
     """Alternative basic data resample
 
     This class is used to resample the data
@@ -440,19 +440,19 @@ class getResampledData:
 
     Parameters
     -----------
-    xrDataArray : xr.DataArray
+    xr_data_array : xr.DataArray
         varaiable that will be resampled
 
-    vertCoord : str
+    vert_coord : str
         name of the vertical coordinate
 
-    timeFreq : str
+    time_freq : str
         size of the window e.g.: '15s'
 
     tolerance : int
         maximum separation from the reference
 
-    timeCoord : str
+    time_coord : str
         name of the time coordinate
 
     Returns
@@ -465,40 +465,40 @@ class getResampledData:
 
     def __init__(
         self,
-        xrDataArray: xr.DataArray,
-        vertCoord="range",
-        timeFreq="15s",
+        xr_data_array: xr.DataArray,
+        vert_coord="range",
+        time_freq="15s",
         tolerance=10,
-        timeCoord="time",
+        time_coord="time",
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.getResampledData"
+            "lidarSuit.dataOperator.GetResampledData"
         )
-        self.logger.info("creating an instance of getResampledData")
+        self.logger.info("creating an instance of GetResampledData")
 
-        if not isinstance(xrDataArray, xr.DataArray):
+        if not isinstance(xr_data_array, xr.DataArray):
             self.logger.error("wrong data type: expecting a xr.DataArray")
             raise TypeError
 
-        self.var_name = xrDataArray.name
-        self.attrs = xrDataArray.attrs
-        data = xrDataArray
-        date = pd.to_datetime(data[timeCoord].values[0])
+        self.var_name = xr_data_array.name
+        self.attrs = xr_data_array.attrs
+        data = xr_data_array
+        date = pd.to_datetime(data[time_coord].values[0])
 
-        self.timeRef = self.getTimeRef(date, timeFreq)
-        self.vertCoord = data[vertCoord]
+        self.time_ref = self.get_time_ref(date, time_freq)
+        self.vert_coord = data[vert_coord]
 
-        timeRefSec = np.array(self.timeRef, float) * 10 ** (-9)
-        timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
+        time_ref_sec = np.array(self.time_ref, float) * 10 ** (-9)
+        time_orig_sec = np.array(data[time_coord].values, float) * 10 ** (-9)
 
-        deltaGrid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
-        timeIndexArray = self.getNearestIndexM2(deltaGrid, tolerance)
+        delta_grid = self.calc_delt_grid(time_ref_sec, time_orig_sec)
+        time_index_array = self.get_nearest_index_method_2(delta_grid, tolerance)
 
-        self.values = self.timeResample(data, timeIndexArray, self.vertCoord)
-        self.resampled = self.toDataArray()
+        self.values = self.time_resample(data, time_index_array, self.vert_coord)
+        self.resampled = self.convert_to_data_array()
 
-    def getTimeRef(self, date, timeFreq="1s"):
+    def get_time_ref(self, date, time_freq="1s"):
         """
         Genetates the time reference grid used for
         resampling the data
@@ -513,7 +513,7 @@ class getResampledData:
 
         Returns
         -------
-        timeRef : DatetimeIndex
+        time_ref : DatetimeIndex
             time reference grid (DatetimeIndex)
 
         """
@@ -524,18 +524,18 @@ class getResampledData:
 
         end = dt.datetime(date.year, date.month, date.day, 23, 59, 59)
 
-        timeRef = pd.date_range(start, end, freq=timeFreq)
+        time_ref = pd.date_range(start, end, freq=time_freq)
 
-        return timeRef
+        return time_ref
 
-    def calcDeltaGrid(self, refGrid, origGrid):
+    def calc_delt_grid(self, ref_grid, orig_grid):
         """
         Calculates the distance between the reference grid
         and the radar grid (time or range)
 
         Parameters
         ----------
-        refGrid : numpy.array
+        ref_grid : numpy.array
             reference grid (array[n])
 
         radarGrid : numpy.array
@@ -543,7 +543,7 @@ class getResampledData:
 
         Returns
         -------
-        deltaGrid : numpy.array
+        delta_grid : numpy.array
 
             distance between each element from
             the reference grid to each element from the
@@ -552,20 +552,20 @@ class getResampledData:
 
         self.logger.info("calculating the distance to the reference")
 
-        tmpGrid2d = np.ones((len(refGrid), len(origGrid))) * origGrid
+        tmp_grid_2_d = np.ones((len(ref_grid), len(orig_grid))) * orig_grid
 
-        deltaGrid = tmpGrid2d - np.reshape(refGrid, (len(refGrid), 1))
+        delta_grid = tmp_grid_2_d - np.reshape(ref_grid, (len(ref_grid), 1))
 
-        return deltaGrid
+        return delta_grid
 
-    def getNearestIndexM2(self, deltaGrid, tolerance):
+    def get_nearest_index_method_2(self, delta_grid, tolerance):
         """
-        Identify the index of the deltaGrid that fulfil
+        Identify the index of the delta_grid that fulfil
         the resampling tolerance
 
         Parameters
         ----------
-        deltaGrid : numpy.array
+        delta_grid : numpy.array
             output from calcRadarDeltaGrid
 
         tolerance : int
@@ -574,7 +574,7 @@ class getResampledData:
 
         Returns
         -------
-        gridIndex : np.array
+        grid_index : np.array
 
             array of indexes that fulfil the resampling
             tolerance
@@ -583,17 +583,17 @@ class getResampledData:
 
         self.logger.info("identifying index that fulfil the tolerance")
 
-        gridIndex = np.argmin(abs(deltaGrid), axis=1)
-        deltaGridMin = np.min(abs(deltaGrid), axis=1)
-        gridIndex = np.array(gridIndex, float)
-        gridIndex[deltaGridMin > tolerance] = np.nan
+        grid_index = np.argmin(abs(delta_grid), axis=1)
+        delta_grid_min = np.min(abs(delta_grid), axis=1)
+        grid_index = np.array(grid_index, float)
+        grid_index[delta_grid_min > tolerance] = np.nan
 
-        return gridIndex
+        return grid_index
 
-    def timeResample(self, data, timeIndexArray, vertCoord):
+    def time_resample(self, data, time_index_array, vert_coord):
         """
         It resamples a given radar variable using the
-        time and range index calculated by getNearestIndexM2
+        time and range index calculated by get_nearest_index_method_2
 
         Parameters
         ----------
@@ -605,10 +605,10 @@ class getResampledData:
             be resampled
 
         timeIdexArray : np.array
-            time resampling index (output from getNearestIndexM2)
+            time resampling index (output from get_nearest_index_method_2)
 
         rangeIndexArray : np.array
-            range resampling index (output from getNearestIndexM2)
+            range resampling index (output from get_nearest_index_method_2)
 
         Returns
         -------
@@ -618,22 +618,22 @@ class getResampledData:
 
         self.logger.info(f"time resampling of: {self.var_name}")
 
-        resampledTimeArr = (
-            np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))
+        resampled_time_arr = (
+            np.ones((time_index_array.shape[0], self.vert_coord.shape[0]))
             * np.nan
         )
 
-        for t, timeIndex in enumerate(timeIndexArray):
+        for position, time_index in enumerate(time_index_array):
 
             try:
-                resampledTimeArr[t] = data.values[int(timeIndex)]
+                resampled_time_arr[position] = data.values[int(time_index)]
 
             except:
                 pass
 
-        return resampledTimeArr
+        return resampled_time_arr
 
-    def toDataArray(self):
+    def convert_to_data_array(self):
         """
         It creates a DataArray of the resampled data.
         """
@@ -642,23 +642,23 @@ class getResampledData:
             f"generating the new resampled DataArray: {self.var_name}"
         )
 
-        tmpDT = xr.DataArray(
+        tmp_dt = xr.DataArray(
             self.values,
-            dims=("time_ref", self.vertCoord.name),
+            dims=("time_ref", self.vert_coord.name),
             coords={
-                "time_ref": self.timeRef,
-                self.vertCoord.name: self.vertCoord.values,
+                "time_ref": self.time_ref,
+                self.vert_coord.name: self.vert_coord.values,
             },
             name=self.var_name,
             attrs=self.attrs,
         )
 
-        tmpDT[self.vertCoord.name].attrs = self.vertCoord.attrs
+        tmp_dt[self.vert_coord.name].attrs = self.vert_coord.attrs
 
-        return tmpDT
+        return tmp_dt
 
 
-class dbsOperations:
+class DbsOperations:
     """DBS file manager
 
     This class extracts the variables required to
@@ -666,9 +666,9 @@ class dbsOperations:
 
     Parameters
     ----------
-    fileList : list
+    file_list : list
         list of DBS files
-    varList : list
+    var_list : list
         list of variables to be extracted from the DBS files
 
     Returns
@@ -676,22 +676,22 @@ class dbsOperations:
     object : object
 
         it returns an object containing an instance of the
-        merged files (.mergedDS)
+        merged files (.merged_ds)
 
     """
 
-    def __init__(self, fileList, varList):
+    def __init__(self, file_list, var_list):
 
-        self.logger = logging.getLogger("lidarSuit.dataOperator.dbsOperations")
-        self.logger.info("creating an instance of dbsOperations")
+        self.logger = logging.getLogger("lidarSuit.dataOperator.DbsOperations")
+        self.logger.info("creating an instance of DbsOperations")
 
-        self.mergedDS = xr.Dataset()
-        self.fileList = fileList
-        self.varList = varList
+        self.merged_ds = xr.Dataset()
+        self.file_list = file_list
+        self.var_list = var_list
 
-        self.mergeData(fileList, varList)
+        self.merge_data(file_list, var_list)
 
-    def mergeData(self, file_list, var_list):
+    def merge_data(self, file_list, var_list):
         """
         This method merges all files from a list of DBS files
 
@@ -707,13 +707,13 @@ class dbsOperations:
 
         self.logger.info("merging all DBS files")
 
-        if bool(file_list) == False:
+        if bool(file_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of DBS files."
             )
             raise FileNotFoundError
 
-        if bool(var_list) == False:
+        if bool(var_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of variable"
             )
@@ -722,58 +722,58 @@ class dbsOperations:
         for file in file_list:
 
             try:
-                fileToMerge = GetLidarData(file).open_lidar_file()
+                file_to_merge = GetLidarData(file).open_lidar_file()
                 self.logger.debug(f"reading file: {file}")
             except:
                 self.logger.warning(f"This file has a problem: {file}")
                 raise
 
-            fileToMerge = self.mean_time_derivation(fileToMerge)
-            # fileToMerge = self.add_mean_time(fileToMerge)
+            file_to_merge = self.mean_time_derivation(file_to_merge)
+            # file_to_merge = self.add_mean_time(file_to_merge)
 
             try:
-                self.merge2DS(fileToMerge, var_list)
+                self.merge_2_ds(file_to_merge, var_list)
             except:
                 self.logger.warning(f"Merging not possible: {file}")
                 # raise
 
-    def add_mean_time(self, lidarDS):
+    def add_mean_time(self, lidar_ds):
         """
         This method adds the mean time to each file from
         the DBS scan strategy.
 
         Parameters
         ----------
-        lidarDS : xarray.DataSet
+        lidar_ds : xarray.DataSet
             a dataset from a sequence of scans
 
         """
 
         self.logger.info("calculating the mean DBS time for each file")
 
-        meanTimeNS = np.array(lidarDS.time.values, np.float64).mean()
-        meanTime = pd.to_datetime(
-            np.ones(len(lidarDS.time.values)) * meanTimeNS
+        mean_time_ns = np.array(lidar_ds.time.values, np.float64).mean()
+        mean_time = pd.to_datetime(
+            np.ones(len(lidar_ds.time.values)) * mean_time_ns
         )
-        meanTimeDA = xr.DataArray(
-            data=meanTime,
+        mean_time_da = xr.DataArray(
+            data=mean_time,
             dims=("time"),
-            coords={"time": lidarDS.time},
+            coords={"time": lidar_ds.time},
             name="scan_mean_time",
         )
 
-        lidarDS = lidarDS.merge(meanTimeDA)
+        lidar_ds = lidar_ds.merge(mean_time_da)
 
-        return lidarDS
+        return lidar_ds
 
-    def merge2DS(self, fileToMerge, var_list):
+    def merge_2_ds(self, file_to_merge, var_list):
         """
         This method merges the variables extracted from
-        the single DBS file with the storage dataset (mergedDS).
+        the single DBS file with the storage dataset (merged_ds).
 
         Parameters
         ----------
-        fileToMerge : xarray.DataSet
+        file_to_merge : xarray.DataSet
             a single file dataset
 
         var_list : list
@@ -785,10 +785,10 @@ class dbsOperations:
 
         for var in var_list:
 
-            self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
+            self.merged_ds = xr.merge([self.merged_ds, file_to_merge[var]])
 
-        self.mergedDS = xr.merge(
-            [self.mergedDS, fileToMerge["scan_mean_time"]]
+        self.merged_ds = xr.merge(
+            [self.merged_ds, file_to_merge["scan_mean_time"]]
         )
 
     def mean_time_derivation(self, data):

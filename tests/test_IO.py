@@ -53,13 +53,13 @@ def data_filenames():
 
 
 @pytest.fixture
-def test_dataOperations(data_filenames):
+def test_DataOperations(data_filenames):
 
-    tmp_object = lst.dataOperations(data_filenames)
+    tmp_object = lst.DataOperations(data_filenames)
 
-    return tmp_object.mergedData
+    return tmp_object.merged_data
 
 
-def test_getRestructuredData(test_dataOperations):
+def test_GetRestructuredData(test_DataOperations):
 
-    restruct_data = lst.getRestructuredData(test_dataOperations)
+    restruct_data = lst.GetRestructuredData(test_DataOperations)

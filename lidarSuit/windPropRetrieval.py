@@ -6,7 +6,7 @@ import xrft
 
 from .filters import Filtering
 from .dataAttributesL1 import LoadAttributes
-from .dataOperator import getRestructuredData
+from .dataOperator import GetRestructuredData
 
 module_logger = logging.getLogger("lidarSuit.windPropRetrieval")
 module_logger.debug("loading windPropRetrieval")
@@ -245,8 +245,8 @@ class GetWindProperties5Beam:
     Parameters
     ----------
     data : xarray.Dataset
-        merged xarray dataset (mergedDS) output from
-        lst.dbsOperations()
+        merged xarray dataset (merged_ds) output from
+        lst.DbsOperations()
 
     status_filter : bolean
         Data filtering based on the wind lidar
@@ -533,16 +533,16 @@ class RetriveWindFFT:
 
     """
 
-    def __init__(self, transfd_data: getRestructuredData):
+    def __init__(self, transfd_data: GetRestructuredData):
 
         self.logger = logging.getLogger(
             "lidarSuit.windPropRetrieval.FourierTransfWindMethod"
         )
         self.logger.info("creating an instance of FourierTransfWindMethod")
 
-        if not isinstance(transfd_data, getRestructuredData):
+        if not isinstance(transfd_data, GetRestructuredData):
             self.logger.error(
-                "wrong data type: expecting a lst.getRestructuredData instance"
+                "wrong data type: expecting a lst.GetRestructuredData instance"
             )
             raise TypeError
 
@@ -560,7 +560,7 @@ class RetriveWindFFT:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.dataTransf).wind_prop()
+        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.data_transf).wind_prop()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
         tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
         self.wind_prop = tmp_wind_prop
@@ -576,7 +576,7 @@ class RetriveWindFFT:
 
         self.logger.info("selecting the vertical wind observations")
 
-        tmp_wind_w = self.transfd_data.dataTransf90
+        tmp_wind_w = self.transfd_data.data_transf_90
         tmp_wind_w = tmp_wind_w.rename({"time": "time90", "range90": "range"})
         self.wind_prop["vertical_wind_speed"] = tmp_wind_w
         # self.wind_prop = LoadAttributes(self.wind_prop).data
