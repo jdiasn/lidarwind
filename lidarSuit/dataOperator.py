@@ -69,7 +69,7 @@ class dataOperations:
         self.tmpNon90 = xr.Dataset()
 
         self.elevationFilter()
-        self.renameVar90()
+        self.rename_var_90()
         self.get_merge_data()
 
     def elevationFilter(self):
@@ -112,7 +112,7 @@ class dataOperations:
 
         return self
 
-    def renameVar90(self):
+    def rename_var_90(self):
         """
         It renames the vertical coordinate
         """
