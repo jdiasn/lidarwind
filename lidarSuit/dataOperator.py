@@ -618,7 +618,7 @@ class getResampledData:
 
         self.logger.info(f"time resampling of: {self.var_name}")
 
-        resampledTimeArr = (
+        resampled_time_arr = (
             np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))
             * np.nan
         )
@@ -626,12 +626,12 @@ class getResampledData:
         for position, time_index in enumerate(timeIndexArray):
 
             try:
-                resampledTimeArr[position] = data.values[int(time_index)]
+                resampled_time_arr[position] = data.values[int(time_index)]
 
             except:
                 pass
 
-        return resampledTimeArr
+        return resampled_time_arr
 
     def convert_to_data_array(self):
         """
