@@ -576,7 +576,7 @@ class RetriveWindFFT:
 
         self.logger.info("selecting the vertical wind observations")
 
-        tmp_wind_w = self.transfd_data.dataTransf90
+        tmp_wind_w = self.transfd_data.data_transf_90
         tmp_wind_w = tmp_wind_w.rename({"time": "time90", "range90": "range"})
         self.wind_prop["vertical_wind_speed"] = tmp_wind_w
         # self.wind_prop = LoadAttributes(self.wind_prop).data
