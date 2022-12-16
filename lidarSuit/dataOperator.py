@@ -332,10 +332,10 @@ class getRestructuredData:
         self.elvNon90 = np.unique(
             self.data.elevation.where(self.data.elevation != 90, drop=True)
         )
-        self.azmNon90 = np.unique(
+        self.azm_non_90 = np.unique(
             self.data.azimuth.where(self.data.elevation != 90, drop=True)
         )
-        self.azmNon90 = np.sort(self.azmNon90)
+        self.azm_non_90 = np.sort(self.azm_non_90)
 
         self.time_non_90 = self.data.time.where(
             self.data.elevation != 90, drop=True
@@ -356,14 +356,14 @@ class getRestructuredData:
             (
                 self.time_non_90.shape[0],
                 self.range_non_90.shape[0],
-                len(self.azmNon90),
+                len(self.azm_non_90),
                 len(self.elvNon90),
             )
         )
 
         for j, elv in enumerate(self.elvNon90):
 
-            for i, azm in enumerate(self.azmNon90):
+            for i, azm in enumerate(self.azm_non_90):
 
                 tmp_rad_wind = Filtering(self.data).get_radial_obs_comp(
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
@@ -380,7 +380,7 @@ class getRestructuredData:
             coords={
                 "time": self.time_non_90,
                 "range": new_range,
-                "azm": self.azmNon90,
+                "azm": self.azm_non_90,
                 "elv": self.elvNon90,
             },
         )
