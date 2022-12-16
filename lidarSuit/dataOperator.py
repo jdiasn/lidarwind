@@ -755,14 +755,14 @@ class dbsOperations:
         meanTime = pd.to_datetime(
             np.ones(len(lidarDS.time.values)) * meanTimeNS
         )
-        meanTimeDA = xr.DataArray(
+        mean_time_da = xr.DataArray(
             data=meanTime,
             dims=("time"),
             coords={"time": lidarDS.time},
             name="scan_mean_time",
         )
 
-        lidarDS = lidarDS.merge(meanTimeDA)
+        lidarDS = lidarDS.merge(mean_time_da)
 
         return lidarDS
 
