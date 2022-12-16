@@ -20,7 +20,7 @@ module_logger = logging.getLogger("lidarSuit.dataOperator")
 module_logger.debug("loading dataOperator")
 
 
-class dataOperations:
+class DataOperations:
 
     """Basic data manager
 
@@ -34,7 +34,7 @@ class dataOperations:
 
     Examples
     --------
-    >>> merged_ds = lidarSuit.dataOperations(file_list).merged_data
+    >>> merged_ds = lidarSuit.DataOperations(file_list).merged_data
     >>> merged_ds.to_netcdf(output_file_path)
 
     Parameters
@@ -53,9 +53,9 @@ class dataOperations:
     def __init__(self, data_paths, verbose=False):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.dataOperations"
+            "lidarSuit.dataOperator.DataOperations"
         )
-        self.logger.info("creating an instance of dataOperations")
+        self.logger.info("creating an instance of DataOperations")
 
         if bool(data_paths) == False:
             self.logger.error(
