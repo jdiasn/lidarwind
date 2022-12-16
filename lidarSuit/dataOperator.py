@@ -34,8 +34,8 @@ class dataOperations:
 
     Examples
     --------
-    >>> mergedDS = lidarSuit.dataOperations(file_list).mergedData
-    >>> mergedDS.to_netcdf(outputFilePath)
+    >>> merged_ds = lidarSuit.dataOperations(file_list).mergedData
+    >>> merged_ds.to_netcdf(outputFilePath)
 
     Parameters
     ----------
@@ -676,7 +676,7 @@ class dbsOperations:
     object : object
 
         it returns an object containing an instance of the
-        merged files (.mergedDS)
+        merged files (.merged_ds)
 
     """
 
@@ -685,7 +685,7 @@ class dbsOperations:
         self.logger = logging.getLogger("lidarSuit.dataOperator.dbsOperations")
         self.logger.info("creating an instance of dbsOperations")
 
-        self.mergedDS = xr.Dataset()
+        self.merged_ds = xr.Dataset()
         self.file_list = file_list
         self.var_list = var_list
 
@@ -769,7 +769,7 @@ class dbsOperations:
     def merge_2_ds(self, file_to_merge, var_list):
         """
         This method merges the variables extracted from
-        the single DBS file with the storage dataset (mergedDS).
+        the single DBS file with the storage dataset (merged_ds).
 
         Parameters
         ----------
@@ -785,10 +785,10 @@ class dbsOperations:
 
         for var in var_list:
 
-            self.mergedDS = xr.merge([self.mergedDS, file_to_merge[var]])
+            self.merged_ds = xr.merge([self.merged_ds, file_to_merge[var]])
 
-        self.mergedDS = xr.merge(
-            [self.mergedDS, file_to_merge["scan_mean_time"]]
+        self.merged_ds = xr.merge(
+            [self.merged_ds, file_to_merge["scan_mean_time"]]
         )
 
     def mean_time_derivation(self, data):

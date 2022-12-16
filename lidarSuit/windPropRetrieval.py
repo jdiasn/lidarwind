@@ -245,7 +245,7 @@ class GetWindProperties5Beam:
     Parameters
     ----------
     data : xarray.Dataset
-        merged xarray dataset (mergedDS) output from
+        merged xarray dataset (merged_ds) output from
         lst.dbsOperations()
 
     status_filter : bolean
