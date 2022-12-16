@@ -43,8 +43,8 @@ class SixBeamMethod:
     def __init__(self, data, freq=10, freq90=10):
 
         #         self.elv = 45
-        self.elv = data.dataTransf.elv.values
-        self.azm = data.dataTransf.azm.values
+        self.elv = data.data_transf.elv.values
+        self.azm = data.data_transf.azm.values
         # self.time_freq = freq
         # self.time_freq = freq
 
@@ -117,7 +117,7 @@ class SixBeamMethod:
     #
     def calc_variances(self, data, freq, freq90):
 
-        interp_data_transf = data.dataTransf.interp(
+        interp_data_transf = data.data_transf.interp(
             time=data.data_transf_90.time, method="nearest"
         )
         self.get_variance(interp_data_transf, freq=freq)

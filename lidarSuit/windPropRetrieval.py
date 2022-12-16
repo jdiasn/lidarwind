@@ -560,7 +560,7 @@ class RetriveWindFFT:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.dataTransf).wind_prop()
+        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.data_transf).wind_prop()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
         tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
         self.wind_prop = tmp_wind_prop

@@ -391,9 +391,9 @@ class getRestructuredData:
             "comments": "radial wind speed vector.",
         }
 
-        self.dataTransf = resampled_dop_vel
+        self.data_transf = resampled_dop_vel
         # (maybe all STE filter should be in the same class)
-        # self.dataTransf = secondTripEchoFilter(resampled_dop_vel, n_prof=self.n_prof, center=self.center,
+        # self.data_transf = secondTripEchoFilter(resampled_dop_vel, n_prof=self.n_prof, center=self.center,
         #                                        min_periods=self.min_periods, n_std=self.n_std).data
 
         return self
