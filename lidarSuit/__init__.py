@@ -27,5 +27,5 @@ from .wind_prop_retrieval_6_beam import *
 from .visualization import *
 from .utilities import *
 from .data_operator import *
-from .dataAttributesL1 import *
+from .data_attributes import *
 from .filters import *

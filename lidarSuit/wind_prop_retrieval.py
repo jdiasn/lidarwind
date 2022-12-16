@@ -5,7 +5,7 @@ import xarray as xr
 import xrft
 
 from .filters import Filtering
-from .dataAttributesL1 import LoadAttributes
+from .data_attributes import LoadAttributes
 from .data_operator import GetRestructuredData
 
 module_logger = logging.getLogger("lidarSuit.wind_prop_retrieval")
