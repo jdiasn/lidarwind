@@ -193,13 +193,13 @@ class readProcessedData:
         self.logger.info("merging pre-processed data")
 
         try:
-            tmpMerged = self.mergeDataM1()
+            tmp_merged = self.mergeDataM1()
 
         except:
             print("switching from xr.open_mfdataset to xr.open_dataset")
-            tmpMerged = self.mergeDataM2()
+            tmp_merged = self.mergeDataM2()
 
-        return tmpMerged
+        return tmp_merged
 
     def mergeDataM1(self):
         """
@@ -208,9 +208,9 @@ class readProcessedData:
 
         self.logger.info("mergin files using xr.open_mfdataset")
 
-        tmpMerged = xr.open_mfdataset(self.file_list, parallel=True)
+        tmp_merged = xr.open_mfdataset(self.file_list, parallel=True)
 
-        return tmpMerged
+        return tmp_merged
 
     def mergeDataM2(self):
         """
@@ -219,19 +219,19 @@ class readProcessedData:
 
         self.logger.info("mergin files using xr.open_dataset")
 
-        tmpMerged = xr.Dataset()
+        tmp_merged = xr.Dataset()
 
         for file_name in sorted(self.file_list):
 
             try:
                 self.logger.info(f"opening {file_name}")
-                tmpMerged = xr.merge([tmpMerged, xr.open_dataset(file_name)])
+                tmp_merged = xr.merge([tmp_merged, xr.open_dataset(file_name)])
 
             except:
                 self.logger.info(f"problems with: {file_name}")
                 pass
 
-        return tmpMerged
+        return tmp_merged
 
 
 class GetRestructuredData:
