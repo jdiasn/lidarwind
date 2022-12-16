@@ -452,7 +452,7 @@ class getResampledData:
     tolerance : int
         maximum separation from the reference
 
-    timeCoord : str
+    time_coord : str
         name of the time coordinate
 
     Returns
@@ -469,7 +469,7 @@ class getResampledData:
         vert_coord="range",
         time_freq="15s",
         tolerance=10,
-        timeCoord="time",
+        time_coord="time",
     ):
 
         self.logger = logging.getLogger(
@@ -484,13 +484,13 @@ class getResampledData:
         self.var_name = xrDataArray.name
         self.attrs = xrDataArray.attrs
         data = xrDataArray
-        date = pd.to_datetime(data[timeCoord].values[0])
+        date = pd.to_datetime(data[time_coord].values[0])
 
         self.time_ref = self.get_time_ref(date, time_freq)
         self.vert_coord = data[vert_coord]
 
         time_ref_sec = np.array(self.time_ref, float) * 10 ** (-9)
-        time_orig_sec = np.array(data[timeCoord].values, float) * 10 ** (-9)
+        time_orig_sec = np.array(data[time_coord].values, float) * 10 ** (-9)
 
         delta_grid = self.calc_delt_grid(time_ref_sec, time_orig_sec)
         time_index_array = self.get_nearest_index_method_2(delta_grid, tolerance)
