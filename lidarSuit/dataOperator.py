@@ -486,7 +486,7 @@ class getResampledData:
         data = xrDataArray
         date = pd.to_datetime(data[timeCoord].values[0])
 
-        self.timeRef = self.getTimeRef(date, timeFreq)
+        self.timeRef = self.get_time_ref(date, timeFreq)
         self.vert_coord = data[vert_coord]
 
         timeRefSec = np.array(self.timeRef, float) * 10 ** (-9)
@@ -498,7 +498,7 @@ class getResampledData:
         self.values = self.time_resample(data, time_index_array, self.vert_coord)
         self.resampled = self.convert_to_data_array()
 
-    def getTimeRef(self, date, timeFreq="1s"):
+    def get_time_ref(self, date, timeFreq="1s"):
         """
         Genetates the time reference grid used for
         resampling the data
