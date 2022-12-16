@@ -493,7 +493,7 @@ class getResampledData:
         timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
 
         delta_grid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
-        time_index_array = self.getNearestIndexM2(delta_grid, tolerance)
+        time_index_array = self.get_nearest_index_method_2(delta_grid, tolerance)
 
         self.values = self.time_resample(data, time_index_array, self.vert_coord)
         self.resampled = self.convert_to_data_array()
@@ -558,7 +558,7 @@ class getResampledData:
 
         return delta_grid
 
-    def getNearestIndexM2(self, delta_grid, tolerance):
+    def get_nearest_index_method_2(self, delta_grid, tolerance):
         """
         Identify the index of the delta_grid that fulfil
         the resampling tolerance
@@ -593,7 +593,7 @@ class getResampledData:
     def time_resample(self, data, time_index_array, vert_coord):
         """
         It resamples a given radar variable using the
-        time and range index calculated by getNearestIndexM2
+        time and range index calculated by get_nearest_index_method_2
 
         Parameters
         ----------
@@ -605,10 +605,10 @@ class getResampledData:
             be resampled
 
         timeIdexArray : np.array
-            time resampling index (output from getNearestIndexM2)
+            time resampling index (output from get_nearest_index_method_2)
 
         rangeIndexArray : np.array
-            range resampling index (output from getNearestIndexM2)
+            range resampling index (output from get_nearest_index_method_2)
 
         Returns
         -------
