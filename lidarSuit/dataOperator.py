@@ -151,7 +151,7 @@ class readProcessedData:
 
     Examples
     --------
-    >>> mergedData = lidarSuit.readProcessedData(fileList).mergeData()
+    >>> mergedData = lidarSuit.readProcessedData(fileList).merge_data()
 
     Parameters
     ----------
@@ -180,7 +180,7 @@ class readProcessedData:
 
         self.fileList = fileList
 
-    def mergeData(self):
+    def merge_data(self):
         """
         It merges all data from the fileList. It can choose between
         two different methods. One uses xr.open_mfdataset and the other
@@ -689,9 +689,9 @@ class dbsOperations:
         self.fileList = fileList
         self.varList = varList
 
-        self.mergeData(fileList, varList)
+        self.merge_data(fileList, varList)
 
-    def mergeData(self, file_list, var_list):
+    def merge_data(self, file_list, var_list):
         """
         This method merges all files from a list of DBS files
 
