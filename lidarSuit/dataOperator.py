@@ -486,10 +486,10 @@ class getResampledData:
         data = xrDataArray
         date = pd.to_datetime(data[timeCoord].values[0])
 
-        self.timeRef = self.get_time_ref(date, timeFreq)
+        self.time_ref = self.get_time_ref(date, timeFreq)
         self.vert_coord = data[vert_coord]
 
-        timeRefSec = np.array(self.timeRef, float) * 10 ** (-9)
+        timeRefSec = np.array(self.time_ref, float) * 10 ** (-9)
         timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
 
         delta_grid = self.calc_delt_grid(timeRefSec, timeOrigSec)
@@ -513,7 +513,7 @@ class getResampledData:
 
         Returns
         -------
-        timeRef : DatetimeIndex
+        time_ref : DatetimeIndex
             time reference grid (DatetimeIndex)
 
         """
@@ -524,9 +524,9 @@ class getResampledData:
 
         end = dt.datetime(date.year, date.month, date.day, 23, 59, 59)
 
-        timeRef = pd.date_range(start, end, freq=timeFreq)
+        time_ref = pd.date_range(start, end, freq=timeFreq)
 
-        return timeRef
+        return time_ref
 
     def calc_delt_grid(self, ref_grid, orig_grid):
         """
@@ -646,7 +646,7 @@ class getResampledData:
             self.values,
             dims=("time_ref", self.vert_coord.name),
             coords={
-                "time_ref": self.timeRef,
+                "time_ref": self.time_ref,
                 self.vert_coord.name: self.vert_coord.values,
             },
             name=self.var_name,
