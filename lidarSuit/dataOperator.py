@@ -528,14 +528,14 @@ class getResampledData:
 
         return timeRef
 
-    def calcDeltaGrid(self, refGrid, orig_grid):
+    def calcDeltaGrid(self, ref_grid, orig_grid):
         """
         Calculates the distance between the reference grid
         and the radar grid (time or range)
 
         Parameters
         ----------
-        refGrid : numpy.array
+        ref_grid : numpy.array
             reference grid (array[n])
 
         radarGrid : numpy.array
@@ -552,9 +552,9 @@ class getResampledData:
 
         self.logger.info("calculating the distance to the reference")
 
-        tmp_grid_2_d = np.ones((len(refGrid), len(orig_grid))) * orig_grid
+        tmp_grid_2_d = np.ones((len(ref_grid), len(orig_grid))) * orig_grid
 
-        delta_grid = tmp_grid_2_d - np.reshape(refGrid, (len(refGrid), 1))
+        delta_grid = tmp_grid_2_d - np.reshape(ref_grid, (len(ref_grid), 1))
 
         return delta_grid
 
