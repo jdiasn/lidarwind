@@ -2,7 +2,7 @@
 
 """
 
-from .lstConfig import Configurations
+from .lst_config import Configurations
 
 
 class LoadAttributes:
@@ -39,7 +39,7 @@ class LoadAttributes:
 
         It loads and writes the global attributes from the Level 1 dataset.
         The global attributes are defiened in the configuration file.
-        See lstConfig.generate_conf documentation for information about generating
+        See lst_config.generate_conf documentation for information about generating
         the configuration file.
 
         """
