@@ -318,7 +318,7 @@ class getRestructuredData:
 
         self.vertical_component_check(check90)
         self.getCoordNon90()
-        self.dataTransform()
+        self.data_transform()
         self.data_transform_90()
 
     def getCoordNon90(self):
@@ -344,7 +344,7 @@ class getRestructuredData:
 
         return self
 
-    def dataTransform(self):
+    def data_transform(self):
 
         """
         It creates an xr.DataArray from all slanted observations
