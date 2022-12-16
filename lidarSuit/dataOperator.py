@@ -552,9 +552,9 @@ class getResampledData:
 
         self.logger.info("calculating the distance to the reference")
 
-        tmpGrid2d = np.ones((len(refGrid), len(origGrid))) * origGrid
+        tmp_grid_2_d = np.ones((len(refGrid), len(origGrid))) * origGrid
 
-        delta_grid = tmpGrid2d - np.reshape(refGrid, (len(refGrid), 1))
+        delta_grid = tmp_grid_2_d - np.reshape(refGrid, (len(refGrid), 1))
 
         return delta_grid
 
