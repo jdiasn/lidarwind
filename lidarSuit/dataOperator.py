@@ -329,7 +329,7 @@ class getRestructuredData:
 
         self.logger.info("identifying and selecting the slanted observations")
 
-        self.elvNon90 = np.unique(
+        self.elv_non_90 = np.unique(
             self.data.elevation.where(self.data.elevation != 90, drop=True)
         )
         self.azm_non_90 = np.unique(
@@ -357,11 +357,11 @@ class getRestructuredData:
                 self.time_non_90.shape[0],
                 self.range_non_90.shape[0],
                 len(self.azm_non_90),
-                len(self.elvNon90),
+                len(self.elv_non_90),
             )
         )
 
-        for j, elv in enumerate(self.elvNon90):
+        for j, elv in enumerate(self.elv_non_90):
 
             for i, azm in enumerate(self.azm_non_90):
 
@@ -381,7 +381,7 @@ class getRestructuredData:
                 "time": self.time_non_90,
                 "range": new_range,
                 "azm": self.azm_non_90,
-                "elv": self.elvNon90,
+                "elv": self.elv_non_90,
             },
         )
 
