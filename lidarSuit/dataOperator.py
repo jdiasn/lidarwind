@@ -374,7 +374,7 @@ class getRestructuredData:
                 ).values
 
         newRange = self.data.range90.values[: len(self.data.range)]
-        respDopVel = xr.DataArray(
+        resampled_dop_vel = xr.DataArray(
             data=dopWindArr,
             dims=("time", "range", "azm", "elv"),
             coords={
@@ -385,15 +385,15 @@ class getRestructuredData:
             },
         )
 
-        respDopVel.attrs = {
+        resampled_dop_vel.attrs = {
             "standard_name": "radial_wind_speed",
             "units": "m s-1",
             "comments": "radial wind speed vector.",
         }
 
-        self.dataTransf = respDopVel
+        self.dataTransf = resampled_dop_vel
         # (maybe all STE filter should be in the same class)
-        # self.dataTransf = secondTripEchoFilter(respDopVel, n_prof=self.n_prof, center=self.center,
+        # self.dataTransf = secondTripEchoFilter(resampled_dop_vel, n_prof=self.n_prof, center=self.center,
         #                                        min_periods=self.min_periods, n_std=self.n_std).data
 
         return self
