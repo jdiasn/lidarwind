@@ -60,6 +60,6 @@ def test_dataOperations(data_filenames):
     return tmp_object.mergedData
 
 
-def test_getRestructuredData(test_dataOperations):
+def test_GetRestructuredData(test_dataOperations):
 
-    restruct_data = lst.getRestructuredData(test_dataOperations)
+    restruct_data = lst.GetRestructuredData(test_dataOperations)

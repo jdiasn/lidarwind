@@ -234,7 +234,7 @@ class readProcessedData:
         return tmpMerged
 
 
-class getRestructuredData:
+class GetRestructuredData:
 
     """Data re-structurer
 
@@ -243,7 +243,7 @@ class getRestructuredData:
 
     Examples
     --------
-    >>> wind_prop = lidarSuit.getRestructuredData(mergedData)
+    >>> wind_prop = lidarSuit.GetRestructuredData(mergedData)
 
     Parameters
     ----------
@@ -300,9 +300,9 @@ class getRestructuredData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.getRestructuredData"
+            "lidarSuit.dataOperator.GetRestructuredData"
         )
-        self.logger.info("creating an instance of getRestructuredData")
+        self.logger.info("creating an instance of GetRestructuredData")
 
         if not isinstance(data, xr.Dataset):
             self.logger.error("wrong data type: expecting a xr.Dataset")

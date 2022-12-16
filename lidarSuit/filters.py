@@ -121,7 +121,7 @@ class SecondTripEchoFilter:
     Parameters
     ----------
     data : object
-        the object returned from the getRestructuredData
+        the object returned from the GetRestructuredData
 
     timeCloudMaks : xarray.DataArray
         it is a time series for indicating the presence

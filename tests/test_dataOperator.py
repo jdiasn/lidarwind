@@ -17,10 +17,10 @@ def test_dataOperator_readProcessedData_file_list():
         lst.readProcessedData(file_list=None)
 
 
-def test_dataOperator_getRestructuredData_data():
+def test_dataOperator_GetRestructuredData_data():
 
     with pytest.raises(TypeError):
-        lst.getRestructuredData(data=xr.DataArray(np.array([0, 1])))
+        lst.GetRestructuredData(data=xr.DataArray(np.array([0, 1])))
 
 
 def test_dataOperator_getResampled_xr_data_array_none():

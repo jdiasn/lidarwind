@@ -6,7 +6,7 @@ import xrft
 
 from .filters import Filtering
 from .dataAttributesL1 import LoadAttributes
-from .dataOperator import getRestructuredData
+from .dataOperator import GetRestructuredData
 
 module_logger = logging.getLogger("lidarSuit.windPropRetrieval")
 module_logger.debug("loading windPropRetrieval")
@@ -533,16 +533,16 @@ class RetriveWindFFT:
 
     """
 
-    def __init__(self, transfd_data: getRestructuredData):
+    def __init__(self, transfd_data: GetRestructuredData):
 
         self.logger = logging.getLogger(
             "lidarSuit.windPropRetrieval.FourierTransfWindMethod"
         )
         self.logger.info("creating an instance of FourierTransfWindMethod")
 
-        if not isinstance(transfd_data, getRestructuredData):
+        if not isinstance(transfd_data, GetRestructuredData):
             self.logger.error(
-                "wrong data type: expecting a lst.getRestructuredData instance"
+                "wrong data type: expecting a lst.GetRestructuredData instance"
             )
             raise TypeError
 
