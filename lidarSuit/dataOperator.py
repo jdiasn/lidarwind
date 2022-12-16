@@ -492,7 +492,7 @@ class getResampledData:
         timeRefSec = np.array(self.timeRef, float) * 10 ** (-9)
         timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
 
-        delta_grid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
+        delta_grid = self.calc_delt_grid(timeRefSec, timeOrigSec)
         time_index_array = self.get_nearest_index_method_2(delta_grid, tolerance)
 
         self.values = self.time_resample(data, time_index_array, self.vert_coord)
@@ -528,7 +528,7 @@ class getResampledData:
 
         return timeRef
 
-    def calcDeltaGrid(self, ref_grid, orig_grid):
+    def calc_delt_grid(self, ref_grid, orig_grid):
         """
         Calculates the distance between the reference grid
         and the radar grid (time or range)
