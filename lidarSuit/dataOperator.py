@@ -492,8 +492,8 @@ class getResampledData:
         timeRefSec = np.array(self.timeRef, float) * 10 ** (-9)
         timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
 
-        deltaGrid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
-        time_index_array = self.getNearestIndexM2(deltaGrid, tolerance)
+        delta_grid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
+        time_index_array = self.getNearestIndexM2(delta_grid, tolerance)
 
         self.values = self.time_resample(data, time_index_array, self.vert_coord)
         self.resampled = self.convert_to_data_array()
@@ -543,7 +543,7 @@ class getResampledData:
 
         Returns
         -------
-        deltaGrid : numpy.array
+        delta_grid : numpy.array
 
             distance between each element from
             the reference grid to each element from the
@@ -554,18 +554,18 @@ class getResampledData:
 
         tmpGrid2d = np.ones((len(refGrid), len(origGrid))) * origGrid
 
-        deltaGrid = tmpGrid2d - np.reshape(refGrid, (len(refGrid), 1))
+        delta_grid = tmpGrid2d - np.reshape(refGrid, (len(refGrid), 1))
 
-        return deltaGrid
+        return delta_grid
 
-    def getNearestIndexM2(self, deltaGrid, tolerance):
+    def getNearestIndexM2(self, delta_grid, tolerance):
         """
-        Identify the index of the deltaGrid that fulfil
+        Identify the index of the delta_grid that fulfil
         the resampling tolerance
 
         Parameters
         ----------
-        deltaGrid : numpy.array
+        delta_grid : numpy.array
             output from calcRadarDeltaGrid
 
         tolerance : int
@@ -583,8 +583,8 @@ class getResampledData:
 
         self.logger.info("identifying index that fulfil the tolerance")
 
-        grid_index = np.argmin(abs(deltaGrid), axis=1)
-        delta_grid_min = np.min(abs(deltaGrid), axis=1)
+        grid_index = np.argmin(abs(delta_grid), axis=1)
+        delta_grid_min = np.min(abs(delta_grid), axis=1)
         grid_index = np.array(grid_index, float)
         grid_index[delta_grid_min > tolerance] = np.nan
 
