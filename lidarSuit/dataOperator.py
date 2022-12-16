@@ -489,10 +489,10 @@ class getResampledData:
         self.time_ref = self.get_time_ref(date, time_freq)
         self.vert_coord = data[vert_coord]
 
-        timeRefSec = np.array(self.time_ref, float) * 10 ** (-9)
+        time_ref_sec = np.array(self.time_ref, float) * 10 ** (-9)
         time_orig_sec = np.array(data[timeCoord].values, float) * 10 ** (-9)
 
-        delta_grid = self.calc_delt_grid(timeRefSec, time_orig_sec)
+        delta_grid = self.calc_delt_grid(time_ref_sec, time_orig_sec)
         time_index_array = self.get_nearest_index_method_2(delta_grid, tolerance)
 
         self.values = self.time_resample(data, time_index_array, self.vert_coord)
