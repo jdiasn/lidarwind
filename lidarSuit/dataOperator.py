@@ -623,10 +623,10 @@ class getResampledData:
             * np.nan
         )
 
-        for t, time_index in enumerate(timeIndexArray):
+        for position, time_index in enumerate(timeIndexArray):
 
             try:
-                resampledTimeArr[t] = data.values[int(time_index)]
+                resampledTimeArr[position] = data.values[int(time_index)]
 
             except:
                 pass
