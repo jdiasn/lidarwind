@@ -440,7 +440,7 @@ class getResampledData:
 
     Parameters
     -----------
-    xrDataArray : xr.DataArray
+    xr_data_array : xr.DataArray
         varaiable that will be resampled
 
     vert_coord : str
@@ -465,7 +465,7 @@ class getResampledData:
 
     def __init__(
         self,
-        xrDataArray: xr.DataArray,
+        xr_data_array: xr.DataArray,
         vert_coord="range",
         time_freq="15s",
         tolerance=10,
@@ -477,13 +477,13 @@ class getResampledData:
         )
         self.logger.info("creating an instance of getResampledData")
 
-        if not isinstance(xrDataArray, xr.DataArray):
+        if not isinstance(xr_data_array, xr.DataArray):
             self.logger.error("wrong data type: expecting a xr.DataArray")
             raise TypeError
 
-        self.var_name = xrDataArray.name
-        self.attrs = xrDataArray.attrs
-        data = xrDataArray
+        self.var_name = xr_data_array.name
+        self.attrs = xr_data_array.attrs
+        data = xr_data_array
         date = pd.to_datetime(data[time_coord].values[0])
 
         self.time_ref = self.get_time_ref(date, time_freq)
