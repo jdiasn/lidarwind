@@ -732,7 +732,7 @@ class dbsOperations:
             # file_to_merge = self.add_mean_time(file_to_merge)
 
             try:
-                self.merge2DS(file_to_merge, var_list)
+                self.merge_2_ds(file_to_merge, var_list)
             except:
                 self.logger.warning(f"Merging not possible: {file}")
                 # raise
@@ -766,7 +766,7 @@ class dbsOperations:
 
         return lidarDS
 
-    def merge2DS(self, file_to_merge, var_list):
+    def merge_2_ds(self, file_to_merge, var_list):
         """
         This method merges the variables extracted from
         the single DBS file with the storage dataset (mergedDS).
