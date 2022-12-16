@@ -642,7 +642,7 @@ class getResampledData:
             f"generating the new resampled DataArray: {self.var_name}"
         )
 
-        tmpDT = xr.DataArray(
+        tmp_dt = xr.DataArray(
             self.values,
             dims=("time_ref", self.vertCoord.name),
             coords={
@@ -653,9 +653,9 @@ class getResampledData:
             attrs=self.attrs,
         )
 
-        tmpDT[self.vertCoord.name].attrs = self.vertCoord.attrs
+        tmp_dt[self.vertCoord.name].attrs = self.vertCoord.attrs
 
-        return tmpDT
+        return tmp_dt
 
 
 class DbsOperations:
