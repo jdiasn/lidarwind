@@ -197,7 +197,7 @@ class readProcessedData:
 
         except:
             print("switching from xr.open_mfdataset to xr.open_dataset")
-            tmp_merged = self.mergeDataM2()
+            tmp_merged = self.merge_data_method_2()
 
         return tmp_merged
 
@@ -212,7 +212,7 @@ class readProcessedData:
 
         return tmp_merged
 
-    def mergeDataM2(self):
+    def merge_data_method_2(self):
         """
         It merges data using xr.open_dataset
         """
