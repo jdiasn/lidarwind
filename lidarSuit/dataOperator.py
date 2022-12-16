@@ -752,11 +752,11 @@ class dbsOperations:
         self.logger.info("calculating the mean DBS time for each file")
 
         mean_time_ns = np.array(lidarDS.time.values, np.float64).mean()
-        meanTime = pd.to_datetime(
+        mean_time = pd.to_datetime(
             np.ones(len(lidarDS.time.values)) * mean_time_ns
         )
         mean_time_da = xr.DataArray(
-            data=meanTime,
+            data=mean_time,
             dims=("time"),
             coords={"time": lidarDS.time},
             name="scan_mean_time",
