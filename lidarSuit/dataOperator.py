@@ -737,34 +737,34 @@ class dbsOperations:
                 self.logger.warning(f"Merging not possible: {file}")
                 # raise
 
-    def add_mean_time(self, lidarDS):
+    def add_mean_time(self, lidar_ds):
         """
         This method adds the mean time to each file from
         the DBS scan strategy.
 
         Parameters
         ----------
-        lidarDS : xarray.DataSet
+        lidar_ds : xarray.DataSet
             a dataset from a sequence of scans
 
         """
 
         self.logger.info("calculating the mean DBS time for each file")
 
-        mean_time_ns = np.array(lidarDS.time.values, np.float64).mean()
+        mean_time_ns = np.array(lidar_ds.time.values, np.float64).mean()
         mean_time = pd.to_datetime(
-            np.ones(len(lidarDS.time.values)) * mean_time_ns
+            np.ones(len(lidar_ds.time.values)) * mean_time_ns
         )
         mean_time_da = xr.DataArray(
             data=mean_time,
             dims=("time"),
-            coords={"time": lidarDS.time},
+            coords={"time": lidar_ds.time},
             name="scan_mean_time",
         )
 
-        lidarDS = lidarDS.merge(mean_time_da)
+        lidar_ds = lidar_ds.merge(mean_time_da)
 
-        return lidarDS
+        return lidar_ds
 
     def merge_2_ds(self, file_to_merge, var_list):
         """
