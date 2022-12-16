@@ -11,10 +11,10 @@ def test_dataOperator_dataOperations_dataPaths():
         lst.dataOperations(dataPaths=None)
 
 
-def test_dataOperator_readProcessedData_file_list():
+def test_dataOperator_ReadProcessedData_file_list():
 
     with pytest.raises(FileNotFoundError):
-        lst.readProcessedData(file_list=None)
+        lst.ReadProcessedData(file_list=None)
 
 
 def test_dataOperator_GetRestructuredData_data():

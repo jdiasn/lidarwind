@@ -143,7 +143,7 @@ class dataOperations:
         return self
 
 
-class readProcessedData:
+class ReadProcessedData:
     """Pre-processed data reader
 
     It reads all data pre-processed by dataOperator.DbsOperations
@@ -151,7 +151,7 @@ class readProcessedData:
 
     Examples
     --------
-    >>> mergedData = lidarSuit.readProcessedData(file_list).merge_data()
+    >>> mergedData = lidarSuit.ReadProcessedData(file_list).merge_data()
 
     Parameters
     ----------
@@ -168,9 +168,9 @@ class readProcessedData:
     def __init__(self, file_list):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.readProcessedData"
+            "lidarSuit.dataOperator.ReadProcessedData"
         )
-        self.logger.info("creating an instance of readProcessedData")
+        self.logger.info("creating an instance of ReadProcessedData")
 
         if bool(file_list) == False:
             self.logger.error(
