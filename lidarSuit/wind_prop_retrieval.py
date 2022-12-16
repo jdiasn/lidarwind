@@ -6,7 +6,7 @@ import xrft
 
 from .filters import Filtering
 from .dataAttributesL1 import LoadAttributes
-from .dataOperator import GetRestructuredData
+from .data_operator import GetRestructuredData
 
 module_logger = logging.getLogger("lidarSuit.wind_prop_retrieval")
 module_logger.debug("loading wind_prop_retrieval")

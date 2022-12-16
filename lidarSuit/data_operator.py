@@ -16,8 +16,8 @@ from .filters import SecondTripEchoFilter
 
 from .lidar_code import GetLidarData
 
-module_logger = logging.getLogger("lidarSuit.dataOperator")
-module_logger.debug("loading dataOperator")
+module_logger = logging.getLogger("lidarSuit.data_operator")
+module_logger.debug("loading data_operator")
 
 
 class DataOperations:
@@ -53,7 +53,7 @@ class DataOperations:
     def __init__(self, data_paths, verbose=False):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.DataOperations"
+            "lidarSuit.data_operator.DataOperations"
         )
         self.logger.info("creating an instance of DataOperations")
 
@@ -146,7 +146,7 @@ class DataOperations:
 class ReadProcessedData:
     """Pre-processed data reader
 
-    It reads all data pre-processed by dataOperator.DbsOperations
+    It reads all data pre-processed by data_operator.DbsOperations
     and merges them.
 
     Examples
@@ -168,7 +168,7 @@ class ReadProcessedData:
     def __init__(self, file_list):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.ReadProcessedData"
+            "lidarSuit.data_operator.ReadProcessedData"
         )
         self.logger.info("creating an instance of ReadProcessedData")
 
@@ -300,7 +300,7 @@ class GetRestructuredData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.GetRestructuredData"
+            "lidarSuit.data_operator.GetRestructuredData"
         )
         self.logger.info("creating an instance of GetRestructuredData")
 
@@ -473,7 +473,7 @@ class GetResampledData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.GetResampledData"
+            "lidarSuit.data_operator.GetResampledData"
         )
         self.logger.info("creating an instance of GetResampledData")
 
@@ -682,7 +682,7 @@ class DbsOperations:
 
     def __init__(self, file_list, var_list):
 
-        self.logger = logging.getLogger("lidarSuit.dataOperator.DbsOperations")
+        self.logger = logging.getLogger("lidarSuit.data_operator.DbsOperations")
         self.logger.info("creating an instance of DbsOperations")
 
         self.merged_ds = xr.Dataset()
