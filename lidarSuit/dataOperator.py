@@ -83,29 +83,29 @@ class dataOperations:
         for filePath in self.dataPaths:
 
             try:
-                tmpFile = GetLidarData(filePath).open_lidar_file()
+                tmp_file = GetLidarData(filePath).open_lidar_file()
                 self.logger.debug(f"reading file: {filePath}")
             except:
                 self.logger.warning(f"This file has a problem: {filePath}")
 
             try:
-                elevation = tmpFile.elevation.round(1)
-                tmpFile["elevation"] = elevation
-                tmpFile["azimuth"] = tmpFile.azimuth.round(1)
-                tmpFile["azimuth"][tmpFile.azimuth == 360] = 0
+                elevation = tmp_file.elevation.round(1)
+                tmp_file["elevation"] = elevation
+                tmp_file["azimuth"] = tmp_file.azimuth.round(1)
+                tmp_file["azimuth"][tmp_file.azimuth == 360] = 0
             except:
                 self.logger.info(f"Problems reading elv and axm: {filePath}")
 
             try:
                 self.tmp90 = xr.merge(
-                    [self.tmp90, tmpFile.where(elevation == 90, drop=True)]
+                    [self.tmp90, tmp_file.where(elevation == 90, drop=True)]
                 )
             except:
                 self.logger.info(f"This file does not have 90 elv: {filePath}")
 
             try:
                 self.tmpNon90 = xr.merge(
-                    [self.tmpNon90, tmpFile.where(elevation != 90, drop=True)]
+                    [self.tmpNon90, tmp_file.where(elevation != 90, drop=True)]
                 )
             except:
                 self.logger.info(f"This file only has 90 elv: {filePath}")
