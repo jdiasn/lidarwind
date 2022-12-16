@@ -340,7 +340,7 @@ class getRestructuredData:
         self.time_non_90 = self.data.time.where(
             self.data.elevation != 90, drop=True
         )
-        self.rangeNon90 = self.data.range
+        self.range_non_90 = self.data.range
 
         return self
 
@@ -355,7 +355,7 @@ class getRestructuredData:
         dop_wind_arr = np.empty(
             (
                 self.time_non_90.shape[0],
-                self.rangeNon90.shape[0],
+                self.range_non_90.shape[0],
                 len(self.azmNon90),
                 len(self.elvNon90),
             )
@@ -409,13 +409,13 @@ class getRestructuredData:
         tmp_data = Filtering(self.data).get_vertical_obs_comp(
             "radial_wind_speed90", snr=self.snr, status=self.status
         )
-        tmp_data = tmp_data.isel(range90=slice(0, len(self.rangeNon90)))
+        tmp_data = tmp_data.isel(range90=slice(0, len(self.range_non_90)))
         self.data_transf_90 = tmp_data
 
         tmp_data = Filtering(self.data).get_vertical_obs_comp(
             "relative_beta90", snr=self.snr, status=self.status
         )
-        tmp_data = tmp_data.isel(range90=slice(0, len(self.rangeNon90)))
+        tmp_data = tmp_data.isel(range90=slice(0, len(self.range_non_90)))
         self.relative_beta90 = tmp_data
 
         return self
