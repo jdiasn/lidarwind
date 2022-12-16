@@ -45,8 +45,8 @@ class SixBeamMethod:
         #         self.elv = 45
         self.elv = data.dataTransf.elv.values
         self.azm = data.dataTransf.azm.values
-        # self.timeFreq = freq
-        # self.timeFreq = freq
+        # self.time_freq = freq
+        # self.time_freq = freq
 
         self.get_m_matrix()
         self.get_m_matrix_inv()
@@ -167,7 +167,7 @@ class SixBeamMethod:
     #         The default size of this window is 10 minutes.
     #         """
 
-    #         time_bins = Util.get_time_bins(pd.to_datetime(data.time.values[0]), freq=self.timeFreq)
+    #         time_bins = Util.get_time_bins(pd.to_datetime(data.time.values[0]), freq=self.time_freq)
     #         groupedData = data.groupby_bins('time', time_bins)
 
     #         self.radial_variances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)

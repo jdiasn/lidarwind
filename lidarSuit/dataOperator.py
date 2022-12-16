@@ -446,7 +446,7 @@ class getResampledData:
     vert_coord : str
         name of the vertical coordinate
 
-    timeFreq : str
+    time_freq : str
         size of the window e.g.: '15s'
 
     tolerance : int
@@ -467,7 +467,7 @@ class getResampledData:
         self,
         xrDataArray: xr.DataArray,
         vert_coord="range",
-        timeFreq="15s",
+        time_freq="15s",
         tolerance=10,
         timeCoord="time",
     ):
@@ -486,7 +486,7 @@ class getResampledData:
         data = xrDataArray
         date = pd.to_datetime(data[timeCoord].values[0])
 
-        self.time_ref = self.get_time_ref(date, timeFreq)
+        self.time_ref = self.get_time_ref(date, time_freq)
         self.vert_coord = data[vert_coord]
 
         timeRefSec = np.array(self.time_ref, float) * 10 ** (-9)
@@ -498,7 +498,7 @@ class getResampledData:
         self.values = self.time_resample(data, time_index_array, self.vert_coord)
         self.resampled = self.convert_to_data_array()
 
-    def get_time_ref(self, date, timeFreq="1s"):
+    def get_time_ref(self, date, time_freq="1s"):
         """
         Genetates the time reference grid used for
         resampling the data
@@ -524,7 +524,7 @@ class getResampledData:
 
         end = dt.datetime(date.year, date.month, date.day, 23, 59, 59)
 
-        time_ref = pd.date_range(start, end, freq=timeFreq)
+        time_ref = pd.date_range(start, end, freq=time_freq)
 
         return time_ref
 
