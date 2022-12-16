@@ -443,7 +443,7 @@ class getResampledData:
     xrDataArray : xr.DataArray
         varaiable that will be resampled
 
-    vertCoord : str
+    vert_coord : str
         name of the vertical coordinate
 
     timeFreq : str
@@ -466,7 +466,7 @@ class getResampledData:
     def __init__(
         self,
         xrDataArray: xr.DataArray,
-        vertCoord="range",
+        vert_coord="range",
         timeFreq="15s",
         tolerance=10,
         timeCoord="time",
@@ -487,7 +487,7 @@ class getResampledData:
         date = pd.to_datetime(data[timeCoord].values[0])
 
         self.timeRef = self.getTimeRef(date, timeFreq)
-        self.vertCoord = data[vertCoord]
+        self.vert_coord = data[vert_coord]
 
         timeRefSec = np.array(self.timeRef, float) * 10 ** (-9)
         timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
@@ -495,7 +495,7 @@ class getResampledData:
         deltaGrid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
         timeIndexArray = self.getNearestIndexM2(deltaGrid, tolerance)
 
-        self.values = self.timeResample(data, timeIndexArray, self.vertCoord)
+        self.values = self.timeResample(data, timeIndexArray, self.vert_coord)
         self.resampled = self.convert_to_data_array()
 
     def getTimeRef(self, date, timeFreq="1s"):
@@ -590,7 +590,7 @@ class getResampledData:
 
         return gridIndex
 
-    def timeResample(self, data, timeIndexArray, vertCoord):
+    def timeResample(self, data, timeIndexArray, vert_coord):
         """
         It resamples a given radar variable using the
         time and range index calculated by getNearestIndexM2
@@ -619,7 +619,7 @@ class getResampledData:
         self.logger.info(f"time resampling of: {self.var_name}")
 
         resampled_time_arr = (
-            np.ones((timeIndexArray.shape[0], self.vertCoord.shape[0]))
+            np.ones((timeIndexArray.shape[0], self.vert_coord.shape[0]))
             * np.nan
         )
 
@@ -644,16 +644,16 @@ class getResampledData:
 
         tmp_dt = xr.DataArray(
             self.values,
-            dims=("time_ref", self.vertCoord.name),
+            dims=("time_ref", self.vert_coord.name),
             coords={
                 "time_ref": self.timeRef,
-                self.vertCoord.name: self.vertCoord.values,
+                self.vert_coord.name: self.vert_coord.values,
             },
             name=self.var_name,
             attrs=self.attrs,
         )
 
-        tmp_dt[self.vertCoord.name].attrs = self.vertCoord.attrs
+        tmp_dt[self.vert_coord.name].attrs = self.vert_coord.attrs
 
         return tmp_dt
 
