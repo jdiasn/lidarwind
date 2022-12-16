@@ -70,7 +70,7 @@ class dataOperations:
 
         self.elevationFilter()
         self.renameVar90()
-        self.getMergeData()
+        self.get_merge_data()
 
     def elevationFilter(self):
         """
@@ -131,7 +131,7 @@ class dataOperations:
 
         return self
 
-    def getMergeData(self):
+    def get_merge_data(self):
         """
         It merges all readable data
         """
