@@ -317,11 +317,11 @@ class getRestructuredData:
         self.n_std = n_std
 
         self.vertical_component_check(check90)
-        self.getCoordNon90()
+        self.get_coord_non_90()
         self.data_transform()
         self.data_transform_90()
 
-    def getCoordNon90(self):
+    def get_coord_non_90(self):
 
         """
         It identifies and selects the slanted data
