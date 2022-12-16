@@ -57,7 +57,7 @@ def test_dataOperations(data_filenames):
 
     tmp_object = lst.dataOperations(data_filenames)
 
-    return tmp_object.mergedData
+    return tmp_object.merged_data
 
 
 def test_GetRestructuredData(test_dataOperations):

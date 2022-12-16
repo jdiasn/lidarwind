@@ -34,7 +34,7 @@ class dataOperations:
 
     Examples
     --------
-    >>> merged_ds = lidarSuit.dataOperations(file_list).mergedData
+    >>> merged_ds = lidarSuit.dataOperations(file_list).merged_data
     >>> merged_ds.to_netcdf(output_file_path)
 
     Parameters
@@ -46,7 +46,7 @@ class dataOperations:
     -------
     object : object
         it returns an object containing an instance of the
-        original files merged (.mergedData)
+        original files merged (.merged_data)
 
     """
 
@@ -138,7 +138,7 @@ class dataOperations:
 
         self.logger.info("merging vertical and non-vertical measurements")
 
-        self.mergedData = xr.merge([self.tmp90, self.tmpNon90])
+        self.merged_data = xr.merge([self.tmp90, self.tmpNon90])
 
         return self
 
@@ -151,7 +151,7 @@ class ReadProcessedData:
 
     Examples
     --------
-    >>> mergedData = lidarSuit.ReadProcessedData(file_list).merge_data()
+    >>> merged_data = lidarSuit.ReadProcessedData(file_list).merge_data()
 
     Parameters
     ----------
@@ -243,7 +243,7 @@ class GetRestructuredData:
 
     Examples
     --------
-    >>> wind_prop = lidarSuit.GetRestructuredData(mergedData)
+    >>> wind_prop = lidarSuit.GetRestructuredData(merged_data)
 
     Parameters
     ----------
