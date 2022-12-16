@@ -373,13 +373,13 @@ class getRestructuredData:
                     time=self.time_non_90, method="Nearest"
                 ).values
 
-        newRange = self.data.range90.values[: len(self.data.range)]
+        new_range = self.data.range90.values[: len(self.data.range)]
         resampled_dop_vel = xr.DataArray(
             data=dopWindArr,
             dims=("time", "range", "azm", "elv"),
             coords={
                 "time": self.time_non_90,
-                "range": newRange,
+                "range": new_range,
                 "azm": self.azmNon90,
                 "elv": self.elvNon90,
             },
