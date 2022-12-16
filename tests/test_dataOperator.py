@@ -26,7 +26,7 @@ def test_dataOperator_getRestructuredData_data():
 def test_dataOperator_getResampled_xr_data_array_none():
 
     with pytest.raises(TypeError):
-        lst.getResampledData(xr_data_array=np.array([0, 1]))
+        lst.GetResampledData(xr_data_array=np.array([0, 1]))
 
 
 def test_dataOperator_DbsOperations_file_list_none():

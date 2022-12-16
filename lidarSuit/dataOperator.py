@@ -429,7 +429,7 @@ class getRestructuredData:
             print("Vertical component check was ignored.")
 
 
-class getResampledData:
+class GetResampledData:
     """Alternative basic data resample
 
     This class is used to resample the data
@@ -473,9 +473,9 @@ class getResampledData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.dataOperator.getResampledData"
+            "lidarSuit.dataOperator.GetResampledData"
         )
-        self.logger.info("creating an instance of getResampledData")
+        self.logger.info("creating an instance of GetResampledData")
 
         if not isinstance(xr_data_array, xr.DataArray):
             self.logger.error("wrong data type: expecting a xr.DataArray")
