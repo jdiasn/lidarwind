@@ -35,7 +35,7 @@ class dataOperations:
     Examples
     --------
     >>> merged_ds = lidarSuit.dataOperations(file_list).mergedData
-    >>> merged_ds.to_netcdf(outputFilePath)
+    >>> merged_ds.to_netcdf(output_file_path)
 
     Parameters
     ----------
@@ -80,13 +80,13 @@ class dataOperations:
 
         self.logger.info("coverting azimuth: from 360 to 0 degrees")
 
-        for filePath in self.dataPaths:
+        for file_path in self.dataPaths:
 
             try:
-                tmp_file = GetLidarData(filePath).open_lidar_file()
-                self.logger.debug(f"reading file: {filePath}")
+                tmp_file = GetLidarData(file_path).open_lidar_file()
+                self.logger.debug(f"reading file: {file_path}")
             except:
-                self.logger.warning(f"This file has a problem: {filePath}")
+                self.logger.warning(f"This file has a problem: {file_path}")
 
             try:
                 elevation = tmp_file.elevation.round(1)
@@ -94,21 +94,21 @@ class dataOperations:
                 tmp_file["azimuth"] = tmp_file.azimuth.round(1)
                 tmp_file["azimuth"][tmp_file.azimuth == 360] = 0
             except:
-                self.logger.info(f"Problems reading elv and axm: {filePath}")
+                self.logger.info(f"Problems reading elv and axm: {file_path}")
 
             try:
                 self.tmp90 = xr.merge(
                     [self.tmp90, tmp_file.where(elevation == 90, drop=True)]
                 )
             except:
-                self.logger.info(f"This file does not have 90 elv: {filePath}")
+                self.logger.info(f"This file does not have 90 elv: {file_path}")
 
             try:
                 self.tmpNon90 = xr.merge(
                     [self.tmpNon90, tmp_file.where(elevation != 90, drop=True)]
                 )
             except:
-                self.logger.info(f"This file only has 90 elv: {filePath}")
+                self.logger.info(f"This file only has 90 elv: {file_path}")
 
         return self
 
