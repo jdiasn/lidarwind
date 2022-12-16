@@ -222,13 +222,13 @@ class SecondTripEchoFilter:
         """
 
         # vertical beam
-        tmp_sel_data_90 = self.lidar.dataTransf90
+        tmp_sel_data_90 = self.lidar.data_transf_90
 
         self.data_mean90 = tmp_sel_data_90.rolling(
             time=self.n_prof, center=self.center, min_periods=self.min_periods
         ).mean()
 
-        self.data_anom_90 = self.lidar.dataTransf90 - self.data_mean90
+        self.data_anom_90 = self.lidar.data_transf_90 - self.data_mean90
 
     def cleaning(self):
         """
@@ -267,26 +267,26 @@ class SecondTripEchoFilter:
         """
 
         tmp_anom = self.data_anom_90.where(
-            (self.lidar.dataTransf90.time > self.start_time)
-            & (self.lidar.dataTransf90.time < self.end_time)
+            (self.lidar.data_transf_90.time > self.start_time)
+            & (self.lidar.data_transf_90.time < self.end_time)
         )
 
         anom_std = tmp_anom.std(dim=["time", "range90"])
 
-        # tmpNoCloud = self.lidar.dataTransf90.where(self.time_cloud_mask == 0).copy()
-        # tmpCloud = self.lidar.dataTransf90.where(self.time_cloud_mask == 1).copy()
+        # tmpNoCloud = self.lidar.data_transf_90.where(self.time_cloud_mask == 0).copy()
+        # tmpCloud = self.lidar.data_transf_90.where(self.time_cloud_mask == 1).copy()
 
         # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.n_std * anom_std)
 
         # tmp_clean_data = tmpNoCloud.copy()
         # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
-        tmp_clean_data = self.lidar.dataTransf90.copy()
+        tmp_clean_data = self.lidar.data_transf_90.copy()
         tmp_clean_data = tmp_clean_data.where(
             np.abs(self.data_anom_90) < self.n_std * anom_std
         )
 
-        self.lidar.dataTransf90.values = tmp_clean_data.values
+        self.lidar.data_transf_90.values = tmp_clean_data.values
 
 
 # it removes STE and clouds contamination
@@ -379,7 +379,7 @@ class WindCubeCloudRemoval:
             time=self.lidar.dataTransf.time
         )
         self.interp_interf_height_90 = self.interf_height.interp(
-            time=self.lidar.dataTransf90.time
+            time=self.lidar.data_transf_90.time
         )
 
         return self
@@ -399,12 +399,12 @@ class WindCubeCloudRemoval:
             tmp_height < self.interp_interf_height
         )
 
-        tmp_height = self.lidar.dataTransf90.copy()
+        tmp_height = self.lidar.data_transf_90.copy()
         tmp_values = tmp_height.values
         tmp_values[np.isfinite(tmp_values)] = 1
         tmp_height.values = tmp_values
-        tmp_height = tmp_height * self.lidar.dataTransf90.range90
-        self.lidar.dataTransf90 = self.lidar.dataTransf90.where(
+        tmp_height = tmp_height * self.lidar.data_transf_90.range90
+        self.lidar.data_transf_90 = self.lidar.data_transf_90.where(
             tmp_height < self.interp_interf_height_90
         )
         self.lidar.relative_beta90 = self.lidar.relative_beta90.where(
