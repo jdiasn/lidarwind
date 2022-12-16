@@ -365,11 +365,11 @@ class getRestructuredData:
 
             for i, azm in enumerate(self.azmNon90):
 
-                tmpRadWind = Filtering(self.data).get_radial_obs_comp(
+                tmp_rad_wind = Filtering(self.data).get_radial_obs_comp(
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
                 )
 
-                dopWindArr[:, :, i, j] = tmpRadWind.sel(
+                dopWindArr[:, :, i, j] = tmp_rad_wind.sel(
                     time=self.time_non_90, method="Nearest"
                 ).values
 
