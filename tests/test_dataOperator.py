@@ -32,10 +32,10 @@ def test_dataOperator_getResampled_xrDataArray_none():
 def test_dataOperator_dbsOperations_fileList_none():
 
     with pytest.raises(FileNotFoundError):
-        lst.dbsOperations(fileList=None, varList=["range"])
+        lst.dbsOperations(fileList=None, var_list=["range"])
 
 
 def test_dataOperator_dbsOperations_varList_none():
 
     with pytest.raises(KeyError):
-        lst.dbsOperations(fileList=["file_path"], varList=None)
+        lst.dbsOperations(fileList=["file_path"], var_list=None)

@@ -668,7 +668,7 @@ class dbsOperations:
     ----------
     fileList : list
         list of DBS files
-    varList : list
+    var_list : list
         list of variables to be extracted from the DBS files
 
     Returns
@@ -680,16 +680,16 @@ class dbsOperations:
 
     """
 
-    def __init__(self, fileList, varList):
+    def __init__(self, fileList, var_list):
 
         self.logger = logging.getLogger("lidarSuit.dataOperator.dbsOperations")
         self.logger.info("creating an instance of dbsOperations")
 
         self.mergedDS = xr.Dataset()
         self.fileList = fileList
-        self.varList = varList
+        self.var_list = var_list
 
-        self.merge_data(fileList, varList)
+        self.merge_data(fileList, var_list)
 
     def merge_data(self, file_list, var_list):
         """
