@@ -66,7 +66,7 @@ class dataOperations:
         self.verbose = verbose
         self.data_paths = data_paths
         self.tmp90 = xr.Dataset()
-        self.tmpNon90 = xr.Dataset()
+        self.tmp_non_90 = xr.Dataset()
 
         self.elevation_filter()
         self.rename_var_90()
@@ -104,8 +104,8 @@ class dataOperations:
                 self.logger.info(f"This file does not have 90 elv: {file_path}")
 
             try:
-                self.tmpNon90 = xr.merge(
-                    [self.tmpNon90, tmp_file.where(elevation != 90, drop=True)]
+                self.tmp_non_90 = xr.merge(
+                    [self.tmp_non_90, tmp_file.where(elevation != 90, drop=True)]
                 )
             except:
                 self.logger.info(f"This file only has 90 elv: {file_path}")
@@ -138,7 +138,7 @@ class dataOperations:
 
         self.logger.info("merging vertical and non-vertical measurements")
 
-        self.merged_data = xr.merge([self.tmp90, self.tmpNon90])
+        self.merged_data = xr.merge([self.tmp90, self.tmp_non_90])
 
         return self
 
