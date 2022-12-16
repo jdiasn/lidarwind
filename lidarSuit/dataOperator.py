@@ -68,11 +68,11 @@ class dataOperations:
         self.tmp90 = xr.Dataset()
         self.tmpNon90 = xr.Dataset()
 
-        self.elevationFilter()
+        self.elevation_filter()
         self.rename_var_90()
         self.get_merge_data()
 
-    def elevationFilter(self):
+    def elevation_filter(self):
         """
         It groups the data from the vertical and slanted observations
         and rounds the azimuth coordinate
