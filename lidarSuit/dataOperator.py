@@ -352,7 +352,7 @@ class getRestructuredData:
 
         self.logger.info("creating a DataArray of the slanted observations")
 
-        dopWindArr = np.empty(
+        dop_wind_arr = np.empty(
             (
                 self.time_non_90.shape[0],
                 self.rangeNon90.shape[0],
@@ -369,13 +369,13 @@ class getRestructuredData:
                     "radial_wind_speed", azm, snr=self.snr, status=self.status
                 )
 
-                dopWindArr[:, :, i, j] = tmp_rad_wind.sel(
+                dop_wind_arr[:, :, i, j] = tmp_rad_wind.sel(
                     time=self.time_non_90, method="Nearest"
                 ).values
 
         new_range = self.data.range90.values[: len(self.data.range)]
         resampled_dop_vel = xr.DataArray(
-            data=dopWindArr,
+            data=dop_wind_arr,
             dims=("time", "range", "azm", "elv"),
             coords={
                 "time": self.time_non_90,
