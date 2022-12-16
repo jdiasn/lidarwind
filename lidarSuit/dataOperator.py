@@ -722,17 +722,17 @@ class dbsOperations:
         for file in file_list:
 
             try:
-                fileToMerge = GetLidarData(file).open_lidar_file()
+                file_to_merge = GetLidarData(file).open_lidar_file()
                 self.logger.debug(f"reading file: {file}")
             except:
                 self.logger.warning(f"This file has a problem: {file}")
                 raise
 
-            fileToMerge = self.mean_time_derivation(fileToMerge)
-            # fileToMerge = self.add_mean_time(fileToMerge)
+            file_to_merge = self.mean_time_derivation(file_to_merge)
+            # file_to_merge = self.add_mean_time(file_to_merge)
 
             try:
-                self.merge2DS(fileToMerge, var_list)
+                self.merge2DS(file_to_merge, var_list)
             except:
                 self.logger.warning(f"Merging not possible: {file}")
                 # raise
@@ -766,14 +766,14 @@ class dbsOperations:
 
         return lidarDS
 
-    def merge2DS(self, fileToMerge, var_list):
+    def merge2DS(self, file_to_merge, var_list):
         """
         This method merges the variables extracted from
         the single DBS file with the storage dataset (mergedDS).
 
         Parameters
         ----------
-        fileToMerge : xarray.DataSet
+        file_to_merge : xarray.DataSet
             a single file dataset
 
         var_list : list
@@ -785,10 +785,10 @@ class dbsOperations:
 
         for var in var_list:
 
-            self.mergedDS = xr.merge([self.mergedDS, fileToMerge[var]])
+            self.mergedDS = xr.merge([self.mergedDS, file_to_merge[var]])
 
         self.mergedDS = xr.merge(
-            [self.mergedDS, fileToMerge["scan_mean_time"]]
+            [self.mergedDS, file_to_merge["scan_mean_time"]]
         )
 
     def mean_time_derivation(self, data):
