@@ -39,7 +39,7 @@ class dataOperations:
 
     Parameters
     ----------
-    dataPaths : list
+    data_paths : list
        List of paths of the original WindCube's output.
 
     Returns
@@ -50,21 +50,21 @@ class dataOperations:
 
     """
 
-    def __init__(self, dataPaths, verbose=False):
+    def __init__(self, data_paths, verbose=False):
 
         self.logger = logging.getLogger(
             "lidarSuit.dataOperator.dataOperations"
         )
         self.logger.info("creating an instance of dataOperations")
 
-        if bool(dataPaths) == False:
+        if bool(data_paths) == False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
             raise FileNotFoundError
 
         self.verbose = verbose
-        self.dataPaths = dataPaths
+        self.data_paths = data_paths
         self.tmp90 = xr.Dataset()
         self.tmpNon90 = xr.Dataset()
 
@@ -80,7 +80,7 @@ class dataOperations:
 
         self.logger.info("coverting azimuth: from 360 to 0 degrees")
 
-        for file_path in self.dataPaths:
+        for file_path in self.data_paths:
 
             try:
                 tmp_file = GetLidarData(file_path).open_lidar_file()

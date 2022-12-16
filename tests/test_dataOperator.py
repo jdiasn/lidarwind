@@ -5,10 +5,10 @@ import xarray as xr
 import lidarSuit as lst
 
 
-def test_dataOperator_dataOperations_dataPaths():
+def test_dataOperator_dataOperations_data_paths():
 
     with pytest.raises(FileNotFoundError):
-        lst.dataOperations(dataPaths=None)
+        lst.dataOperations(data_paths=None)
 
 
 def test_dataOperator_ReadProcessedData_file_list():
