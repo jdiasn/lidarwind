@@ -246,7 +246,7 @@ class GetWindProperties5Beam:
     ----------
     data : xarray.Dataset
         merged xarray dataset (merged_ds) output from
-        lst.dbsOperations()
+        lst.DbsOperations()
 
     status_filter : bolean
         Data filtering based on the wind lidar

@@ -29,13 +29,13 @@ def test_dataOperator_getResampled_xrDataArray_none():
         lst.getResampledData(xrDataArray=np.array([0, 1]))
 
 
-def test_dataOperator_dbsOperations_file_list_none():
+def test_dataOperator_DbsOperations_file_list_none():
 
     with pytest.raises(FileNotFoundError):
-        lst.dbsOperations(file_list=None, var_list=["range"])
+        lst.DbsOperations(file_list=None, var_list=["range"])
 
 
-def test_dataOperator_dbsOperations_varList_none():
+def test_dataOperator_DbsOperations_varList_none():
 
     with pytest.raises(KeyError):
-        lst.dbsOperations(file_list=["file_path"], var_list=None)
+        lst.DbsOperations(file_list=["file_path"], var_list=None)

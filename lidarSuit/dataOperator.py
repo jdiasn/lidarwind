@@ -146,7 +146,7 @@ class dataOperations:
 class readProcessedData:
     """Pre-processed data reader
 
-    It reads all data pre-processed by dataOperator.dbsOperations
+    It reads all data pre-processed by dataOperator.DbsOperations
     and merges them.
 
     Examples
@@ -658,7 +658,7 @@ class getResampledData:
         return tmpDT
 
 
-class dbsOperations:
+class DbsOperations:
     """DBS file manager
 
     This class extracts the variables required to
@@ -682,8 +682,8 @@ class dbsOperations:
 
     def __init__(self, file_list, var_list):
 
-        self.logger = logging.getLogger("lidarSuit.dataOperator.dbsOperations")
-        self.logger.info("creating an instance of dbsOperations")
+        self.logger = logging.getLogger("lidarSuit.dataOperator.DbsOperations")
+        self.logger.info("creating an instance of DbsOperations")
 
         self.merged_ds = xr.Dataset()
         self.file_list = file_list
