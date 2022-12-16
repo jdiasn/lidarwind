@@ -11,10 +11,10 @@ def test_dataOperator_dataOperations_dataPaths():
         lst.dataOperations(dataPaths=None)
 
 
-def test_dataOperator_readProcessedData_fileList():
+def test_dataOperator_readProcessedData_file_list():
 
     with pytest.raises(FileNotFoundError):
-        lst.readProcessedData(fileList=None)
+        lst.readProcessedData(file_list=None)
 
 
 def test_dataOperator_getRestructuredData_data():
@@ -29,13 +29,13 @@ def test_dataOperator_getResampled_xrDataArray_none():
         lst.getResampledData(xrDataArray=np.array([0, 1]))
 
 
-def test_dataOperator_dbsOperations_fileList_none():
+def test_dataOperator_dbsOperations_file_list_none():
 
     with pytest.raises(FileNotFoundError):
-        lst.dbsOperations(fileList=None, var_list=["range"])
+        lst.dbsOperations(file_list=None, var_list=["range"])
 
 
 def test_dataOperator_dbsOperations_varList_none():
 
     with pytest.raises(KeyError):
-        lst.dbsOperations(fileList=["file_path"], var_list=None)
+        lst.dbsOperations(file_list=["file_path"], var_list=None)

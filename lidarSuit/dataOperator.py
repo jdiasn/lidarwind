@@ -34,7 +34,7 @@ class dataOperations:
 
     Examples
     --------
-    >>> mergedDS = lidarSuit.dataOperations(fileList).mergedData
+    >>> mergedDS = lidarSuit.dataOperations(file_list).mergedData
     >>> mergedDS.to_netcdf(outputFilePath)
 
     Parameters
@@ -151,11 +151,11 @@ class readProcessedData:
 
     Examples
     --------
-    >>> mergedData = lidarSuit.readProcessedData(fileList).merge_data()
+    >>> mergedData = lidarSuit.readProcessedData(file_list).merge_data()
 
     Parameters
     ----------
-    fileList : list
+    file_list : list
         list of pre-processed NetCDF files
 
     Returns
@@ -165,24 +165,24 @@ class readProcessedData:
 
     """
 
-    def __init__(self, fileList):
+    def __init__(self, file_list):
 
         self.logger = logging.getLogger(
             "lidarSuit.dataOperator.readProcessedData"
         )
         self.logger.info("creating an instance of readProcessedData")
 
-        if bool(fileList) == False:
+        if bool(file_list) == False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
             raise FileNotFoundError
 
-        self.fileList = fileList
+        self.file_list = file_list
 
     def merge_data(self):
         """
-        It merges all data from the fileList. It can choose between
+        It merges all data from the file_list. It can choose between
         two different methods. One uses xr.open_mfdataset and the other
         uses xr.open_dataset.
         """
@@ -208,7 +208,7 @@ class readProcessedData:
 
         self.logger.info("mergin files using xr.open_mfdataset")
 
-        tmpMerged = xr.open_mfdataset(self.fileList, parallel=True)
+        tmpMerged = xr.open_mfdataset(self.file_list, parallel=True)
 
         return tmpMerged
 
@@ -221,7 +221,7 @@ class readProcessedData:
 
         tmpMerged = xr.Dataset()
 
-        for file_name in sorted(self.fileList):
+        for file_name in sorted(self.file_list):
 
             try:
                 self.logger.info(f"opening {file_name}")
@@ -666,7 +666,7 @@ class dbsOperations:
 
     Parameters
     ----------
-    fileList : list
+    file_list : list
         list of DBS files
     var_list : list
         list of variables to be extracted from the DBS files
@@ -680,16 +680,16 @@ class dbsOperations:
 
     """
 
-    def __init__(self, fileList, var_list):
+    def __init__(self, file_list, var_list):
 
         self.logger = logging.getLogger("lidarSuit.dataOperator.dbsOperations")
         self.logger.info("creating an instance of dbsOperations")
 
         self.mergedDS = xr.Dataset()
-        self.fileList = fileList
+        self.file_list = file_list
         self.var_list = var_list
 
-        self.merge_data(fileList, var_list)
+        self.merge_data(file_list, var_list)
 
     def merge_data(self, file_list, var_list):
         """
