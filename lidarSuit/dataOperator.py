@@ -57,7 +57,7 @@ class DataOperations:
         )
         self.logger.info("creating an instance of DataOperations")
 
-        if bool(data_paths) == False:
+        if bool(data_paths) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
@@ -172,7 +172,7 @@ class ReadProcessedData:
         )
         self.logger.info("creating an instance of ReadProcessedData")
 
-        if bool(file_list) == False:
+        if bool(file_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of files."
             )
@@ -707,13 +707,13 @@ class DbsOperations:
 
         self.logger.info("merging all DBS files")
 
-        if bool(file_list) == False:
+        if bool(file_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of DBS files."
             )
             raise FileNotFoundError
 
-        if bool(var_list) == False:
+        if bool(var_list) is False:
             self.logger.error(
                 "lidarSuit stopped due to an empty list of variable"
             )
