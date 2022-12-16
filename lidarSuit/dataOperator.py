@@ -574,7 +574,7 @@ class getResampledData:
 
         Returns
         -------
-        gridIndex : np.array
+        grid_index : np.array
 
             array of indexes that fulfil the resampling
             tolerance
@@ -583,12 +583,12 @@ class getResampledData:
 
         self.logger.info("identifying index that fulfil the tolerance")
 
-        gridIndex = np.argmin(abs(deltaGrid), axis=1)
+        grid_index = np.argmin(abs(deltaGrid), axis=1)
         deltaGridMin = np.min(abs(deltaGrid), axis=1)
-        gridIndex = np.array(gridIndex, float)
-        gridIndex[deltaGridMin > tolerance] = np.nan
+        grid_index = np.array(grid_index, float)
+        grid_index[deltaGridMin > tolerance] = np.nan
 
-        return gridIndex
+        return grid_index
 
     def time_resample(self, data, time_index_array, vert_coord):
         """
