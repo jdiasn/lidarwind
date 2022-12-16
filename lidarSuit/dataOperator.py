@@ -493,9 +493,9 @@ class getResampledData:
         timeOrigSec = np.array(data[timeCoord].values, float) * 10 ** (-9)
 
         deltaGrid = self.calcDeltaGrid(timeRefSec, timeOrigSec)
-        timeIndexArray = self.getNearestIndexM2(deltaGrid, tolerance)
+        time_index_array = self.getNearestIndexM2(deltaGrid, tolerance)
 
-        self.values = self.timeResample(data, timeIndexArray, self.vert_coord)
+        self.values = self.timeResample(data, time_index_array, self.vert_coord)
         self.resampled = self.convert_to_data_array()
 
     def getTimeRef(self, date, timeFreq="1s"):
@@ -590,7 +590,7 @@ class getResampledData:
 
         return gridIndex
 
-    def timeResample(self, data, timeIndexArray, vert_coord):
+    def timeResample(self, data, time_index_array, vert_coord):
         """
         It resamples a given radar variable using the
         time and range index calculated by getNearestIndexM2
@@ -619,11 +619,11 @@ class getResampledData:
         self.logger.info(f"time resampling of: {self.var_name}")
 
         resampled_time_arr = (
-            np.ones((timeIndexArray.shape[0], self.vert_coord.shape[0]))
+            np.ones((time_index_array.shape[0], self.vert_coord.shape[0]))
             * np.nan
         )
 
-        for position, time_index in enumerate(timeIndexArray):
+        for position, time_index in enumerate(time_index_array):
 
             try:
                 resampled_time_arr[position] = data.values[int(time_index)]
