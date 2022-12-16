@@ -496,7 +496,7 @@ class getResampledData:
         timeIndexArray = self.getNearestIndexM2(deltaGrid, tolerance)
 
         self.values = self.timeResample(data, timeIndexArray, self.vertCoord)
-        self.resampled = self.toDataArray()
+        self.resampled = self.convert_to_data_array()
 
     def getTimeRef(self, date, timeFreq="1s"):
         """
@@ -633,7 +633,7 @@ class getResampledData:
 
         return resampledTimeArr
 
-    def toDataArray(self):
+    def convert_to_data_array(self):
         """
         It creates a DataArray of the resampled data.
         """
