@@ -193,7 +193,7 @@ class readProcessedData:
         self.logger.info("merging pre-processed data")
 
         try:
-            tmp_merged = self.mergeDataM1()
+            tmp_merged = self.merge_data_method_1()
 
         except:
             print("switching from xr.open_mfdataset to xr.open_dataset")
@@ -201,7 +201,7 @@ class readProcessedData:
 
         return tmp_merged
 
-    def mergeDataM1(self):
+    def merge_data_method_1(self):
         """
         It merges data using xr.open_mfdatset
         """
