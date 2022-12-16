@@ -584,9 +584,9 @@ class getResampledData:
         self.logger.info("identifying index that fulfil the tolerance")
 
         grid_index = np.argmin(abs(deltaGrid), axis=1)
-        deltaGridMin = np.min(abs(deltaGrid), axis=1)
+        delta_grid_min = np.min(abs(deltaGrid), axis=1)
         grid_index = np.array(grid_index, float)
-        grid_index[deltaGridMin > tolerance] = np.nan
+        grid_index[delta_grid_min > tolerance] = np.nan
 
         return grid_index
 
