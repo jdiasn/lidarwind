@@ -12,7 +12,7 @@ Basic data reader
 .. autosummary::
     :toctree: _autosummary
 
-    lidar_code.getLidarData
+    lidar_code.GetLidarData
 
 Data Manager
 ============
@@ -20,10 +20,10 @@ Data Manager
 .. autosummary::
    :toctree: _autosummary/
 
-   dataOperator.dataOperations
-   dataOperator.readProcessedData
-   dataOperator.getRestructuredData
-   dataOperator.dbsOperations
+   data_operator.DataOperations
+   data_operator.ReadProcessedData
+   data_operator.GetRestructuredData
+   data_operator.DbsOperations
 
 Filters
 =======
@@ -31,9 +31,9 @@ Filters
 .. autosummary::
    :toctree: _autosummary/
 
-   filters.filtering
-   filters.secondTripEchoFilter
-   filters.windCubeCloudRemoval
+   filters.Filtering
+   filters.SecondTripEchoFilter
+   filters.WindCubeCloudRemoval
 
 Wind Retrieval
 ==============
@@ -41,8 +41,8 @@ Wind Retrieval
 .. autosummary::
     :toctree: _autosummary/
 
-    windPropRetrieval.retrieveWind
-    windPropRetrieval.getWindProperties5Beam
+    wind_prop_retrieval.RetriveWindFFT
+    wind_prop_retrieval.GetWindProperties5Beam
 
 Turbulence estimation
 =====================
@@ -50,7 +50,7 @@ Turbulence estimation
 .. autosummary::
     :toctree: _autosummary/
 
-    windPropRetrieval6Beam.sixBeamMethod
+     wind_prop_retrieval_6_beam.SixBeamMethod
 
 Data Attributes
 ===============
@@ -58,7 +58,7 @@ Data Attributes
 .. autosummary::
    :toctree: _autosummary/
 
-   dataAttributesL1.loadAttributes
+   data_attributes.LoadAttributes
 
 Global Attributes Definitions
 =============================
@@ -66,4 +66,4 @@ Global Attributes Definitions
 .. autosummary::
    :toctree: _autosummary/
 
-   lstConfig.configurations
+   lst_config.Configurations
