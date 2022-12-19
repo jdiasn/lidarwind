@@ -39,3 +39,31 @@ Whenever the class lst.RetriveWindFFT() is used to retrieve wind, lidarSuit will
     'You do not have a config file yet'
     'a temporary config file was generated'
     'See the documentation for generating it'
+
+
+
+-------------------
+Data pre-processing
+-------------------
+
+
+The NetCDF files produced by the WindCube operating system while following the 6-beam or the DBS can differ from each other. The methods for retrieving wind also differ from each other. For those reasons, the lidarSuit has different pre-processing classes to handle those files and create the requirements for deriving wind.
+
+
+
+6-beam pre-processing
+-------------------------
+
+
+The 6-beam data is pre-processed by the DataOperations class. It merges all data, grouping the observations into zenith pointing and slanted. To use this class, the user only needs to pass a list of file paths. The merged data set can be accessed using the merged_data attribute. After pre-processing the data, one can also save the pre-processed data as NetCDF and continue with the wind retrieval or turbulence estimation afterwards.
+
+.. code-block:: python    
+    
+    >>> merged_ds = lidarSuit.DataOperations(file_list).merged_data
+    >>> merged_ds.to_netcdf(output_file_path)
+
+
+
+---------------
+Retrieving wind
+---------------
