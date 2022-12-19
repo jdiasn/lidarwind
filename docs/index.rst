@@ -7,6 +7,7 @@ Welcome to LIDAR Suit's documentation!
 
    readme
    installation
+   overview
    usage
    modules
    contributing
