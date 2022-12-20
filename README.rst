@@ -28,15 +28,15 @@ lidarSuit is a result of an effort to create an environment where it would be fl
 This current version focuses on the WindCube's observations, and the wind retrievals are dedicated to the 6-beam and DBS observations. However, it can be expanded to other Doppler lidar observations and scanning strategies.
 
 
-=============
+-------------
 Documentation
-=============
+-------------
 
 The lidarSuit's documentation is available at https://lidarsuit.readthedocs.io, and an introductory set of notebooks are available at https://nbviewer.org/github/jdiasn/lidarSuit/tree/main/docs/notebooks/.
 
 
-==========
+----------
 Suggestion
-==========
+----------
 
 If you want to try using this package without instaling first, you can do it by clicking on the binder badge.
