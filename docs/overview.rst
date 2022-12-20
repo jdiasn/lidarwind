@@ -2,6 +2,7 @@
 Scanning strategy overview
 ==========================
 
+.. _overview:
 
 Due to the current transition from fossil fuel-based power plants to renewable sources, wind has become one of the main energy sources. However, to identify the places where wind harvest is suitable for power production, an understanding of how the wind blows in the possible places is needed. Wind Doppler lidars are often used to survey the winds in those places and to estimate turbulence.
 
@@ -13,12 +14,16 @@ There are different scanning strategies for estimating wind profiles using Wind 
 6-beam:
 -------
 
+.. _six-beam:
+
 Reynolds stress tensor calculation
 ----------------------------------
 
 The 6-beam is a scanning strategy that is idealised for retrieving turbulence. This method measures the radial velocity at five azimuths (0, 72, 144, 216, 288º) with a certain elevation angle and one additional observation at 90º elevation. The cartoon below illustrates the geometry of this strategy.
 
-Cartoon:
+.. figure:: /figures/six_beam.png
+	:scale: 15%
+	:align: center
 
 `Sathe et al.,2015 <https://amt.copernicus.org/articles/8/729/2015/>`_  suggested that the variance of each radial observation can be expressed in terms of variances and co-variances of u (zonal wind), v (meridional wind), and w (vertical wind), as indicated below. :math:`\theta` and :math:`\phi` are the azimuth and elevation angles, respectively.
 
@@ -33,12 +38,17 @@ Combining all the equations for each one of the six observations makes it possib
 
 .. math::
 
-    \stackrel{\Sigma}{
+    \stackrel{\Sigma}{\mathrm{M}
     \begin{bmatrix} var(u)\\ var(v)\\ var(w)\\
                     cov(u,v)\\ cov(u,w)\\ cov(v,w)\end{bmatrix}} =
-    \stackrel{S}{M^{-1}\begin{bmatrix} var(v_{0})\\ var(v_{72})\\ var(v_{144})\\
+    \stackrel{S}{\begin{bmatrix} var(v_{0})\\ var(v_{72})\\ var(v_{144})\\
                     var(v_{216})\\ var(v_{288})\\ var(v_{zenith})
     \end{bmatrix}}
+
+
+
+
+The calculation is made by solving the following equation: :math:`\Sigma = M^{-1}S`, and it is implemented in SixBeamMethod class.
 
 
 
@@ -50,7 +60,7 @@ Even though the 6-beam strategy makes it possible to calculate the Reynolds stre
 The FFWVA uses Fast Fourier Transform (FFT) digital signal-processing algorithms to decompose the radial Doppler observations in terms of amplitude and phase of their harmonic frequencies. The wind speed :math:`V_{s}` and direction :math:`V_{d}` can be calculated using the amplitude and phase from the first harmonic, as indicated below.
 
 .. math::
-    a + bi = FFT(v_{\theta})|_{1st}
+    a + bi = \mathrm{FFT}(v_{\theta})|_{1st}
 
 .. math::
     V_{s} = \frac{2|a+bi|}{Ncos(\phi)}
@@ -67,9 +77,13 @@ a and b are the real and imaginary parts from the first harmonic. :math:`v_{\the
 The DBS:
 --------
 
+.. _DBS:
+
 DBS stands for Doppler beam swing. This scanning strategy consists in measuring the radial velocity at four particular azimuths using a slanted beam swinging from North to South and from East to West. The carton below illustrates how those observations are collected.
 
-cartoon:
+.. figure:: /figures/dbs.png
+	:scale: 15%
+	:align: center
 
 As the measurements are taken using beams with a specific elevation angle :math:`\phi`, all four observed radial velocities contain information from the vertical and horizontal wind, as indicated by the equations listed below. The indexes N, S, E, and W, stand for North, South, East and West :math:`u` and :math:`v` are the zonal and meridional wind components.
 
