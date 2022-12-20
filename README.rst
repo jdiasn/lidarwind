@@ -1,6 +1,6 @@
-=========
-lidarSuit
-=========
+======================
+lidarSuit introduction
+======================
 
 .. image:: https://joss.theoj.org/papers/28430a0c6a79e6d1ff33579ff13458f7/status.svg
    :target: https://raw.githubusercontent.com/openjournals/joss-papers/joss.04715/joss.04715/10.21105.joss.04715.pdf

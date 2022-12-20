@@ -4,6 +4,8 @@
 API reference
 #############
 
+.. _api:
+
 The public API resources are listed below.
 
 Basic data reader
