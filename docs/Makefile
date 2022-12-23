@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = lidar_suit
+SPHINXPROJ    = lidarSuit
 SOURCEDIR     = .
 BUILDDIR      = _build
 
