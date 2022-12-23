@@ -9,7 +9,7 @@ lidarSuit introduction
    :target: https://doi.org/10.5281/zenodo.7026548
 
 .. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/jdiasn/lidarSuit/main?labpath=docs%2Fnotebooks
+   :target: https://mybinder.org/v2/gh/jdiasn/lidarSuit/main?labpath=notebooks
 
 .. image:: https://readthedocs.org/projects/lidarsuit/badge/?version=latest
     :target: https://lidarsuit.readthedocs.io/en/latest/?badge=latest
