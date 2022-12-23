@@ -11,6 +11,8 @@ dependencies:
  - pandas
  - matplotlib
  - xarray-datatree
+ - nbsphinx
+ - sphinx-gallery
  - pip
  - pip:
      - gdown
