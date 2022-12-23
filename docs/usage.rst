@@ -97,7 +97,7 @@ The RetriveWindFFT class applies the fast Fourier transform (FFT) along the azim
     >>> wind_obj = lst.RetriveWindFFT(restruct_data)
 
 
-A notebook example combining all steps for retrieving wind can be found in the list of `notebooks examples <https://github.com/jdiasn/lidarSuit/blob/main/docs/notebooks/merging_6beam_data.ipynb>`_.  You can run the same example online by clicking on the binder badge listed in the package :any:`introduction <intro>`.
+A notebook example combining all steps for retrieving wind can be found in the list of `notebooks examples <examples/merging_6beam_rendered.html>`_.  You can run the same example online by clicking on the binder badge listed in the package :any:`introduction <intro>`.
 
 
 DBS data wind retrieval
@@ -113,7 +113,7 @@ The retrieval of the wind from the DBS observations is made by the GetWindProper
     >>> ver_wind_speed = wind_obj.ver_wind_speed
     >>> hor_wind_dir = wnd_obj.hor_wind_dir
 
-A notebook example combining all steps for retrieving wind can be found in the list of `notebooks examples <https://github.com/jdiasn/lidarSuit/blob/main/docs/notebooks/dbs_scans.ipynb>`_.  You can run the same example online by clicking on the binder badge listed in the package :any:`introduction <intro>`.
+A notebook example combining all steps for retrieving wind can be found in the list of `notebooks examples <examples/dbs_scans_rendered.html>`_.  You can run the same example online by clicking on the binder badge listed in the package :any:`introduction <intro>`.
 
 
 ---------------------

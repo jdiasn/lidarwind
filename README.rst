@@ -32,7 +32,7 @@ This current version focuses on the WindCube's observations, and the wind retrie
 Documentation
 -------------
 
-The lidarSuit's documentation is available at https://lidarsuit.readthedocs.io, and an introductory set of notebooks are available at https://nbviewer.org/github/jdiasn/lidarSuit/tree/main/docs/notebooks/.
+The lidarSuit's documentation is available at https://lidarsuit.readthedocs.io, and an introductory set of rendered notebooks are available at https://nbviewer.org/github/jdiasn/lidarSuit/tree/main/docs/examples/.
 
 
 
