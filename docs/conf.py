@@ -31,12 +31,15 @@ import lidarSuit
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 
+extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.viewcode',
               'sphinx.ext.autosummary',
               'sphinx.ext.intersphinx',
               'sphinx.ext.imgmath',
-              'sphinx.ext.napoleon']
+              'sphinx.ext.napoleon',
+              'nbsphinx',
+              "sphinx_gallery.load_style"]
+
 
 autosummary_generate = True
 autodoc_typehints = "none"

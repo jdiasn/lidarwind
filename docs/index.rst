@@ -9,6 +9,7 @@ Welcome to LIDAR Suit's documentation!
    installation
    overview
    usage
+   notebooks
    api
    modules
    contributing
