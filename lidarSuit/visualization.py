@@ -94,9 +94,8 @@ class Visualizer:
             tmp_data = Filtering(self.data).get_vertical_obs_comp(var_name)
 
             if name_prefix:
-                string_name = "{}_{}".format(
-                    name_prefix, tmp_data.attrs["standard_name"]
-                )
+                std_name = tmp_data.attrs["standard_name"]
+                string_name = f"{name_prefix}_{std_name}"
 
             else:
                 string_name = tmp_data.attrs["standard_name"]
@@ -202,7 +201,8 @@ class Visualizer:
             plot.colorbar.set_ticks(np.linspace(0, 360, 9))
 
         if save:
-            file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
+            sel_day_str = sel_day.strftime("%Y%m%d")
+            file_name = f"{sel_day_str}_{plot_id}.png"
             output_file_name = os.path.join(fig_path, file_name)
             print(output_file_name)
             plt.savefig(output_file_name, bbox_inches="tight")
@@ -261,7 +261,8 @@ class Visualizer:
             axes[ax_number].set_title(f"elv: {elv}, azm: {i}")
 
         if save:
-            file_name = "{}_{}.png".format(sel_day.strftime("%Y%m%d"), plot_id)
+            sel_day_str = sel_day.strftime("%Y%m%d")
+            file_name = f"{sel_day_str}_{plot_id}.png"
             output_file_name = os.path.join(fig_path, file_name)
             print(output_file_name)
             plt.savefig(output_file_name, bbox_inches="tight")
