@@ -4,7 +4,6 @@ import numpy as np
 import xarray as xr
 import xrft
 
-from .filters import Filtering
 from .data_attributes import LoadAttributes
 from .data_operator import GetRestructuredData
 
@@ -47,7 +46,7 @@ class FourierTransfWindMethod:
             raise TypeError
 
         self.doppler_obs = doppler_obs
-        #         self.elv = elv
+
         self.get_comp_amp()
         self.get_phase()
         self.get_rad_wind_speed()
@@ -66,7 +65,9 @@ class FourierTransfWindMethod:
 
         self.logger.info("calculating the complex amplitude")
 
-        self.comp_amp = xrft.fft(self.doppler_obs, dim=["azm"]).isel(freq_azm=-2)
+        self.comp_amp = xrft.fft(self.doppler_obs, dim=["azm"]).isel(
+            freq_azm=-2
+        )
 
         return self
 
@@ -86,7 +87,8 @@ class FourierTransfWindMethod:
         self.phase.attrs = {
             "long_name": "Retrived phase",
             "units": "degree",
-            "comments": "Phase derived from comp_amp variable using the FFT method.",
+            "comments": "Phase derived from comp_amp "
+            "variable using the FFT method.",
         }
 
         return self
@@ -127,7 +129,8 @@ class FourierTransfWindMethod:
         self.rad_wind_speed.attrs = {
             "long_name": "wind speed not corrected for the elevation",
             "units": "m s-1",
-            "comments": "Radial wind velocity retrived using the FFT method not corrected for the elevation.",
+            "comments": "Radial wind velocity retrived using "
+            "the FFT method not corrected for the elevation.",
         }
 
         return self
@@ -149,7 +152,8 @@ class FourierTransfWindMethod:
             "long_name": "horizontal wind speed",
             "standard_name": "wind_speed",
             "units": "m s-1",
-            "comments": "Horizontal wind velocity retrived using the FFT method corrected for the elevation.",
+            "comments": "Horizontal wind velocity retrived using "
+            "the FFT method corrected for the elevation.",
         }
 
         return self
@@ -211,7 +215,8 @@ class FourierTransfWindMethod:
         self.comp_v.attrs = {
             "long_name": "Meridional wind component",
             "units": "m s-1",
-            "comments": "Meridional wind component retrieved using the FFT method.",
+            "comments": "Meridional wind component "
+            "retrieved using the FFT method.",
         }
 
         return self
@@ -324,12 +329,12 @@ class GetWindProperties5Beam:
         self.elevation_non_90 = elevation.sel(time=time_non_90)
 
         # replace range by measurement_height
-        # self.range_val_non_90 = data.range.sel(time=time_non_90)
         self.range_val_non_90 = data.measurement_height.sel(time=time_non_90)
-        self.rad_wind_speed_non_90 = data.radial_wind_speed.sel(time=time_non_90)
+        self.rad_wind_speed_non_90 = data.radial_wind_speed.sel(
+            time=time_non_90
+        )
         self.mean_time_non_90 = data.scan_mean_time.sel(time=time_non_90)
 
-        # self.range_val_90 = data.range.sel(time=time90)
         self.range_val_90 = data.measurement_height.sel(time=time90)
         self.ver_wind_speed = data.radial_wind_speed.sel(time=time90)
         self.correct_vert_wind_comp()
@@ -448,14 +453,22 @@ class GetWindProperties5Beam:
             2 * np.cos(np.deg2rad(self.elevation_non_90))
         )
 
-        self.comp_vn = comp_wind_speed.where(self.azimuth_non_90 == 0, drop=True)
-        self.comp_vs = comp_wind_speed.where(self.azimuth_non_90 == 180, drop=True)
+        self.comp_vn = comp_wind_speed.where(
+            self.azimuth_non_90 == 0, drop=True
+        )
+        self.comp_vs = comp_wind_speed.where(
+            self.azimuth_non_90 == 180, drop=True
+        )
         comp_vs = self.comp_vs.reindex(
             time=self.comp_vn.time, method="Nearest", tolerance=self.tolerance
         )
 
-        self.comp_ue = comp_wind_speed.where(self.azimuth_non_90 == 90, drop=True)
-        self.comp_uw = comp_wind_speed.where(self.azimuth_non_90 == 270, drop=True)
+        self.comp_ue = comp_wind_speed.where(
+            self.azimuth_non_90 == 90, drop=True
+        )
+        self.comp_uw = comp_wind_speed.where(
+            self.azimuth_non_90 == 270, drop=True
+        )
         comp_uw = self.comp_uw.reindex(
             time=self.comp_ue.time, method="Nearest", tolerance=self.tolerance
         )
@@ -560,12 +573,12 @@ class RetriveWindFFT:
 
         self.logger.info("retrieving horizontal wind from the 6 beam data")
 
-        tmp_wind_prop = FourierTransfWindMethod(self.transfd_data.data_transf).wind_prop()
+        tmp_wind_prop = FourierTransfWindMethod(
+            self.transfd_data.data_transf
+        ).wind_prop()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
         tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
         self.wind_prop = tmp_wind_prop
-
-        # LoadAttributes(tmp_wind_prop).data
 
         return self
 
@@ -579,7 +592,6 @@ class RetriveWindFFT:
         tmp_wind_w = self.transfd_data.data_transf_90
         tmp_wind_w = tmp_wind_w.rename({"time": "time90", "range90": "range"})
         self.wind_prop["vertical_wind_speed"] = tmp_wind_w
-        # self.wind_prop = LoadAttributes(self.wind_prop).data
 
         return self
 
