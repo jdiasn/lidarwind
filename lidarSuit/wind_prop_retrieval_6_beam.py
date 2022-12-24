@@ -5,8 +5,6 @@
 import numpy as np
 import xarray as xr
 
-from .utilities import Util
-
 
 class SixBeamMethod:
 
@@ -42,11 +40,8 @@ class SixBeamMethod:
 
     def __init__(self, data, freq=10, freq90=10):
 
-        #         self.elv = 45
         self.elv = data.data_transf.elv.values
         self.azm = data.data_transf.azm.values
-        # self.time_freq = freq
-        # self.time_freq = freq
 
         self.get_m_matrix()
         self.get_m_matrix_inv()
@@ -94,7 +89,9 @@ class SixBeamMethod:
             ci5 = np.cos(phi) * np.sin(phi) * np.sin(theta)
             ci6 = np.cos(phi) * np.sin(phi) * np.cos(theta)
 
-            m_matrix_line = np.array([ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2])
+            m_matrix_line = np.array(
+                [ci1, ci2, ci3, ci4 * 2, ci5 * 2, ci6 * 2]
+            )
 
             m_matrix[i] = m_matrix_line
 
@@ -112,9 +109,8 @@ class SixBeamMethod:
 
         return self
 
-    ### new approach to calculate the variances ##############
-    #
-    #
+    # new approach to calculate the variances ##############
+
     def calc_variances(self, data, freq, freq90):
 
         interp_data_transf = data.data_transf.interp(
@@ -150,31 +146,10 @@ class SixBeamMethod:
         ).var()
 
         self.radial_variances[name] = variance
-        # self.radial_variances['{0}_counts'.format(name)] = groupedData.count(dim='time')
 
         return self
 
-    #
-    #
-    ### new approach to calculate the variances ##############
-
-    ### old approach to calculate the variances
-    #     def get_variance(self, data, name='rVariance'):
-
-    #         """
-    #         This method calculates the variance from the
-    #         observed radial velocities within a time window.
-    #         The default size of this window is 10 minutes.
-    #         """
-
-    #         time_bins = Util.get_time_bins(pd.to_datetime(data.time.values[0]), freq=self.time_freq)
-    #         groupedData = data.groupby_bins('time', time_bins)
-
-    #         self.radial_variances[name] = groupedData.var(dim='time')#.apply(calcGroupVar)
-    #         self.radial_variances['{0}_counts'.format(name)] = groupedData.count(dim='time')
-
-    #         return self
-    #####################################################
+    # new approach to calculate the variances ##############
 
     def get_s_matrix(self):
 
