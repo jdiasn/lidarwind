@@ -12,13 +12,11 @@ class PlotSettings:
 
         self.mpl = mpl
         self.style = style
-        # self.update_settings()
 
     def update_settings(self):
 
         font_size = 16
 
-        # mpl.style.use('seaborn')
         self.mpl.style.use(self.style)
         self.mpl.rcParams["figure.figsize"] = [6, 6]
         self.mpl.rcParams["figure.dpi"] = 80
