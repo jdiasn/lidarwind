@@ -2,9 +2,6 @@
 
 """
 
-# code to open lidar files
-# by José Dias Neto, 17.03.2021
-#
 
 import warnings
 
@@ -33,8 +30,6 @@ class GetLidarData:
 
         self.file_name = file_name
 
-
-
     def open_lidar_file(self):
 
         """
@@ -51,7 +46,8 @@ class GetLidarData:
         finished the transition to new I/O.
         """
         warnings.warn(
-            "GetLidarData will be removed eventually. Please use io module instead",
+            "GetLidarData will be removed eventually. "
+            "Please use io module instead",
             DeprecationWarning,
             stacklevel=2,
         )
