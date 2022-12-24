@@ -12,7 +12,6 @@ import numpy as np
 
 # import lidarSuit as lst
 from .filters import Filtering
-from .filters import SecondTripEchoFilter
 
 from .lidar_code import GetLidarData
 
@@ -101,11 +100,16 @@ class DataOperations:
                     [self.tmp90, tmp_file.where(elevation == 90, drop=True)]
                 )
             except:
-                self.logger.info(f"This file does not have 90 elv: {file_path}")
+                self.logger.info(
+                    f"This file does not have 90 elv: {file_path}"
+                )
 
             try:
                 self.tmp_non_90 = xr.merge(
-                    [self.tmp_non_90, tmp_file.where(elevation != 90, drop=True)]
+                    [
+                        self.tmp_non_90,
+                        tmp_file.where(elevation != 90, drop=True),
+                    ]
                 )
             except:
                 self.logger.info(f"This file only has 90 elv: {file_path}")
@@ -392,9 +396,6 @@ class GetRestructuredData:
         }
 
         self.data_transf = resampled_dop_vel
-        # (maybe all STE filter should be in the same class)
-        # self.data_transf = secondTripEchoFilter(resampled_dop_vel, n_prof=self.n_prof, center=self.center,
-        #                                        min_periods=self.min_periods, n_std=self.n_std).data
 
         return self
 
@@ -493,9 +494,13 @@ class GetResampledData:
         time_orig_sec = np.array(data[time_coord].values, float) * 10 ** (-9)
 
         delta_grid = self.calc_delt_grid(time_ref_sec, time_orig_sec)
-        time_index_array = self.get_nearest_index_method_2(delta_grid, tolerance)
+        time_index_array = self.get_nearest_index_method_2(
+            delta_grid, tolerance
+        )
 
-        self.values = self.time_resample(data, time_index_array, self.vert_coord)
+        self.values = self.time_resample(
+            data, time_index_array, self.vert_coord
+        )
         self.resampled = self.convert_to_data_array()
 
     def get_time_ref(self, date, time_freq="1s"):
@@ -682,7 +687,9 @@ class DbsOperations:
 
     def __init__(self, file_list, var_list):
 
-        self.logger = logging.getLogger("lidarSuit.data_operator.DbsOperations")
+        self.logger = logging.getLogger(
+            "lidarSuit.data_operator.DbsOperations"
+        )
         self.logger.info("creating an instance of DbsOperations")
 
         self.merged_ds = xr.Dataset()
