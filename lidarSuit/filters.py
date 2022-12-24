@@ -55,7 +55,9 @@ class Filtering:
         tmp_data = self.data[variable]
 
         if status:
-            tmp_data = tmp_data.where(self.data.radial_wind_speed_status90 == 1)
+            tmp_data = tmp_data.where(
+                self.data.radial_wind_speed_status90 == 1
+            )
 
         if snr is not False:
             tmp_data = tmp_data.where(self.data.cnr90 > snr)
@@ -201,7 +203,6 @@ class SecondTripEchoFilter:
         self.start_time = pd.to_datetime(f"{sel_time} {str_h}")
         self.end_time = pd.to_datetime(f"{sel_time} {end_h}")
 
-
     def cal_mean_and_anom_slant(self):
         """
         It calculates the anomaly from the slanted observations
@@ -243,17 +244,6 @@ class SecondTripEchoFilter:
 
         anom_std = tmp_anom.std(dim=["time", "range", "elv"])
 
-        # Cross check if this commented part is still needed for
-        # for filter the slanted profiles
-
-        # tmpNoCloud = self.lidar.data_transf.where(self.time_cloud_mask == 0).copy()
-        # tmpCloud = self.lidar.data_transf.where(self.time_cloud_mask == 1).copy()
-
-        # tmpCloud = tmpCloud.where(np.abs(self.data_anom) < self.n_std * anom_std)
-
-        # tmp_clean_data = tmpNoCloud.copy()
-        # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
-
         tmp_clean_data = self.lidar.data_transf.copy()
         tmp_clean_data = tmp_clean_data.where(
             np.abs(self.data_anom) < self.n_std * anom_std
@@ -272,14 +262,6 @@ class SecondTripEchoFilter:
         )
 
         anom_std = tmp_anom.std(dim=["time", "range90"])
-
-        # tmpNoCloud = self.lidar.data_transf_90.where(self.time_cloud_mask == 0).copy()
-        # tmpCloud = self.lidar.data_transf_90.where(self.time_cloud_mask == 1).copy()
-
-        # tmpCloud = tmpCloud.where(np.abs(self.data_anom_90) < self.n_std * anom_std)
-
-        # tmp_clean_data = tmpNoCloud.copy()
-        # tmp_clean_data.values[np.isfinite(tmpCloud)] = tmpCloud.values[np.isfinite(tmpCloud)]
 
         tmp_clean_data = self.lidar.data_transf_90.copy()
         tmp_clean_data = tmp_clean_data.where(
