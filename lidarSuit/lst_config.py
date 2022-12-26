@@ -1,4 +1,3 @@
-
 """Module for configuring the data global attribute
 
 """

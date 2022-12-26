@@ -1,4 +1,4 @@
-"""Module for wrinting the Level 1 data attributes
+"""Module for wrinting the data attributes
 
 """
 
@@ -37,10 +37,10 @@ class LoadAttributes:
 
         """Global attribute writer
 
-        It loads and writes the global attributes from the Level 1 dataset.
+        It loads and writes the global attributes from the dataset.
         The global attributes are defiened in the configuration file.
-        See lst_config.generate_conf documentation for information about generating
-        the configuration file.
+        See lst_config.generate_conf documentation for information
+        about generating the configuration file.
 
         """
 
@@ -75,7 +75,8 @@ class LoadAttributes:
         attrs_dic["range"] = {
             "standard_name": "range",
             "units": "m",
-            "comments": "Distance between the instrument and the center of each range gate",
+            "comments": "Distance between the instrument "
+            "and the center of each range gate",
         }
 
         attrs_dic["time"] = {
@@ -100,8 +101,9 @@ class LoadAttributes:
             "standard_name": "wind_direction",
             "units": "degrees",
             "comments": "horizontal wind direction retrived "
-                        "using the FFT method with respect to true north",
-            "info": "0=wind coming from the north, 90=east, 180=south, 270=west",
+            "using the FFT method with respect to true north",
+            "info": "0=wind coming from the north, "
+            "90=east, 180=south, 270=west",
         }
 
         attrs_dic["zonal_wind"] = {
@@ -119,13 +121,16 @@ class LoadAttributes:
         attrs_dic["vertical_wind_speed"] = {
             "standard_name": "vertical_wind_speed",
             "units": "m/s",
-            "comments": "observed vertical wind speed (negative towards the ground)",
+            "comments": "observed vertical wind speed "
+            "(negative towards the ground)",
         }
 
         attrs_dic["lidar_relative_beta"] = {
-            "standard_name": "volume_attenuated_backwards_scattering_function_in_air",
+            "standard_name": "volume_attenuated_backwards"
+            "_scattering_function_in_air",
             "units": "m-1 sr-1",
-            "comments": "Attenuated relative backscatter coefficient from the vertical beam",
+            "comments": "Attenuated relative backscatter "
+            "coefficient from the vertical beam",
         }
 
         self.attrs_dic = attrs_dic

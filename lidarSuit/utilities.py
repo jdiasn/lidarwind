@@ -1,3 +1,7 @@
+"""Utilities module
+
+"""
+
 import os
 import shutil
 import glob
@@ -54,7 +58,8 @@ class Util:
     def data_filenames():
         """Sample file list
 
-        It searches for the sample files. If the files do not exist, it downloads them.
+        It searches for the sample files.
+        If the files do not exist, it downloads them.
 
         """
 
@@ -127,7 +132,9 @@ class CloudMask:
         ).mean()
 
         # grid interpolation: to lidar time
-        self.clean_ceilo_data = positive_beta.interp({"time": self.wc_data.time})
+        self.clean_ceilo_data = positive_beta.interp(
+            {"time": self.wc_data.time}
+        )
 
     def clean_radar(self):
 
@@ -143,13 +150,17 @@ class CloudMask:
     def get_cloud_mask_2d(self):
 
         # CEILOMETER mask
-        self.clean_ceilo_data.values[np.isfinite(self.clean_ceilo_data.values)] = 2
+        self.clean_ceilo_data.values[
+            np.isfinite(self.clean_ceilo_data.values)
+        ] = 2
         self.clean_ceilo_data.values[
             ~np.isfinite(self.clean_ceilo_data.values)
         ] = 0
 
         # RADAR mask
-        self.clean_radar_data.values[np.isfinite(self.clean_radar_data.values)] = 1
+        self.clean_radar_data.values[
+            np.isfinite(self.clean_radar_data.values)
+        ] = 1
         self.clean_radar_data.values[
             ~np.isfinite(self.clean_radar_data.values)
         ] = 0
@@ -174,7 +185,9 @@ class CloudMask:
             print("real mask")
 
             # 6500 is the value I defined as maximum range
-            high_cloud_layer = self.cloud_mask.where(self.cloud_mask.range > 6500)
+            high_cloud_layer = self.cloud_mask.where(
+                self.cloud_mask.range > 6500
+            )
 
             time_cloud_mask = high_cloud_layer.sum(dim="range")
 
