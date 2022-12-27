@@ -74,6 +74,43 @@ estimating the Reynolds stress tensor for the VAD and DBS will be added, and a c
 allowing wind retrievals from other wind Doppler lidars.
 
 
+# Visualizing the 6-beam retrieved wind
+
+
+As an example of the usage of this package, the vertical wind speed measured by the WindCube and the
+horizontal wind speed and direction retrieved using the Fast Fourier Wind Vector Algorithm are shown
+in panels a, b, and c from \autoref{fig:wind_panel}.
+
+
+![Time-height plots of the vertical wind speed (a), horizontal wind speed (b), and horizontal wind
+direction (c) derived from the 6-beam observations.\label{fig:wind_panel}](wind_panel.png)
+
+
+Panel a, in the lowest 2 km, reveals the daily evolution of the vertical wind. Before 9:00 UTC and after 17:00 UTC,
+the measured vertical wind is mainly 0 m/s, indicating the stable period of the atmospheric boundary layer.
+Between 9:00 UTC and 17:00 UTC, the range of the vertical velocities increases, spaning values between -1 and 1 m/s,
+which indicates the formation of the turbulent layer, also known as the mixing layer [@Stull2003].
+Panel a also shows a measurement gap between 3 UTC and  8 UTC. This gap is due to the absence of a
+backscattered signal caused by the extremely low amount of lidar scatterers in the atmosphere [aerosol].
+Panel b, in the lowest 2 km, shows that for the whole day, the magnitude of the horizontal wind is mainly
+distributed between 0 and 10 m/s. This panel also reveals variabilities in the magnitude of the horizontal
+wind related to the presence of different temporal scales. During the stable period, the scales of the
+horizontal wind variability seem to be in the order of hours, while during the turbulent period, the temporal
+scales are in the order of minutes. In the lowest 2 km from panel c, the wind direction indicates a wind
+rotation along the day. Before 2 UTC, the wind is from the southeast; around 12:00 UTC, the wind is from
+the southwest; later, after 20:00 UTC, the wind is from the northwest. Similar to that noticed for the two
+previous variables, the wind direction indicates the presence of small-scale variabilities during the
+turbulent period. In contrast, during the stable period, the change in direction is only apparent between
+different heights (e.g. near the surface and around 1000 m).
+
+
+Above 2000 m, all three variables suggest that the lidar was able to obtain observations from within the clouds.
+Even though the observations are from clouds, their heights are wrong. This mispositioning of those clouds is
+related to the WindCube operating settings used during the measurements. A methodology for removing those wrong
+clouds, introduced in [diasneto2022b], is also available in this package, but ceilometer observations are required for applying it.
+
+
+
 # Acknowledgements
 
 This publication is part of the NWO Talent Scheme Vidi project CMTRACE with project number 192.050,
