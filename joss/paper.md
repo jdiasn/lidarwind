@@ -69,9 +69,7 @@ the 6-beam strategy is idealised for studying turbulence, lidarSuit also contain
 the Reynolds stress tensor according to the methodology introduced by @sathe2015. lidarSuit also includes
 a basic visualisation module, allowing a quick inspection of the retrieved wind speed and direction profiles.
 Thanks to its flexibility, this package was used to process WindCube's data from The Tracing Convective
-Momentum Transport in Complex Cloudy Atmospheres Experiment [@diasneto2022a]. In the future, a module for
-estimating the Reynolds stress tensor for the VAD and DBS will be added, and a compatibility module
-allowing wind retrievals from other wind Doppler lidars.
+Momentum Transport in Complex Cloudy Atmospheres Experiment [@diasneto2022a].
 
 
 # Visualizing the 6-beam retrieved wind
