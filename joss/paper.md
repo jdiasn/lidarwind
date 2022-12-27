@@ -105,7 +105,7 @@ different heights (e.g. near the surface and around 1000 m).
 Above 2000 m, all three variables suggest that the lidar was able to obtain observations from within the clouds.
 Even though the observations are from clouds, their heights are wrong. This mispositioning of those clouds is
 related to the WindCube operating settings used during the measurements. A methodology for removing those wrong
-clouds, introduced in [diasneto2022b], is also available in this package, but ceilometer observations are required for applying it.
+clouds, introduced in [@diasneto2022b], is also available in this package, but ceilometer observations are required for applying it.
 
 
 
