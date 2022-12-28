@@ -1,9 +1,15 @@
 """Module for estimating turbulence
 
 """
+import logging
 
 import numpy as np
 import xarray as xr
+
+from .data_operator import GetRestructuredData
+
+module_logger = logging.getLogger("lidarSuit.wind_prop_retrieval_6_beam")
+module_logger.debug("loading wind_prop_retrieval_6_beam")
 
 
 class SixBeamMethod:
@@ -39,6 +45,17 @@ class SixBeamMethod:
     """
 
     def __init__(self, data, freq=10, freq90=10):
+
+        self.logger = logging.getLogger(
+            "lidarSuit.wind_prop_retrieval_6_beam.SixBeamMethod"
+        )
+        self.logger.info("creating an instance of SixBeamMethod")
+
+        if not isinstance(data, GetRestructuredData):
+            self.logger.error(
+                "wrong data type: expecting a instance of GetRestructuredData"
+            )
+            raise TypeError
 
         self.elv = data.data_transf.elv.values
         self.azm = data.data_transf.azm.values
