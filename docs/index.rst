@@ -12,6 +12,7 @@ Welcome to LIDAR Suit's documentation!
    notebooks
    api
    modules
+   diagram
    contributing
    authors
 
