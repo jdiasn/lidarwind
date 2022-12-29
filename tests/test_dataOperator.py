@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import xarray as xr
 
-from lidarSuit.dataOperator import wc_fixed_preprocessing
+from lidarSuit.data_operator import wc_fixed_preprocessing
 import lidarSuit as lst
 
 from .data import sample_dataset
