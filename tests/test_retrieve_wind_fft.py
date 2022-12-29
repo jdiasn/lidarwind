@@ -95,20 +95,25 @@ def test_retrieve_wind_fft_variable_meridional_wind(get_wind_profiles):
     assert "meridional_wind" in get_wind_profiles.wind_prop
 
 
-# def test_retrieve_wind_fft_relative_beta_val(get_wind_profiles):
-#     assert get_wind_profiles.wind_prop['lidar_relative_beta']==1
+def test_retrieve_wind_fft_relative_beta_val(get_wind_profiles):
+    assert get_wind_profiles.wind_prop["lidar_relative_beta"] == 1
 
-# def test_retrieve_wind_fft_vertical_wind_val(get_wind_profiles):
-#     assert get_wind_profiles.wind_prop['vertical_wind_speed'] == 1
 
-# def test_retrieve_wind_fft_global_attrs(get_wind_profiles):
-#     assert len(get_wind_profiles.wind_prop.attrs) > 0
+def test_retrieve_wind_fft_vertical_wind_val(get_wind_profiles):
+    assert get_wind_profiles.wind_prop["vertical_wind_speed"] == 1
 
-# def test_retrieve_wind_fft_time_len(get_wind_profiles):
-#     assert len(get_wind_profiles.wind_prop.time) == 5
 
-# def test_retrieve_wind_fft_time90_len(get_wind_profiles):
-#     assert len(get_wind_profiles.wind_prop.time90) == 1
+def test_retrieve_wind_fft_global_attrs(get_wind_profiles):
+    assert len(get_wind_profiles.wind_prop.attrs) > 0
 
-# def test_retrieve_wind_fft_range_len(get_wind_profiles):
-#     assert len(get_wind_profiles.wind_prop.range) == 1
+
+def test_retrieve_wind_fft_time_len(get_wind_profiles):
+    assert len(get_wind_profiles.wind_prop.time) == 5
+
+
+def test_retrieve_wind_fft_time90_len(get_wind_profiles):
+    assert len(get_wind_profiles.wind_prop.time90) == 1
+
+
+def test_retrieve_wind_fft_range_len(get_wind_profiles):
+    assert len(get_wind_profiles.wind_prop.range) == 1
