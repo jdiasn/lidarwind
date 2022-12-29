@@ -80,12 +80,12 @@ def test_fourier_transf_wind_method_wind_dir(test_get_fft_obj):
     assert np.all(np.round(test_get_fft_obj.wind_dir.values, 2) == 270)
 
 
-# def test_fourier_transf_wind_method_rad_wind_speed(test_get_fft_obj):
-
-#     assert np.all(
-#         np.round(test_get_fft_obj.rad_wind_speed.values, 2)
-#         == np.round(1 / np.sin(np.deg2rad(45)), 2)
-#     )
+def test_fourier_transf_wind_method_rad_wind_speed(test_get_fft_obj):
+    print(test_get_fft_obj.rad_wind_speed.values)
+    assert np.all(
+        np.round(test_get_fft_obj.rad_wind_speed.values, 2)
+        == np.round(1 / np.sin(np.deg2rad(45)), 2)
+    )
 
 
 # def test_fourier_transf_wind_method_hor_wind_speed(test_get_fft_obj):
@@ -103,38 +103,38 @@ def test_fourier_transf_wind_method_wind_dir(test_get_fft_obj):
 #     assert np.all(np.round(test_get_fft_obj.comp_v.values, 2) == 0)
 
 
-# def test_fourier_transf_wind_method_dim_tim(test_get_fft_obj):
+def test_fourier_transf_wind_method_dim_tim(test_get_fft_obj):
 
-#     assert "time" in test_get_fft_obj.wind_prop().dims
-
-
-# def test_fourier_transf_wind_method_dim_range(test_get_fft_obj):
-
-#     assert "range" in test_get_fft_obj.wind_prop().dims
+    assert "time" in test_get_fft_obj.wind_prop().dims
 
 
-# def test_fourier_transf_wind_method_dim_elv(test_get_fft_obj):
+def test_fourier_transf_wind_method_dim_range(test_get_fft_obj):
 
-#     assert "elv" in test_get_fft_obj.wind_prop().dims
-
-
-# def test_fourier_transf_wind_method_variable_wind_direction(test_get_fft_obj):
-
-#     assert "horizontal_wind_direction" in test_get_fft_obj.wind_prop()
+    assert "range" in test_get_fft_obj.wind_prop().dims
 
 
-# def test_fourier_transf_wind_method_variable_wind_speed(test_get_fft_obj):
+def test_fourier_transf_wind_method_dim_elv(test_get_fft_obj):
 
-#     assert "horizontal_wind_speed" in test_get_fft_obj.wind_prop()
-
-
-# def test_fourier_transf_wind_method_variable_zonal_wind(test_get_fft_obj):
-
-#     assert "zonal_wind" in test_get_fft_obj.wind_prop()
+    assert "elv" in test_get_fft_obj.wind_prop().dims
 
 
-# def test_fourier_transf_wind_method_variable_zonal_meridional(
-#     test_get_fft_obj,
-# ):
+def test_fourier_transf_wind_method_variable_wind_direction(test_get_fft_obj):
 
-#     assert "meridional_wind" in test_get_fft_obj.wind_prop()
+    assert "horizontal_wind_direction" in test_get_fft_obj.wind_prop()
+
+
+def test_fourier_transf_wind_method_variable_wind_speed(test_get_fft_obj):
+
+    assert "horizontal_wind_speed" in test_get_fft_obj.wind_prop()
+
+
+def test_fourier_transf_wind_method_variable_zonal_wind(test_get_fft_obj):
+
+    assert "zonal_wind" in test_get_fft_obj.wind_prop()
+
+
+def test_fourier_transf_wind_method_variable_zonal_meridional(
+    test_get_fft_obj,
+):
+
+    assert "meridional_wind" in test_get_fft_obj.wind_prop()
