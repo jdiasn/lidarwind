@@ -49,6 +49,7 @@ def download_samples():
         os.makedirs(sample_path)
         get_sample_data(sample_path, file_type)
 
+
 @pytest.fixture
 def data_filenames():
 
@@ -75,21 +76,17 @@ def data_filenames():
     return file_list
 
 
-def sample_dataset(filename: str):
+def sample_dataset(key: str):
     """Single xr.Dataset for testing
 
     For a given identifier, for now it is the filename, download if needed,
     and return already as an xarray Dataset ready to be used.
 
-    @jdiasn will refactor how these testing data is managed, so let's leave
-    optimizations for later as long as thid function keep returning a
-    Dataset.
-
     !!ATENTION!!! the data_filenames as an argument is a requirement while
     the download of sample data is not refactored. This function only access
     a file that was expected to have been previously downlaoded.
     """
-    path = os.path.join(lidarsuitrc("sample_data"), "12-00", filename)
+    path = os.path.join(lidarsuitrc("sample_data"), "12-00", key)
 
     ds = open_sweep(path)
     return ds
