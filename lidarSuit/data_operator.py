@@ -19,6 +19,20 @@ module_logger = logging.getLogger("lidarSuit.data_operator")
 module_logger.debug("loading data_operator")
 
 
+def wc_fixed_preprocessing(ds: xr.Dataset, azimuth_resolution: int = 1):
+
+    ds["azimuth"] = ds["azimuth"].round(azimuth_resolution)
+    # Avoid ambiguity on 360 degrees
+    ds["azimuth"] = ds["azimuth"].where(ds.azimuth != 360, 0)
+
+    assert "elevation" in ds
+    assert ds["elevation"].dims == ("time",)
+    assert ds.dims["time"] == 1
+
+    ds["elevation"] = ds["elevation"].squeeze()
+    return ds.expand_dims("elevation").set_coords("elevation")
+
+
 class DataOperations:
 
     """Basic data manager
