@@ -65,9 +65,9 @@ class FourierTransfWindMethod:
 
         self.logger.info("calculating the complex amplitude")
 
-        self.comp_amp = xrft.fft(self.doppler_obs, dim=["azm"]).isel(
-            freq_azm=-2
-        )
+        self.comp_amp = xrft.fft(
+            self.doppler_obs, dim=["azm"], true_amplitude=False
+        ).isel(freq_azm=-2)
 
         return self
 
