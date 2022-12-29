@@ -70,14 +70,14 @@ def test_get_fft_obj():
     return fft_obj
 
 
-# def test_fourier_transf_wind_method_pase(test_get_fft_obj):
+def test_fourier_transf_wind_method_pase(test_get_fft_obj):
 
-#     assert np.all(np.round(test_get_fft_obj.phase.values, 2) == 90)
+    assert np.all(np.round(test_get_fft_obj.phase.values, 2) == 90)
 
 
-# def test_fourier_transf_wind_method_wind_dir(test_get_fft_obj):
+def test_fourier_transf_wind_method_wind_dir(test_get_fft_obj):
 
-#     assert np.all(np.round(test_get_fft_obj.wind_dir.values, 2) == 270)
+    assert np.all(np.round(test_get_fft_obj.wind_dir.values, 2) == 270)
 
 
 # def test_fourier_transf_wind_method_rad_wind_speed(test_get_fft_obj):
