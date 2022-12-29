@@ -88,19 +88,19 @@ def test_fourier_transf_wind_method_rad_wind_speed(test_get_fft_obj):
     )
 
 
-# def test_fourier_transf_wind_method_hor_wind_speed(test_get_fft_obj):
+def test_fourier_transf_wind_method_hor_wind_speed(test_get_fft_obj):
 
-#     assert np.all(np.round(test_get_fft_obj.hor_wind_speed.values, 2) == 2)
-
-
-# def test_fourier_transf_wind_method_comp_u(test_get_fft_obj):
-
-#     assert np.all(np.round(test_get_fft_obj.comp_u.values, 2) == 2)
+    assert np.all(np.round(test_get_fft_obj.hor_wind_speed.values, 2) == 2)
 
 
-# def test_fourier_transf_wind_method_comp_v(test_get_fft_obj):
+def test_fourier_transf_wind_method_comp_u(test_get_fft_obj):
 
-#     assert np.all(np.round(test_get_fft_obj.comp_v.values, 2) == 0)
+    assert np.all(np.round(test_get_fft_obj.comp_u.values, 2) == 2)
+
+
+def test_fourier_transf_wind_method_comp_v(test_get_fft_obj):
+
+    assert np.all(np.round(test_get_fft_obj.comp_v.values, 2) == 0)
 
 
 def test_fourier_transf_wind_method_dim_tim(test_get_fft_obj):
