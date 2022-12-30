@@ -10,7 +10,6 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 
-# import lidarwind as lst
 from .filters import Filtering
 
 from .lidar_code import GetLidarData
