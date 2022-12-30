@@ -100,3 +100,11 @@ def test_get_resctructured_data_data_transf_azm_value(get_restruc_obj):
         np.round(get_restruc_obj.data_transf.azm.values, 1)
         == np.array([0, 72, 144, 216, 288])
     ).all()
+
+
+def test_get_resctructured_data_data_transf_90_time_dim(get_restruc_obj):
+    assert "time" in get_restruc_obj.data_transf_90.dims
+
+
+def test_get_resctructured_data_data_transf_90_range90_dim(get_restruc_obj):
+    assert "range90" in get_restruc_obj.data_transf_90.dims
