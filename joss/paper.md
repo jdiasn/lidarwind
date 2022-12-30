@@ -1,5 +1,5 @@
 ---
-title: 'lidarSuit: A Python package for retrieving wind profiles from Doppler lidar observations'
+title: 'lidarwind: A Python package for retrieving wind profiles from Doppler lidar observations'
 
 tags:
   - Python
@@ -52,21 +52,21 @@ different structures.
 
 # Statement of need
 
-lidarSuit is a Python package for retrieving horizontal wind speed and direction profiles from the
+lidarwind is a Python package for retrieving horizontal wind speed and direction profiles from the
 6-beam scanning strategy but also includes routines for retrieving wind profiles from the DBS. This
 package was developed for retrieving wind profiles from WindCube's NetCDF output, but it can be
-extended to process NetCDF [@rew1990] output from other Doppler lidar systems. lidarSuit reproduces the data
+extended to process NetCDF [@rew1990] output from other Doppler lidar systems. lidarwind reproduces the data
 filtering described in WindCube's manual [@windcube2020] and allows the user to define the signal-to-noise
 ratio threshold for filtering noisy measurements or using the status variable. In addition, two experimental
 filters to minimise the presence of second trip echoes on the observations are included in the package.
 
 
-lidarSuit was developed to be easy to use and flexible, allowing it to be used operationally to retrieve
+lidarwind was developed to be easy to use and flexible, allowing it to be used operationally to retrieve
 wind profiles continuously. With this package, the user can read and merge a list of WindCube's files
 and choose to retrieve wind using the DBS or the 6-beam dedicated modules. In particular, for the 6-beam
 observations,  the wind is retrieved using the Fast Fourier Wind Vector Algorithm [@Ishwardat2017]. Since
-the 6-beam strategy is idealised for studying turbulence, lidarSuit also contains a module for calculating
-the Reynolds stress tensor according to the methodology introduced by @sathe2015. lidarSuit also includes
+the 6-beam strategy is idealised for studying turbulence, lidarwind also contains a module for calculating
+the Reynolds stress tensor according to the methodology introduced by @sathe2015. lidarwind also includes
 a basic visualisation module, allowing a quick inspection of the retrieved wind speed and direction profiles.
 Thanks to its flexibility, this package was used to process WindCube's data from The Tracing Convective
 Momentum Transport in Complex Cloudy Atmospheres Experiment [@diasneto2022a].
