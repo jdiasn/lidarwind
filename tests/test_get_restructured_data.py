@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import xarray as xr
 
-import lidarSuit as lst
+import lidarwind as lst
 
 
 @pytest.fixture
