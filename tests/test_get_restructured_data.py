@@ -89,3 +89,14 @@ def test_get_resctructured_data_data_transf_azm_dim(get_restruc_obj):
 
 def test_get_resctructured_data_data_transf_elv_dim(get_restruc_obj):
     assert "elv" in get_restruc_obj.data_transf.dims
+
+
+def test_get_resctructured_data_data_transf_elv_value(get_restruc_obj):
+    assert np.round(get_restruc_obj.data_transf.elv.values, 1) == 45
+
+
+def test_get_resctructured_data_data_transf_azm_value(get_restruc_obj):
+    assert (
+        np.round(get_restruc_obj.data_transf.azm.values, 1)
+        == np.array([0, 72, 144, 216, 288])
+    ).all()
