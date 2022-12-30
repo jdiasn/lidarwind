@@ -64,7 +64,7 @@ class Util:
         """
 
         home = os.path.expanduser("~")
-        sample_path = f"{home}/.lidarSuitrc/sample_data/"
+        sample_path = f"{home}/.lidarwindrc/sample_data/"
         file_type = "12-00"  # change to 6 beam in the future
 
         if os.path.isdir(sample_path):
