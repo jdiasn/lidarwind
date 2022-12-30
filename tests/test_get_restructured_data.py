@@ -122,3 +122,67 @@ def test_get_resctructured_data_data_transf_90_range90_dim_size(
     get_restruc_obj,
 ):
     assert len(get_restruc_obj.data_transf_90.range90) == 1
+
+
+def test_get_resctructured_data_input_ds_missing_cnr(get_dummy_six_beam_data):
+
+    broken_ds = get_dummy_six_beam_data.copy()
+    del broken_ds["cnr"]
+
+    with pytest.raises(AttributeError):
+        lst.GetRestructuredData(broken_ds, snr=1)
+
+
+def test_get_resctructured_data_input_ds_missing_cnr90(
+    get_dummy_six_beam_data,
+):
+
+    broken_ds = get_dummy_six_beam_data.copy()
+    del broken_ds["cnr90"]
+
+    with pytest.raises(AttributeError):
+        lst.GetRestructuredData(broken_ds, snr=1)
+
+
+def test_get_resctructured_data_input_ds_missing_radial_wind_speed_status90(
+    get_dummy_six_beam_data,
+):
+
+    broken_ds = get_dummy_six_beam_data.copy()
+    del broken_ds["radial_wind_speed_status90"]
+
+    with pytest.raises(AttributeError):
+        lst.GetRestructuredData(broken_ds)
+
+
+def test_get_resctructured_data_input_ds_missing_radial_wind_speed_status(
+    get_dummy_six_beam_data,
+):
+
+    broken_ds = get_dummy_six_beam_data.copy()
+    del broken_ds["radial_wind_speed_status"]
+
+    with pytest.raises(AttributeError):
+        lst.GetRestructuredData(broken_ds)
+
+
+def test_get_resctructured_data_input_ds_missing_elevation(
+    get_dummy_six_beam_data,
+):
+
+    broken_ds = get_dummy_six_beam_data.copy()
+    del broken_ds["elevation"]
+
+    with pytest.raises(AttributeError):
+        lst.GetRestructuredData(broken_ds)
+
+
+def test_get_resctructured_data_input_ds_missing_azimuth(
+    get_dummy_six_beam_data,
+):
+
+    broken_ds = get_dummy_six_beam_data.copy()
+    del broken_ds["azimuth"]
+
+    with pytest.raises(AttributeError):
+        lst.GetRestructuredData(broken_ds)
