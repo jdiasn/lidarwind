@@ -44,7 +44,7 @@ class LoadAttributes:
 
         """
 
-        config_info = Configurations(lst=None).load_conf_file()
+        config_info = Configurations(lidarwind=None).load_conf_file()
 
         tmp_att = {
             "Conventions": "Cf/Radial 2.0",
