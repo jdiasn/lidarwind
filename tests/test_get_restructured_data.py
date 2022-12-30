@@ -73,3 +73,19 @@ def test_get_resctructured_data_range_non_90_size(get_restruc_obj):
 
 def test_get_resctructured_data_range_non_90_values(get_restruc_obj):
     assert np.round(get_restruc_obj.range_non_90.values, 1) == 1
+
+
+def test_get_resctructured_data_data_transf_time_dim(get_restruc_obj):
+    assert "time" in get_restruc_obj.data_transf.dims
+
+
+def test_get_resctructured_data_data_transf_range_dim(get_restruc_obj):
+    assert "range" in get_restruc_obj.data_transf.dims
+
+
+def test_get_resctructured_data_data_transf_azm_dim(get_restruc_obj):
+    assert "azm" in get_restruc_obj.data_transf.dims
+
+
+def test_get_resctructured_data_data_transf_elv_dim(get_restruc_obj):
+    assert "elv" in get_restruc_obj.data_transf.dims
