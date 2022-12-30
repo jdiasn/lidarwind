@@ -7,7 +7,7 @@ import xrft
 from .data_attributes import LoadAttributes
 from .data_operator import GetRestructuredData
 
-module_logger = logging.getLogger("lidarSuit.wind_prop_retrieval")
+module_logger = logging.getLogger("lidarwind.wind_prop_retrieval")
 module_logger.debug("loading wind_prop_retrieval")
 
 
@@ -37,7 +37,7 @@ class FourierTransfWindMethod:
     def __init__(self, doppler_obs: xr.DataArray):
 
         self.logger = logging.getLogger(
-            "lidarSuit.wind_prop_retrieval.FourierTransfWindMethod"
+            "lidarwind.wind_prop_retrieval.FourierTransfWindMethod"
         )
         self.logger.info("creating an instance of FourierTransfWindMethod")
 
@@ -295,7 +295,7 @@ class GetWindProperties5Beam:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.wind_prop_retrieval.GetWindProperties5Beam"
+            "lidarwind.wind_prop_retrieval.GetWindProperties5Beam"
         )
         self.logger.info("creating an instance of GetWindProperties5Beam")
 
@@ -549,7 +549,7 @@ class RetriveWindFFT:
     def __init__(self, transfd_data: GetRestructuredData):
 
         self.logger = logging.getLogger(
-            "lidarSuit.wind_prop_retrieval.FourierTransfWindMethod"
+            "lidarwind.wind_prop_retrieval.FourierTransfWindMethod"
         )
         self.logger.info("creating an instance of FourierTransfWindMethod")
 
