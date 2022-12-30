@@ -251,7 +251,7 @@ class GetWindProperties5Beam:
     ----------
     data : xarray.Dataset
         merged xarray dataset (merged_ds) output from
-        lst.DbsOperations()
+        lidarwind.DbsOperations()
 
     status_filter : bolean
         Data filtering based on the wind lidar
@@ -555,7 +555,7 @@ class RetriveWindFFT:
 
         if not isinstance(transfd_data, GetRestructuredData):
             self.logger.error(
-                "wrong data type: expecting a lst.GetRestructuredData instance"
+                "wrong data type: expecting a lidarwind.GetRestructuredData instance"
             )
             raise TypeError
 
