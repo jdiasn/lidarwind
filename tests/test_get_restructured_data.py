@@ -108,3 +108,17 @@ def test_get_resctructured_data_data_transf_90_time_dim(get_restruc_obj):
 
 def test_get_resctructured_data_data_transf_90_range90_dim(get_restruc_obj):
     assert "range90" in get_restruc_obj.data_transf_90.dims
+
+
+def test_get_resctructured_data_data_transf_90_name(get_restruc_obj):
+    assert "radial_wind_speed90" in get_restruc_obj.data_transf_90.name
+
+
+def test_get_resctructured_data_data_transf_90_time_dim_size(get_restruc_obj):
+    assert len(get_restruc_obj.data_transf_90.time) == 1
+
+
+def test_get_resctructured_data_data_transf_90_range90_dim_size(
+    get_restruc_obj,
+):
+    assert len(get_restruc_obj.data_transf_90.range90) == 1
