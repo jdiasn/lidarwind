@@ -8,7 +8,7 @@ import xarray as xr
 
 from .data_operator import GetRestructuredData
 
-module_logger = logging.getLogger("lidarSuit.wind_prop_retrieval_6_beam")
+module_logger = logging.getLogger("lidarwind.wind_prop_retrieval_6_beam")
 module_logger.debug("loading wind_prop_retrieval_6_beam")
 
 
@@ -47,7 +47,7 @@ class SixBeamMethod:
     def __init__(self, data, freq=10, freq90=10):
 
         self.logger = logging.getLogger(
-            "lidarSuit.wind_prop_retrieval_6_beam.SixBeamMethod"
+            "lidarwind.wind_prop_retrieval_6_beam.SixBeamMethod"
         )
         self.logger.info("creating an instance of SixBeamMethod")
 
