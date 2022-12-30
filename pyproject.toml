@@ -9,7 +9,7 @@ requires = [
 build-backend = 'setuptools.build_meta'
 
 [project]
-name="lidarSuit"
+name="lidarwind"
 dynamic = ['version']
 description="LIDAR procedures"
 readme = "README.md"
@@ -59,13 +59,13 @@ repository = "https://github.com/jdiasn/lidarSuit"
 documentation = "https://lidarSuit.readthedocs.io"
 
 [project.scripts]
-"lidarSuit" = "lidarSuit.cli:main"
+"lidarwind" = "lidarwind.cli:main"
 
 [tool.black]
 line-length = 79
 
 [tool.setuptools_scm]
-write_to = "lidarSuit/version.py"
+write_to = "lidarwind/version.py"
 git_describe_command = "git describe --dirty --tags --long --match 'v*' --first-parent"
 
 [tool.pytest.ini_options]
