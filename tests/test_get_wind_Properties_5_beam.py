@@ -85,9 +85,9 @@ def test_get_wind_properties_5_beam_wind_speed_value(get_wind_profiles):
     assert np.round(get_wind_profiles.hor_wind_speed.values, 1) == 2
 
 
-# def test_get_wind_properties_5_beam_wind_dir_value(get_wind_profiles):
-#     assert get_wind_profiles.hor_wind_dir.values == 270
+def test_get_wind_properties_5_beam_wind_dir_value(get_wind_profiles):
+    assert np.round(get_wind_profiles.hor_wind_dir.values, 1) == 270
 
 
-# def test_get_wind_properties_5_beam_vert_wind_value(get_wind_profiles):
-#     assert get_wind_profiles.ver_wind_speed.values == 0
+def test_get_wind_properties_5_beam_vert_wind_value(get_wind_profiles):
+    assert np.round(get_wind_profiles.ver_wind_speed.values, 1) == 0
