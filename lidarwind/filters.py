@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import xarray as xr
 
-module_logger = logging.getLogger("lidarSuit.filters")
+module_logger = logging.getLogger("lidarwind.filters")
 
 
 def filter_status(ds: xr.Dataset):
