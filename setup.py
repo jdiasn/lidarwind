@@ -7,6 +7,6 @@ from setuptools import setup, find_packages
 
 setup(
     include_package_data=True,
-    packages=find_packages(include=["lidarSuit", "lidarSuit.*"]),
+    packages=find_packages(include=["lidarwind", "lidarwind.*"]),
     zip_safe=False,
 )
