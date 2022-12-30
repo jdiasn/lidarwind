@@ -74,7 +74,7 @@ def test_get_wind_properties_5_beam_comp_v_dim(get_wind_profiles):
 
 
 def test_get_wind_properties_5_beam_comp_u_value(get_wind_profiles):
-    assert get_wind_profiles.comp_u.values == -2
+    assert np.all(get_wind_profiles.comp_u.values == -2)
 
 
 # def test_get_wind_properties_5_beam_comp_v_value(get_wind_profiles):
