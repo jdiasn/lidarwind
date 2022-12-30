@@ -1,4 +1,4 @@
-.. currentmodule:: lidarSuit
+.. currentmodule:: lidarwind
 
 #############
 API reference
