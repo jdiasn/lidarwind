@@ -1,4 +1,4 @@
-"""Top-level package for lidarSuit package"""
+"""Top-level package for lidarwind package"""
 
 __author__ = "José Dias Neto"
 __email__ = "jdiasn@gmail.com"
