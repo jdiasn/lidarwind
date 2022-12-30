@@ -2,7 +2,7 @@
 
 """
 
-from .lst_config import Configurations
+from .lidarwind_config import Configurations
 
 
 class LoadAttributes:
@@ -39,7 +39,7 @@ class LoadAttributes:
 
         It loads and writes the global attributes from the dataset.
         The global attributes are defiened in the configuration file.
-        See lst_config.generate_conf documentation for information
+        See lidarwind_config.generate_conf documentation for information
         about generating the configuration file.
 
         """
