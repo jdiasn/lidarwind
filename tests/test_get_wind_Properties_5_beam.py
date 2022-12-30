@@ -71,3 +71,23 @@ def test_get_wind_properties_5_beam_comp_u_dim(get_wind_profiles):
 
 def test_get_wind_properties_5_beam_comp_v_dim(get_wind_profiles):
     assert "gate_index" not in get_wind_profiles.comp_v.dims
+
+
+def test_get_wind_properties_5_beam_comp_u_value(get_wind_profiles):
+    assert get_wind_profiles.comp_u == -2
+
+
+def test_get_wind_properties_5_beam_comp_v_value(get_wind_profiles):
+    assert np.round(get_wind_profiles.comp_v, 2) == 0
+
+
+def test_get_wind_properties_5_beam_wind_speed_value(get_wind_profiles):
+    assert get_wind_profiles.hor_wind_speed == 2
+
+
+def test_get_wind_properties_5_beam_wind_dir_value(get_wind_profiles):
+    assert get_wind_profiles.hor_wind_dir == 270
+
+
+def test_get_wind_properties_5_beam_vert_wind_value(get_wind_profiles):
+    assert get_wind_profiles.ver_wind_speed == 0
