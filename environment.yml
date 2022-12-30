@@ -1,4 +1,4 @@
-name: lidarSuit
+name: lidarwind
 
 channels:
   - defaults
@@ -17,4 +17,4 @@ dependencies:
  - pip
  - pip:
      - gdown==4.5.1
-     - lidarSuit==0.1.6
+     - lidarwind==0.1.6
