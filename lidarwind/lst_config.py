@@ -18,9 +18,9 @@ class Configurations:
 
     """
 
-    def __init__(self, lst=None):
+    def __init__(self, lidarwind=None):
 
-        self.load_version(lst)
+        self.load_version(lidarwind)
         self.load_reference()
         self.load_institution()
         self.load_instrument()
@@ -29,22 +29,22 @@ class Configurations:
         self.load_email()
         self.load_comments()
 
-    def load_version(self, lst):
+    def load_version(self, lidarwind):
         """
         It identifies the lidarwind version
         and writes it to the configuration file
 
         Parameters
         ----------
-        lst : object
-            a instance of the lidarSuit package
+        lidarwind : object
+            a instance of the lidarwind package
 
         """
 
-        if lst is None:
-            self.lst_version = "temporary config file"
+        if lidarwind is None:
+            self.lidarwind_version = "temporary config file"
         else:
-            self.lst_version = lst.__version__
+            self.lidarwind_version = lidarwind.__version__
 
         return self
 
@@ -134,7 +134,7 @@ class Configurations:
 
         """
 
-        self.references = reference.format(self.lst_version)
+        self.references = reference.format(self.lidarwind_version)
 
         return self
 
