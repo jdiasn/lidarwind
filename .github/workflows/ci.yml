@@ -43,9 +43,9 @@ jobs:
         path: ~/.cache/lidarwind
         key: ${{ runner.os }}-samples-${{ hashFiles('**/pyproject.toml') }}
 
-    - name: Test with pytest
+    - name: Test with TOX
       run: |
-        pytest tests
+        tox
 
   coverage:
     runs-on: ubuntu-latest
