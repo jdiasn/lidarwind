@@ -1,1 +1,1 @@
-"""Unit test package for lidarSuit."""
+"""Unit test package for lidarwind."""

@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import xarray as xr
 
-import lidarSuit as lst
+import lidarwind as lst
 
 
 def test_get_dummy_six_beam_obj():

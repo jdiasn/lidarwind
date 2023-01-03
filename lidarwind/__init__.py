@@ -1,4 +1,4 @@
-"""Top-level package for lidarSuit package"""
+"""Top-level package for lidarwind package"""
 
 __author__ = "José Dias Neto"
 __email__ = "jdiasn@gmail.com"
@@ -20,7 +20,7 @@ except DistributionNotFound:
         )
 
 
-from .lst_config import *
+from .lidarwind_config import *
 from .lidar_code import *
 from .wind_prop_retrieval import *
 from .wind_prop_retrieval_6_beam import *

@@ -1,5 +1,5 @@
 ======================
-lidarSuit introduction
+lidarwind introduction
 ======================
 
 .. image:: https://joss.theoj.org/papers/28430a0c6a79e6d1ff33579ff13458f7/status.svg
@@ -9,21 +9,21 @@ lidarSuit introduction
    :target: https://doi.org/10.5281/zenodo.7026548
 
 .. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/jdiasn/lidarSuit/main?labpath=notebooks
+   :target: https://mybinder.org/v2/gh/jdiasn/lidarwind/main?labpath=notebooks
 
-.. image:: https://readthedocs.org/projects/lidarsuit/badge/?version=latest
-    :target: https://lidarsuit.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/lidarwind/badge/?version=latest
+    :target: https://lidarwind.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://img.shields.io/pypi/v/lidarSuit.svg
-   :target: https://pypi.python.org/pypi/lidarSuit/
+.. image:: https://img.shields.io/pypi/v/lidarwind.svg
+   :target: https://pypi.python.org/pypi/lidarwind/
 
-.. image:: https://codecov.io/gh/jdiasn/lidarSuit/branch/main/graph/badge.svg?token=CEZM17YY3I
-   :target: https://codecov.io/gh/jdiasn/lidarSuit
+.. image:: https://codecov.io/gh/jdiasn/lidarwind/branch/main/graph/badge.svg?token=CEZM17YY3I
+   :target: https://codecov.io/gh/jdiasn/lidarwind
 
-lidarSuit is an open-source Python project to retrieve wind speed and direction profiles from Doppler lidar observations from the WindCube-200s, and it was developed to be easy to use. It can retrieve wind profiles from the 6-beam and DBS scanning strategies and allow users to set the signal-to-noise ratio threshold to reduce the noise. It also calculates the Reynolds stress tensor matrix elements from the 6-beam observations.
+lidarwind is an open-source Python project to retrieve wind speed and direction profiles from Doppler lidar observations from the WindCube-200s, and it was developed to be easy to use. It can retrieve wind profiles from the 6-beam and DBS scanning strategies and allow users to set the signal-to-noise ratio threshold to reduce the noise. It also calculates the Reynolds stress tensor matrix elements from the 6-beam observations.
 
-lidarSuit is a result of an effort to create an environment where it would be flexible and easy to process the observations from the WindCube Doppler lidar. Its development started in 2021 when I had to retrieve wind profiles from the 6-beam observations.
+lidarwind is a result of an effort to create an environment where it would be flexible and easy to process the observations from the WindCube Doppler lidar. Its development started in 2021 when I had to retrieve wind profiles from the 6-beam observations.
 
 This current version focuses on the WindCube's observations, and the wind retrievals are dedicated to the 6-beam and DBS observations. However, it can be expanded to other Doppler lidar observations and scanning strategies.
 
@@ -32,7 +32,7 @@ This current version focuses on the WindCube's observations, and the wind retrie
 Documentation
 -------------
 
-The lidarSuit's documentation is available at https://lidarsuit.readthedocs.io, and an introductory set of rendered notebooks are available at https://nbviewer.org/github/jdiasn/lidarSuit/tree/main/docs/examples/.
+The lidarwind's documentation is available at https://lidarwind.readthedocs.io, and an introductory set of rendered notebooks are available at https://nbviewer.org/github/jdiasn/lidarwind/tree/main/docs/examples/.
 
 
 

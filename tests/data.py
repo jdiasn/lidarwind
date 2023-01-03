@@ -6,17 +6,17 @@ from typing import Optional
 import pytest
 import gdown
 
-from lidarSuit.io import open_sweep
+from lidarwind.io import open_sweep
 
 GDRIVE_ID = "1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
 
 
-def lidarsuitrc(subdir: Optional[str] = None):
+def lidarwindrc(subdir: Optional[str] = None):
     """Standard path for Lidar Suit configurations
 
-    This might be moved into lidarSuit.utils if used somewhere else
+    This might be moved into lidarwind.utils if used somewhere else
     """
-    path = os.getenv("LIDARSUIT_DIR", os.path.join("~", ".lidarSuitrc"))
+    path = os.getenv("LIDARWIND_DIR", os.path.join("~", ".lidarwindrc"))
     path = os.path.expanduser(path)
 
     if subdir is not None:
@@ -43,7 +43,7 @@ def get_sample_data(sample_path, file_type):
 
 def download_samples():
     file_type = "12-00"  # change to 6 beam in the future
-    sample_path = lidarsuitrc("sample_data")
+    sample_path = lidarwindrc("sample_data")
 
     if not os.path.isdir(sample_path):
         os.makedirs(sample_path)
@@ -54,7 +54,7 @@ def download_samples():
 def data_filenames():
 
     file_type = "12-00"  # change to 6 beam in the future
-    sample_path = os.path.join(lidarsuitrc("sample_data"), file_type)
+    sample_path = os.path.join(lidarwindrc("sample_data"), file_type)
 
     if os.path.isdir(sample_path):
 
@@ -86,7 +86,7 @@ def sample_dataset(key: str):
     the download of sample data is not refactored. This function only access
     a file that was expected to have been previously downlaoded.
     """
-    path = os.path.join(lidarsuitrc("sample_data"), "12-00", key)
+    path = os.path.join(lidarwindrc("sample_data"), "12-00", key)
 
     ds = open_sweep(path)
     return ds

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-"""Tests for 'lidarSuit' package."""
+"""Tests for 'lidarwind' package."""
 
 import pytest
 
 from click.testing import CliRunner
 
-import lidarSuit
+import lidarwind
 
-# from lidarSuit import cli
+# from lidarwind import cli
 
 
 @pytest.fixture
@@ -34,7 +34,7 @@ def test_command_line_interface():
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
-    assert "lidarSuit.cli.main" in result.output
+    assert "lidarwind.cli.main" in result.output
     help_result = runner.invoke(cli.main, ["--help"])
     assert help_result.exit_code == 0
     assert "--help  Show this message and exit." in help_result.output

@@ -10,12 +10,11 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 
-# import lidarSuit as lst
 from .filters import Filtering
 
 from .lidar_code import GetLidarData
 
-module_logger = logging.getLogger("lidarSuit.data_operator")
+module_logger = logging.getLogger("lidarwind.data_operator")
 module_logger.debug("loading data_operator")
 
 
@@ -47,7 +46,7 @@ class DataOperations:
 
     Examples
     --------
-    >>> merged_ds = lidarSuit.DataOperations(file_list).merged_data
+    >>> merged_ds = lidarwind.DataOperations(file_list).merged_data
     >>> merged_ds.to_netcdf(output_file_path)
 
     Parameters
@@ -66,13 +65,13 @@ class DataOperations:
     def __init__(self, data_paths, verbose=False):
 
         self.logger = logging.getLogger(
-            "lidarSuit.data_operator.DataOperations"
+            "lidarwind.data_operator.DataOperations"
         )
         self.logger.info("creating an instance of DataOperations")
 
         if bool(data_paths) is False:
             self.logger.error(
-                "lidarSuit stopped due to an empty list of files."
+                "lidarwind stopped due to an empty list of files."
             )
             raise FileNotFoundError
 
@@ -169,7 +168,7 @@ class ReadProcessedData:
 
     Examples
     --------
-    >>> merged_data = lidarSuit.ReadProcessedData(file_list).merge_data()
+    >>> merged_data = lidarwind.ReadProcessedData(file_list).merge_data()
 
     Parameters
     ----------
@@ -186,13 +185,13 @@ class ReadProcessedData:
     def __init__(self, file_list):
 
         self.logger = logging.getLogger(
-            "lidarSuit.data_operator.ReadProcessedData"
+            "lidarwind.data_operator.ReadProcessedData"
         )
         self.logger.info("creating an instance of ReadProcessedData")
 
         if bool(file_list) is False:
             self.logger.error(
-                "lidarSuit stopped due to an empty list of files."
+                "lidarwind stopped due to an empty list of files."
             )
             raise FileNotFoundError
 
@@ -261,7 +260,7 @@ class GetRestructuredData:
 
     Examples
     --------
-    >>> wind_prop = lidarSuit.GetRestructuredData(merged_data)
+    >>> wind_prop = lidarwind.GetRestructuredData(merged_data)
 
     Parameters
     ----------
@@ -318,7 +317,7 @@ class GetRestructuredData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.data_operator.GetRestructuredData"
+            "lidarwind.data_operator.GetRestructuredData"
         )
         self.logger.info("creating an instance of GetRestructuredData")
 
@@ -488,7 +487,7 @@ class GetResampledData:
     ):
 
         self.logger = logging.getLogger(
-            "lidarSuit.data_operator.GetResampledData"
+            "lidarwind.data_operator.GetResampledData"
         )
         self.logger.info("creating an instance of GetResampledData")
 
@@ -702,7 +701,7 @@ class DbsOperations:
     def __init__(self, file_list, var_list):
 
         self.logger = logging.getLogger(
-            "lidarSuit.data_operator.DbsOperations"
+            "lidarwind.data_operator.DbsOperations"
         )
         self.logger.info("creating an instance of DbsOperations")
 
@@ -730,13 +729,13 @@ class DbsOperations:
 
         if bool(file_list) is False:
             self.logger.error(
-                "lidarSuit stopped due to an empty list of DBS files."
+                "lidarwind stopped due to an empty list of DBS files."
             )
             raise FileNotFoundError
 
         if bool(var_list) is False:
             self.logger.error(
-                "lidarSuit stopped due to an empty list of variable"
+                "lidarwind stopped due to an empty list of variable"
             )
             raise KeyError
 

@@ -2,7 +2,7 @@ import pytest
 import xarray as xr
 import numpy as np
 
-import lidarSuit as lst
+import lidarwind as lst
 
 
 def get_dummy_dbs():

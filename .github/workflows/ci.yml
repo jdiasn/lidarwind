@@ -1,4 +1,4 @@
-name: lidarSuit_test
+name: lidarwind_test
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
         python-version: ["3.8", "3.9", "3.10"]
 
     steps:
-    - name: checkout lidarSuit
+    - name: checkout lidarwind
       uses: actions/checkout@v2
 
     - name: Set up Python ${{ matrix.python-version }}
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: checkout lidarSuit
+    - name: checkout lidarwind
       uses: actions/checkout@v2
 
     - name: Set up Python
