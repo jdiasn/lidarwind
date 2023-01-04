@@ -15,16 +15,18 @@ import xarray as xr
 
 
 def sample_data(key: str):
-    if key == 'wc_6beam':
+    if key == "wc_6beam":
         file_list = pooch.retrieve(
             url="doi:10.5281/zenodo.7312960/wc_6beam.zip",
             known_hash="md5:a7ea3c10a6d2f4a97ff955dc4398f930",
-            processor=pooch.Unzip())
+            processor=pooch.Unzip(),
+        )
     elif key == "wc_long_dbs":
         file_list = pooch.retrieve(
             url="doi:10.5281/zenodo.7312960/wc_long_dbs.zip",
             known_hash="md5:53b4eb6e5dad6dfdaddfbb718dcf8910",
-            processor=pooch.Unzip())
+            processor=pooch.Unzip(),
+        )
     else:
         raise ValueError
 
