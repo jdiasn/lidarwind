@@ -51,7 +51,14 @@ dev = [
   "pre-commit~=2.20.0",
   "sphinx_rtd_theme~=0.4.3"
 ]
-test = ["pytest", "gdown~=4.5.1", "pytest-cov>=3.0", "nbval", "pooch>=1.6"]
+test = [
+  "gdown~=4.5.1",
+  "pytest>=6.2",
+  "pytest-cov>=3.0",
+  "nbval",
+  "pooch>=1.6",
+  "tox~=4.1.1"
+]
 
 [project.urls]
 homepage = "https://github.com/jdiasn/lidarwind"
