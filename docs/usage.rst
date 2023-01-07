@@ -2,7 +2,7 @@
 Usage
 =====
 
-To use LIDAR Suit in a project::
+To use lidarwind in a project::
 
     import lidarwind as lst
 

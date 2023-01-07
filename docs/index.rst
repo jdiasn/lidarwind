@@ -1,4 +1,4 @@
-Welcome to LIDAR Suit's documentation!
+Welcome to lidarwind's documentation!
 ======================================
 
 .. toctree::
