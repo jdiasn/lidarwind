@@ -68,4 +68,4 @@ Global Attributes Definitions
 .. autosummary::
    :toctree: _autosummary/
 
-   lst_config.Configurations
+   lidarwind_config.Configurations
