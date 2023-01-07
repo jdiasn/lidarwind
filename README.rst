@@ -8,9 +8,6 @@ lidarwind introduction
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7026548.svg
    :target: https://doi.org/10.5281/zenodo.7026548
 
-.. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/jdiasn/lidarwind/main?labpath=notebooks
-
 .. image:: https://readthedocs.org/projects/lidarwind/badge/?version=latest
     :target: https://lidarwind.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
@@ -41,11 +38,3 @@ The lidarwind's documentation is available at https://lidarwind.readthedocs.io, 
     Beware that between versions 0.1.6 and 0.2.0, the package underwent significant refactoring. Now the classes' names
     follow the Pascal case, while module names, functions and attributes follow the snake case. Codes developed using the previous
     version will need revision.
-
-
-
-----------
-Suggestion
-----------
-
-If you want to try using this package without instaling first, you can do it by clicking on the binder badge.
