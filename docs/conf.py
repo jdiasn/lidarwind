@@ -61,7 +61,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'LIDAR Suit'
+project = 'lidarwind'
 copyright = "2022, Jose Dias"
 author = "Jose Dias"
 
@@ -144,7 +144,7 @@ latex_elements = {
 latex_documents = [
     (master_doc,
      'lidarwind.tex',
-     'LIDAR Suit Documentation',
+     'lidarwind Documentation',
      'Jose Dias',
      'manual'),
 ]
@@ -157,7 +157,7 @@ latex_documents = [
 man_pages = [
     (master_doc,
      'lidarwind',
-     'LIDAR Suit Documentation',
+     'lidarwind Documentation',
      [author],
      1)
 ]
@@ -170,7 +170,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'lidarwind',
-     'LIDAR Suit Documentation',
+     'lidarwind Documentation',
      author,
      'lidarwind',
      'One line description of project.',
