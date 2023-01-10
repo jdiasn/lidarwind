@@ -59,7 +59,7 @@ jobs:
         pytest --cov=./ --cov-report=xml
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax notebooks/turbulence_6beam_data.ipynb
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax notebooks/merging_6beam_data.ipynb
-#        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax notebooks/dbs_scans.ipynb
+        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax notebooks/dbs_scans.ipynb
 #        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax notebooks/reading_long_dbs.ipynb
 
 
