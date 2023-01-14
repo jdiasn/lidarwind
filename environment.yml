@@ -18,3 +18,4 @@ dependencies:
  - pip:
      - gdown==4.5.1
      - lidarwind==0.2.1
+     - pooch==1.6.0
