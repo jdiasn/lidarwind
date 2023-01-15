@@ -12,6 +12,9 @@ lidarwind introduction
     :target: https://lidarwind.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://mybinder.org/badge_logo.svg
+   :target: https://mybinder.org/v2/gh/jdiasn/lidarwind/main?labpath=notebooks
+
 .. image:: https://img.shields.io/pypi/v/lidarwind.svg
    :target: https://pypi.python.org/pypi/lidarwind/
 
