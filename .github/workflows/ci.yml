@@ -1,12 +1,13 @@
 name: lidarwind_test
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: "7 18 * * 0"
+  workflow_dispatch:
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
+  # schedule:
+  #   - cron: "7 18 * * 0"
 
 jobs:
   build:
