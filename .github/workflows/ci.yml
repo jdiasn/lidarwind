@@ -34,6 +34,13 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install -e .[plots,test]
 
+    - name: Cache sample data
+      id: cache-samples
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/lidarwind
+        key: ${{ runner.os }}-samples-${{ hashFiles('**/pyproject.toml') }}
+
     - name: Test with pytest
       run: |
         pytest tests
