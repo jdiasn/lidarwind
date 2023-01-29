@@ -27,6 +27,12 @@ def sample_data(key: str):
             known_hash="md5:53b4eb6e5dad6dfdaddfbb718dcf8910",
             processor=pooch.Unzip(),
         )
+    elif key == "wc_short_dbs":
+        file_list = pooch.retrieve(
+            url="doi:10.5281/zenodo.7312960/wc_short_dbs.zip",
+            known_hash="md5:9cbd93f89052d6c6f4407bcce415e277",
+            processor=pooch.Unzip(),
+        )
     else:
         raise ValueError
 
