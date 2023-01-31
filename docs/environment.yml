@@ -15,6 +15,7 @@ dependencies:
  - sphinx-gallery
  - pip
  - pip:
+     - pooch
      - gdown
      - xrft
      - lidarwind
