@@ -13,7 +13,6 @@ import numpy as np
 import xarray as xr
 
 
-
 def sample_data(key: str):
     if key == "wc_6beam":
         file_list = pooch.retrieve(
