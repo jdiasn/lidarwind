@@ -30,3 +30,9 @@ repos:
     rev: 5.0.4
     hooks:
     -   id: flake8
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  # Ruff version.
+  rev: 'v0.0.244'
+  hooks:
+    - id: ruff
+      args: [ --fix ]

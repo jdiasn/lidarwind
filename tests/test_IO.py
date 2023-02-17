@@ -1,6 +1,7 @@
 import pytest
 
 import lidarwind as lst
+
 from .data import data_filenames, get_sample_data
 
 

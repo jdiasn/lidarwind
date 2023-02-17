@@ -1,10 +1,10 @@
+import glob
 import os
 import shutil
-import glob
 from typing import Optional
 
-import pytest
 import gdown
+import pytest
 
 from lidarwind.io import open_sweep
 

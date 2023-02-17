@@ -2,8 +2,7 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 setup(
     include_package_data=True,

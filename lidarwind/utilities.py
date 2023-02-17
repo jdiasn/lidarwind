@@ -2,16 +2,15 @@
 
 """
 
+import glob
 import os
 import shutil
-import glob
 
 import gdown
+import numpy as np
 import pandas as pd
 import pooch
-import numpy as np
 import xarray as xr
-
 
 
 def sample_data(key: str):

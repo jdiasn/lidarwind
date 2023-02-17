@@ -5,7 +5,7 @@ __email__ = "jdiasn@gmail.com"
 __affiliation__ = "Delft University of Technology"
 
 
-from pkg_resources import get_distribution, DistributionNotFound
+from pkg_resources import DistributionNotFound, get_distribution
 
 try:
     __version__ = get_distribution(__name__).version
@@ -20,12 +20,12 @@ except DistributionNotFound:
         )
 
 
-from .lidarwind_config import *
+from .data_attributes import *
+from .data_operator import *
+from .filters import *
 from .lidar_code import *
+from .lidarwind_config import *
+from .utilities import *
+from .visualization import *
 from .wind_prop_retrieval import *
 from .wind_prop_retrieval_6_beam import *
-from .visualization import *
-from .utilities import *
-from .data_operator import *
-from .data_attributes import *
-from .filters import *

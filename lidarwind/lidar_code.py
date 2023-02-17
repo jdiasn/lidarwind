@@ -5,7 +5,6 @@
 
 import warnings
 
-
 from .io import open_sweep
 
 
