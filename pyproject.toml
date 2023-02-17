@@ -103,7 +103,7 @@ exclude = [
 ]
 per-file-ignores = {}
 
-line-length = 88
+line-length = 79
 
 target-version = "py38"
 
