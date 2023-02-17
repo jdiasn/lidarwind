@@ -1,9 +1,9 @@
-import pytest
 import numpy as np
+import pytest
 import xarray as xr
 
-from lidarwind.data_operator import wc_fixed_preprocessing
 import lidarwind as lst
+from lidarwind.data_operator import wc_fixed_preprocessing
 
 from .data import sample_dataset
 

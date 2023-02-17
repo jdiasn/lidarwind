@@ -3,7 +3,6 @@
 """Tests for 'lidarwind' package."""
 
 import pytest
-
 from click.testing import CliRunner
 
 import lidarwind

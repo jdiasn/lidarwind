@@ -3,15 +3,14 @@
 """
 
 
+import datetime as dt
 import logging
 
-import xarray as xr
-import datetime as dt
-import pandas as pd
 import numpy as np
+import pandas as pd
+import xarray as xr
 
 from .filters import Filtering
-
 from .lidar_code import GetLidarData
 
 module_logger = logging.getLogger("lidarwind.data_operator")
