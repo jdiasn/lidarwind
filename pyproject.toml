@@ -49,7 +49,7 @@ dev = [
   "flake8~=4.0.1",
   "pyupgrade~=3.2.2",
   "pre-commit~=2.20.0",
-  "ruff>=0.0.220",
+  "ruff~=0.0.220",
   "sphinx_rtd_theme~=0.4.3"
 ]
 test = [
