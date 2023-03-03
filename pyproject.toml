@@ -84,7 +84,7 @@ ignore = []
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["I"]
-unfixable = []
+unfixable = ["F401"]
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
