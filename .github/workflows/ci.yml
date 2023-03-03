@@ -69,7 +69,7 @@ jobs:
         pip install -e .[test]
         pytest --cov=./ --cov-report=xml
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/examples/turbulence_6beam_data_rendered.ipynb
-        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/examples/merging_6beam_data_rendered.ipynb
+        pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/examples/merging_6beam_rendered.ipynb
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/examples/dbs_scans_rendered.ipynb
         pytest --cov=./ --cov-append --cov-report=xml --current-env --nbval-lax docs/examples/reading_long_dbs_rendered.ipynb
 
