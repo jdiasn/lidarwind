@@ -32,10 +32,13 @@ This current version focuses on the WindCube's observations, and the wind retrie
 Documentation
 -------------
 
-The lidarwind's documentation is available at https://lidarwind.readthedocs.io, and an introductory set of rendered notebooks are available at https://nbviewer.org/github/jdiasn/lidarwind/tree/main/docs/examples/ or at https://github.com/jdiasn/lidarwind/tree/main/docs/examples. 
+The lidarwind's documentation is available at https://lidarwind.readthedocs.io. There you can find the steps needed for installing the package. You can also find a short description of how the lidar wind derives the wind speed and direction from WindCube's observations.
 
-If you want to try out the package without installing it locally, click on the binder badge above. You will be redirected to a virtual environment where you can also access the example notebooks. 
 
+Notebooks
+=========
+
+An introductory set of rendered notebooks are available at https://nbviewer.org/github/jdiasn/lidarwind/tree/main/docs/examples/ or at https://github.com/jdiasn/lidarwind/tree/main/docs/examples. If you want to try the package without installing it locally, click on the binder badge above. You will be redirected to a virtual environment where you can also access the same notebooks and test the package.
 
 .. warning::
 
