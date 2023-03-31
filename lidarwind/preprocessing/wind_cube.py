@@ -1,5 +1,6 @@
 import xarray as xr
 
+from lidarwind.io import open_sweep
 
 def wc_azimuth_correction(ds: xr.Dataset, azimuth_resolution: int = 1):
     
@@ -29,94 +30,74 @@ def wc_azimuth_correction(ds: xr.Dataset, azimuth_resolution: int = 1):
     
     return ds
 
-def wc_set_new_coordinates(ds: xr.Dataset):
+def wc_fixed_files_restruc_dataset(ds: xr.Dataset):
     
-    """New coords azimuth and elevation
+    """Restructuring fixed type files
     
-    This function defines azimuth and elevations as 
-    new coordinates.
+    This function restructures the WindCube fixed 
+    file type; it is needed to allow the merging 
+    of several fixed-type files. The function starts 
+    by swapping the range dimension with the gate_index. 
+    Then, the time dimension is added to the variables 
+    that do not have it. After that, elevation, azimuth 
+    and range are defined as new coordinates. 
     
     Parameters
     ----------
     ds : xr.Dataset
-        A dataset containing the WindCube's observations
-        
-    Returns
-    -------
-    ds : xr.Dataset
-        The same dataset, but the azimuth and elevation are defined as 
-        new coordinates.
-    
-    """
-
-    assert "elevation" in ds
-    assert "azimuth" in ds
-
-    ds = ds.set_coords("elevation")
-    ds = ds.set_coords("azimuth")
-    
-    return ds 
-
-def wc_set_time_dim_to_dimless_var(ds: xr.Dataset):
-    
-    """Time as new dim
-    
-    This function adds time as a new dimension to 
-    dimensionless variables.
-    
-    Parameters
-    ----------
-    ds : xr.Dataset 
-        A dataset containing the WindCube's observations
+        A dataset from the WindCube's fixed file type
     
     Returns
     -------
     ds : xr.Dataset
-        The same dataset, but all variables have time 
-        as a dimension
+        The same dataset, but restructured for merging. 
     
     """
-        
+    
+    
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+    
     assert "time" in ds
+    assert "range" in ds
+    assert "azimuth" in ds
+    assert "elevation" in ds
+    assert "gate_index" in ds
+
+    ds["gate_index"] = ds['gate_index'].astype("i")
+    ds = ds.swap_dims({'range':'gate_index'}).reset_coords()
+
+    tmp_no_time = ds[[v for v in ds.variables if "time" not in ds[v].dims]].expand_dims('time')
+    tmp_time = ds[[v for v in ds.variables if "time" in ds[v].dims]]
+
+    ds = xr.merge([tmp_no_time, tmp_time])
+    ds = ds.set_coords(["elevation", "azimuth", "range"])
     
-    for variable in ds.variables:
-        if len(ds[variable].dims) == 0:
-            ds[variable] = ds[variable].expand_dims("time")
-            
     return ds
 
-def wc_replace_dim_range_by_gate_index(ds: xr.Dataset):
+def wc_fixed_merge_files(file_names: list):
     
-    """Defines gate_index vertical dim
+    """Merging fixed type files
     
-    This function drops the range as vertical dimension
-    and defines gate_index as new vertical dimension
+    This function merges multiple fixed files into a single dataset.
     
     Parameters
     ----------
-    ds : xr.Dataset
-        A dataset containing the WindCube's observations
-        
+    file_names : list  
+        A list of fixed files to be merged
+    
     Returns
     -------
     ds : xr.Dataset
-        A dataset set with gate_index as vertical dimension
+        A dataset containing data from all files specified 
+        in the file_names list
     
     """
-
-    tmp_gate_index = ds.gate_index.copy()
-    tmp_range = ds.range.copy()
-
-    ds = ds.drop('gate_index')
-    ds = ds.rename({'range':'gate_index'})
-    ds = ds.assign_coords({'gate_index':tmp_gate_index.values})
-    
-    new_range = tmp_range.rename({'range':'gate_index'})
-    new_range = new_range.assign_coords({'gate_index':tmp_gate_index.values})
-    new_range = new_range.expand_dims({'time':ds.time.values})
-    
-    ds['ramge'] = new_range
-    ds['gate_index'].attrs = tmp_gate_index.attrs
     
 
+    if bool(file_names) is False:
+        raise FileNotFoundError
+    
+    ds = xr.merge([wc_fixed_files_restruc_dataset(open_sweep(file)) for file in file_names])
+    
     return ds
