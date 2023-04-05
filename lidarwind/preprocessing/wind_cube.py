@@ -1,18 +1,27 @@
 import xarray as xr
+import pandas as pd
 
 from lidarwind.io import open_sweep
 
-def wc_azimuth_correction(ds: xr.Dataset, azimuth_resolution: int = 1):
+def wc_azimuth_elevation_correction(ds: xr.Dataset, azimuth_resolution: int = 1, elevation_resolution: int = 1):
     
-    """Removal of 360 deg ambiguity 
+    """Azimuth and elevation correction
     
-    This function corrects the azimuth ambiguity issue. 
-    It replaces the 360 azimuth value with 0.
+    This function corrects the azimuth ambiguity issue by 
+    replacing the 360 azimuth value with 0. It also rounds
+    the elevation and azimuth according to a specified
+    resolution
     
     Parameters
     ----------
     ds : xr.Dataset
         A dataset containing the WindCube's observations
+    
+    azimuth_resolution : int
+        Azimuth resolution in degrees
+
+    elevation_resolution : int
+        Elevation resolution in degrees
     
     Returns
     -------
@@ -27,6 +36,8 @@ def wc_azimuth_correction(ds: xr.Dataset, azimuth_resolution: int = 1):
     ds["azimuth"] = ds["azimuth"].round(azimuth_resolution)
     # Avoid ambiguity on 360 degrees
     ds["azimuth"] = ds["azimuth"].where(ds.azimuth != 360, 0)
+    
+    ds["elevation"] = ds["elevation"].round(elevation_resolution)
     
     return ds
 
