@@ -1,5 +1,6 @@
 import xarray as xr
 import pandas as pd
+import numpy as np
 
 from lidarwind.io import open_sweep
 
@@ -115,58 +116,73 @@ def wc_fixed_merge_files(file_names: list):
 
 
 def wc_slanted_radial_velocity_4_fft(ds: xr.Dataset):
-
+    
     """Extraction of slanted radial velocities
-
-    This function extracts the non-zenith pointing
-    data from the dataset. Only the non-zenith pointing
-    data is used to retrieve the horizontal wind speed and
-    direction using the FFT method. Additionally, it sets
-    azimuth as a new dimension and reindexes the data by
-    proximity in time. The function identifies the duration
-    of a complete scan cycle, and for a given time step,
-    the time index is used as a central reference and
-    assigned as the time index of all azimuthal observations
-    within the duration of one cycle.
-
-
+    
+    This function extracts the non-zenith pointing 
+    data from the dataset. Only the non-zenith pointing 
+    data is used to retrieve the horizontal wind speed and 
+    direction using the FFT method. Additionally, it sets 
+    azimuth as a new dimension and reindexes the data by 
+    proximity in time. The function identifies the duration 
+    of a complete scan cycle, and for a given time step, 
+    the time index is used as a central reference and 
+    assigned as the time index of all azimuthal observations 
+    within the duration of one cycle. 
+    
+    
     Parameters
     ----------
     ds : xr.Dataset
-        A dataset of fixed-type files merged and
-        corrected for azimuth and elevation ambiguity.
-
+        A dataset of fixed-type files merged, 
+        corrected for azimuth and elevation ambiguity
+        and from a single elevation.
+        
+    
     Rerturns
     --------
-    ds : xr.Dataset
-        A dataset of reindexed slanted observations with
-        an extra dimension: azimuth
-
+    xr.Dataset
+        A dataset of reindexed slanted observations with 
+        an extra dimension: azimuth 
+    
     """
+    
+    if len(np.unique(ds.elevation)) > 1:
+        raise TypeError("This dataset contains multiple elevations")
 
+    if 90 in np.unique(ds.elevation):
+        raise ValueError("Data from 90 degrees elevation are not valid for retrieving wind horizontal wind")
+    
+    if len(ds["azimuth"].where(ds["azimuth"]==ds["azimuth"][0],drop=True)) < 2:
+        raise ValueError("Not enough data to estimate the one scan cylce duration")
+    
+    
     # initializing storage ds
     radial_velocities = xr.Dataset()
-
+    
     # identify the mean duration of a complete scan cycle
-    mean_cycle = ds.time.where(ds.azimuth==ds.azimuth[0], drop=True).diff(dim='time').mean()
-    half_cycle = pd.to_timedelta(mean_cycle.values).seconds/2
-
+    half_cycle = ds.time.where(ds.azimuth==ds.azimuth[0], drop=True).diff(dim='time').mean().values
+    half_cycle = pd.to_timedelta(half_cycle).seconds/2
+    
     # unique azimuths
-    azimuths = np.unique(ds_slanted.azimuth)
-
-    for azimuth in azimuths:
+    azimuth = np.unique(ds.azimuth)
+    
+    for azm in azimuth:
 
         # selecting the reference azimuthal slice
-        azimuths_left_over = azimuths[azimuths!=azimuth]
-        tmp_reference_slice = ds["radial_wind_speed"].where(ds["azimuth"]==azimuth, drop=True)
-        tmp_reference_slice = tmp_reference_slice.drop(["azimuth"]).assign_coords({"azimuth":azimuth}).expand_dims(['azimuth'])
+        azimuth_left_over = azimuth[azimuth!=azm]
+        tmp_reference_slice = ds["radial_wind_speed"].where(ds["azimuth"]==azm, drop=True)
+        tmp_reference_slice = tmp_reference_slice.drop(["azimuth"]).assign_coords({"azimuth":azm}).expand_dims(['azimuth'])
         radial_velocities = xr.merge([radial_velocities, tmp_reference_slice])
 
-        for tmp_azimuth in azimuths_left_over:
+        
+        for azm_left in azimuth_left_over:
 
-            tmp_azimuth_slice = ds["radial_wind_speed"].where(ds["azimuth"]==tmp_azimuth, drop=True)
+            tmp_azimuth_slice = ds["radial_wind_speed"].where(ds["azimuth"]==azm_left, drop=True)
             interp_azimuth_slice = tmp_azimuth_slice.reindex(time=tmp_reference_slice.time, method="nearest", tolerance=f"{half_cycle}s")
-            tmp_slice = interp_azimuth_slice.drop(["azimuth"]).assign_coords({"azimuth":tmp_azimuth}).expand_dims(['azimuth'])
+            tmp_slice = interp_azimuth_slice.drop(["azimuth"]).assign_coords({"azimuth":azm_left}).expand_dims(['azimuth'])
             radial_velocities = xr.merge([radial_velocities, tmp_slice])
-
+            
+    radial_velocities["azimuth"].attrs = ds["azimuth"].attrs
+        
     return radial_velocities
