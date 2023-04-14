@@ -183,6 +183,6 @@ def wc_slanted_radial_velocity_4_fft(ds: xr.Dataset):
             tmp_slice = interp_azimuth_slice.drop(["azimuth"]).assign_coords({"azimuth":azm_left}).expand_dims(['azimuth'])
             radial_velocities = xr.merge([radial_velocities, tmp_slice])
             
-    radial_velocities["azimuth"].attrs = ds["azimuth"].attrs
+    radial_velocities["azimuth"].attrs =ds["azimuth"].attrs
         
     return radial_velocities
