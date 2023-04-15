@@ -29,7 +29,7 @@ def wc_azimuth_elevation_correction(
 
     Returns
     -------
-    ds : xr.Dataset
+    xr.Dataset
         The same dataset, but the azimuth is corrected for the ambiguity
 
     """
@@ -65,7 +65,7 @@ def wc_fixed_files_restruc_dataset(ds: xr.Dataset):
 
     Returns
     -------
-    ds : xr.Dataset
+    xr.Dataset
         The same dataset, but restructured for merging.
 
     """
@@ -106,7 +106,7 @@ def wc_fixed_merge_files(file_names: list):
 
     Returns
     -------
-    ds : xr.Dataset
+    xr.Dataset
         A dataset containing data from all files specified
         in the file_names list
 
