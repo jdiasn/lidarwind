@@ -5,7 +5,7 @@ import xarray as xr
 import lidarwind as lst
 
 
-def test_get_dummy_six_beam_obj():
+def get_dummy_six_beam_obj():
 
     wind = (
         np.sin(np.deg2rad(np.array([0, 72, 144, 216, 288]) + 0))
@@ -64,7 +64,7 @@ def test_get_dummy_six_beam_obj():
 @pytest.fixture
 def test_get_fft_obj():
 
-    test_ds = test_get_dummy_six_beam_obj()
+    test_ds = get_dummy_six_beam_obj()
     fft_obj = lst.FourierTransfWindMethod(test_ds.data_transf)
 
     return fft_obj
