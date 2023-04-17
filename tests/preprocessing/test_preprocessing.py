@@ -45,7 +45,7 @@ def test_wc_fixed_merge_files_ds_structure(file_names=files[0:6]):
     assert len(ds.time) > 1
     assert len(ds.gate_index) > 1
 
-    return ds
+    return ds.copy()
 
 
 def test_wc_slanted_radial_velocity_4_fft_90_deg_elevation(
