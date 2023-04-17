@@ -82,9 +82,10 @@ def test_wc_slanted_radial_velocity_4_fft_few_data(
     ds = test_wc_fixed_merge_files_ds_structure
     ds = preprocessing.wc_azimuth_elevation_correction(ds)
     unique_elevation = np.unique(ds.elevation)[np.unique(ds.elevation) != 90]
-    ds = ds.where(ds.elevation == unique_elevation, drop=True)
 
     with pytest.raises(ValueError):
-        preprocessing.wc_slanted_radial_velocity_4_fft(ds)
+        preprocessing.wc_slanted_radial_velocity_4_fft(
+            ds.where(ds.elevation == unique_elevation, drop=True)
+        )
 
     ds.close()
