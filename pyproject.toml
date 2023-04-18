@@ -4,7 +4,7 @@ requires = [
     "setuptools_scm[toml] >= 4",
     "setuptools_scm_git_archive",
     "milksnake",
-    "wheel >= 0.29.0",
+    "wheel >= 0.38.1",
 ]
 build-backend = 'setuptools.build_meta'
 
