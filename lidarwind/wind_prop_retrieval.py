@@ -577,7 +577,7 @@ class RetriveWindFFT:
             self.transfd_data.data_transf
         ).wind_prop()
         tmp_wind_prop = tmp_wind_prop.squeeze(dim="elv")
-        tmp_wind_prop = tmp_wind_prop.drop(["elv", "freq_azm"])
+        tmp_wind_prop = tmp_wind_prop.drop_vars(["elv", "freq_azm"])
         self.wind_prop = tmp_wind_prop
 
         return self
