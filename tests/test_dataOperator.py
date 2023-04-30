@@ -44,6 +44,7 @@ def test_data_operator_DbsOperations_varList_none():
         lst.DbsOperations(file_list=["file_path"], var_list=None)
 
 
+# @pytest.mark.skip("deactivating to isolate sef fault error")
 def test_wc_fixed_preprocessing_vertical():
     """Pre-process a vertical WC dataset"""
     ds = sample_dataset("WLS200s-218_2021-05-13_12-00-14_fixed_399_50m.nc")
@@ -54,6 +55,7 @@ def test_wc_fixed_preprocessing_vertical():
     assert "elevation" in ds.dims
 
 
+# @pytest.mark.skip("deactivating to isolate sef fault error")
 def test_wc_fixed_preprocessing_slanted():
     """Pre-process a slanted WC dataset"""
     ds = sample_dataset("WLS200s-218_2021-05-13_12-00-08_fixed_381_50m.nc")
@@ -64,6 +66,7 @@ def test_wc_fixed_preprocessing_slanted():
     assert "elevation" in ds.dims
 
 
+# @pytest.mark.skip("deactivating to isolate sef fault error")
 def test_wc_fixed_preprocessing_without_elevation():
     """It should raise an error with a Dataset missing elevation
 

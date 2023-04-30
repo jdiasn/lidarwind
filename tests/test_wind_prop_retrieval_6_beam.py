@@ -5,13 +5,7 @@ import xarray as xr
 import lidarwind as lst
 
 
-def test_six_beam_method_input():
-
-    with pytest.raises(TypeError):
-        lst.SixBeamMethod(data=xr.DataArray(np.array([0, 1])))
-
-
-def test_get_dummy_six_beam_obj():
+def get_dummy_six_beam_obj():
 
     elv = np.array([75, 75, 90, 75, 75, 75])
     data_elv = xr.DataArray(
@@ -55,11 +49,17 @@ def test_get_dummy_six_beam_obj():
     return lst.GetRestructuredData(test_ds)
 
 
+def test_six_beam_method_input():
+
+    with pytest.raises(TypeError):
+        lst.SixBeamMethod(data=xr.DataArray(np.array([0, 1])))
+
+
 @pytest.fixture
 def test_get_six_beam_obj():
 
     six_beam_obj = lst.SixBeamMethod(
-        test_get_dummy_six_beam_obj(), freq=6, freq90=6
+        get_dummy_six_beam_obj(), freq=6, freq90=6
     )
 
     return six_beam_obj

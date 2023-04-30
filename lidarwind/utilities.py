@@ -18,18 +18,21 @@ def sample_data(key: str):
         file_list = pooch.retrieve(
             url="doi:10.5281/zenodo.7312960/wc_6beam.zip",
             known_hash="md5:a7ea3c10a6d2f4a97ff955dc4398f930",
+            path="~/.cache/lidarwind",
             processor=pooch.Unzip(),
         )
     elif key == "wc_long_dbs":
         file_list = pooch.retrieve(
             url="doi:10.5281/zenodo.7312960/wc_long_dbs.zip",
             known_hash="md5:53b4eb6e5dad6dfdaddfbb718dcf8910",
+            path="~/.cache/lidarwind",
             processor=pooch.Unzip(),
         )
     elif key == "wc_short_dbs":
         file_list = pooch.retrieve(
             url="doi:10.5281/zenodo.7312960/wc_short_dbs.zip",
             known_hash="md5:9cbd93f89052d6c6f4407bcce415e277",
+            path="~/.cache/lidarwind",
             processor=pooch.Unzip(),
         )
     else:
@@ -69,7 +72,8 @@ class Util:
         """
 
         if file_type == "12-00":
-            url = "https://drive.google.com/uc?export=download&id=1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
+            file_id = "1i6iX6KuZOkP_WLuPZHG5uCcvRjlWS-SU"
+            url = f"https://drive.google.com/uc?export=download&id={file_id}"
 
         if file_type == "dbs":
             url = "path"

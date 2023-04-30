@@ -128,6 +128,8 @@ def wc_fixed_merge_files(file_names: list):
         if tmp_ds["elevation"] != 90:
             slanted_list.extend([tmp_ds])
 
+        tmp_ds.close()
+
     ds_zenith = xr.merge(zenith_list)
     ds_slanted = xr.merge(slanted_list)
 
