@@ -9,7 +9,6 @@ files = lidarwind.sample_data("wc_6beam")
 files = sorted(files)
 
 
-@pytest.fixture
 def get_sintetic_6_beam_data():
 
     elv = np.array([75, 75, 90, 75, 75, 75, 75])
@@ -93,13 +92,13 @@ def test_wc_fixed_merge_files_ds_structure(file_names=files[0:6]):
 
 
 # @pytest.mark.skip("skip 1")
-def test_wc_slanted_radial_velocity_4_fft_90_deg_elevation(
-    get_sintetic_6_beam_data,
-):
+def test_wc_slanted_radial_velocity_4_fft_90_deg_elevation():
 
-    ds = get_sintetic_6_beam_data
+    ds = get_sintetic_6_beam_data()
     ds = preprocessing.wc_azimuth_elevation_correction(ds)
     ds = ds.where(ds["elevation"] == 90, drop=True)
+
+    assert ds["elevation"].size > 0
 
     with pytest.raises(ValueError):
         preprocessing.wc_slanted_radial_velocity_4_fft(ds)
@@ -108,11 +107,9 @@ def test_wc_slanted_radial_velocity_4_fft_90_deg_elevation(
 
 
 # @pytest.mark.skip("skip 1")
-def test_wc_slanted_radial_velocity_4_fft_multiple_elevation(
-    get_sintetic_6_beam_data,
-):
+def test_wc_slanted_radial_velocity_4_fft_multiple_elevation():
 
-    ds = get_sintetic_6_beam_data
+    ds = get_sintetic_6_beam_data()
     ds = preprocessing.wc_azimuth_elevation_correction(ds)
 
     with pytest.raises(TypeError):
@@ -122,11 +119,9 @@ def test_wc_slanted_radial_velocity_4_fft_multiple_elevation(
 
 
 # @pytest.mark.skip("skip 1")
-def test_wc_slanted_radial_velocity_4_fft_few_data(
-    get_sintetic_6_beam_data,
-):
+def test_wc_slanted_radial_velocity_4_fft_few_data():
 
-    ds = get_sintetic_6_beam_data
+    ds = get_sintetic_6_beam_data()
     ds = preprocessing.wc_azimuth_elevation_correction(ds)
     unique_elevation = np.unique(ds.elevation)[np.unique(ds.elevation) != 90]
 
