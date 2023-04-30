@@ -555,7 +555,7 @@ class RetriveWindFFT:
 
         if not isinstance(transfd_data, GetRestructuredData):
             self.logger.error(
-                "wrong data type: expecting a lidarwind.GetRestructuredData instance"
+                "wrong data type: expecting a lidarwind.GetRestructuredData"
             )
             raise TypeError
 
