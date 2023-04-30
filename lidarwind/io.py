@@ -30,6 +30,8 @@ def open_sweep(file_name):
     sweep_group_name = raw_data["sweep_group_name"].values[0]
     ds = raw_data[f"/{sweep_group_name}"].to_dataset()
 
+    del raw_data
+
     assert "time_reference" in ds, "missing time_reference in input sweep"
     # Guarantee that it is a valid datetime
     reference_time = pd.to_datetime(ds["time_reference"].values).isoformat()
