@@ -32,9 +32,9 @@ classifiers=[
   "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-  "xrft>=0.3.0",
-  "xarray>=0.20",
-  "pandas>=1.3.3",
+  "xrft>=0.3",
+  "xarray>=0.21",
+  "pandas>=1.4",
   "numpy>=1.22",
   "netCDF4 >= 1.5",
   "matplotlib>=3.4.3",
