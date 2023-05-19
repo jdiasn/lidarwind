@@ -11,6 +11,22 @@ module_logger = logging.getLogger("lidarwind.wind_prop_retrieval")
 module_logger.debug("loading wind_prop_retrieval")
 
 
+def first_harmonic_amplitude(ds: xr.Dataset, dim="azm") -> xr.DataArray:
+    """First harmonic amplitude
+
+    It calculates the complex amplitudes from the first harmonic from the
+    observations along the azm coordinate
+
+    ds doppler_obs
+
+    """
+    module_logger.info("calculating the complex amplitude")
+
+    comp_amp = xrft.fft(ds, dim=[dim], true_amplitude=False)
+
+    return comp_amp.isel(freq_azm=-2)
+
+
 class FourierTransfWindMethod:
     """FFT wind retrieval method
 
@@ -35,7 +51,6 @@ class FourierTransfWindMethod:
     """
 
     def __init__(self, doppler_obs: xr.DataArray):
-
         self.logger = logging.getLogger(
             "lidarwind.wind_prop_retrieval.FourierTransfWindMethod"
         )
@@ -293,7 +308,6 @@ class GetWindProperties5Beam:
         method="single_dbs",
         tolerance="8s",
     ):
-
         self.logger = logging.getLogger(
             "lidarwind.wind_prop_retrieval.GetWindProperties5Beam"
         )
@@ -547,7 +561,6 @@ class RetriveWindFFT:
     """
 
     def __init__(self, transfd_data: GetRestructuredData):
-
         self.logger = logging.getLogger(
             "lidarwind.wind_prop_retrieval.FourierTransfWindMethod"
         )
