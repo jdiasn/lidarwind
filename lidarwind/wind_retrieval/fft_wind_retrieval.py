@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 import xrft
@@ -35,19 +34,14 @@ def first_harmonic_amplitude(
     )
 
     # determination of the first harmonic position
-    harmonic_index = int(radial_velocity[dim].size / 2) + 1
-
-    plt.figure(figsize=(10, 4))
-    amp = np.abs(complex_amplitudes)
-    (amp / amp.max()).isel(range=0, time=0).plot()
-    plt.vlines(amp.freq_azm.isel(freq_azm=harmonic_index), 0, 1, color="red")
-    plt.xlim(-0.02, 0.02)
-    plt.title(
-        f"azm size: {radial_velocity[dim].size}, azm res: {radial_velocity[dim].isel({dim:1}).values} "
+    # harmonic_index = int(radial_velocity[dim].size / 2) + 1
+    first_harmonic_index = (
+        complex_amplitudes[f"freq_{dim}"]
+        .where(complex_amplitudes[f"freq_{dim}"] > 0)
+        .argmin()
     )
-    plt.show()
 
-    return complex_amplitudes.isel({f"freq_{dim}": harmonic_index})
+    return complex_amplitudes.isel({f"freq_{dim}": first_harmonic_index})
 
 
 def harmonic_phase(amplitude: xr.DataArray) -> xr.DataArray:
