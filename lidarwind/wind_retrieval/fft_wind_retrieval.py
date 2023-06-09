@@ -148,7 +148,7 @@ def wind_projected_to_azimuth(
     radial_wind_speed = (
         2 * np.abs(amplitude) / amplitude[f"{azimuth_name}_length"]
     )
-    projected_radial_wind = radial_wind_speed * np.sin(
+    projected_radial_wind = radial_wind_speed * np.cos(
         np.deg2rad(azimuth) + np.deg2rad(-harmonic_phase(amplitude) + 180)
     )
     projected_horizontal_wind = projected_radial_wind / np.cos(
@@ -178,7 +178,7 @@ def zonal_wind(
 
     zonal_wind = (
         wind_projected_to_azimuth(
-            amplitude, 0, coord=elevation_name, azimuth_name=azimuth_name
+            amplitude, 90, coord=elevation_name, azimuth_name=azimuth_name
         )
         * -1
     )
@@ -206,7 +206,7 @@ def meridional_wind(
 
     meridional_wind = (
         wind_projected_to_azimuth(
-            amplitude, 90, coord=elevation_name, azimuth_name=azimuth_name
+            amplitude, 0, coord=elevation_name, azimuth_name=azimuth_name
         )
         * -1
     )
