@@ -191,8 +191,8 @@ def wc_slanted_radial_velocity_4_fft(ds: xr.Dataset):
 
     # identify the mean duration of a complete scan cycle
     half_cycle = (
-        ds.time.where(ds.azimuth == ds.azimuth[0], drop=True)
-        .diff(dim="time")
+        ds.where(ds.azimuth == ds.azimuth[0], drop=True)
+        .time.diff(dim="time")
         .mean()
         .values
     )
