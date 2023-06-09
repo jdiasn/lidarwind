@@ -156,3 +156,35 @@ def test_first_harmonic_amplitude_projected_wind():
         fft_wind_retrieval.wind_projected_to_azimuth(tmp_amp, 0).values[1, 1],
         -20,
     )
+
+
+def test_first_harmonic_amplitude_horizontal_wind_speed_var():
+
+    tmp_ds = fft_wind_retrieval.get_wind_properties(
+        get_radial_velocities_4_test().radial_wind_speed
+    )
+    assert "horizontal_wind_speed" in tmp_ds
+
+
+def test_first_harmonic_amplitude_horizontal_wind_dir_var():
+
+    tmp_ds = fft_wind_retrieval.get_wind_properties(
+        get_radial_velocities_4_test().radial_wind_speed
+    )
+    assert "horizontal_wind_direction" in tmp_ds
+
+
+def test_first_harmonic_amplitude_meridional_wind_dir_var():
+
+    tmp_ds = fft_wind_retrieval.get_wind_properties(
+        get_radial_velocities_4_test().radial_wind_speed
+    )
+    assert "meridional_wind" in tmp_ds
+
+
+def test_first_harmonic_amplitude_zonal_wind_dir_var():
+
+    tmp_ds = fft_wind_retrieval.get_wind_properties(
+        get_radial_velocities_4_test().radial_wind_speed
+    )
+    assert "zonal_wind" in tmp_ds
