@@ -46,7 +46,7 @@ def sintetic_data(step=90, elevation=75) -> xr.Dataset:
         coords={"time": time, "gate_index": [1, 2]},
     )
 
-    range = xr.DataArray(
+    ranges = xr.DataArray(
         np.ones((2, 7)).T
         * np.array([100, 150])
         / np.sin(np.deg2rad(elevation)),
@@ -65,7 +65,7 @@ def sintetic_data(step=90, elevation=75) -> xr.Dataset:
             "elevation": data_elv,
             "azimuth": data_azm,
             "cnr": data,
-            "range": range,
+            "range": ranges,
             "radial_wind_speed": data,
             "radial_wind_speed_status": data_status,
             "relative_beta": data,
@@ -76,7 +76,7 @@ def sintetic_data(step=90, elevation=75) -> xr.Dataset:
         {
             "elevation": test_ds.elevation,
             "azimuth": test_ds.azimuth,
-            "range": range,
+            "range": ranges,
         }
     )
 
