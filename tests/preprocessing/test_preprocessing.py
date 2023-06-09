@@ -46,7 +46,7 @@ def get_sintetic_6_beam_data():
         }
     )
 
-    sintetic_data = sintetic_data.set_coords(("azimuth", "elevation", "range"))
+    sintetic_data = sintetic_data.set_coords(["azimuth", "elevation", "range"])
 
     return sintetic_data
 
