@@ -1,93 +1,13 @@
 import numpy as np
-import pandas as pd
-import xarray as xr
 
 from lidarwind import preprocessing
+from lidarwind.synthetic_data import wc_synthetic_data
 from lidarwind.wind_retrieval import fft_wind_retrieval
-
-
-def sintetic_data(step=90, elevation=75) -> xr.Dataset:
-    """Sintect data
-
-    Function to create synthetic data for testing the package
-
-    Parameters
-    ----------
-    step : int
-        separation in degree between the data points
-
-    elevation : int
-        elevation of the observation
-
-    Returns
-    -------
-        A synthetic dataset
-
-    """
-
-    azimuths = np.arange(0, 360, step)
-
-    wind = np.cos(np.deg2rad(azimuths + 0)) * 20 * np.cos(np.deg2rad(75))
-
-    elv = np.append(np.ones_like(azimuths) * elevation, [90, 75])
-
-    time = pd.to_datetime("11/11/2017") + pd.to_timedelta(
-        np.arange(len(elv)), unit="seconds"
-    )
-
-    data_elv = xr.DataArray(elv, dims=("time"), coords={"time": time})
-
-    azm = np.append(azimuths, [0, 0])
-    data_azm = xr.DataArray(azm, dims=("time"), coords={"time": time})
-
-    data = xr.DataArray(
-        (np.ones((2, 7)) * np.append(wind, [0, wind[0]])).T,
-        dims=("time", "gate_index"),
-        coords={"time": time, "gate_index": [1, 2]},
-    )
-
-    ranges = xr.DataArray(
-        np.ones((2, 7)).T
-        * np.array([100, 150])
-        / np.sin(np.deg2rad(elevation)),
-        dims=("time", "gate_index"),
-        coords={"time": time, "gate_index": [1, 2]},
-    )
-
-    data_status = xr.DataArray(
-        np.ones_like(data.values),
-        dims=("time", "gate_index"),
-        coords={"time": time, "gate_index": [1, 2]},
-    )
-
-    test_ds = xr.Dataset(
-        {
-            "elevation": data_elv,
-            "azimuth": data_azm,
-            "cnr": data,
-            "range": ranges,
-            "radial_wind_speed": data,
-            "radial_wind_speed_status": data_status,
-            "relative_beta": data,
-        }
-    )
-
-    test_ds = test_ds.set_coords(
-        {
-            "elevation": test_ds.elevation,
-            "azimuth": test_ds.azimuth,
-            "range": ranges,
-        }
-    )
-
-    test_ds["range"].values[test_ds.elevation == 90] = np.array([100, 150])
-
-    return test_ds
 
 
 def get_radial_velocities_4_test():
 
-    ds = sintetic_data(step=72, elevation=75)
+    ds = wc_synthetic_data.synthetic_data(step=72, elevation=75)
     slanted_elevation = np.unique(ds.elevation)[np.unique(ds.elevation) != 90]
     ds_slanted = ds.where(ds.elevation == slanted_elevation, drop=True)
     radial_velocities = preprocessing.wc_slanted_radial_velocity_4_fft(
