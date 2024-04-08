@@ -2,10 +2,35 @@ import numpy as np
 import xarray as xr
 
 
-def time_deconding(ds: xr.Dataset, time_name: str = "Time") -> xr.Dataset:
+def time_decoding(
+    ds: xr.Dataset, time_name: str = "Time", time_ms_name: str = "Timems"
+) -> xr.Dataset:
 
-    ds["Time"] = ds["Time"] + ds["Timems"] * 1e-3
-    ds["Time"].attrs["units"] = "seconds since 20010101 00:00:00"
+    """Time decoder
+
+    This function decodes the time variable from the RPG radar.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A xarray dataset of the original RPG radar files.
+
+    time_name : str
+        Name of the time variable
+
+    time_ms_name : str
+        Name of the millisecond time variable
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert time_name in ds
+    assert time_ms_name in ds
+
+    ds[time_name] = ds[time_name] + ds[time_ms_name] * 1e-3
+    ds[time_name].attrs["units"] = "seconds since 20010101 00:00:00"
     ds = xr.decode_cf(ds)
 
     return ds
@@ -122,7 +147,7 @@ def update_structure(ds):
 
     tmp_ds = tmp_ds.assign_coords({"mean_time": ds.time.mean()})
 
-    ## in the future, I have to use an external function for it
+    # in the future, I have to use an external function for it
     start_scan = (
         ds.time[0].assign_coords({"mean_time": tmp_ds.mean_time}).drop("time")
     )
@@ -171,7 +196,7 @@ def rpg_slanted_radial_velocity_4_fft(ds):
     chirp_info = get_chirp_information(ds)
 
     # pre-processing
-    ds = time_deconding(ds)
+    ds = time_decoding(ds)
     ds = selecting_variables(ds)
     ds = azimuth_offset(ds)
     ds = height_estimation(ds)
