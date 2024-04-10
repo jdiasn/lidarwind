@@ -21,6 +21,11 @@ def time_decoding(
     time_ms_name : str
         Name of the millisecond time variable
 
+    Returns
+    -------
+    xr.Dataset
+        The same dataset, but time is decoded using CF conventions
+
     """
 
     if not isinstance(ds, xr.Dataset):
@@ -36,39 +41,59 @@ def time_decoding(
     return ds
 
 
-def selecting_variables(dataset):
+def selecting_variables(ds: xr.Dataset) -> xr.Dataset:
 
-    velocities_ds = xr.Dataset()
-    for chirp_name in ["C1", "C2", "C3"]:
+    """RPG variable selection
 
-        tmp_data = dataset[f"{chirp_name}MeanVel"].rename(
-            {f"{chirp_name}Range": "range"}
-        )
-        tmp_data.name = "MeanVel"
-        velocities_ds = xr.merge([velocities_ds, tmp_data])
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A xarray dataset of the original RPG radar files
 
-        tmp_data = dataset[f"{chirp_name}ZDR"].rename(
-            {f"{chirp_name}Range": "range"}
-        )
-        tmp_data.name = "ZDR"
-        velocities_ds = xr.merge([velocities_ds, tmp_data])
 
-    # tmp_rain_data = dataset["Rain"]
-    # tmp_rain_data.name = 'rain_rate'
+    Returns
+    -------
+    xr.Dataset
+        A set of variables needed for the wind retrieval
+    """
 
-    velocities_ds = velocities_ds.where(velocities_ds != -999)
-    velocities_ds = xr.merge(
-        [velocities_ds, dataset.Azm, dataset.Elv]
-    )  # , tmp_rain_data])
-    velocities_ds = velocities_ds.rename(
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert "ChirpNum" in ds
+
+    chirp_var = ["MeanVel", "ZDR"]
+    other_var = ["Azm", "Elv"]
+
+    tmp_ds = []
+
+    for v in chirp_var:
+        for chirp_number in range(ds["ChirpNum"].values):
+
+            chirp_name = f"C{chirp_number+1}"
+
+            tmp_data = ds[f"{chirp_name}{v}"].rename(
+                {f"{chirp_name}Range": "range"}
+            )
+
+            tmp_data.name = v
+
+            tmp_ds.extend([tmp_data])
+
+    for v in other_var:
+        tmp_ds.extend([ds[v]])
+
+    tmp_ds = xr.merge(tmp_ds)
+    tmp_ds.where(tmp_ds != -999)
+
+    tmp_ds["range_layers"] = tmp_ds["range"]
+    tmp_ds = tmp_ds.assign_coords({"range": np.arange(len(tmp_ds["range"]))})
+
+    tmp_ds = tmp_ds.rename(
         {"Time": "time", "Azm": "azimuth", "Elv": "elevation"}
     )
-    velocities_ds["range_layers"] = velocities_ds.range
-    velocities_ds = velocities_ds.assign_coords(
-        {"range": np.arange(len(velocities_ds.range))}
-    )
 
-    return velocities_ds
+    return tmp_ds
 
 
 def azimuth_offset(ds, variable="MeanVel"):
