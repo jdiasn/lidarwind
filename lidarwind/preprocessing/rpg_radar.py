@@ -41,7 +41,11 @@ def time_decoding(
     return ds
 
 
-def selecting_variables(ds: xr.Dataset) -> xr.Dataset:
+def selecting_variables(
+    ds: xr.Dataset,
+    chirp_var: list = ["MeanVel", "ZDR"],
+    other_var: list = ["Azm", "Elv"],
+) -> xr.Dataset:
 
     """RPG variable selection
 
@@ -50,20 +54,25 @@ def selecting_variables(ds: xr.Dataset) -> xr.Dataset:
     ds : xr.Dataset
         A xarray dataset of the original RPG radar files
 
+    chirp_var : list
+        Variables that are chirp dependent
+
+    other_var : list
+        Variables that are not chirp dependent
 
     Returns
     -------
     xr.Dataset
         A set of variables needed for the wind retrieval
+
     """
 
     if not isinstance(ds, xr.Dataset):
         raise TypeError
 
-    assert "ChirpNum" in ds
-
-    chirp_var = ["MeanVel", "ZDR"]
-    other_var = ["Azm", "Elv"]
+    assert "Time" in ds
+    assert "Azm" in ds
+    assert "Elv" in ds
 
     tmp_ds = []
 
