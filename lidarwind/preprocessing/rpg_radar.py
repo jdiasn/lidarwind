@@ -49,6 +49,10 @@ def selecting_variables(
 
     """RPG variable selection
 
+    It extracts the variables needed for retrieving
+    wind profiles from the radar PPI data and returns
+    them as a dataset.
+
     Parameters
     ----------
     ds : xr.Dataset
@@ -105,32 +109,49 @@ def selecting_variables(
     return tmp_ds
 
 
-def azimuth_offset(ds, variable="MeanVel"):
-    # those offset values where retrieved using
-    # the windcube lidar as reference
+def azimuth_offset(ds, var="MeanVel"):
+
+    """Azimuth offset correction
+
+
+    Parameters
+    ----------
+    ds : --> talk about the correction of ppi
+    files, azimuth sequence identification,
+    maybe it should only identify for now,
+    and at a certain point it can be used to
+    correct the data
+
+    each chirp needs its correction
+
+    """
+    # Those offset values were retrieved using
+    # the wind cube lidar as reference
 
     result = ds.azimuth[-1] - ds.azimuth[0]
 
     # increasing azm
     if result > 0:
 
-        # ds[variable].attrs['azmOff_c3'] = '4.88'
-        # ds[variable].attrs['azmOff_c2'] = '4.23'
-        # ds[variable].attrs['azmOff_c1'] = '2.08'
+        # ds[var].attrs['azmOff_c3'] = '4.88'
+        # ds[var].attrs['azmOff_c2'] = '4.23'
+        # ds[var].attrs['azmOff_c1'] = '2.08'
         ds["azm_seq"] = 1
 
     # decreasing azm
     if result < 0:
 
-        # ds[variable].attrs['azmOff_c3'] = '0'
-        # ds[variable].attrs['azmOff_c2'] = '0'
-        # ds[variable].attrs['azmOff_c1'] = '0'
+        # ds[var].attrs['azmOff_c3'] = '0'
+        # ds[var].attrs['azmOff_c2'] = '0'
+        # ds[var].attrs['azmOff_c1'] = '0'
         ds["azm_seq"] = -1
 
     return ds
 
 
 def height_estimation(ds):
+
+    """Data height estimation"""
 
     # height estimation
     correc_fact = np.sin(np.deg2rad(ds["elevation"].values[0]))
