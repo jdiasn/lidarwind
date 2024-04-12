@@ -109,42 +109,67 @@ def selecting_variables(
     return tmp_ds
 
 
-def azimuth_offset(ds, var="MeanVel"):
+def azimuth_offset(ds: xr.Dataset, azm: str = "azimuth") -> xr.Dataset:
 
     """Azimuth offset correction
 
+    This function is intended to correct the
+    chirp-dependent bias that affects the
+    radar measurements. Additional information
+    from the radar operation is still needed
+    to allow full correction. Currently, it
+    only identifies if the azimuths are
+    increasing or decreasing with time.
+    IT SHOULD BE APPLIED TO SINGLE PPI FILES.
 
     Parameters
     ----------
-    ds : --> talk about the correction of ppi
-    files, azimuth sequence identification,
-    maybe it should only identify for now,
-    and at a certain point it can be used to
-    correct the data
+    ds : xr.Dataset
+        A single PPI dataset
 
-    each chirp needs its correction
+    azm : string
+        Name of the azimuth variable
+
+    Returns
+    -------
+    xr.Dataset
+        An azimuth-corrected dataset
 
     """
-    # Those offset values were retrieved using
-    # the wind cube lidar as reference
 
-    result = ds.azimuth[-1] - ds.azimuth[0]
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
 
-    # increasing azm
+    assert f"{azm}" in ds
+
+    # The offset values listed below were
+    # retrieved using the wind cube lidar
+    # as reference
+
+    result = ds[azm][-1] - ds[azm][0]
+
+    # increasing azimuth
     if result > 0:
 
+        # -> reference for future development
         # ds[var].attrs['azmOff_c3'] = '4.88'
         # ds[var].attrs['azmOff_c2'] = '4.23'
         # ds[var].attrs['azmOff_c1'] = '2.08'
+
         ds["azm_seq"] = 1
 
-    # decreasing azm
+    # decreasing azimuth
     if result < 0:
 
         # ds[var].attrs['azmOff_c3'] = '0'
         # ds[var].attrs['azmOff_c2'] = '0'
         # ds[var].attrs['azmOff_c1'] = '0'
+
         ds["azm_seq"] = -1
+
+    ds["azm_seq"].attrs = {
+        "comment": " 1: azimuth increasing; -1: azimuth decreasing"
+    }
 
     return ds
 
