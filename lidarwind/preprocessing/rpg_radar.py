@@ -174,9 +174,32 @@ def azimuth_offset(ds: xr.Dataset, azm: str = "azimuth") -> xr.Dataset:
     return ds
 
 
-def height_estimation(ds):
+def height_estimation(ds: xr.Dataset) -> xr.Dataset:
 
-    """Data height estimation"""
+    """Data height estimation
+
+    Calculation of the height of the observations.
+    It uses the elevation and the range to calculate
+    the height of the observations.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A dataset of selected variables generated
+        by selecting_variables function.
+
+    Returns
+    -------
+    xr.Dataset
+        Height corrected dataset
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert "range_layers" in ds
+    assert "elevation" in ds
 
     # height estimation
     correc_fact = np.sin(np.deg2rad(ds["elevation"].values[0]))
@@ -185,17 +208,30 @@ def height_estimation(ds):
     return ds
 
 
-def fill_nan_values(ds):
+def fill_nan_values(ds: xr.Dataset) -> xr.Dataset:
+
+    """Data problems reduction
+
+    It drops some possible time duplicates that
+    are often present and interpolate some of the
+    NaNs if they are there.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A PPI dataset
+
+    Returns
+    -------
+    xr.Dataset
+        A dataset corrected for possible problems
 
     """
 
-    It does more than fill the NaNs by interpolation.
-    It replaces the time coordinate by the azimuths.
-    It also drops some time or azimuth duplicates.
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
 
-    MDV[range, time] --> MDV[range, azimuth]
-
-    """
+    assert "time" in ds
 
     tmp_ds = ds.drop_duplicates(dim="time")
     tmp_ds = tmp_ds.interpolate_na(dim="time")

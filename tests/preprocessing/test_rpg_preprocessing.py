@@ -57,3 +57,33 @@ def test_azimuth_offset_azm():
 
     with pytest.raises(AssertionError):
         rpg_radar.azimuth_offset(ds=xr.Dataset({"Time": [0], "Elv": [0]}))
+
+
+def test_height_estimation_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.height_estimation(ds=np.array([1, 2]))
+
+
+def test_height_estimation_range_layers():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.height_estimation(ds=xr.Dataset({"elevation": [0]}))
+
+
+def test_height_estimation_elevation():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.height_estimation(ds=xr.Dataset({"range_layers": [0]}))
+
+
+def test_fill_nan_values_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.fill_nan_values(ds=np.array([1, 2]))
+
+
+def test_fill_nan_values_time():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.fill_nan_values(ds=xr.Dataset({"range_layers": [0]}))
