@@ -87,3 +87,84 @@ def test_fill_nan_values_time():
 
     with pytest.raises(AssertionError):
         rpg_radar.fill_nan_values(ds=xr.Dataset({"range_layers": [0]}))
+
+
+def test_update_structure_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.update_structure(ds=np.array([1, 2]))
+
+
+def test_update_structure_time():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.update_structure(
+            ds=xr.Dataset(
+                {
+                    "azimuth": [0],
+                    "elevation": [0],
+                    "mean_time": [0],
+                    "nan_percentual": [0],
+                }
+            )
+        )
+
+
+def test_update_structure_azimuth():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.update_structure(
+            ds=xr.Dataset(
+                {
+                    "time": [0],
+                    "elevation": [0],
+                    "mean_time": [0],
+                    "nan_percentual": [0],
+                }
+            )
+        )
+
+
+def test_update_structure_elevation():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.update_structure(
+            ds=xr.Dataset(
+                {
+                    "time": [0],
+                    "azimuth": [0],
+                    "mean_time": [0],
+                    "nan_percentual": [0],
+                }
+            )
+        )
+
+
+def test_update_structure_mean_time():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.update_structure(
+            ds=xr.Dataset(
+                {
+                    "time": [0],
+                    "azimuth": [0],
+                    "elevation": [0],
+                    "nan_percentual": [0],
+                }
+            )
+        )
+
+
+def test_update_structure_nan_percentual():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.update_structure(
+            ds=xr.Dataset(
+                {
+                    "time": [0],
+                    "azimuth": [0],
+                    "elevation": [0],
+                    "mean_time": [0],
+                }
+            )
+        )

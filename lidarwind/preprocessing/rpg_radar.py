@@ -239,20 +239,40 @@ def fill_nan_values(ds: xr.Dataset) -> xr.Dataset:
     return tmp_ds
 
 
-def update_structure(ds):
+def update_structure(ds: xr.Dataset) -> xr.Dataset:
+
+    """Coordinate transformation
+
+    It transforms the oservations coordiante from
+    range and time to range and azimuth. The
+    ranges/azimuth coordinate system is needed for
+    estimating wind profiles using the FFT based method.
+    It also drops possible duplicates from the azimuth
+    coordinate.
+
+    transformation:
+    DS[range, time] --> DS[range, azimuth]
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A RPG PPI dataset
+
+    Returns
+    -------
+    xr.Dataset
+        A coordinate trasformed dataset
 
     """
 
-    It does more than fill the NaNs by interpolation.
-    It replaces the time coordinate by the azimuths.
-    It also drops some time or azimuth duplicates.
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
 
-    MDV[range, time] --> MDV[range, azimuth]
-
-    """
-
-    # tmp_ds = ds.MeanVel.drop_duplicates(dim='time')
-    # tmp_ds = tmp_ds.interpolate_na(dim='time')
+    assert "time" in ds
+    assert "azimuth" in ds
+    assert "elevation" in ds
+    assert "mean_time" in ds
+    assert "nan_percentual" in ds
 
     tmp_ds = (
         ds.swap_dims({"time": "azimuth"})
@@ -263,7 +283,7 @@ def update_structure(ds):
 
     tmp_ds = tmp_ds.assign_coords({"mean_time": ds.time.mean()})
 
-    # in the future, I have to use an external function for it
+    # in the future, an external function will do it
     start_scan = (
         ds.time[0].assign_coords({"mean_time": tmp_ds.mean_time}).drop("time")
     )
