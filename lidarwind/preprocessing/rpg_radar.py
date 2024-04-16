@@ -261,7 +261,7 @@ def update_structure(ds: xr.Dataset) -> xr.Dataset:
     Returns
     -------
     xr.Dataset
-        A coordinate trasformed dataset
+        A coordinate transformed dataset
 
     """
 
@@ -271,7 +271,6 @@ def update_structure(ds: xr.Dataset) -> xr.Dataset:
     assert "time" in ds
     assert "azimuth" in ds
     assert "elevation" in ds
-    assert "mean_time" in ds
     assert "nan_percentual" in ds
 
     tmp_ds = (

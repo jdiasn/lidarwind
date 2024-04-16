@@ -140,21 +140,6 @@ def test_update_structure_elevation():
         )
 
 
-def test_update_structure_mean_time():
-
-    with pytest.raises(AssertionError):
-        rpg_radar.update_structure(
-            ds=xr.Dataset(
-                {
-                    "time": [0],
-                    "azimuth": [0],
-                    "elevation": [0],
-                    "nan_percentual": [0],
-                }
-            )
-        )
-
-
 def test_update_structure_nan_percentual():
 
     with pytest.raises(AssertionError):
