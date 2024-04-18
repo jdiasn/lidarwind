@@ -1,8 +1,5 @@
 name: lidarwind
 
-build:
-  os: ubuntu-22.04
-
 channels:
   - defaults
   - conda-forge
