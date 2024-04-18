@@ -5,7 +5,6 @@ channels:
   - conda-forge
 
 dependencies:
- - python=3.10
  - numpy
  - xarray
  - pandas
