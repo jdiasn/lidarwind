@@ -515,7 +515,20 @@ def rpg_slanted_radial_velocity_4_fft(ds):
     It is a processing template for the RPG PPI
     output dataset.
 
+    Parameters
+    ----------
+    ds : xr.Dataset
+        An original PPI RPG dataset
+
+    Returns
+    -------
+    xr.Dataset
+        A dataset preprocessed for the wind retrieval
+
     """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
 
     chirp_info = get_chirp_information(ds)
 

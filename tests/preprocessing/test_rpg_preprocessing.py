@@ -225,3 +225,9 @@ def test_nan_leftover_to_mean_meanvel():
 
     with pytest.raises(AssertionError):
         rpg_radar.nan_leftover_to_mean(ds=xr.Dataset({"azimuth": [0]}))
+
+
+def test_rpg_slanted_radial_velocity_4_fft_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.rpg_slanted_radial_velocity_4_fft(ds=np.array([0]))
