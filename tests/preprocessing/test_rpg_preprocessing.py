@@ -153,3 +153,75 @@ def test_update_structure_nan_percentual():
                 }
             )
         )
+
+
+def test_get_chirp_information_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.get_chirp_information(ds=np.array([1, 2]))
+
+
+def test_get_chirp_information_chirp_dim():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.get_chirp_information(ds=xr.Dataset({"range": [0]}))
+
+
+def test_update_range_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.update_range(ds=np.array([1, 2]))
+
+
+def test_update_range_range():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.update_range(ds=xr.Dataset({"time": [0]}))
+
+
+def test_count_nan_values_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.count_nan_values(ds=np.array([0]))
+
+
+def test_count_nan_values_time():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.count_nan_values(ds=xr.Dataset({"MeanVel": [0]}))
+
+
+def test_count_nan_values_MeanVel():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.count_nan_values(ds=xr.Dataset({"time": [0]}))
+
+
+def test_azimuth_regular_grid_interp_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.azimuth_regular_grid_interp(ds=np.array([0]))
+
+
+def test_azimuth_regular_grid_interp_azm_coord():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.azimuth_regular_grid_interp(ds=xr.Dataset({"time": [0]}))
+
+
+def test_nan_leftover_to_mean_ds():
+
+    with pytest.raises(TypeError):
+        rpg_radar.nan_leftover_to_mean(ds=np.array([1]))
+
+
+def test_nan_leftover_to_mean_azimuth():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.nan_leftover_to_mean(ds=xr.Dataset({"MeanVel": [0]}))
+
+
+def test_nan_leftover_to_mean_meanvel():
+
+    with pytest.raises(AssertionError):
+        rpg_radar.nan_leftover_to_mean(ds=xr.Dataset({"azimuth": [0]}))

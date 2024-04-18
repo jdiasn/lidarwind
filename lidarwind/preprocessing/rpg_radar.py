@@ -304,7 +304,33 @@ def update_structure(ds: xr.Dataset) -> xr.Dataset:
     return tmp_ds
 
 
-def get_chirp_information(ds):
+def get_chirp_information(ds: xr.Dataset) -> xr.Dataset:
+
+    """Chirp extension
+
+    It identifies the extension of each
+    chirp region and stores the maximum
+    and minimum height. For the future,
+    it will also store the chirp azimuth
+    bias
+
+    Parameters
+    ----------
+    ds: xr.Dataset
+        An original RPG PPI dataset
+
+    Returns
+    -------
+    xr.Dataset
+        A dataset indicating the extension of the
+        individual chirps.
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert "Chirp" in ds.dims
 
     chirp_start = [ds[f"C{c+1}Range"].values.min() for c in ds["Chirp"].values]
     chirp_end = [ds[f"C{c+1}Range"].values.max() for c in ds["Chirp"].values]
@@ -314,9 +340,11 @@ def get_chirp_information(ds):
         coords={"chirp": ds["Chirp"].values + 1},
         name="chirp_start",
     )
+
     chirp_end = xr.DataArray(
         chirp_end, coords={"chirp": ds["Chirp"].values + 1}, name="chirp_end"
     )
+
     chirp_dir_bias = xr.DataArray(
         np.zeros_like(ds["Chirp"]),
         coords={"chirp": ds["Chirp"].values + 1},
@@ -326,7 +354,168 @@ def get_chirp_information(ds):
     return xr.merge([chirp_start, chirp_end, chirp_dir_bias])
 
 
+def update_range(ds: xr.Dataset) -> xr.Dataset:
+
+    """Range update
+
+    It replaces the original range numbers stored in the
+    range coordinate with the values stored in the variable
+    range_layers. range_layers stores the distance from
+    the antenna to the centre of each range gate or the
+    estimated height.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A PPI dataset corrected for the height estimation
+
+    Returns
+    -------
+    xr.Dataset
+        A range updated dataset
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert "range" in ds
+
+    ds["range"] = ds.range_layers
+
+    return ds
+
+
+def count_nan_values(ds: xr.Dataset) -> xr.Dataset:
+
+    """Counts NAN
+
+    It counts the number of NaNs present in the MDV per
+    range gate and returns the percentual of NaN.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+       An original RPG PPI dataset
+
+    Returns
+    -------
+    xr.Dataset
+        The original dataset extended with the
+        number of NAN percentual
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert "time" in ds.dims
+    assert "MeanVel" in ds
+
+    total_nan = ds["time"].shape - (ds["MeanVel"] / ds["MeanVel"]).sum(
+        dim="time"
+    )
+    percent_nan = 100 * total_nan / ds["time"].shape
+    percent_nan.name = "nan_percentual"
+
+    ds = ds.merge(percent_nan)
+
+    return ds
+
+
+def azimuth_regular_grid_interp(
+    ds: xr.Dataset,
+    azimuth_coord: str = "azimuth",
+    azimuth_resolution: float = 5,
+) -> xr.Dataset:
+
+    """Azimuth interpolation
+
+    It interpolates MDV[range, azimuth] from an
+    irregular azimuth grid to a regular azimuth
+    grid. The default resolution of the new azimuth
+    coordinate is 5 degrees, which is close to the
+    original resolution used during CMTRACE campaigns.
+    This step is required to allow using the FFT method
+    to retrieve wind speed and direction .
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A coordinate transformed dataset ds[range, azimuth].
+        An output from update_structure.
+
+    azimuth_coordinate : str
+        Name used for the azimuth coordinate
+
+    azimuth_resolution : float
+        Resolution of the new azimuth coordinate
+
+    Returns
+    -------
+    xr.Dataset
+        A dataset interpolated to a regular azimuth grid.
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert azimuth_coord in ds
+
+    azimuth = np.arange(0, 360, azimuth_resolution)
+    ds = ds.interp({azimuth_coord: azimuth})
+
+    return ds
+
+
+def nan_leftover_to_mean(ds: xr.Dataset) -> xr.Dataset:
+
+    """Remain NAN filling
+
+    For each range, It replaces all remaining NaNs
+    that are still present in the MDV variable.
+    This step is also required in order to use the
+    FFT for retrieving wind speed and direction.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        A structure updated dataset and interpolated
+        to regular azimuth grid. An output from
+        azimuth_regular_grid_interp.
+
+    Returns
+    -------
+    xr.Dataset
+        An dataset where the MDV is NAN free
+
+    """
+
+    if not isinstance(ds, xr.Dataset):
+        raise TypeError
+
+    assert "azimuth" in ds.dims
+    assert "MeanVel" in ds
+
+    mean_rad_vel = ds["MeanVel"].mean(dim="azimuth")
+
+    for r in range(ds.range.shape[0]):
+
+        nan_index = ~np.isfinite(ds["MeanVel"][:, r])
+        ds["MeanVel"][:, r][nan_index] = mean_rad_vel[r]
+
+    return ds
+
+
 def rpg_slanted_radial_velocity_4_fft(ds):
+
+    """RPG preprocessing template
+
+    It is a processing template for the RPG PPI
+    output dataset.
+
+    """
 
     chirp_info = get_chirp_information(ds)
 
@@ -345,82 +534,5 @@ def rpg_slanted_radial_velocity_4_fft(ds):
     ds = nan_leftover_to_mean(ds)
 
     ds = ds.merge(chirp_info)
-
-    return ds
-
-
-def update_range(ds):
-
-    """
-
-    It replaces the original range numbers stored in the
-    range coordinate with the values stored in variable
-    range_layers. range_layers stores the distance from
-    the antenna to the centre of each range gate
-
-    """
-
-    ds["range"] = ds.range_layers
-
-    return ds
-
-
-def count_nan_values(ds):
-
-    """
-
-    It counts the number of NaNs present in the MDV per
-    range gate and returns the percentual of NaN.
-
-    """
-
-    total_nan = ds.time.shape - (ds["MeanVel"] / ds["MeanVel"]).sum(dim="time")
-    percent_nan = 100 * total_nan / ds.time.shape
-    percent_nan.name = "nan_percentual"
-
-    ds = ds.merge(percent_nan)
-
-    return ds
-
-
-def azimuth_regular_grid_interp(ds):
-
-    """
-
-    It interpolates MDV[range, azimuth] from a
-    irregular azimuth grid to a regular azimuth
-    grid. The resolution of the new azimuth coordinate
-    is 5 degrees, which is close to the original
-    resolution.
-
-    This step is required in order to use the FFT for
-    retrieving wind speed and direction.
-
-    """
-
-    azimuths = np.arange(0, 360, 5)  # 5
-    ds = ds.interp(azimuth=azimuths)
-
-    return ds
-
-
-def nan_leftover_to_mean(ds):
-
-    """
-
-    For each range, It replaces all remaining NaNs from
-    the interpolated MDV by the mean values.
-
-    This step is also required in order to use the FFT for
-    retrieving wind speed and direction.
-
-    """
-
-    mean_rad_vel = ds.MeanVel.mean(dim="azimuth")
-
-    for r in range(ds.range.shape[0]):
-
-        nan_index = ~np.isfinite(ds.MeanVel[:, r])
-        ds.MeanVel[:, r][nan_index] = mean_rad_vel[r]
 
     return ds
