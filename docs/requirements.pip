@@ -1,0 +1,12 @@
+ numpy
+ xarray
+ pandas
+ matplotlib
+ xarray-datatree
+ nbsphinx
+ sphinx-gallery
+ sphinx
+ pooch
+ gdown
+ xrft
+ #lidarwind
