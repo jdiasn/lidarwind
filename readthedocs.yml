@@ -23,6 +23,6 @@ sphinx:
 # Version of Python and requirements required to build the docs
 python:
   install:
-    - requirements: docs/environment.yml
+    - requirements: docs/requirements.pip
     - method: pip
       path: .
