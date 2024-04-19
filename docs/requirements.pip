@@ -3,9 +3,9 @@
  pandas
  matplotlib
  xarray-datatree
+ sphinx<6
  nbsphinx
  sphinx-gallery
- sphinx
  pooch
  gdown
  xrft
