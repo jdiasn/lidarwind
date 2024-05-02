@@ -34,9 +34,11 @@ def time_decoding(
     assert time_name in ds
     assert time_ms_name in ds
 
+    time_attrs = ds[time_name].attrs
     ds[time_name] = ds[time_name] + ds[time_ms_name] * 1e-3
     ds[time_name].attrs["units"] = "seconds since 20010101 00:00:00"
     ds = xr.decode_cf(ds)
+    ds[time_name].attrs = time_attrs
 
     return ds
 
@@ -80,6 +82,7 @@ def selecting_variables(
 
     tmp_ds = []
 
+    # selecting chirp dependent variables
     for v in chirp_var:
         for chirp_number in range(ds["ChirpNum"].values):
 
@@ -89,22 +92,42 @@ def selecting_variables(
                 {f"{chirp_name}Range": "range"}
             )
 
+            # writing variable name
             tmp_data.name = v
+
+            # re-writing attributes
+            tmp_att = ds[f"{chirp_name}{v}"].attrs["Name"]
+            if "Chirp" in tmp_att:
+                r = tmp_att.split("Chirp")[0]
+                tmp_data.attrs["Name"] = f"{r}Chirp Merged"
 
             tmp_ds.extend([tmp_data])
 
+    # selecting other variables
     for v in other_var:
         tmp_ds.extend([ds[v]])
 
+    # filtering out -999
     tmp_ds = xr.merge(tmp_ds)
     tmp_ds.where(tmp_ds != -999)
 
+    # preparing range variale for estimation
     tmp_ds["range_layers"] = tmp_ds["range"]
     tmp_ds = tmp_ds.assign_coords({"range": np.arange(len(tmp_ds["range"]))})
+    tmp_ds["range"].attrs = {"name": "range index"}
+    tmp_ds["range_layers"].attrs = {
+        "units": "m",
+        "name": "range",
+        "comment": "distance from the centre of each range to the receiver",
+    }
 
+    # variable name correction
     tmp_ds = tmp_ds.rename(
         {"Time": "time", "Azm": "azimuth", "Elv": "elevation"}
     )
+
+    tmp_ds.attrs = ds.attrs
+    tmp_ds.attrs["Comment"] = "Variables selected for wind estimation"
 
     return tmp_ds
 
@@ -204,6 +227,11 @@ def height_estimation(ds: xr.Dataset) -> xr.Dataset:
     # height estimation
     correc_fact = np.sin(np.deg2rad(ds["elevation"].values[0]))
     ds["range_layers"] = ds.range_layers * correc_fact
+    ds["range_layers"].attrs = {
+        "units": "m",
+        "name": "range",
+        "comment": "height estimated from the original range and elevation",
+    }
 
     return ds
 
@@ -278,9 +306,13 @@ def update_structure(ds: xr.Dataset) -> xr.Dataset:
         .reset_coords()
         .drop_duplicates(dim="azimuth")
     )
+
     tmp_ds = tmp_ds.assign_coords({"elevation": ds.elevation.values[0]})
+    tmp_ds["elevation"].attrs = ds["elevation"].attrs
 
     tmp_ds = tmp_ds.assign_coords({"mean_time": ds.time.mean()})
+    tmp_ds["mean_time"].attrs["units"] = "seconds since 20010101 00:00:00"
+    tmp_ds["mean_time"].attrs["comment"] = "mean time from a PPI scan"
 
     # in the future, an external function will do it
     start_scan = (
@@ -294,6 +326,9 @@ def update_structure(ds: xr.Dataset) -> xr.Dataset:
 
     max_zdr = ds.ZDR.max("time").assign_coords({"mean_time": tmp_ds.mean_time})
     max_zdr.name = "zdr_max"
+    max_zdr.attrs["Name"] = "Maximum ZDR"
+    max_zdr.attrs["units"] = "dB"
+    max_zdr.attrs["Comment"] = "Maximum ZDR per complete PPI scan"
 
     nan_percent = ds.nan_percentual.assign_coords(
         {"mean_time": tmp_ds.mean_time}
@@ -417,6 +452,7 @@ def count_nan_values(ds: xr.Dataset) -> xr.Dataset:
     )
     percent_nan = 100 * total_nan / ds["time"].shape
     percent_nan.name = "nan_percentual"
+    percent_nan.attrs["comment"] = "Percentual of NaN per single PPI scan"
 
     ds = ds.merge(percent_nan)
 
@@ -505,6 +541,7 @@ def nan_leftover_to_mean(ds: xr.Dataset) -> xr.Dataset:
         nan_index = ~np.isfinite(ds["MeanVel"][:, r])
         ds["MeanVel"][:, r][nan_index] = mean_rad_vel[r]
 
+    ds["MeanVel"].attrs["Comment"] = "NaN were replaced with the mean value"
     return ds
 
 
