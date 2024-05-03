@@ -33,6 +33,10 @@ def first_harmonic_amplitude(
         {f"{dim}_length": len(radial_velocity[dim])}
     )
 
+    complex_amplitudes[f"{dim}_length"].attrs = {
+        "comment": "size of the azimuth coordinate"
+    }
+
     # determination of the first harmonic position
     # harmonic_index = int(radial_velocity[dim].size / 2) + 1
     first_harmonic_index = (
@@ -83,6 +87,15 @@ def wind_direction(amplitude: xr.DataArray) -> xr.DataArray:
 
     wind_direction = -harmonic_phase(amplitude) + 180
 
+    wind_direction.attrs = {
+        "name": "wind direction",
+        "units": "deg",
+        "comments": "horizontal wind direction retrived "
+        "using the FFT method with respect to true north",
+        "info": "0=wind coming from the north, "
+        "90=east, 180=south, 270=west",
+    }
+
     return wind_direction
 
 
@@ -114,6 +127,12 @@ def wind_speed(
     horizontal_wind_speed = radial_wind_speed / np.cos(
         np.deg2rad(amplitude[coord])
     )
+
+    horizontal_wind_speed.attrs = {
+        "name": "wind speed",
+        "units": "m s-1",
+        "comments": "horizontal wind speed retrived using the FFT method",
+    }
 
     return horizontal_wind_speed
 
@@ -183,6 +202,12 @@ def zonal_wind(
         * -1
     )
 
+    zonal_wind.attrs = {
+        "name": "zonal wind",
+        "units": "m s-1",
+        "comments": "zonal wind retrieved using the FFT method",
+    }
+
     return zonal_wind
 
 
@@ -210,6 +235,12 @@ def meridional_wind(
         )
         * -1
     )
+
+    meridional_wind.attrs = {
+        "name": "meridional wind",
+        "units": "m s-1",
+        "comments": "meridional wind retrieved using the FFT method",
+    }
 
     return meridional_wind
 
