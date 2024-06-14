@@ -311,8 +311,9 @@ def update_structure(ds: xr.Dataset) -> xr.Dataset:
     tmp_ds["elevation"].attrs = ds["elevation"].attrs
 
     tmp_ds = tmp_ds.assign_coords({"mean_time": ds.time.mean()})
-    tmp_ds["mean_time"].attrs["units"] = "seconds since 20010101 00:00:00"
-    tmp_ds["mean_time"].attrs["comment"] = "mean time from a PPI scan"
+    tmp_ds["mean_time"].attrs[
+        "comment"
+    ] = "mean time (seconds) from each PPI scan"
 
     # in the future, an external function will do it
     start_scan = (
