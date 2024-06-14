@@ -377,15 +377,24 @@ def get_chirp_information(ds: xr.Dataset) -> xr.Dataset:
         name="chirp_start",
     )
 
+    chirp_start.attrs["units"] = "m"
+    chirp_start.attrs["comment"] = "starting height from each chirp sequence"
+
     chirp_end = xr.DataArray(
         chirp_end, coords={"chirp": ds["Chirp"].values + 1}, name="chirp_end"
     )
+
+    chirp_end.attrs["units"] = "m"
+    chirp_end.attrs["comment"] = "ending height from each chirp sequence"
 
     chirp_dir_bias = xr.DataArray(
         np.zeros_like(ds["Chirp"]),
         coords={"chirp": ds["Chirp"].values + 1},
         name="chirp_azimuth_bias",
     )
+
+    chirp_dir_bias.attrs["units"] = "deg"
+    chirp_dir_bias.attrs["comment"] = "wind direction bias correcting factor"
 
     return xr.merge([chirp_start, chirp_end, chirp_dir_bias])
 
