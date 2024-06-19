@@ -34,7 +34,7 @@ This current version focuses on the WindCube's and RPG Cloud Radar observations,
 Documentation
 -------------
 
-The lidarwind's documentation is available at https://lidarwind.readthedocs.io. There you can find the steps needed for installing the package. You can also find a short description of how the lidar wind derives the wind speed and direction from WindCube's observations.
+The lidarwind's documentation is available at https://lidarwind.readthedocs.io. There you can find the steps needed for installing the package. You can also find a short description of how lidarwind derives the wind speed and direction from observations.
 
 
 Notebooks
