@@ -26,7 +26,7 @@ lidarwind is an open-source Python project that retrieves wind speed and directi
 
 lidarwind results from an effort to create a package that is flexible and easy to process observations recorded by the WindCube Doppler lidar. The package development started in 2021 when I had to retrieve wind profiles from the 6-beam observations.
 
-This current version focuses on the WindCube's and RPG Cloud Radar observations, and the wind retrievals are dedicated to the PPI, 6-beam and DBS observations. strategies. However, the package can be extended to process other Doppler lidar's and radar's observations.
+This current version focuses on the WindCube's and RPG Cloud Radar observations, and the wind retrievals are dedicated to the PPI, 6-beam and DBS observations. However, the package can be extended to process other Doppler lidar's and radar's observations.
 
 
 
