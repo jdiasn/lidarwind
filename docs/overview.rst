@@ -127,4 +127,8 @@ PPI:
 
 The plan position indicator (PPI) scanning strategy consists of rotating the radar antenna to cover a certain azimuth range (e.g., from 0 to 360º) while the antenna elevation remains constant. The figure below illustrates a typical PPI scan.
 
+.. figure:: /figures/radar.png
+	:scale: 60%
+	:align: center
+
 Because the physical principle to retrieve wind from PPI and 6-beam is the same, lidarwind uses the same method to retrieve wind profiles from the RPG radar's observations. The retrieving method is introduced in the lidar section (:any:`see wind estimation <wind-fft>`).
