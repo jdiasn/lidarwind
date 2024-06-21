@@ -10,6 +10,12 @@ Wind Doppler lidars work by transmitting laser pulses and measuring the shift in
 
 There are different scanning strategies for estimating wind profiles using Wind Doppler lidars, but two are used more often: the 6-beam and the DBS.
 
+
+
+============================
+Wind lidar scanning strategy
+============================
+
 -------
 6-beam:
 -------
@@ -52,6 +58,7 @@ The calculation is made by solving the following equation: :math:`\Sigma = M^{-1
 
 
 
+.. _wind-fft:
 Wind speed and direction estimation
 -----------------------------------
 
@@ -108,3 +115,23 @@ From those components, it is also possible to estimate the magnitude of the hori
     V_{d} = 180 + arctan2(-u,-v))
 
 This method is also implemented in this package and is available in class GetWindProperties5Beam.
+
+
+=============================
+Cloud Radar scanning strategy
+=============================
+
+----
+PPI:
+----
+
+The plan position indicator (PPI) scanning strategy consists of rotating the radar antenna to cover a certain azimuth range (e.g., from 0 to 360º) while the antenna elevation remains constant. The figure below illustrates a typical PPI scan.
+
+.. figure:: /figures/radar.png
+	:scale: 60%
+	:align: center
+
+Because the physical principle to retrieve wind from PPI and 6-beam is the same, lidarwind uses the same method to retrieve wind profiles from the RPG radar's observations. The retrieving method is introduced in the lidar section (:any:`see wind estimation <wind-fft>`).
+
+.. note::
+    Be aware that the retrieved wind direction may be biased, as shown by `Dias Neto, 2023 <https://doi.org/10.5194/essd-15-769-2023>`_. Because of that, a post-processing verification of the bias is recommended. In the future, an automatic way to estimate the direction bias based on each chirp setting may be possible. However, a detailed investigation is needed to understand the relationship between the chirp parameters and the direction bias.

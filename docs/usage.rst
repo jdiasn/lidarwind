@@ -1,6 +1,6 @@
-=====
-Usage
-=====
+===========
+Lidar usage
+===========
 
 To use lidarwind in a project::
 
@@ -148,3 +148,8 @@ As soon as the time window is converted to its number of profiles equivalent, th
     >>> restruct_data = lst.GetRestructuredData(merged_ds)
     >>> turb_data = lst.SixBeamMethod(restruct_data, freq=freq, freq90=freq)
     >>> turb_data.var_comp_ds
+
+
+===========
+Radar usage
+===========
