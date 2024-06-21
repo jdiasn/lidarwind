@@ -132,3 +132,6 @@ The plan position indicator (PPI) scanning strategy consists of rotating the rad
 	:align: center
 
 Because the physical principle to retrieve wind from PPI and 6-beam is the same, lidarwind uses the same method to retrieve wind profiles from the RPG radar's observations. The retrieving method is introduced in the lidar section (:any:`see wind estimation <wind-fft>`).
+
+.. note::
+    Be aware that the retrieved wind direction may be biased, as shown by `Dias Neto, 2023 <https://doi.org/10.5194/essd-15-769-2023>`_. Because of that, a post-processing verification of the bias is recommended. In the future, an automatic way to estimate the direction bias based on each chirp setting may be possible. However, a detailed investigation is needed to understand the relationship between the chirp parameters and the direction bias.
