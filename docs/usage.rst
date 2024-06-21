@@ -149,7 +149,20 @@ As soon as the time window is converted to its number of profiles equivalent, th
     >>> turb_data = lst.SixBeamMethod(restruct_data, freq=freq, freq90=freq)
     >>> turb_data.var_comp_ds
 
+--------------------
+Interactive examples
+--------------------
+
+-> expand it adding colab badges
 
 ===========
 Radar usage
 ===========
+
+add a basic usage example
+
+--------------------
+Interactive examples
+--------------------
+
+-> expand it adding colab badges
