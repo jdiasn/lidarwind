@@ -22,12 +22,9 @@ lidarwind introduction
    :target: https://codecov.io/gh/jdiasn/lidarwind
 
 
-lidarwind is an open-source Python project that retrieves wind speed and direction profiles from Doppler velocity observations recorded by Doppler-capable instruments. Initially, this package was to work with observations from the WindCube-200s lidar, but since version XXX it also supports data from RPG Cloud Radars. It can retrieve wind profiles from the PPI, 6-beam and DBS scanning strategies and allow users to set the signal-to-noise ratio threshold to reduce the noise. It also calculates the Reynolds stress tensor matrix elements from the 6-beam observations.
+lidarwind is an open-source Python project that retrieves wind speed and direction profiles from Doppler velocity observations recorded by Doppler-capable instruments. Initially, this package was developed to work with observations from the WindCube-200s lidar, but with this new release, lidarwind starts to support data from RPG Cloud Radars. Currently, It can retrieve wind profiles from the PPI, 6-beam and DBS scanning strategies and calculate the Reynolds stress tensor matrix elements from the 6-beam observation. The package can be further extended to process data from other Doppler lidar and radar and from other scanning strategies.
 
-lidarwind results from an effort to create a package that is flexible and easy to process observations recorded by the WindCube Doppler lidar. The package development started in 2021 when I had to retrieve wind profiles from the 6-beam observations.
-
-This current version focuses on the WindCube's and RPG Cloud Radar observations, and the wind retrievals are dedicated to the PPI, 6-beam and DBS observations. However, the package can be extended to process other Doppler lidar's and radar's observations.
-
+lidarwind results from an effort to create a flexible and easy-to-use package to process observations recorded by the WindCube Doppler lidar. The package development started in 2021 when I had to retrieve wind profiles from the 6-beam observations.
 
 
 -------------
