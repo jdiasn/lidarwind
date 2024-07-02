@@ -8,3 +8,4 @@ Rendered notebooks
     examples/turbulence_6beam_data_rendered.ipynb
     examples/dbs_scans_rendered.ipynb
     examples/reading_long_dbs_rendered.ipynb
+    examples/lidarwind_4_rpg_radar_serial.ipynb
