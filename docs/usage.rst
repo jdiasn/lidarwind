@@ -179,9 +179,3 @@ If you want to try it in a live virtual environment using real data, click on th
 
 
 `RPG radar example <examples/lidarwind_4_rpg_radar_serial.html>`_
-
---------------------
-Interactive examples
---------------------
-
--> expand it adding colab badges

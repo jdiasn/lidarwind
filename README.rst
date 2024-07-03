@@ -23,7 +23,7 @@ lidarwind introduction
 
 
 .. note::
-    Now lidarwind supports data from RPG cloud radars. If you are interested, have a look at: :any:`Radar usage section <rpg_usage>`
+    Now lidarwind supports data from RPG cloud radars. If you are interested, have a look at Radar usage section.
 
 
 lidarwind is an open-source Python project that retrieves wind speed and direction profiles from Doppler velocity observations recorded by Doppler-capable instruments. Initially, this package was developed to work with observations from the WindCube-200s lidar, but with this new release, lidarwind starts to support data from RPG Cloud Radars. Currently, It can retrieve wind profiles from the PPI, 6-beam and DBS scanning strategies and calculate the Reynolds stress tensor matrix elements from the 6-beam observation. The package can be further extended to process data from other Doppler lidar and radar and from other scanning strategies.
