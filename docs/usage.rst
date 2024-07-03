@@ -155,7 +155,7 @@ Radar usage
 ===========
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/github/jdiasn/lidarwind/blob/refactor/rpg_sphinx_doc/docs/examples/lidarwind_4_rpg_radar_serial.ipynb
+   :target: https://colab.research.google.com/github/jdiasn/lidarwind/blob/main/docs/examples/lidarwind_4_rpg_radar_serial.ipynb
 
 .. _rpg_usage:
 
@@ -176,6 +176,3 @@ If you want to try it in a live virtual environment using real data, click on th
     >>> ds = xr.open_dataset(file_name)
     >>> ds = rpg_radar.rpg_slanted_radial_velocity_4_fft(ds)
     >>> tmp_wind = post_rpg_radar.get_horizontal_wind(ds)
-
-
-`RPG radar example <examples/lidarwind_4_rpg_radar_serial.html>`_
