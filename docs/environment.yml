@@ -9,7 +9,6 @@ dependencies:
  - xarray
  - pandas
  - matplotlib
- - xarray-datatree
  - nbsphinx
  - sphinx-gallery
  - pip
@@ -18,3 +17,4 @@ dependencies:
      - gdown
      - xrft
      - lidarwind
+     - xarray-datatree==0.0.11
