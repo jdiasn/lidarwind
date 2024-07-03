@@ -1,6 +1,6 @@
-=====
-Usage
-=====
+===========
+Lidar usage
+===========
 
 To use lidarwind in a project::
 
@@ -148,3 +148,34 @@ As soon as the time window is converted to its number of profiles equivalent, th
     >>> restruct_data = lst.GetRestructuredData(merged_ds)
     >>> turb_data = lst.SixBeamMethod(restruct_data, freq=freq, freq90=freq)
     >>> turb_data.var_comp_ds
+
+
+===========
+Radar usage
+===========
+
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/jdiasn/lidarwind/blob/refactor/rpg_sphinx_doc/docs/examples/lidarwind_4_rpg_radar_serial.ipynb
+
+.. _rpg_usage:
+
+.. note::
+    Currently, lidarwind only supports the original RPG PPI data format.
+
+Here, you will find a basic example of using lidarwind to retrieve wind profiles from the RPG radar data. The cell below starts by importing the required modules, and then the wind retrieval is applied to the dataset.
+
+If you want to try it in a live virtual environment using real data, click on the Colab badge above. Be aware that you will need a Google account to use the Colab environment. In case you prefer not to use the Colab environment, you can see the same example in a static form at `RPG example <examples/lidarwind_4_rpg_radar_serial.html>`_.
+
+.. code-block:: python
+
+    >>> import xarray as xr
+    >>>
+    >>> from lidarwind.preprocessing import rpg_radar
+    >>> from lidarwind.postprocessing import post_rpg_radar
+    >>>
+    >>> ds = xr.open_dataset(file_name)
+    >>> ds = rpg_radar.rpg_slanted_radial_velocity_4_fft(ds)
+    >>> tmp_wind = post_rpg_radar.get_horizontal_wind(ds)
+
+
+`RPG radar example <examples/lidarwind_4_rpg_radar_serial.html>`_
