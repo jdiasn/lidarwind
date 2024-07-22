@@ -815,6 +815,8 @@ class DbsOperations:
         data.azimuth.values = np.round(data.azimuth.values)
         data.azimuth.values[data.azimuth.values == 360] = 0
 
+        data.elevation.values = np.round(data.elevation.values, 1)
+
         azm_ref = data.azimuth.values[0]
         index_new_scan = data.ray_index.where(
             (data.elevation != 90) & (data.azimuth == azm_ref)
