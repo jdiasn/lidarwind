@@ -32,10 +32,12 @@ def open_sweep(file_name):
 
     del raw_data
 
-    assert "time_reference" in ds, "missing time_reference in input sweep"
-    # Guarantee that it is a valid datetime
-    reference_time = pd.to_datetime(ds["time_reference"].values).isoformat()
-    ds["time"].attrs["units"] = f"seconds since {reference_time}"
+    if "time_reference" in ds:
+        # Guarantee that it is a valid datetime
+        reference_time = pd.to_datetime(
+            ds["time_reference"].values
+        ).isoformat()
+        ds["time"].attrs["units"] = f"seconds since {reference_time}"
 
     ds = xr.decode_cf(ds)
 
