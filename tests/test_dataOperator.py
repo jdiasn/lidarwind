@@ -22,6 +22,15 @@ def test_data_operator_ReadProcessedData_file_list():
         lst.ReadProcessedData(file_list=None)
 
 
+def test_data_operator_ReadProcessedData_wrong_data():
+
+    ds = lst.ReadProcessedData(
+        file_list=lst.sample_data("wc_short_dbs")[0]
+    ).merge_data()
+    assert len(ds.coords) > 0
+    assert len(ds.variables) > 0
+
+
 #
 def test_data_operator_GetRestructuredData_data():
 
