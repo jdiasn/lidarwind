@@ -8,40 +8,88 @@ from lidarwind.data_operator import wc_fixed_preprocessing
 from .data import sample_dataset
 
 
+#
 def test_data_operator_DataOperations_data_paths():
 
     with pytest.raises(FileNotFoundError):
         lst.DataOperations(data_paths=None)
 
 
+#
 def test_data_operator_ReadProcessedData_file_list():
 
     with pytest.raises(FileNotFoundError):
         lst.ReadProcessedData(file_list=None)
 
 
+def test_data_operator_ReadProcessedData_wrong_data():
+
+    ds = lst.ReadProcessedData(
+        file_list=lst.sample_data("wc_short_dbs")[0]
+    ).merge_data()
+    assert len(ds.coords) > 0
+    assert len(ds.variables) > 0
+
+
+#
 def test_data_operator_GetRestructuredData_data():
 
     with pytest.raises(TypeError):
         lst.GetRestructuredData(data=xr.DataArray(np.array([0, 1])))
 
 
+#
 def test_data_operator_getResampled_xr_data_array_none():
 
     with pytest.raises(TypeError):
         lst.GetResampledData(xr_data_array=np.array([0, 1]))
 
 
+#
 def test_data_operator_DbsOperations_file_list_none():
 
     with pytest.raises(FileNotFoundError):
         lst.DbsOperations(file_list=None, var_list=["range"])
 
 
+#
 def test_data_operator_DbsOperations_varList_none():
 
     with pytest.raises(KeyError):
         lst.DbsOperations(file_list=["file_path"], var_list=None)
+
+
+def test_data_operator_DbsOperations_data_wrong_path():
+
+    with pytest.raises(ValueError):
+        lst.DbsOperations(file_list=["file_path"], var_list=["str"])
+
+
+def test_data_operator_DbsOperations_data_wrong_varlist():
+
+    with pytest.raises(ValueError):
+        lst.DbsOperations(
+            file_list=lst.sample_data("wc_short_dbs")[0], var_list=["str"]
+        )
+
+
+def test_data_operator_DbsOperations_data_structure():
+
+    var_list = [
+        "azimuth",
+        "elevation",
+        "radial_wind_speed",
+        "radial_wind_speed_status",
+        "measurement_height",
+        "cnr",
+    ]
+
+    # with pytest.raises(ValueError):
+    ds = lst.DbsOperations(
+        file_list=lst.sample_data("wc_short_dbs")[0:1], var_list=var_list
+    ).merged_ds
+    assert len(ds.coords) > 0
+    assert len(ds.variables) > 0
 
 
 # @pytest.mark.skip("deactivating to isolate sef fault error")

@@ -444,8 +444,8 @@ class GetWindProperties5Beam:
         )
         comp_uw = comp_uw.assign_coords({"time": mean_time_uw})
 
-        self.comp_v = -(comp_vn - comp_vs)
-        self.comp_u = -(comp_ue - comp_uw)
+        self.comp_v = comp_vn - comp_vs
+        self.comp_u = comp_ue - comp_uw
 
         self.comp_v.name = "comp_v"
         self.comp_u.name = "comp_u"
@@ -487,8 +487,8 @@ class GetWindProperties5Beam:
             time=self.comp_ue.time, method="Nearest", tolerance=self.tolerance
         )
 
-        self.comp_v = -(self.comp_vn - comp_vs)
-        self.comp_u = -(self.comp_ue - comp_uw)
+        self.comp_v = self.comp_vn - comp_vs
+        self.comp_u = self.comp_ue - comp_uw
 
         self.comp_v.name = "comp_v"
         self.comp_u.name = "comp_u"
@@ -528,7 +528,7 @@ class GetWindProperties5Beam:
 
         self.logger.info("retrieving the wind direction using DBS observation")
 
-        wind_dir = 180 + np.rad2deg(np.arctan2(-self.comp_u, -self.comp_v))
+        wind_dir = 180 + np.rad2deg(np.arctan2(self.comp_u, self.comp_v))
 
         wind_dir.name = "hor_wind_dir"
         wind_dir.attrs["long_name"] = "wind_direction"
